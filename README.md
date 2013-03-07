@@ -1,2 +1,2 @@
-PoziConnectForM1s-Config
-========================
+PoziConnectConfig
+=================
