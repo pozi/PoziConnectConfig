@@ -40,9 +40,9 @@ LEFT JOIN
 LEFT JOIN 
     PATHWAY_cnacomp AS cnacomp ON lpaaddr.tfkcnacomp = cnacomp.tpkcnacomp
 LEFT JOIN
-   PATHWAY_lpaprti AS lpaprti ON lpaprop.tpklpaprop = lpaprti.tfklpaprop
+   PATHWAY_lpaprti_mod AS lpaprti_mod ON lpaprop.tpklpaprop = lpaprti_mod.tfklpaprop
 LEFT JOIN 
-   PATHWAY_lpatitl AS lpatitl ON lpaprti.tfklpatitl = lpatitl.tpklpatitl
+   PATHWAY_lpatitl AS lpatitl ON lpaprti_mod.tfklpatitl = lpatitl.tpklpatitl
 LEFT JOIN 
    PATHWAY_lpatipa AS lpatipa ON lpatitl.tpklpatitl = lpatipa.tfklpatitl 
 LEFT JOIN 
@@ -59,5 +59,5 @@ WHERE
    lpaprop.status  = 'C' AND 
    lpaparc.status = 'C' AND
    lpatipa.status = 'C' AND
-   lpaprti.status = 'C' AND
+   lpaprti_mod.status = 'C' AND
    lpatitl.status = 'C'
