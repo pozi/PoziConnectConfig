@@ -70,7 +70,7 @@ SELECT DISTINCT
     '' AS display_suffix_2,
 	CASE
         WHEN UPPER ( Street.Street_Name ) LIKE 'OFF %' THEN SUBSTR ( UPPER ( Street.Street_Name ) , 5 )
-        ELSE UPPER ( IFNULL ( Street.Street_Name , '' ) )
+        ELSE UPPER ( IFNULL ( Replace(Street.Street_Name,'`','') , '' ) )
     END AS street_name,
     UPPER ( IFNULL ( Street_Type.Street_Type_Name , '' ) )  AS street_type,
     CASE
