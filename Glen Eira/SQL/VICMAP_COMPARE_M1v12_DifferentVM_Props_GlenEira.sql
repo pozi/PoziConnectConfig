@@ -76,7 +76,7 @@ CASE
         WHEN  DiffVMProps.MultiAssCount =1  THEN 'E'
 		ELSE 'A'
 	END AS "edit_code",
-	'Correct Property Numbers to be assocaited SPI - Property No to be added' AS Comments
+	'Correct Property Numbers to be associated SPI - Property No to be added' AS Comments
 
 
 FROM
