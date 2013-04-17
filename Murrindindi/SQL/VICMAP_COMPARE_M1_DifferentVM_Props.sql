@@ -32,12 +32,11 @@ CASE
 	
 	'' AS "base_propnum",
 	 CounAddr.propnum AS "propnum",
-	
-	CASE
-      WHEN DiffVMProps.MultiParcCount > 1 THEN ''
-	  ELSE DiffVMProps.Crefno 
-	END AS "crefno" ,
-	
+        CASE
+          WHEN DiffVMProps.MultiParcCount > 1 THEN ''
+          ELSE DiffVMProps.Crefno 
+        END AS "crefno" ,
+        
       '' AS "hsa_flag",
 	'' AS "hsa_unit_id",
     CounAddr.su_type AS "blg_unit_type",

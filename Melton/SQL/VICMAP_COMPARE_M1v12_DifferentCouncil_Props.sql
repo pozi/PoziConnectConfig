@@ -52,7 +52,7 @@ SELECT
         WHEN  DiffVMProps.PR_MULTASS ='N'  THEN 'E'
 		ELSE 'R'
 	END AS "edit_code",
-	'Inncorrect Property Numbers associated to Councils SPI - Property to be retired' AS Comments 
+	'Incorrect Property Numbers associated to Councils SPI - Property to be retired' AS Comments 
 
 FROM
     TMP_VM_COMPARE_DiffCouncilProps_usingSPI AS DiffVMProps 

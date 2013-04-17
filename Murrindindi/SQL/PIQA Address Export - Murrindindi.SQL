@@ -33,7 +33,7 @@ SELECT
 FROM (
 SELECT DISTINCT
     auprparc.ass_num AS propnum,
-	CAST (auprparc.pcl_num AS VARCHAR) AS crefno,
+    CAST (auprparc.pcl_num AS VARCHAR) AS crefno,
     '' AS su_type,
     '' AS su_prefix_1,
     IFNULL ( auprstad.pcl_unt , '' ) AS su_no_1,
@@ -62,9 +62,17 @@ SELECT DISTINCT
     '' AS display_suffix_1,
     '' AS display_prefix_2,
     '' AS display_no_2,
-    '' AS display_suffix_2,
-    REPLACE (UPPER( auprstad.str_nme ),'-',' ') AS street_name,
+    '' AS display_suffix_2,    
     CASE
+        WHEN UPPER ( auprstad.str_nme ) = 'PARK AVENUE NORTH' THEN 'PARK'
+        WHEN UPPER ( auprstad.str_nme ) = 'HILLSIDE (SOUTH)' THEN 'HILLSIDE'
+        WHEN UPPER ( auprstad.str_nme ) like '%-LEFT ARM' THEN REPLACE (UPPER( auprstad.str_nme ),'-',' ')
+        WHEN UPPER ( auprstad.str_nme ) like '%-RIGHT ARM' THEN REPLACE (UPPER( auprstad.str_nme ),'-',' ')
+        WHEN UPPER ( auprstad.str_nme ) like '%-FIRST' THEN REPLACE (UPPER( auprstad.str_nme ),'-',' ')        
+        ELSE UPPER ( auprstad.str_nme )
+    END as street_name,
+    CASE
+        WHEN UPPER ( auprstad.str_nme ) like '% AVENUE NORTH' THEN 'AVENUE'
         WHEN auprstad.str_typ IN ( 'AV','AVE','AVEE','AVEN','AVES','AVEW','AVEX' ) THEN 'AVENUE'
         WHEN auprstad.str_typ = 'BND' THEN 'BEND'
         WHEN auprstad.str_typ = 'BVD' THEN 'BOULEVARD'
@@ -91,6 +99,11 @@ SELECT DISTINCT
         WHEN auprstad.str_typ = 'TR' THEN 'TRACK'
         WHEN auprstad.str_typ = 'WK' THEN 'WALK'
         WHEN auprstad.str_typ = 'WY' THEN 'WAY'
+        WHEN auprstad.str_typ = 'WYND' THEN 'WYND'
+        WHEN auprstad.str_typ = 'WYD' THEN 'WYND'
+        WHEN auprstad.str_typ = 'CH' THEN 'CHASE'
+        WHEN auprstad.str_typ = 'RND' THEN 'ROUND'
+        WHEN auprstad.str_typ = 'HILL' THEN 'HILL'
         ELSE ''
     END as street_type,
     CASE
@@ -99,6 +112,8 @@ SELECT DISTINCT
         WHEN auprstad.str_typ IN ( 'AVEE' , 'RDE' , 'STE' ) THEN 'E'
         WHEN auprstad.str_typ IN ( 'AVEW' , 'RDW' , 'STW' ) THEN 'W'
         WHEN auprstad.str_typ IN ( 'AVEX' , 'RDEX' , 'STEX' ) THEN 'EX'
+        WHEN UPPER ( auprstad.str_nme ) like '% AVENUE NORTH' THEN 'N'
+        WHEN UPPER ( auprstad.str_nme ) like '% (SOUTH)' THEN 'S'
         ELSE ''
     END AS street_suffix,
     UPPER ( auprstad.sbr_nme ) AS locality,

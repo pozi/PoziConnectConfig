@@ -49,7 +49,7 @@ SELECT
 	'' AS "datum/proj",
 	'' AS "outside_property",
 	'S' AS edit_code,
-	'Inccorect Address in Vicmap - Council Address updated' AS Comments
+	'Incorect Address in Vicmap - Council Address updated' AS Comments
 	
 
 FROM
