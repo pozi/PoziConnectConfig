@@ -1,15 +1,4 @@
-[Council_Property_Count_Multi_Assessments]
-Source: {Database_File}
-SQL: select PropNum,CrefNo, SPI, count(*) As [MultiAssCount] from temp_piqa_parcel group by SPI
-Destination: {Database_File},Council_Parcel_Count
-Index:SPI
 
-
-[TMP_COUNCIL_Property_Parcel]
-Source: {Database_File}
-SQLFile: {SQL_Folder}/COUNCIL_PropertyParcel.SQL
-Destination: {Database_File},TMP_COUNCIL_PROPERTY_PARCEL
-Index: PROPNUM,SPI
 
 
 #[VM_Parcel_Count]
@@ -25,17 +14,6 @@ Destination: {Database_File},VM_Parcel_Count
 Index: PR_PFI
 
 
-[TMP_VICMAP_Property_Parcel]
-Source: {Database_File}
-SQLFile: {SQL_Folder}/VICMAP_PropertyParcel.SQL
-Destination: {Database_File},TMP_VM_PROPERTY_PARCEL
-Index: parcel_spi,PR_PROPNUM,PR_PFI
-
-[TMP_VICMAP_Property_Address]
-Source: {Database_File}
-SQLFile: {SQL_Folder}/VICMAP_PropertyAddress.SQL
-Destination: {Database_File},TMP_VM_PROPERTY_ADDRESS
-Index: PROPNUM
 
 ##################### ANOMALY REPORTS ########################################################
 
