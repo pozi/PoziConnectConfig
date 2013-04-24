@@ -88,7 +88,7 @@ SELECT
 	'' AS display_no_2,
 	'' AS display_suffix_2,
 
-	UPPER ( Street.Name ) AS street_name,
+	Replace(UPPER( Street.Name ), ' - ', '-') AS street_name,
 
 	CASE
 		WHEN StreetType.Type LIKE 'Road %' THEN 'ROAD'
