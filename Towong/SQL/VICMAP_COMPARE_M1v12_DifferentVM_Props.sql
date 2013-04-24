@@ -1,22 +1,44 @@
 SELECT
 
-MissingVMProps.LGA_code AS "lga_code",
+DiffVMProps.LGA_code AS "lga_code",
 
 CASE
-      WHEN MissingVMProps.PC_Status ='A' THEN ''
+      WHEN DiffVMProps.PC_Status ='A' THEN ''
 	  ELSE 'Y'
 	END AS "new_sub",
 	
-	(Select PR_PFI from TMP_VM_PROPERTY_PARCEL  where TMP_VM_PROPERTY_PARCEL.parcel_spi = MissingVMProps.SPI) AS "property_PFI",		
-	MissingVMProps.Parcel_PFI AS "parcel_PFI",
+   (Select PR_PFI from TMP_VM_PROPERTY_PARCEL  where TMP_VM_PROPERTY_PARCEL.parcel_spi = DiffVMProps.SPI) AS "property_PFI",
+  
+   CASE
+      WHEN DiffVMProps.MultiParcCount > 1 THEN ''
+	  ELSE DiffVMProps.Parcel_PFI 
+	END AS "parcel_PFI",
+	
 	'' AS "Address_PFI",
-	MissingVMProps.SPI AS "spi",
-	MissingVMProps.PC_PLANNO AS "plan_number",
-	MissingVMProps.pc_lotno AS "lot_number",
+    CASE
+      WHEN DiffVMProps.MultiParcCount > 1 THEN ''
+	  ELSE DiffVMProps.SPI 
+	END AS "spi",
+	
+	CASE
+      WHEN DiffVMProps.MultiParcCount > 1 THEN ''
+	  ELSE DiffVMProps.PC_PLANNO 
+	END AS "plan_number",
+	
+	CASE
+      WHEN DiffVMProps.MultiParcCount > 1 THEN ''
+	ELSE DiffVMProps.pc_lotno 
+	END AS "lot_number",
+	
 	'' AS "base_propnum",
 	 CounAddr.propnum AS "propnum",
-	MissingVMProps.Crefno AS "crefno",
-	'' AS "hsa_flag",
+	
+	CASE
+      WHEN DiffVMProps.MultiParcCount > 1 THEN ''
+	  ELSE DiffVMProps.Crefno 
+	END AS "crefno" ,
+	
+   '' AS "hsa_flag",
 	'' AS "hsa_unit_id",
     CounAddr.su_type AS "blg_unit_type",
     '' AS "blg_unit_prefix_1",
@@ -29,7 +51,7 @@ CASE
     '' AS "floor_prefix_1",
    CounAddr.fl_no_1 AS "floor_no_1",
    CounAddr.fl_suff_1 AS "floor_suffix_1",
-    '' AS floor_prefix_2,
+   '' AS floor_prefix_2,
     '' AS floor_no_2,
     '' AS floor_suffix_2,
     '' AS building_name,
@@ -41,7 +63,7 @@ CASE
     '' AS house_prefix_2,
     CounAddr.house_number_2 AS "house_number_2",
     CounAddr.house_suffix_2 AS "house_suffix_2",
-	'' AS access_type,
+    '' AS access_type,
 	'' AS new_road,
     CounAddr.street_name AS "road_name",
     CounAddr.street_type AS "road_type",
@@ -55,13 +77,13 @@ CASE
 	'' AS "outside_property",
 	
 	CASE
-        WHEN  MissingVMProps.MultiAssCount =1  THEN 'E'
-                ELSE 'A'
-        END AS "edit_code",
-	'New\Existing Council property no to be updated in Vicmap' AS Comments
+        WHEN  DiffVMProps.MultiAssCount =1  THEN 'E'
+		ELSE 'A'
+	END AS "edit_code",
+	'Correct Property Numbers to be associated SPI - Property No to be added' AS Comments
 
 FROM
-    TMP_VM_COMPARE_MissingVMProps_usingSPI AS MissingVMProps 
+    TMP_VM_COMPARE_DiffVMProps_usingSPI AS DiffVMProps 
 LEFT JOIN
-Temp_PIQA_Address CounAddr ON MissingVMProps.PROPNUM = CounAddr.propnum	
+Temp_PIQA_Address CounAddr ON DiffVMProps.PROPNUM = CounAddr.propnum	
 	

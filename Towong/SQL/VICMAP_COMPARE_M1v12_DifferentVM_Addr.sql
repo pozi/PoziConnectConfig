@@ -1,24 +1,19 @@
 SELECT
 
-MissingVMProps.LGA_code AS "lga_code",
-
-CASE
-      WHEN MissingVMProps.PC_Status ='A' THEN ''
-	  ELSE 'Y'
-	END AS "new_sub",
-	
-	(Select PR_PFI from TMP_VM_PROPERTY_PARCEL  where TMP_VM_PROPERTY_PARCEL.parcel_spi = MissingVMProps.SPI) AS "property_PFI",		
-	MissingVMProps.Parcel_PFI AS "parcel_PFI",
-	'' AS "Address_PFI",
-	MissingVMProps.SPI AS "spi",
-	MissingVMProps.PC_PLANNO AS "plan_number",
-	MissingVMProps.pc_lotno AS "lot_number",
+	DiffVMAddr.LGA_code AS "lga_code",
+	'' AS "new_sub",		
+	(Select PR_PFI from TMP_VM_PROPERTY_ADDRESS  where TMP_VM_PROPERTY_ADDRESS.PROPNUM = DiffVMAddr.PROPNUM) AS "property_PFI",		
+	'' AS "parcel_PFI",
+	(Select Ad_PFI from TMP_VM_PROPERTY_ADDRESS  where TMP_VM_PROPERTY_ADDRESS.PROPNUM = DiffVMAddr.PROPNUM) AS "Address_PFI",
+	'' AS "spi",
+	'' AS "plan_number",
+	'' AS "lot_number",
 	'' AS "base_propnum",
-	 CounAddr.propnum AS "propnum",
-	MissingVMProps.Crefno AS "crefno",
+	CounAddr.propnum AS "propnum",
+	'' AS "crefno",
 	'' AS "hsa_flag",
 	'' AS "hsa_unit_id",
-    CounAddr.su_type AS "blg_unit_type",
+	CounAddr.su_type AS "blg_unit_type",
     '' AS "blg_unit_prefix_1",
     CounAddr.su_no_1 AS "blg_unit_id_1",
     CounAddr.su_suff_1 AS "blg_unit_suffix_1",
@@ -29,13 +24,13 @@ CASE
     '' AS "floor_prefix_1",
    CounAddr.fl_no_1 AS "floor_no_1",
    CounAddr.fl_suff_1 AS "floor_suffix_1",
-    '' AS floor_prefix_2,
+   '' AS floor_prefix_2,
     '' AS floor_no_2,
     '' AS floor_suffix_2,
     '' AS building_name,
     '' AS complex_name,
     CounAddr.loc_des AS "location_descriptor",
-    '' AS house_prefix_1,
+   '' AS house_prefix_1,
     CounAddr.house_number_1 AS "house_number_1",
     CounAddr.house_suffix_1 AS "house_suffix_1",
     '' AS house_prefix_2,
@@ -53,15 +48,13 @@ CASE
 	'' AS "northing",
 	'' AS "datum/proj",
 	'' AS "outside_property",
+	'S' AS edit_code,
+	'Incorrect Address in Vicmap - Council Address updated' AS Comments
 	
-	CASE
-        WHEN  MissingVMProps.MultiAssCount =1  THEN 'E'
-                ELSE 'A'
-        END AS "edit_code",
-	'New\Existing Council property no to be updated in Vicmap' AS Comments
 
 FROM
-    TMP_VM_COMPARE_MissingVMProps_usingSPI AS MissingVMProps 
+    TMP_VM_COMPARE_DiffVMAddr_usingPropNo AS DiffVMAddr 
 LEFT JOIN
-Temp_PIQA_Address CounAddr ON MissingVMProps.PROPNUM = CounAddr.propnum	
+Temp_PIQA_Address CounAddr ON DiffVMAddr.PROPNUM = CounAddr.propnum
+
 	
