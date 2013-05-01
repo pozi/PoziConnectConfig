@@ -26,7 +26,7 @@ FROM         DSE_VMPROP_PARCEL pa INNER JOIN DSE_VMPROP_PARCEL_PROPERTY papr
 
            
 
-WHERE pr.PR_PTYPE = 'O' and pr.PV_FTYPE in ('5721','5741','27721','27741') and pr.PR_LGAC =368
+WHERE pr.PR_PTYPE = 'O' and pr.PV_FTYPE in ('5721','5741','27721','27741') and pr.PR_LGAC =363
 
 
 

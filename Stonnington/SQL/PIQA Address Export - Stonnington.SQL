@@ -36,24 +36,24 @@ FROM (
 
 SELECT
     CAST ((CASE WHEN (P.property_no in ('14359', '15127', '14360','15893','15303'))  THEN 'NCPR'   
-  	ELSE P.property_no END) AS VARCHAR) AS propnum,
+    ELSE P.property_no END) AS VARCHAR) AS propnum,
 
-	P.status AS "Property_status",
+    P.status AS "Property_status",
 
     '' AS "su_type",
     '' AS "su_prefix_1",
-    IFNULL ( A.unit_no , '' ) AS "su_no_1",
+    CASE WHEN A.unit_no ='0' THEN REPLACE(A.unit_no,'0','') ELSE IFNULL ( A.unit_no , '' ) END AS "su_no_1",
     UPPER ( IFNULL ( A.unit_no_suffix , '' ) ) AS "su_suff_1",
     '' AS "su_prefix_2",
-    IFNULL ( A.unit_no_to , '' ) AS "su_no_2",
+    CASE WHEN A.unit_no_to ='0' THEN REPLACE(A.unit_no_to,'0','') ELSE IFNULL ( A.unit_no_to , '' ) END AS "su_no_2",
     UPPER ( IFNULL ( A.unit_no_to_suffix , '' ) ) AS "su_suff_2",
 
     UPPER ( IFNULL ( A.floor_desc , '' ) ) AS "fl_type",
     '' AS "fl_prefix_1",
-    IFNULL ( A.floor_no , '' ) AS "fl_no_1",
+    CASE WHEN A.floor_no ='0' THEN REPLACE(A.floor_no,'0','') ELSE IFNULL ( A.floor_no , '' ) END AS "fl_no_1",
     UPPER ( IFNULL ( A.floor_suffix , '' ) ) AS "fl_suff_1",
     '' AS "fl_prefix_2",
-    IFNULL ( A.floor_no_to , '' ) AS "fl_no_2",
+    CASE WHEN A.floor_no_to ='0' THEN REPLACE(A.floor_no_to,'0','') ELSE IFNULL ( A.floor_no_to , '' ) END AS "fl_no_2",
     UPPER ( IFNULL ( A.floor_suffix_to , '' ) ) AS "fl_suff_2",
 
     '' AS "pr_name_1",
@@ -61,10 +61,10 @@ SELECT
     '' AS "loc_des",
 
     '' AS "house_prefix_1",
-    IFNULL ( A.house_no , '' ) AS "house_number_1",
+    CASE WHEN A.house_no ='0' THEN REPLACE(A.house_no,'0','') ELSE IFNULL ( A.house_no , '' ) END AS "house_number_1",
     UPPER ( IFNULL ( A.house_no_suffix , '' ) ) AS "house_suffix_1",
     '' AS "house_prefix_2",
-    IFNULL ( A.house_no_to , '' ) AS "house_number_2",
+    CASE WHEN A.house_no_to ='0' THEN REPLACE(A.house_no_to,'0','') ELSE IFNULL ( A.house_no_to , '' ) END AS "house_number_2",
     UPPER ( IFNULL ( A.house_no_to_suffix , '' ) ) AS "house_suffix_2",
 
     '' AS "display_prefix_1",
@@ -175,7 +175,7 @@ FROM
     JOIN PROCLAIM_nucLocality L ON L.locality_ctr = S.locality_ctr
 
 WHERE
-    P.status IN ( 'C' , 'F' , 'c' , 'f' ) 
+    P.status IN ( 'C' , 'c' , 'P' , 'p'  ) 
 
 ) 
 

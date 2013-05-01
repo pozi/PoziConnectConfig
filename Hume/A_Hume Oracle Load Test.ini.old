@@ -1,7 +1,7 @@
 [User Settings]
-Load_Vicmap_File:C:\PoziConnect\Vicmap\Hume\VMPROP\PROPERTY_MP.tab
-Database:127.0.0.1
+Load_Vicmap_File:C:\OracleTest\VMPROP\PROPERTY_MP.tab
 Database_User:gisadmin
+Database:127.0.0.1
 Password:q
 
 [General Settings]
@@ -11,4 +11,4 @@ Oracle_Connection_String: OCI:{Database_User}/{Password}@{Database}
 [Loading_Data]
 Source:{Load_Vicmap_File}
 AssignCoordSys:EPSG:28355
-Destination:{Oracle_Connection_String},PROPERTY_MP
+Destination:{Oracle_Connection_String},PROPERTY_TEST

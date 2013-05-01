@@ -3,7 +3,7 @@ SELECT
 CAST ((CASE WHEN (A.key1 in ('14359', '15127', '14360','15893','15303'))  THEN 'NCPR'   
   	ELSE A.key1 END) AS VARCHAR) AS propnum,  
 
-P.[TEXT2] AS Rural_addr,
+L.[TEXT2] AS Rural_addr,
 
     CAST ( L.land_no AS varchar(10) ) AS "crefno",
 	L.Status AS "Parcel_status",			
