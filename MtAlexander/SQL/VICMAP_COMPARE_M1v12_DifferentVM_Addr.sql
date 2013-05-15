@@ -57,4 +57,3 @@ LEFT JOIN
 Temp_PIQA_Address CounAddr ON DiffVMAddr.PROPNUM = CounAddr.propnum
 
 where CounAddr.AddressCount = 1
-	

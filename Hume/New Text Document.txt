@@ -1,0 +1,4 @@
+check rename or explicit specifying of geom feild name "THE_GEOM" for SDO geometry,
+
+try leaving as undfined OGR_GEOMERTY
+
