@@ -58,7 +58,7 @@ CASE
 		ELSE ''
 		END AS "northing",
 	'' AS "datum/proj",
-	'' AS "os_property",	
+	'' AS "outside_property",	
 	
 	CASE
         WHEN  MissingVMProps.MultiAssCount =1  THEN 'E'

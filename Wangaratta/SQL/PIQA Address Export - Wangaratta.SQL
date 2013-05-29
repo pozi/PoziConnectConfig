@@ -35,8 +35,7 @@ SELECT
 FROM (
 
 SELECT
-    CAST ((CASE WHEN (P.property_no in ('14359', '15127', '14360','15893','15303'))  THEN 'NCPR'   
-  	ELSE P.property_no END) AS VARCHAR) AS propnum,
+    CAST (P.property_no AS VARCHAR) AS propnum,
 
 	P.status AS "Property_status",
 
@@ -175,7 +174,7 @@ FROM
     JOIN PROCLAIM_nucLocality L ON L.locality_ctr = S.locality_ctr
 
 WHERE
-    P.status IN ( 'C' , 'F' , 'c' , 'f' ) 
+    P.status IN ( 'C' , 'F' , 'c' , 'f' ) and p.property_no not in ('16953','16899','17736','15127','14359','15893','14360','15303')
 
 ) 
 
