@@ -14,7 +14,7 @@ select ad.BLGUNTTYP AS su_type
 , [ad].[FLOOR_NO_2] AS [fl_no_2]
 , ad.[BUILDING] AS pr_name_1
 , ad.[COMPLEX] AS pr_name_2
-, ad.[Loc_Desc] AS loc_desc
+, ad.[LOCALITY] AS loc_desc
 , ad.[HSE_PREF1] AS house_prefix_1
 , [ad].[HSE_NUM1] AS [house_number_1]
 , ad.[HSE_SUF1] AS house_suffix_1
@@ -69,5 +69,5 @@ FROM         DSE_VMPROP_PROPERTY pr
 
            
 
-WHERE pr.PR_PTYPE = 'O' and pr.PV_FTYPE in ('5721','5741','27721','27741') and pr.PR_LGAC =355 and ad.Is_primary='Y'
+WHERE pr.PR_PTYPE = 'O' and pr.PV_FTYPE in ('5721','5741','27721','27741') and pr.PR_LGAC =366 and ad.Is_primary='Y'
 
