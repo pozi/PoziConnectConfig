@@ -51,9 +51,10 @@ SELECT
 	'S' AS edit_code,
 	'Incorrect Address in Vicmap - Council Address updated' AS Comments
 
+
 FROM
     TMP_VM_COMPARE_DiffVMAddr_usingPropNo AS DiffVMAddr 
 LEFT JOIN
 Temp_PIQA_Address CounAddr ON DiffVMAddr.PROPNUM = CounAddr.propnum
 
-where CounAddr.AddressCount = 1
+	
