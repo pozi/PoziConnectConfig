@@ -74,9 +74,13 @@ SELECT
     '' AS "display_no_2",
     '' AS "display_suffix_2",
 
-    CASE
+    CASE    
+        WHEN UPPER (S.street_name LIKE 'CHADSTONE S%') THEN 'DANDENONG'
+        WHEN S.street_name LIKE 'THE AVENUE' THEN 'THE AVENUE'        
+        WHEN S.street_name LIKE 'THE GRANGE' THEN 'THE GRANGE'        
+        WHEN S.street_name LIKE 'THE BOULEVARD' THEN 'THE BOULEVARD'
         WHEN UPPER ( SUBSTR ( S.street_name , -4 ) ) IN ( ' END' , ' ROW' , ' RUN', ' KEY', ' WAY' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 4 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -5 ) ) IN ( ' BEND', ' BRAE', ' COVE' , ' EDGE' , ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' RISE', ' ROAD', ' VIEW', ' WALK', ' WYND' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 5 ) )
+        WHEN UPPER ( SUBSTR ( S.street_name , -5 ) ) IN ( ' BEND', ' BRAE', ' COVE' , ' EDGE' , ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' RISE', ' ROAD', ' VIEW', ' WALK', ' WYND', ' RIALTO WEST' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 5 ) )
         WHEN UPPER ( SUBSTR ( S.street_name , -6 ) ) IN ( ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 6 ) )
         WHEN UPPER ( SUBSTR ( S.street_name , -7 ) ) IN ( ' ACCESS', ' ARCADE', ' AVENUE', ' CIRCLE', ' DIVIDE', ' GRANGE', ' PARADE', ' SQUARE', ' STREET', ' WATERS' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 7 ) )
         WHEN UPPER ( SUBSTR ( S.street_name , -8 ) ) IN ( ' CIRCUIT', ' CUTTING', ' FREEWAY', ' GARDENS', ' HIGHWAY', ' RETREAT', ' TERRACE' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 8 ) )
@@ -88,14 +92,15 @@ SELECT
         WHEN UPPER ( SUBSTR ( S.street_name , -12 ) ) IN ( ' CLOSE NORTH' , ' CLOSE SOUTH' , ' COURT NORTH' , ' COURT SOUTH' , ' STREET EAST' , ' STREET WEST' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 12 ) )
         WHEN UPPER ( SUBSTR ( S.street_name , -13 ) ) IN ( ' AVENUE NORTH' , ' AVENUE SOUTH' , ' STREET NORTH' , ' STREET SOUTH' , ' PARADE NORTH' , ' PARADE SOUTH' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 13 ) )
         WHEN UPPER ( SUBSTR ( S.street_name , -14 ) ) IN ( ' HIGHWAY NORTH' , ' HIGHWAY SOUTH' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 14 ) )
-        WHEN UPPER (S.street_name = 'CHADSTONE SHOPPING CENTRE') THEN REPLACE(S.street_name,'Chadstone Shopping Centre','Dandenong Road')
         ELSE UPPER ( S.street_name )
     END AS "street_name",
 
     CASE
-
+        WHEN UPPER (S.street_name LIKE 'CHADSTONE S%') THEN 'ROAD'
+        WHEN S.street_name LIKE 'THE AVENUE' THEN ''        
+        WHEN S.street_name LIKE 'THE GRANGE' THEN ''        
+        WHEN S.street_name LIKE 'THE BOULEVARD' THEN ''
         WHEN S.street_name LIKE '% ROAD%' THEN 'ROAD'
-
         WHEN S.street_name LIKE '% ACCESS%' THEN 'ACCESS'
         WHEN S.street_name LIKE '% ARCADE%' THEN 'ARCADE'
         WHEN S.street_name LIKE '% AVENUE%' THEN 'AVENUE'

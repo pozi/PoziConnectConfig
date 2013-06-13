@@ -11,7 +11,7 @@ Select
         ELSE TRIM ( L.[PLAN_TYPE_CODE]) || SUBSTR ( TRIM ( L.[PLAN_TYPE_CODE] ) , 1 , LENGTH ( TRIM ( L.[PLAN_REF] ) ) - 1 )
     END AS "plan_number",
 
-    IFNULL ( L.[PARCEL_REF] , '' ) AS "lot_number",
+    CASE WHEN L.PARCEL_TYPE_CODE = 'RES' THEN 'RES' | L.[PARCEL_REF] ELSE IFNULL ( L.[PARCEL_REF] , '' ) END AS "lot_number",
 	IFNULL (L.[ALLOTMENT_REF],'') AS "Allotment",
     IFNULL ( L.[SECTION_REF] , '' ) AS "section",
     IFNULL ( L.[PARCEL_REF] , '' ) ||

@@ -19,7 +19,7 @@ SELECT
         RTRIM ( ' ' || street_type ) ||
         RTRIM ( ' ' || street_suffix ) ||
         RTRIM ( ' ' || locality ) ) AS address_pr,
-		
+        
     LTRIM ( su_prefix_1 || su_no_1 || su_suff_1 ||
         CASE WHEN su_no_2 <> '' THEN '-' ELSE '' END ||
         su_prefix_2 || su_no_2 || su_suff_2 ||
@@ -41,30 +41,32 @@ FROM (
 SELECT
 
       P.ASSESSMENT_ID  AS "propnum",
-	    P.Property_type AS "Property_status",
+        P.Property_type AS "Property_status",
 
     '' AS "su_type",
     '' AS "su_prefix_1",    
 
 CASE 
-    WHEN  substr (p.HOUSE_NO_PREFIX,-1,1) IN ('A','B','C','D','E','F','G') THEN substr (p.HOUSE_NO_PREFIX,1,(LENGTH(HOUSE_NO_PREFIX)-1))
+    WHEN  substr (p.HOUSE_NO_PREFIX,1,8) in ('UPSTAIRS','U/STAIRS','GR FLOOR', 'VIC ROAD','AUSTPOST','PIPELINE','GRND FL') THEN TRIM (substr (p.HOUSE_NO_PREFIX,9,(LENGTH(HOUSE_NO_PREFIX)-8)))
+    WHEN  substr (p.HOUSE_NO_PREFIX,1,7) in ('CARPARK','CARAVAN','UPSTAIR','PIPELIN','GRD FLR','PT GRND','GRD/FLR') THEN TRIM (substr (p.HOUSE_NO_PREFIX,8,(LENGTH(HOUSE_NO_PREFIX)-7))) 
+    WHEN  substr (p.HOUSE_NO_PREFIX,1,6) in ('GND FL','GRD FL','GRND F','PT GRN','GRD/FL','CHURCH','FROUNT') THEN TRIM (substr (p.HOUSE_NO_PREFIX,7,(LENGTH(HOUSE_NO_PREFIX)-6))) 
+    WHEN  substr (p.HOUSE_NO_PREFIX,1,5) in ('SUITE','GR FL','LEVEL','GD FL','FRONT') THEN TRIM (substr (p.HOUSE_NO_PREFIX,6,(LENGTH(HOUSE_NO_PREFIX)-5))) 
+    WHEN  substr (p.HOUSE_NO_PREFIX,1,4) in ('SHOP','REAR','FACT','SUTE','UPST','GD F','FRON') THEN TRIM (substr (p.HOUSE_NO_PREFIX,5,(LENGTH(HOUSE_NO_PREFIX)-4)))            
+    WHEN  substr (p.HOUSE_NO_PREFIX,1,3) in ('TWR','SHP','OFF','ATM','LVL') THEN TRIM (substr (p.HOUSE_NO_PREFIX,4,(LENGTH(HOUSE_NO_PREFIX)-3)))    
+    WHEN  substr (p.HOUSE_NO_PREFIX,1,2) in ('SH','LV','GN') THEN TRIM (substr (p.HOUSE_NO_PREFIX,5,(LENGTH(HOUSE_NO_PREFIX)-2)))  
+    WHEN  substr (p.HOUSE_NO_PREFIX,-1,1) IN ('A','B','C','D','E','F','G','S','L','T','R') THEN substr (p.HOUSE_NO_PREFIX,1,(LENGTH(HOUSE_NO_PREFIX)-1))    
+    WHEN  substr (p.HOUSE_NO_PREFIX,1,1) IN ('A','B','C','D','E','F','G','S') THEN substr (p.HOUSE_NO_PREFIX,-1,(LENGTH(HOUSE_NO_PREFIX)-1))
     WHEN  substr (p.HOUSE_NO_PREFIX,-2,1) ='-' THEN substr (p.HOUSE_NO_PREFIX,1,(LENGTH(HOUSE_NO_PREFIX)-2))    
     WHEN  substr (p.HOUSE_NO_PREFIX,-3,1) ='-' THEN substr (p.HOUSE_NO_PREFIX,1,(LENGTH(HOUSE_NO_PREFIX)-3))
     WHEN  substr (p.HOUSE_NO_PREFIX,-4,1) ='-' THEN substr (p.HOUSE_NO_PREFIX,1,(LENGTH(HOUSE_NO_PREFIX)-4))
     WHEN  substr (p.HOUSE_NO_PREFIX,-5,1) ='-' THEN substr (p.HOUSE_NO_PREFIX,1,(LENGTH(HOUSE_NO_PREFIX)-5))    
-    WHEN  substr (p.HOUSE_NO_PREFIX,1,3) in ('TWR','SHP','OFF','ATM') THEN TRIM (substr (p.HOUSE_NO_PREFIX,4,(LENGTH(HOUSE_NO_PREFIX)-3)))
-    WHEN  substr (p.HOUSE_NO_PREFIX,1,4) in ('SHOP','REAR','FACT','SUTE') THEN TRIM (substr (p.HOUSE_NO_PREFIX,5,(LENGTH(HOUSE_NO_PREFIX)-4)))
-    WHEN  substr (p.HOUSE_NO_PREFIX,1,5) in ('SUITE','GR FL') THEN TRIM (substr (p.HOUSE_NO_PREFIX,6,(LENGTH(HOUSE_NO_PREFIX)-5)))
-    WHEN  substr (p.HOUSE_NO_PREFIX,1,6) in ('GND FL','GRD FL','CHURCH') THEN TRIM (substr (p.HOUSE_NO_PREFIX,7,(LENGTH(HOUSE_NO_PREFIX)-6)))    
-    WHEN  substr (p.HOUSE_NO_PREFIX,1,7) in ('CARPARK','CARAVAN') THEN TRIM (substr (p.HOUSE_NO_PREFIX,8,(LENGTH(HOUSE_NO_PREFIX)-7)))    
-    WHEN  substr (p.HOUSE_NO_PREFIX,1,8) in ('UPSTAIRS','U/STAIRS','GR FLOOR', 'VIC ROAD','AUSTPOST') THEN TRIM (substr (p.HOUSE_NO_PREFIX,9,(LENGTH(HOUSE_NO_PREFIX)-8)))  
     WHEN p.HOUSE_NO_PREFIX not null THEN p.HOUSE_NO_PREFIX
  ELSE ''
 END AS "su_no_1",
 
           
 CASE
-    WHEN  substr (p.HOUSE_NO_PREFIX,-1,1) IN ('A','B','C','D') THEN substr (p.HOUSE_NO_PREFIX,-1,(LENGTH(HOUSE_NO_PREFIX)-1))
+    WHEN  substr (p.HOUSE_NO_PREFIX,-1,1) IN ('A','B','C') THEN substr (p.HOUSE_NO_PREFIX,-1,(LENGTH(HOUSE_NO_PREFIX)-1))
   ELSE '' 
 END  AS "su_suff_1", 
  
@@ -128,15 +130,13 @@ END AS "house_suffix_2",
         WHEN UPPER ( SUBSTR ( S.Description , -6 ) ) IN ( ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) - 6 ) ),'-',' ')
         WHEN UPPER ( SUBSTR ( S.Description , -7 ) ) IN ( ' ACCESS', ' ARCADE', ' AVENUE', ' CIRCLE', ' CRES E', ' CRES W' , ' DIVIDE', ' GRANGE', ' PARADE', ' SQUARE', ' STREET', ' WATERS' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) - 7 ) ),'-',' ')
         WHEN UPPER ( SUBSTR ( S.Description , -8 ) ) IN ( ' CIRCUIT', ' CUTTING', ' FREEWAY', ' GARDENS', ' HIGHWAY', ' RETREAT', ' TERRACE' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) - 8 ) ),'-',' ')
-        WHEN UPPER ( SUBSTR ( S.Description , -9 ) ) IN ( ' CRESCENT', ' QUADRANT' , ' WATERWAY' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) - 9 ) ),'-',' ')
-        WHEN UPPER ( SUBSTR ( S.Description , -10 ) ) IN ( ' BOULEVARD', ' ESPLANADE' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) - 10 ) ),'-',' ')
-        WHEN UPPER ( SUBSTR ( S.Description , -11 ) ) IN ( ' BOULEVARDE' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) -11 ) ),'-',' ')
+        WHEN UPPER ( SUBSTR ( S.Description , -9 ) ) IN ( ' QUADRANT' , ' WATERWAY' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) - 9 ) ),'-',' ')
         WHEN UPPER ( SUBSTR ( S.Description , -10 ) ) IN ( ' ROAD EAST', ' ROAD WEST', ' WAY NORTH' , ' WAY SOUTH' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) - 10 ) ),'-',' ')
         WHEN UPPER ( SUBSTR ( S.Description , -11 ) ) IN ( ' GROVE EAST', ' DRIVE EAST', ' GROVE WEST', ' LANE NORTH' , ' LANE SOUTH' , ' ROAD NORTH' , ' ROAD SOUTH' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) - 11 ) ),'-',' ')
         WHEN UPPER ( SUBSTR ( S.Description , -12 ) ) IN ( ' DRIVE NORTH',' DRIVE SOUTH',' CLOSE NORTH' , ' CLOSE SOUTH' , ' COURT NORTH' , ' COURT SOUTH' , ' STREET EAST' , ' STREET WEST' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) - 12 ) ),'-',' ')
         WHEN UPPER ( SUBSTR ( S.Description , -13 ) ) IN ( ' AVENUE NORTH' , ' AVENUE SOUTH' , ' STREET NORTH' , ' STREET SOUTH' , ' PARADE NORTH' , ' PARADE SOUTH' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) - 13 ) ),'-',' ')
         WHEN UPPER ( SUBSTR ( S.Description , -14 ) ) IN ( ' HIGHWAY NORTH' , ' HIGHWAY SOUTH' ) THEN REPLACE (UPPER ( SUBSTR ( S.Description , 1 , LENGTH ( S.Description ) - 14 ) ),'-',' ')
-		ELSE UPPER ( S.Description )
+        ELSE UPPER ( S.Description )
     END AS "street_name",
 
     CASE
@@ -154,8 +154,8 @@ END AS "house_suffix_2",
         WHEN S.Description LIKE '% CL%' THEN 'CLOSE'
         WHEN S.Description LIKE '% CT%' THEN 'COURT'
         WHEN S.Description LIKE '% COVE%' THEN 'COVE'
-        WHEN S.Description LIKE '% CR%' THEN 'CRESCENT'        
-        WHEN S.Description LIKE '% CRESCENT%' THEN 'CRESCENT'
+        WHEN S.Description LIKE '% CR' THEN 'CRESCENT'        
+        WHEN S.Description LIKE '% CRES' THEN 'CRESCENT'
         WHEN S.Description LIKE '% CREST%' THEN 'CREST'
         WHEN S.Description LIKE '% CUTTING%' THEN 'CUTTING'
         WHEN S.Description LIKE '% DIVIDE%' THEN 'DIVIDE'
@@ -163,7 +163,6 @@ END AS "house_suffix_2",
         WHEN S.Description LIKE '% DRIVE%' THEN 'DRIVE'
         WHEN S.Description LIKE '% EDGE%' THEN 'EDGE'
         WHEN S.Description LIKE '% END%' THEN 'END'
-        WHEN S.Description LIKE '% ESPLANADE%' THEN 'ESPLANADE'
         WHEN S.Description LIKE '% FREEWAY%' THEN 'FREEWAY'
         WHEN S.Description LIKE '% GARDENS%' THEN 'GARDENS'
         WHEN S.Description LIKE '% GLADES' THEN ''
@@ -175,7 +174,6 @@ END AS "house_suffix_2",
         WHEN S.Description LIKE '% LANE%' THEN 'LANE'        
         WHEN S.Description LIKE '% LA%' THEN 'LANE'
         WHEN S.Description LIKE '% LN%' THEN 'LANE'
-
         WHEN S.Description LIKE '% LINK%' THEN 'LINK'
         WHEN S.Description LIKE '% MEWS%' THEN 'MEWS'
         WHEN S.Description LIKE '% NOOK%' THEN 'NOOK'
@@ -188,6 +186,7 @@ END AS "house_suffix_2",
         WHEN S.Description LIKE '% QUADRANT%' THEN 'QUADRANT'
         WHEN S.Description LIKE '% QUAY' THEN 'QUAY'
         WHEN S.Description LIKE '% RETREAT%' THEN 'RETREAT'
+        WHEN S.Description LIKE '% RES' THEN 'RESERVE'
         WHEN S.Description LIKE '% RIDGE%' THEN 'RIDGE'
         WHEN S.Description LIKE '% RISE%' THEN 'RISE'
         WHEN S.Description LIKE '% ROUND%' THEN 'ROUND'

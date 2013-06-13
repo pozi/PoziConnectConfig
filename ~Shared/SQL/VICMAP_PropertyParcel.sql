@@ -10,10 +10,11 @@ select pa.parcel_pfi as parcel_pfi
 ,pr.PR_MULTASS as PR_MULTASS
 ,pr.PR_PTYPE as PR_PTYPE
 ,pr.PV_FTYPE as PV_FTYPE
-,pr.[PR_PROPNUM] as PR_PROPNUM
+,pr.PR_PROPNUM as PR_PROPNUM
 ,pac.PACount as VM_MultiAssCount
 ,addr.ezi_add as ezi_add
 ,pr.GEOMETRY as GEOMETRY
+
 
 FROM         DSE_VMPROP_PARCEL pa INNER JOIN DSE_VMPROP_PARCEL_PROPERTY papr 
 		ON  pa.PARCEL_PFI = papr.PARCEL_PFI
@@ -26,20 +27,4 @@ FROM         DSE_VMPROP_PARCEL pa INNER JOIN DSE_VMPROP_PARCEL_PROPERTY papr
 
            
 
-WHERE pr.PR_PTYPE = 'O' and pr.PR_LGAC =367
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+WHERE pr.PR_PTYPE = 'O' and pr.PV_FTYPE in ('5721','5741','27721','27741')
