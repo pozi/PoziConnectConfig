@@ -1,0 +1,1 @@
+select * from PC_Vicmap_Parcel where propnum is null
