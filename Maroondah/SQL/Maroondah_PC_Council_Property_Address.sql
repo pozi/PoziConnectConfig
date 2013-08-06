@@ -1,21 +1,38 @@
+select
+    *,
+    ltrim ( blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
+        case when blg_unit_id_2 <> '' then '-' else '' end ||
+        blg_unit_prefix_2 || blg_unit_id_2 || blg_unit_suffix_2 ||
+        case when blg_unit_id_1 <> '' then '/' else '' end ||
+        house_prefix_1 || house_number_1 || house_suffix_1 ||
+        case when house_number_2 <> '' then '-' else '' end ||
+        house_prefix_2 || house_number_2 || house_suffix_2 ||
+        rtrim ( ' ' || road_name ) ||
+        rtrim ( ' ' || road_type ) ||
+        rtrim ( ' ' || road_suffix )) AS "num_road_address"
+from (
+
 select distinct
     lpaprop.tpklpaprop as propnum,
-	cast ( lpaprop.tpklpaprop as integer )  as propnum_int,
+	'' as is_primary,
 	case
         when upper ( lpaaddr.unitprefix ) = 'ATM' then 'ATM'
         when upper ( lpaaddr.unitprefix ) = 'CAR PARK' then 'CARP'
+        when upper ( lpaaddr.unitprefix ) = 'COTTAGE' then 'CTGE'
         when upper ( lpaaddr.unitprefix ) = 'FACTORY' then 'FCTY'
         when upper ( lpaaddr.unitprefix ) = 'FLAT' then 'FLAT'
-        when upper ( lpaaddr.unitprefix ) = 'KIOSK' then 'KSK'
+        when upper ( lpaaddr.unitprefix ) = 'HOSTEL' then 'HOST'
+        when upper ( lpaaddr.unitprefix ) in ( 'KSK' , 'KIOSK' ) then 'KSK'
         when upper ( lpaaddr.unitprefix ) = 'OFFICE' then 'OFFC'
         when upper ( lpaaddr.unitprefix ) = 'SHED' then 'SHED'
         when upper ( lpaaddr.unitprefix ) = 'SHOP' then 'SHOP'
         when upper ( lpaaddr.unitprefix ) = 'SIGN' then 'SIGN'
+        when upper ( lpaaddr.unitprefix ) in ( 'STOR' , 'STORE' ) then 'STOR'
         when upper ( lpaaddr.unitprefix ) = 'SUITE' then 'SE'
         when upper ( lpaaddr.unitprefix ) = 'UNIT' then 'UNIT'
-        when upper ( lpaaddr.unitprefix ) = 'L' then 'LOT'
-        when upper ( lpaaddr.unitprefix ) = 'LOT' then 'LOT'
+        when upper ( lpaaddr.unitprefix ) in ( 'L' , 'LOT' ) then 'LOT'
         when upper ( lpaaddr.unitprefix ) = 'ROOM' then 'ROOM'
+        when upper ( lpaaddr.unitprefix ) like '%TOWER%' then 'TWR'
         else ''
     end as blg_unit_type,   
     '' as blg_unit_prefix_1,
@@ -109,3 +126,5 @@ where
     lpaaddr.addrtype = 'P' and
     lpaprtp.abbrev <> 'BASE' and
     lpaprop.tfklpacncl = 12
+
+)

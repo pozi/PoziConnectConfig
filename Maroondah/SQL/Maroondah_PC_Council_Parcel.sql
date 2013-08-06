@@ -23,7 +23,7 @@ select distinct
         when lpaparc.plannum is null and lpaparc.parcelcode = 'C/A' then cast ( cnacomp.descrsrch as varchar )
         else ''
     end as simple_spi,
-    cast ( lpaparc.tpklpaparc as varchar ) as crefno,
+    '' as crefno,
     lpaparc.fmtparcel as summary,
     lpaparc.plancode || lpaparc.plannum as plan_number,
     lpaparc.plancode as plan_prefix,
@@ -44,7 +44,7 @@ from
     PATHWAY_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc left join
     PATHWAY_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpacrwn.tfklpaparc left join
     PATHWAY_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left join
-    PATHWAY_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc left join
+    PATHWAY_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc
 
 where
    lpaprop.status = 'C' and
