@@ -71,7 +71,7 @@ Comparing primary Vicmap Property Addresses against non-secondary Council Proper
 
 * where Vicmap `num_road_address` is not equal to Council `num_road_address`, then **update with Council address values**
 
-Looking at all Council Property Addresses:
+Looking at all non-secondary Council Property Addresses:
 
 * where `propnum` value does not exist in Vicmap Property and the value exists in M1_P_Edit, then **update with Council address values**
 

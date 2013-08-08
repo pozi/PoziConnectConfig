@@ -1,11 +1,11 @@
 select
     *,
     ltrim ( blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
-        case when blg_unit_id_2 <> '' then '-' else '' end ||
+        case when ( blg_unit_id_2 <> '' or blg_unit_suffix_2 <> '' ) then '-' else '' end ||
         blg_unit_prefix_2 || blg_unit_id_2 || blg_unit_suffix_2 ||
-        case when blg_unit_id_1 <> '' then '/' else '' end ||
+        case when ( blg_unit_id_1 <> '' or blg_unit_suffix_1 <> '' ) then '/' else '' end ||
         house_prefix_1 || house_number_1 || house_suffix_1 ||
-        case when house_number_2 <> '' then '-' else '' end ||
+        case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
         house_prefix_2 || house_number_2 || house_suffix_2 ||
         rtrim ( ' ' || road_name ) ||
         rtrim ( ' ' || road_type ) ||
@@ -95,7 +95,7 @@ select distinct
         else cast ( cast ( lpaaddr.endhousnum as integer ) as varchar )
     end as house_number_2,
     ifnull ( lpaaddr.endhoussfx , '' ) as house_suffix_2,
-    upper ( replace ( cnacomp.descr,' - ','-' )) as road_name, 
+    upper ( replace ( replace ( cnacomp.descr , ' - ' , '-' ) , '''' , '' ) ) as road_name, 
     case
         when
 		    cnaqual.descr like '% NORTH' or
@@ -112,7 +112,8 @@ select distinct
         else ''
     end as road_suffix, 
 	upper ( lpasubr.suburbname ) as locality_name,
-    '' as postcode
+    '' as postcode,
+    '' as access_type
 
 from
     PATHWAY_lpaprop as lpaprop left join 
