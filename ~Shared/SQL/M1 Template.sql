@@ -1,15 +1,15 @@
 select
-    lga_code as lga_code,
+    '' as lga_code,
     '' as new_sub,
     '' as property_pfi,
     '' as parcel_pfi,
     '' as address_pfi,
-    spi as spi,
+    '' as spi,
     '' as plan_number,
     '' as lot_number,
     '' as base_propnum,
     '' as propnum,
-    crefno as crefno,
+    '' as crefno,
     '' as hsa_flag,
     '' as hsa_unit_id,
     '' as blg_unit_type,
@@ -47,17 +47,5 @@ select
     '' as northing,
     '' as datum_proj,
     '' as outside_property,
-    'C' as edit_code,
+    '' as edit_code,
     '' as comments
-
-from (
-
-select
-    ( select lga_code from PC_Vicmap_Parcel group by lga_code ) as lga_code,
-    spi,
-    crefno
-from PC_Council_Parcel
-where
-    spi in ( select spi from PC_Vicmap_Parcel where crefno is null ) and    
-    crefno <> ''
-)

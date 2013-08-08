@@ -1,0 +1,4 @@
+select PC_Council_Property_Address.propnum as propnum
+from PC_Council_Property_Address, PC_Vicmap_Property_Address
+where PC_Council_Property_Address.propnum = PC_Vicmap_Property_Address.propnum
+limit 50

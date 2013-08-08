@@ -13,8 +13,11 @@ select
 from (
 
 select distinct
-    lpaprop.tpklpaprop as propnum,
+	cast ( lpaprop.tpklpaprop as varchar ) as propnum,
+	'' as base_propnum,
 	'' as is_primary,
+    '' as hsa_flag,
+    '' as hsa_unit_id,
 	case
         when upper ( lpaaddr.unitprefix ) = 'ATM' then 'ATM'
         when upper ( lpaaddr.unitprefix ) = 'CAR PARK' then 'CARP'
@@ -94,7 +97,8 @@ select distinct
     ifnull ( lpaaddr.endhoussfx , '' ) as house_suffix_2,
     upper ( replace ( cnacomp.descr,' - ','-' )) as road_name, 
     case
-        when cnaqual.descr like '% NORTH' or
+        when
+		    cnaqual.descr like '% NORTH' or
             cnaqual.descr like '% SOUTH' or
             cnaqual.descr like '% EAST' or
             cnaqual.descr like '% WEST' then upper ( trim ( substr ( cnaqual.descr , 1 , length ( cnaqual.descr ) - 5 ) ) )
@@ -126,5 +130,4 @@ where
     lpaaddr.addrtype = 'P' and
     lpaprtp.abbrev <> 'BASE' and
     lpaprop.tfklpacncl = 12
-
 )
