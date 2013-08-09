@@ -1,24 +1,34 @@
 # Discrepancy Reports
 
-## Actionable - Vicmap Parcels Not Found in Council
+The discrepancy reports generated here, also known as exception or audit reports, highlight where there are found to be differences between Council and Vicmap.
 
-The parcel descriptions of Vicmap Parcels, based on the `spi`, from 
+# Discrepancy Reports - Actionable
 
-Note: can order by date desc so newer parcels are at the top
+## Vicmap Parcels Not Found in Council
 
-## Actionable - Council Parcels With Incorrect Parcel Description - Plan Prefix
+The parcel descriptions of Vicmap Parcels, based on the `spi`...
 
-## Actionable - Council Parcels With Incorrect Parcel Description - All
+Development notes:
 
-## Actionable - Council Addresses With Incorrect Locality
+* order by date desc so newer parcels are at the top
+* offer suggestions if there is an existing  one-to-one propnum match
+* pick only useful fields to display
 
-## Reference: Council Properties Not Found In Vicmap
+## Council Parcels With Incorrect Plan Prefix
+
+## Council Parcels With Incorrect Parcel Description
+
+## Council Addresses With Incorrect Locality
+
+# Discrepancy Reports - Reference
+
+## Council Properties Not Found In Vicmap
 
 Note: may include current P edits
 
-## Reference - Vicmap Parcels Without PropNum
+## Vicmap Parcels Without PropNum
 
-## Reference - Vicmap Parcels Without CrefNo
+## Vicmap Parcels Without CrefNo
 
-## Reference - Vicmap Multi-Assessment Properties Without PropNum
+## Vicmap Multi-Assess Properties Without PropNum
 
