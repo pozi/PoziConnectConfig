@@ -1,15 +1,15 @@
 select
     lga_code as lga_code,
     '' as new_sub,
-    '' as property_pfi,
+    property_pfi as property_pfi,
     '' as parcel_pfi,
     '' as address_pfi,
-    spi as spi,
+    '' as spi,
     '' as plan_number,
     '' as lot_number,
     '' as base_propnum,
     '' as propnum,
-    crefno as crefno,
+    '' as crefno,
     '' as hsa_flag,
     '' as hsa_unit_id,
     '' as blg_unit_type,
@@ -47,18 +47,20 @@ select
     '' as northing,
     '' as datum_proj,
     '' as outside_property,
-    'C' as edit_code,
+    'R' as edit_code,
     comments as comments
 
 from (
 
 select
     ( select lga_code from PC_Vicmap_Parcel limit 1 ) as lga_code,
+    property_pfi,
     spi,
-    crefno,
-	'assigning crefno ' || crefno || ' (propnum ' || propnum || ') to ' || spi || ' (previously null crefno)' as comments
-from PC_Council_Parcel
+    'removing propnum ' || propnum || ', ' || ( select PC_Council_Property_Address.num_road_address from PC_Council_Property_Address where PC_Council_Property_Address.propnum = vicmap_parcel.propnum limit 1 ) || ' from ' || spi as comments
+from PC_Vicmap_Parcel vicmap_parcel
 where
-    spi in ( select spi from PC_Vicmap_Parcel where crefno is null ) and    
-    crefno <> ''
+    multi_assessment = 'Y' and    
+    spi is not null and
+    vicmap_parcel.propnum is not null and
+    vicmap_parcel.propnum not in ( select PC_Council_Parcel.propnum from PC_Council_Parcel where PC_Council_Parcel.spi = vicmap_parcel.spi )
 )

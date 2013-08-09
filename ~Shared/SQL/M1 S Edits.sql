@@ -1,5 +1,5 @@
 select
-	( select lga_code from PC_Vicmap_Property_Address group by lga_code ) as lga_code,
+	( select lga_code from PC_Vicmap_Property_Address limit 1 ) as lga_code,
     '' as new_sub,
     '' as property_pfi,
     '' as parcel_pfi,
@@ -61,7 +61,7 @@ where
 union
 
 select
-	( select lga_code from PC_Vicmap_Property_Address group by lga_code ) as lga_code,
+	( select lga_code from PC_Vicmap_Property_Address limit 1 ) as lga_code,
     '' as new_sub,
     '' as property_pfi,
     '' as parcel_pfi,
@@ -117,4 +117,4 @@ where
     propnum is not null and
 	is_primary <> 'N' and
     propnum not in ( select propnum from PC_Vicmap_Property_Address )
---  and propnum in ( select propnum from M1_P_Edit where propnum )
+--  and ( propnum in ( select propnum from M1_P_Edit ) or propnum in ( select propnum from M1_A_Edit ) )
