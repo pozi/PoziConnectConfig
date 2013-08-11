@@ -57,7 +57,7 @@ select
     ( select lga_code from PC_Vicmap_Parcel limit 1 ) as lga_code,
     '' as property_pfi,
     vicmap_parcel.spi as spi,
-    council_parcel.propnum,
+    council_parcel.propnum as propnum,
     '' as base_propnum,
     vicmap_parcel.spi || ': replacing propnum ' || ifnull ( vicmap_parcel.propnum , 'NULL' ) || ' with ' || council_parcel.propnum  as comments
 from

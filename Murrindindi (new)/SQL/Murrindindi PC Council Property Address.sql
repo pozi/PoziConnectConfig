@@ -13,7 +13,7 @@ select
 from (
 
 select distinct
-	auprparc.ass_num as propnum,
+	cast ( auprparc.ass_num as varchar(10) ) as propnum,
 	'' as base_propnum,
 	'' as is_primary,
     '' as hsa_flag,
