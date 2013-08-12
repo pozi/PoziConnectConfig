@@ -1,6 +1,6 @@
 # Pozi Connect M1 SQL
 
-Pozi Connect compares Council property system data with Vicmap datasets to generate a spreadsheet called the M1. The M1 contains all property and address changes from individual councils to be submitted to the Department of Environment and Primary Industries (DEPI) for updating the state-wide Vicmap property and address datasets.
+Pozi Connect compares Council property system data with Vicmap datasets to generate a spreadsheet called the M1. The M1 contains all property and address changes from individual Victorian councils to be submitted to the Department of Environment and Primary Industries (DEPI) for updating the state-wide Vicmap property and address datasets.
 
 The rules and processes for submitting M1s are controlled by the DEPI. The full documentation is found [here](http://www.dse.vic.gov.au/__data/assets/pdf_file/0006/150927/M1_V12_Documentation_27112012.pdf) (pdf).
 
@@ -124,9 +124,9 @@ Council property systems are generally not reliable sources of secondary address
 
 ## Notes about this new version
 
-The rules and process outline above are part of a 'second generation' of the Pozi Connect M1 logic. This new approach processes records based on separate queries for each edit code.
+The rules and process outline above are part of a 'second generation' of the Pozi Connect M1 logic. This new approach generates records based on separate queries designed to satisfy the criteria for each edit code.
 
-This is fundamentally different from the 'first generation' method of selecting records based on different property 'scenarios' and trying to determine the attributes, rules and edit code afterwards.
+This is fundamentally different from the 'first generation' method of generating records based on different property 'scenarios' and trying to determine the attributes, rules and edit codes afterwards.
 
 We expect this new approach makes the logic simpler and more transparent, and give us more control over the output. It also reduces the amount of council-specific configuration as the bulk of the processing logic is common across all councils.
 

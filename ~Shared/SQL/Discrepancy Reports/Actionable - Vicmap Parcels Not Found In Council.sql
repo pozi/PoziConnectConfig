@@ -3,4 +3,4 @@ select
 from
     PC_Vicmap_Parcel
 where
-    spi not in ( select spi from PC_Council_Parcel where spi is not null ) 
+    simple_spi not in ( select PC_Council_Parcel.simple_spi as council_parcels from PC_Council_Parcel where PC_Council_Parcel.simple_spi is not null ) 
