@@ -1,6 +1,6 @@
 # Pozi Connect M1 SQL
 
-Pozi Connect compares Council property system data with Vicmap datasets to generate a spreadsheet called the M1. The M1 contains all property and address changes from individual Victorian councils to be submitted to the Department of Environment and Primary Industries (DEPI) for updating the state-wide Vicmap property and address datasets.
+Pozi Connect compares Council's property data with Vicmap datasets to generate a spreadsheet called the M1. The M1 contains all property and address changes from individual Victorian councils to be submitted to the Department of Environment and Primary Industries (DEPI) for updating the state-wide Vicmap property and address datasets.
 
 The rules and processes for submitting M1s are controlled by the DEPI. The full documentation is found [here](http://www.dse.vic.gov.au/__data/assets/pdf_file/0006/150927/M1_V12_Documentation_27112012.pdf) (pdf).
 
@@ -43,7 +43,7 @@ DEPI:
 
 Comparing Vicmap Parcel against Council Parcel based on a common `spi` value:
 
-* where Vicmap `propnum` is null or doesn't exist in any Council Parcel, and one or more Council records have a populated `propnum`, then update with the first Council `propnum` value
+* where Vicmap `propnum` is null or doesn't exist in any Council Parcel, and one or more Council records have a populated `propnum`, then update with the *first* Council `propnum` value
 
 Looking at all Vicmap Parcels:
 
