@@ -72,7 +72,7 @@ Notes:
 
 - if parcel is part of single-parcel property, submit `lot_number` and `plan_number`
 - if parcel is part of multi-parcel property, submit `property_pfi`
-- exclude NCPR
+- exclude NCPR parcels
 
 ## Edit Code ‘R’
 

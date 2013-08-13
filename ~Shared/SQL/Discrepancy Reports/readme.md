@@ -4,6 +4,8 @@ The discrepancy reports generated here, also known as exception or audit reports
 
 # Discrepancy Reports - Actionable
 
+These 'actionable' audits provide immediate feedback to the Council about what needs to be fixed.
+
 ## Vicmap Parcels Not Found in Council
 
 The parcel descriptions of Vicmap Parcels, based on the `spi`...
@@ -21,6 +23,8 @@ Development notes:
 ## Council Addresses With Incorrect Locality
 
 # Discrepancy Reports - Reference
+
+These 'reference' audits provide general information about detected discrepancies, many of which will automatically generate the appropriate fixes in the M1.
 
 ## Council Properties Not Found In Vicmap
 
