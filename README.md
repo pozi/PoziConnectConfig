@@ -8,26 +8,30 @@ This repository contains the configuration files used by Pozi Connect for many o
 
 To install the latest configuration into an existing installation of Pozi Connect:
 
-1. backup your existing configuration by renaming the Tasks folder (found within the PoziConnect folder) to something like Tasks.bak
-*  download [this repository](https://github.com/groundtruth/PoziConnectConfig/archive/master.zip)
+1. backup your existing Pozi Connect configuration by renaming the Tasks folder (found within the PoziConnect folder) to something like 'Tasks.bak'
+*  download [this zip file](https://github.com/groundtruth/PoziConnectConfig/archive/master.zip)
 *  unzip the zip file (to its default location or a temporary location)
-*  rename the folder PoziConnectConfig-master to Tasks
-*  move this folder into your PoziConnect folder in the place of the folder your renamed in Step 1.
+*  rename the folder 'PoziConnectConfig-master' to 'Tasks'
+*  move this Tasks folder into your PoziConnect folder (replacing the Tasks folder you renamed in Step 1.)
+
+You are now ready to launch Pozi Connect (PoziConnect.exe).
 
 ### Troubleshooting
 
 #### I cannot find my PoziConnect folder.
 
-It is typically installed at one of the following locations:
+Pozi Connect is typically installed at one of the following locations:
 
-* C:\Program Files\PoziConnect\
 * C:\PoziConnect\
-* C:\Users\{your Windows user name}\Desktop\PoziConnect
+* C:\Program Files\PoziConnect\
+* C:\Program Files\PoziConnect (x86)\
+* C:\Users\\{your Windows user name}\Desktop\PoziConnect
+
+#### I cannot rename my 'Tasks' folder to 'Tasks.bak' because there is already a folder called 'Tasks.bak'.
+
+The name you give your existing configuration folder is not important - only that it is not 'Tasks'. Instead, rename it to 'Tasks.bak2' or other unused name. Or delete any existing Tasks.bak folder if you no longer need it.
 
 #### I cannot rename the 'PoziConnectConfig-master' folder.
 
 You must unzip the zip file to a temporary location (such as the default unzip location suggested by your zip program) before you can rename the folder.
 
-#### There is already a folder called 'Tasks.bak' in my PoziConnect folder.
-
-Instead, rename your 'Tasks' to 'Tasks.bak2' or other unused name, or delete any existing Tasks.bak folder if you don't need it.
