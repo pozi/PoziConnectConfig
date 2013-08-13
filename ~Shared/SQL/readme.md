@@ -55,6 +55,9 @@ Development notes:
 
 * still to implement _first_ only rule
 * check logic
+* output `lot_number` and `plan_number` instead of spi
+* do we need to consider P edits on multi-parcel properties at all?
+* exclude the nulling scenario - that will be handled by the E edit
 
 ## Edit Code ‘A’
 
@@ -67,8 +70,9 @@ Comparing Vicmap Parcel against Council Parcel based on a common `spi` value:
 
 Notes:
 
-- if parcel is part of single-parcel property, submit `spi`
+- if parcel is part of single-parcel property, submit `lot_number` and `plan_number`
 - if parcel is part of multi-parcel property, submit `property_pfi`
+- exclude NCPR
 
 ## Edit Code ‘R’
 
@@ -81,10 +85,11 @@ Looking at all _multi-assessment_ Vicmap Parcels:
   * Parcel is a single-parcel property, then null the _second and any subsequent_ `propnum` values
   * Parcel is part of a multi-parcel property, and none of the parcels match any Council Parcel `propnum` values based on any of the `spi` values in the multi-parcel property, then null the _second and any subsequent_ `propnum` values
 
-Notes:
+Developer notes:
 
-- in the multi-parcel scenario, group by `propnum` to reduce duplicate retirements
+- in the multi-parcel multi-assessment scenario, eliminate duplicate records retiring the same property (group by `propnum`?), while retaining useful comments
 - submit `property_pfi`
+- ensure only top ( num_props -1 ) records get submitted
 
 ## Edit Code ‘S’
 
@@ -101,6 +106,10 @@ Looking at all non-secondary Council Property Addresses:
 
 Note: the use of the terminology 'non-secondary' when referring to council addresses is based on the assumption that all council addresses are "primary" _unless otherwise stated_. For any council property systems that can handle and correctly identify addresses as being secondary, the `is_primary` field of the affected records will be populated with an 'N' value.
 
+Developer notes:
+
+* still to add functionality to update addresses for propnums that are flogged for P or A edits
+
 ## Edit Code ‘B’
 
 DEPI:
@@ -113,7 +122,15 @@ Not yet implemented.
 DEPI:
 >Edit Code E updates both property and address details for a given record. It requires that the Property Details and Address – Road and Locality Information columns are populated as required.
 
-Pozi Connect handles its property, parcel and address edits using the appropriate single-purpose edit codes (C for parcels; P, A and R for properties; S for addresses). The E edit code is not used.
+Pozi Connect generally handles its property, parcel and address edits using the appropriate single-purpose edit codes (C for parcels; P, A and R for properties; S for addresses).
+
+Only in the case when trying to null an unwanted property number will Pozi Connect use E, in order to get rid of the associated address.
+
+Developer notes:
+
+* get any P edits that are nulling property numbers and move them here to E edits
+* ensure E edits can never be created for properties that don't already have a property number - we don't want SPEAR addresses nulled out
+* ensure it's only looking at non multi-assessments
 
 ## Edit Code ‘Z’
 

@@ -1,5 +1,5 @@
 select
-	( select lga_code from PC_Vicmap_Property_Address limit 1 ) as lga_code,
+    ( select lga_code from PC_Vicmap_Property_Address limit 1 ) as lga_code,
     '' as new_sub,
     '' as property_pfi,
     '' as parcel_pfi,
@@ -48,20 +48,20 @@ select
     '' as datum_proj,
     '' as outside_property,
     'S' as edit_code,
-    'replacing old address ' || vicmap_address.num_road_address || ' with new address ' || council_address.num_road_address as comments
+    'property ' || council_address.propnum || ': replacing address ' || vicmap_address.num_road_address || ' with ' || council_address.num_road_address as comments
 from
     PC_Council_Property_Address council_address,
     PC_Vicmap_Property_Address vicmap_address
 where
     council_address.propnum is not null and
-	council_address.is_primary <> 'N' and
-	council_address.propnum = vicmap_address.propnum and
-	council_address.num_road_address != vicmap_address.num_road_address
+    council_address.is_primary <> 'N' and
+    council_address.propnum = vicmap_address.propnum and
+    council_address.num_road_address != vicmap_address.num_road_address
 
 union
 
 select
-	( select lga_code from PC_Vicmap_Property_Address limit 1 ) as lga_code,
+    ( select lga_code from PC_Vicmap_Property_Address limit 1 ) as lga_code,
     '' as new_sub,
     '' as property_pfi,
     '' as parcel_pfi,
@@ -110,11 +110,11 @@ select
     '' as datum_proj,
     '' as outside_property,
     'S' as edit_code,
-	'assigning new property address ' || council_address.num_road_address as comments
+    'property ' || propnum || ': assigning new address ' || council_address.num_road_address as comments
 from
     PC_Council_Property_Address council_address
 where
     propnum is not null and
-	is_primary <> 'N' and
+    is_primary <> 'N' and
     propnum not in ( select propnum from PC_Vicmap_Property_Address )
 --  and ( propnum in ( select propnum from M1_P_Edit ) or propnum in ( select propnum from M1_A_Edit ) )

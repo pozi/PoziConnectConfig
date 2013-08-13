@@ -56,7 +56,8 @@ select
     ( select lga_code from PC_Vicmap_Parcel limit 1 ) as lga_code,
     property_pfi,
     spi,
-    'removing propnum ' || propnum || ', ' || ( select PC_Council_Property_Address.num_road_address from PC_Council_Property_Address where PC_Council_Property_Address.propnum = vicmap_parcel.propnum limit 1 ) || ' from ' || spi as comments
+    'parcel ' || spi || ': removing multi-assessment - propnum ' || propnum as comments
+
 from PC_Vicmap_Parcel vicmap_parcel
 where
     multi_assessment = 'Y' and    

@@ -59,7 +59,7 @@ select
     vicmap_parcel.spi as spi,
     council_parcel.propnum as propnum,
     '' as base_propnum,
-    vicmap_parcel.spi || ': replacing propnum ' || ifnull ( vicmap_parcel.propnum , 'NULL' ) || ' with ' || council_parcel.propnum  as comments
+    'parcel ' || vicmap_parcel.spi || ': replacing propnum ' || ifnull ( vicmap_parcel.propnum , 'NULL' ) || ' with ' || council_parcel.propnum  as comments
 from
     PC_Vicmap_Parcel vicmap_parcel,
     PC_Council_Parcel council_parcel
@@ -85,7 +85,7 @@ select
     '' as base_propnum,
     case
         when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then 'multi-parcel property: replacing propnum ' || vicmap_parcel.propnum || ' with NULL'
-        else vicmap_parcel.spi || ': replacing propnum ' || vicmap_parcel.propnum || ' with NULL '
+        else 'parcel ' || vicmap_parcel.spi || ': replacing propnum ' || vicmap_parcel.propnum || ' with NULL '
     end as comments
 from
     PC_Vicmap_Parcel vicmap_parcel

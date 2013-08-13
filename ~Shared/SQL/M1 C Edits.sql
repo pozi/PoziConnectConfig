@@ -56,7 +56,7 @@ select
     ( select lga_code from PC_Vicmap_Parcel limit 1 ) as lga_code,
     spi,
     crefno,
-	'assigning crefno ' || crefno || ' (propnum ' || propnum || ') to ' || spi || ' (previously null crefno)' as comments
+	'parcel ' || spi || ': replacing crefno NULL with ' || crefno || ' (propnum ' || propnum || ')' as comments
 from PC_Council_Parcel
 where
     spi in ( select spi from PC_Vicmap_Parcel where crefno is null ) and    

@@ -64,7 +64,8 @@ select
         else vicmap_parcel.spi
     end as spi,
     council_parcel.propnum,
-    'adding propnum ' || council_parcel.propnum || ' to ' || vicmap_parcel.spi as comments
+--    'adding propnum ' || council_parcel.propnum || ' to ' || vicmap_parcel.spi as comments
+    'parcel ' || vicmap_parcel.spi ||': adding new multi-assessment - propnum ' || council_parcel.propnum as comments
 from
     PC_Vicmap_Parcel vicmap_parcel,
     PC_Council_Parcel council_parcel
