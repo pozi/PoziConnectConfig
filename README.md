@@ -16,6 +16,12 @@ To install the latest configuration into an existing installation of Pozi Connec
 
 You are now ready to launch Pozi Connect (PoziConnect.exe).
 
+#### Optional Setup
+
+With complete configuration now installed, your Pozi Connect task drop-down list will contain every task for every project maintained by Groundtruth in this repository.
+
+If you want to see only the tasks relating to you, you may delete the unneeded Task subfolders, leaving only your folder and the '~Shared' folder. For instance, if your organisation's name is Melton, delete all folders with the Tasks folder except for '~Shared' and 'Melton'.
+
 ### Troubleshooting
 
 #### I cannot find my PoziConnect folder.
@@ -34,4 +40,11 @@ The name you give your existing configuration folder is not important - only tha
 #### I cannot rename the 'PoziConnectConfig-master' folder.
 
 You must unzip the zip file to a temporary location (such as the default unzip location suggested by your zip program) before you can rename the folder.
+
+#### Pozi Connect cannot connect to my DSN
+
+You may need to set up your DSN with a 32bit Windows driver:
+c:\windows\sysWOW64\odbcad32.exe
+
+This section requires further documentation of the problem and solution.
 

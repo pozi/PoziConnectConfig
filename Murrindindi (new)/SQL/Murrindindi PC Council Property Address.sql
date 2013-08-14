@@ -23,7 +23,7 @@ select distinct
     ifnull ( auprstad.pcl_unt , '' ) as blg_unit_id_1,
     ifnull ( auprstad.unt_alp , '' ) as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
-    '' blg_unit_id_2,
+    '' as blg_unit_id_2,
     '' as blg_unit_suffix_2,
     '' as floor_type,
     ifnull ( auprstad.flo_pre , '' ) as floor_prefix_1,
