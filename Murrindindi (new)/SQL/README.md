@@ -15,6 +15,8 @@ Murrindindi says that for records with a `auprparc.str_seq`of zero, this is the 
 
 In practice, we found that some assessments have all zeros and some have no zeros. We'll attempt to identify address as secondary only if the `str_seq` value is not zero and the address is different to other records in the same assessment. The desired result after the 'distinct' operator is applied is that properties get one record if all the addresses are the same (even if none of them have the zero value) or get at least one record that is not marked as secondary.
 
+If it's not possible to get one record that is not a secondary, we might need to adjust the logic of the main 'M1 S Edit' SQL ensure it can use one of the secondary addresses if no primary address is present.
+
 #### Logic (draft)
 
 if `auprparc.str_seq` is not zero  
@@ -24,6 +26,11 @@ else null
 
 test on Murrindindi data to see if all properties have at least one non-secondary address
 
+### SQL (draft)
+
+```sql
+select * from table
+```
 #### Tidy Up
 
-Send council a list of any assessment where all str_seq values are null and contain more than one unique address.
+Send council a list of any assessment where all `str_seq` values are null and contain more than one unique address.
