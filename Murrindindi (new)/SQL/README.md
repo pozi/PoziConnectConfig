@@ -26,7 +26,7 @@ else null
 
 test on Murrindindi data to see if all properties have at least one non-secondary address
 
-### SQL (draft)
+#### SQL (draft)
 
 ```sql
 select * from table
