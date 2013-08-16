@@ -27,134 +27,20 @@ The following tables, used by Pozi Connect in generating the M1s, have been gene
 
  Table                       | Derived from                | Query
 -----------------------------|-----------------------------|-------------------
- PC Vicmap Parcel            | Vicmap Parcel and Property  | ~Shared\SQL\PC Vicmap Parcel.sql
- PC Vicmap Property Address  | Vicmap Property and Address | ~Shared\SQL\PC Vicmap Property Parcel.sql
+ PC Vicmap Parcel            | Vicmap Parcel and Property  | ~Shared\SQL\PC Vicmap Parcel from SHP.sql
+ PC Vicmap Property Address  | Vicmap Property and Address | ~Shared\SQL\PC Vicmap Property Address from SHP.sql
  PC Council Parcel           | Council's property system   | {Council Name}\SQL\\{Council Name} PC Council Parcel.sql
  PC Council Property Address | Council's property system   | {Council Name}\SQL\\{Council Name} PC Council Property Parcel.sql
 
 Pozi Connect also generates supplementary tables based on the above tables that contain counts of properties in parcels, parcels in properties, etc, to assist with determining the eligibility of certain types of edits.
 
-
-## Edit Code ‘C’
-
-DEPI:
->Edit Code C is used for only updating the parcel based Council Reference number (Crefno). This edit code can be used 
-to populate or null a Crefno.
-
-Comparing Vicmap Parcel against Council Parcel based on a common `spi`:
-
-* where Vicmap `crefno` is null and the Council `crefno` is populated, then update with the *first* Council `crefno` value
-
-Looking at all Vicmap Parcels:
-
-* where Vicmap `crefno` value doesn't exist in Council Parcel and...
-  * there exists an alternative Council `crefno` value for that parcel, then update with the *first* Council `crefno` value
-  * there is no Council `crefno` value for that parcel, then null the `crefno`
-
-Development notes:
-
-* so far only implemented Scenario 2
-* still to implement _first only_ rule
-
-## Edit Code ‘P’
-
-DEPI:
->Edit Code P updates property details for a given record. It requires that the Property Details are populated as required including propnum and Crefno (if used by LGA). If Crefno is left blank the existing CREFNO value in the parcel table will be retained.
-
-Comparing Vicmap Parcel against Council Parcel based on a common `spi` value:
-
-* where Vicmap `propnum` is null or doesn't exist in any Council Parcel, and one or more Council records have a populated `propnum`, then update with the *first* Council `propnum` value
-
-Looking at all Vicmap Parcels:
-
-* where Vicmap `propnum` value doesn't exist in any Council Property, and its `spi` doesn't match any Council Property with a populated `propnum`, then null the `propnum`
-
-Note: the second part deliberately checks for the existence of the propnum in the Council _Property Address_ table, rather than the seemingly more precise Council _Parcel_ table. Council property information is traditionally more reliable than its parcel information, so we want to check if the propnum exists at all in the property table before potentially nulling out a valid property that just isn't recorded properly by the council in its parcel table.
-
-Development notes:
-
-* still to implement _first_ only rule
-* check logic
-* output `lot_number` and `plan_number` instead of spi
-* do we need to consider P edits on multi-parcel properties at all?
-* exclude the nulling scenario - that will be handled by the E edit
-
-## Edit Code ‘A’
-
-DEPI:
->Edit Code A is only used to add a property to either create a Multi Assessment or add a further multi assessment record.
-
-Comparing Vicmap Parcel against Council Parcel based on a common `spi` value:
-
-* where Vicmap `propnum` is null or doesn't exist in any Council Parcel, and more than one Council parcels have a populated `propnum`, then update with the _second and subsequent_ Council `propnum` values
-
-Notes:
-
-- if parcel is part of single-parcel property, submit `lot_number` and `plan_number`
-- if parcel is part of multi-parcel property, submit `property_pfi`
-- exclude NCPR parcels
-
-## Edit Code ‘R’
-
-DEPI:
->Edit Code R is only used to remove a property from a Multi Assessment. The last record on a multi assessment cannot be retired.
-
-Looking at all _multi-assessment_ Vicmap Parcels:
-
-* where Vicmap `propnum` doesn't exist in Council Parcel with the same `spi`, and...
-  * Parcel is a single-parcel property, then null the _second and any subsequent_ `propnum` values
-  * Parcel is part of a multi-parcel property, and none of the parcels match any Council Parcel `propnum` values based on any of the `spi` values in the multi-parcel property, then null the _second and any subsequent_ `propnum` values
-
-Developer notes:
-
-- in the multi-parcel multi-assessment scenario, eliminate duplicate records retiring the same property (group by `propnum`?), while retaining useful comments
-- submit `property_pfi`
-- ensure only top ( num_props -1 ) records get submitted
-
-## Edit Code ‘S’
-
-DEPI:
->Edit Code S updates address details for a given record. It requires that the Address – Road and Locality Information columns are populated as required including the Address – Location attributes for creating spatially located address points.
-
-Comparing primary Vicmap Property Addresses against non-secondary Council Property Addresses based on a common `propnum` value:
-
-* where Vicmap `num_road_address` is not equal to Council `num_road_address`, then update with Council address values
-
-Looking at all non-secondary Council Property Addresses:
-
-* where `propnum` value does not exist in Vicmap Property and the value exists in M1_P_Edit or M1_A_Edit, then update with Council address values
-
-Note: the use of the terminology 'non-secondary' when referring to council addresses is based on the assumption that all council addresses are "primary" _unless otherwise stated_. For any council property systems that can handle and correctly identify addresses as being secondary, the `is_primary` field of the affected records will be populated with an 'N' value.
-
-Developer notes:
-
-* still to add functionality to update addresses for propnums that are flogged for P or A edits
-
-## Edit Code ‘B’
-
-
-
-## Edit Code ‘E’
-
-DEPI:
->Edit Code E updates both property and address details for a given record. It requires that the Property Details and Address – Road and Locality Information columns are populated as required.
-
-Pozi Connect generally handles its property, parcel and address edits using the appropriate single-purpose edit codes (C for parcels; P, A and R for properties; S for addresses).
-
-Only in the case when trying to null an unwanted property number will Pozi Connect use E, in order to get rid of the associated address.
-
-Developer notes:
-
-* get any P edits that are nulling property numbers and move them here to E edits
-* ensure E edits can never be created for properties that don't already have a property number - we don't want SPEAR addresses nulled out
-* ensure it's only looking at non multi-assessments
-
-## Edit Code ‘Z’
-
-DEPI:
->Edit code Z is only used to remove secondary addresses. It will not remove a primary distance based address.
-
-Council property systems are generally not reliable sources of secondary address information, so Pozi Connect does not attempt to retire secondary addresses. The Z edit code is not used.
+Table                                   | Description
+----------------------------------------|-----------------------------
+PC Council Parcel Property Count        | List of Council parcels, with a count of the number of properties that share each parcel
+PC Council Property Parcel Count        | List of Council properties, with a count of the number of parcels in each property
+PC Vicmap Parcel Property Count         | List of Vicmap parcels, with a count of the number of properties that share each parcel
+PC Vicmap Parcel Property Parcel Count  | List of Vicmap parcels, with a count of the number of other parcels it shares its property with (ie, a count of more than one identifies that parcel as being part of a *multi-parcel* property
+PC Vicmap Property Parcel Count         | List of Vicmap properties, with a count of the number of parcels in each property
 
 ## Notes about this new version
 
