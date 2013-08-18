@@ -8,8 +8,8 @@ select
         case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
         house_prefix_2 || house_number_2 || house_suffix_2 ||
         rtrim ( ' ' || road_name ) ||
-        rtrim ( ' ' || road_type ) ||
-        rtrim ( ' ' || road_suffix )) AS "num_road_address"
+        rtrim ( ' ' || ifnull ( road_type , '' ) ) ||
+        rtrim ( ' ' || road_suffix )) as num_road_address
 from (
 
 select distinct
@@ -102,7 +102,7 @@ select distinct
             cnaqual.descr like '% SOUTH' or
             cnaqual.descr like '% EAST' or
             cnaqual.descr like '% WEST' then upper ( trim ( substr ( cnaqual.descr , 1 , length ( cnaqual.descr ) - 5 ) ) )
-        else upper ( cnaqual.descr )
+        else upper ( ifnull ( cnaqual.descr , '' ) )
     end as road_type,
     case
         when upper ( cnaqual.descr ) like '% NORTH' then 'N'
@@ -113,8 +113,8 @@ select distinct
     end as road_suffix, 
 	upper ( lpasubr.suburbname ) as locality_name,
     '' as postcode,
-    '' as access_type
-
+    '' as access_type,
+    '342' as lga_code
 from
     PATHWAY_lpaprop as lpaprop left join 
     PATHWAY_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join 
@@ -125,7 +125,6 @@ from
     PATHWAY_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join 
     PATHWAY_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
     PATHWAY_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop 
-
 where
     lpaprop.status in ('A', 'C') and 
     lpaaddr.addrtype = 'P' and

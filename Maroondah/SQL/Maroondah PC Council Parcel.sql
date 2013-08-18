@@ -31,8 +31,8 @@ select distinct
     lpaparc.parcelnum as lot_number,
     lpacrwn.crownallot as allotment,
     lpasect.parcelsect as sec,
-    cnacomp.descrsrch as parish_code
-
+    cnacomp.descrsrch as parish_code,
+    '342' as lga_code
 from
     PATHWAY_lpaprop as lpaprop left join
     PATHWAY_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
@@ -45,7 +45,6 @@ from
     PATHWAY_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpacrwn.tfklpaparc left join
     PATHWAY_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left join
     PATHWAY_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc
-
 where
    lpaprop.status = 'C' and
    lpaparc.status = 'C' and

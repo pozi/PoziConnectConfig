@@ -6,8 +6,8 @@ select
     '' as parcel_pfi,
     '' as address_pfi,
     spi as spi,
-    '' as plan_number,
-    '' as lot_number,
+    plan_number as plan_number,
+    lot_number as lot_number,
     '' as base_propnum,
     propnum as propnum,
     '' as crefno,
@@ -63,8 +63,15 @@ select
         when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then ''
         else vicmap_parcel.spi
     end as spi,
-    council_parcel.propnum,
---    'adding propnum ' || council_parcel.propnum || ' to ' || vicmap_parcel.spi as comments
+    case
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then ''
+        else ifnull ( vicmap_parcel.plan_number , '' )
+    end as plan_number,
+    case
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then ''
+        else ifnull ( vicmap_parcel.lot_number , '' )
+    end as lot_number,
+    council_parcel.propnum as propnum,
     'parcel ' || vicmap_parcel.spi ||': adding new multi-assessment - propnum ' || council_parcel.propnum as comments
 from
     PC_Vicmap_Parcel vicmap_parcel,
@@ -72,6 +79,7 @@ from
 where
     vicmap_parcel.spi is not null and
     council_parcel.propnum is not null and
+    council_parcel.propnum <> 'NCPR' and
     vicmap_parcel.spi = council_parcel.spi and
     ( vicmap_parcel.propnum is null or vicmap_parcel.propnum not in ( select PC_Council_Parcel.propnum from PC_Council_Parcel ) ) and
     ( select t.num_props from PC_Council_Parcel_Property_Count t where t.spi = council_parcel.spi ) > 1

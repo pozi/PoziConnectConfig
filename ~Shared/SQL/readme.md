@@ -54,8 +54,21 @@ It is expected this new approach makes the logic simpler and more transparent, a
 
 ### Potential Problem
 
-Councils can sometimes add new subdivision parcels into their property system as belonging to the existing property (ie, same propnum). If these are submitted on the M1, DEPI could merge these parcels into a single property, and lose any address information submitted via SPEAR.
+Councils can sometimes add new subdivision parcels into their property system as belonging to the existing property (ie, same propnum). If these are submitted on the M1, DEPI could merge these parcels into a single property, and lose any address information relating to the parcels submitted via SPEAR.
 
 ### Potential Solution
 
 Before we attempt to allocate a property number to an proposed parcel (status = P), we first check whether that same propnum is already matched to any existing property (status = A). If so, exclude this record from the M1.
+
+
+##SQL
+
+All of the SQL queries contain the following to populate the `lga_code`:
+
+```sql
+select
+    ( select lga_code from PC_Vicmap_Parcel limit 1 ) as lga_code,
+    ....
+```
+
+The purpose of this approach is to enable the reuse of code to make it generic across all councils. Assuming that the data has been correctly filtered from Vicmap and populated from the council, the `lga-code` field should always contain the valid value for that council.

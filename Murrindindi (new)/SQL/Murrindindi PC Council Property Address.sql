@@ -9,7 +9,7 @@ select
         house_prefix_2 || house_number_2 || house_suffix_2 ||
         rtrim ( ' ' || road_name ) ||
         rtrim ( ' ' || road_type ) ||
-        rtrim ( ' ' || road_suffix )) as "num_road_address"
+        rtrim ( ' ' || road_suffix )) as num_road_address
 from (
 
 select distinct
@@ -41,7 +41,6 @@ select distinct
     '' as house_prefix_2,
     ifnull ( auprstad.hou_end , '' ) as house_number_2,
     ifnull ( auprstad.end_alp , '' ) as house_suffix_2,
-
     case
         when upper ( auprstad.str_nme ) = 'PARK AVENUE NORTH' then 'PARK'
         when upper ( auprstad.str_nme ) = 'HILLSIDE (SOUTH)' then 'HILLSIDE'
@@ -95,7 +94,8 @@ select distinct
     end as road_suffix, 
 	upper ( auprstad.sbr_nme ) as locality_name,
     '' as postcode,
-    '' as access_type
+    '' as access_type,
+    '355' as lga_code
 from
     AUTHORITY_auprparc as auprparc ,
     AUTHORITY_auprstad as auprstad

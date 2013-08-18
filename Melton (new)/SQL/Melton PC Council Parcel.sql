@@ -60,7 +60,8 @@ select
         when auprparc.ttl_cde in ( '3' , '6' ) then aualrefn.dsc_no1
         else ''
     end as parish,
-    fmt_ttl as summary	
+    fmt_ttl as summary,
+    '344' as lga_code
 FROM
     AUTHORITY_auprparc auprparc,
     AUTHORITY_auprstad auprstad,

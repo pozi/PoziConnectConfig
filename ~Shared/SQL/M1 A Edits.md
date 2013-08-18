@@ -25,6 +25,3 @@ In adding a multi-assessment using either a spi or parcel_pfi, and the parcel is
 
 ## Developer notes:
 
-- if parcel is part of single-parcel property, submit `lot_number` and `plan_number`
-- if parcel is part of multi-parcel property, submit `property_pfi`
-- exclude NCPR parcels

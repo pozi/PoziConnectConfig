@@ -1,4 +1,5 @@
 select
+    council_address.propnum,
     council_address.num_road_address,
     council_address.locality_name as council_locality,
     vicmap_address.locality_name as vicmap_locality

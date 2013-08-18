@@ -5,8 +5,8 @@ select
     '' as parcel_pfi,
     '' as address_pfi,
     spi as spi,
-    '' as plan_number,
-    '' as lot_number,
+    plan_number as plan_number,
+    lot_number as lot_number,
     '' as base_propnum,
     '' as propnum,
     crefno as crefno,
@@ -55,11 +55,15 @@ from (
 select
     ( select lga_code from PC_Vicmap_Parcel limit 1 ) as lga_code,
     spi,
+    ifnull ( plan_number , '' ) as plan_number,
+    ifnull ( lot_number , '' ) as lot_number,
     crefno,
 	'parcel ' || spi || ': replacing crefno NULL with ' || crefno || ' (propnum ' || propnum || ')' as comments
 from PC_Council_Parcel
-where
-    spi in ( select spi from PC_Vicmap_Parcel where crefno is null ) and    
-    crefno <> ''
+where rowid in
+    ( select min(rowid)
+    from PC_Council_Parcel
+    where spi in ( select spi from PC_Vicmap_Parcel where crefno is null ) and crefno <> ''    
+    group by spi )
+order by plan_number, lot_number
 )
-order by cast ( propnum as crefno )
