@@ -7,31 +7,31 @@ select distinct
         when lpaparc.parcelcode = 'C/A' and trim ( lpasect.parcelsect ) is null then trim ( lpaparc.parcelnum ) || '\'
         else ''
     end ||
-    case
-        when lpaparc.plannum is not null then cast ( trim ( lpaparc.plancode ) || trim ( lpaparc.plannum ) as varchar )
-        when lpaparc.plannum is null and lpaparc.parcelcode = 'C/A' then cast ( 'PP' || cnacomp.descrsrch as varchar )
-        else ''
-    end as spi,
+        case
+            when lpaparc.plannum is not null then cast ( trim ( lpaparc.plancode ) || trim ( lpaparc.plannum ) as varchar )
+            when lpaparc.plannum is null and lpaparc.parcelcode = 'C/A' then cast ( 'PP' || cnacomp.descrsrch as varchar )
+            else ''
+        end as spi,
     case
         when lpaparc.parcelnum is not null and lpaparc.parcelcode <> 'C/A' then trim (  lpaparc.parcelnum) || '\'
         when lpaparc.parcelcode = 'C/A' and trim ( lpasect.parcelsect ) is not null then trim ( lpaparc.parcelnum ) || '~' || trim ( lpasect.parcelsect ) || '\'
         when lpaparc.parcelcode = 'C/A' and trim ( lpasect.parcelsect ) is null then trim ( lpaparc.parcelnum ) || '\'
         else ''
     end ||
-    case
-        when lpaparc.plannum is not null then trim ( lpaparc.plannum )
-        when lpaparc.plannum is null and lpaparc.parcelcode = 'C/A' then cast ( cnacomp.descrsrch as varchar )
-        else ''
-    end as simple_spi,
+        case
+            when lpaparc.plannum is not null then trim ( lpaparc.plannum )
+            when lpaparc.plannum is null and lpaparc.parcelcode = 'C/A' then cast ( cnacomp.descrsrch as varchar )
+            else ''
+        end as simple_spi,
     '' as crefno,
-    lpaparc.fmtparcel as summary,
-    lpaparc.plancode || lpaparc.plannum as plan_number,
-    lpaparc.plancode as plan_prefix,
-    lpaparc.plannum as plan_numeral,
-    lpaparc.parcelnum as lot_number,
-    lpacrwn.crownallot as allotment,
-    lpasect.parcelsect as sec,
-    cnacomp.descrsrch as parish_code,
+    ifnull ( lpaparc.fmtparcel , '' ) as summary,
+    ifnull ( lpaparc.plancode , '' ) || ifnull ( lpaparc.plannum , '' ) as plan_number,
+    ifnull ( lpaparc.plancode , '' ) as plan_prefix,
+    ifnull ( lpaparc.plannum , '' ) as plan_numeral,
+    ifnull ( lpaparc.parcelnum , '' ) as lot_number,
+    '' as allotment,
+    ifnull ( lpasect.parcelsect , '' ) as sec,
+    ifnull ( cnacomp.descrsrch , '' ) as parish_code,
     '342' as lga_code
 from
     PATHWAY_lpaprop as lpaprop left join

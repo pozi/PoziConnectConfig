@@ -42,22 +42,22 @@ select
         when auprparc.ttl_cde = '13' then 'PS'
         else ''
     end as plan_prefix,
-    substr ( auprparc.ttl_no5 , 1 , 6 ) as plan_numeral,
+    ifnull ( substr ( auprparc.ttl_no5 , 1 , 6 ) , '' ) as plan_numeral,
     case
         when auprparc.ttl_cde in ('1','2','5','7','12',13) then upper ( ifnull ( auprparc.ttl_no1 , '' ) )
         else ''
     end as lot_number,
     case
-        when auprparc.ttl_cde in ( '3' , '6' ) then trim ( auprparc.ttl_no5 ) || ifnull ( auprparc.ttl_no6 , '' )
+        when auprparc.ttl_cde in ( '3' , '6' ) then ifnull ( trim ( auprparc.ttl_no5 ) , '' ) || ifnull ( auprparc.ttl_no6 , '' )
         else ''
     end as allotment,
     case
-        when auprparc.ttl_cde = '3' then auprparc.ttl_no4
-        when auprparc.ttl_cde = '6' then auprparc.ttl_no3
+        when auprparc.ttl_cde = '3' then ifnull ( auprparc.ttl_no4 , '' )
+        when auprparc.ttl_cde = '6' then ifnull ( auprparc.ttl_no3 , '' )
         else ''
     end as section,
     case
-        when auprparc.ttl_cde in ( '3' , '6' ) then aualrefn.dsc_no1
+        when auprparc.ttl_cde in ( '3' , '6' ) then ifnull ( upper ( aualrefn.dsc_no1 ) , '' )
         else ''
     end as parish,
     fmt_ttl as summary,

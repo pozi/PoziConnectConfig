@@ -1,7 +1,7 @@
 SELECT
     parcel.parcel_pfi as parcel_pfi,
-    parcel.parcel_spi as spi,
-    case
+    ifnull ( parcel.parcel_spi , '' ) as spi,
+    ifnull ( case
         when parcel.pc_parc not null then replace ( parcel_spi , '\PP' , '\' )
         when parcel.pc_planno like 'CP%' then substr ( parcel.pc_planno , 3 , 6 )
         when parcel.pc_planno like 'PC%' then substr ( parcel.pc_planno , 3 , 6 )
@@ -11,23 +11,21 @@ SELECT
         when parcel.pc_planno like 'RP%' then replace ( parcel_spi , '\RP' , '\' )
         when parcel.pc_planno like 'SP%' then replace ( parcel_spi , '\SP' , '\' )
         when parcel.pc_planno like 'TP%' then replace ( parcel_spi , '\TP' , '\' )
-    end as simple_spi,
+    end , '' ) as simple_spi,
     parcel.pc_lgac as lga_code,
-    parcel.pc_planno as plan_number,
-    substr ( parcel.pc_planno , 1 , 2 ) as plan_prefix,
-    substr ( parcel.pc_planno , 3 , 6 ) as plan_numeral,
-    parcel.pc_lotno as lot_number,
-    parcel.pc_crefno as crefno,
+    ifnull ( parcel.pc_planno , '' ) as plan_number,
+    substr ( ifnull ( parcel.pc_planno , '' ) , 1 , 2 ) as plan_prefix,
+    substr ( ifnull ( parcel.pc_planno , '' ) , 3 , 6 ) as plan_numeral,
+    ifnull ( parcel.pc_lotno , '' ) as lot_number,
+    ifnull ( parcel.pc_crefno , '' ) as crefno,
     parcel.pc_stat as status,
     property.prop_pfi as property_pfi,
     property.pr_multass as multi_assessment,
-    property.pr_propnum as propnum
-
+    ifnull ( property.pr_propnum , '' ) as propnum
 FROM
     VMPROP_PARCEL parcel,
     VMPROP_PARCEL_PROPERTY parcel_property,
     VMPROP_PROPERTY property
-
 WHERE
     parcel.parcel_pfi = parcel_property.parcel_pfi and    
     parcel_property.pr_pfi = property.prop_pfi and 

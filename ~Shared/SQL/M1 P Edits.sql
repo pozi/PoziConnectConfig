@@ -1,4 +1,3 @@
-
 select
     lga_code as lga_code,
     '' as new_sub,
@@ -54,20 +53,25 @@ select
 from (
 
 select
-    ( select lga_code from PC_Vicmap_Parcel limit 1 ) as lga_code,
+    vicmap_parcel.lga_code as lga_code,
     '' as property_pfi,
     vicmap_parcel.spi as spi,
-    ifnull ( vicmap_parcel.plan_number , '' ) as plan_number,
-    ifnull ( vicmap_parcel.lot_number , '' ) as lot_number,
+    vicmap_parcel.plan_number as plan_number,
+    vicmap_parcel.lot_number as lot_number,
     council_parcel.propnum as propnum,
     '' as base_propnum,
-    'parcel ' || vicmap_parcel.spi || ': replacing propnum ' || ifnull ( vicmap_parcel.propnum , 'NULL' ) || ' with ' || council_parcel.propnum  as comments
+    'parcel ' || vicmap_parcel.spi || ': ' ||
+        case
+            when vicmap_parcel.propnum = '' then 'assigning new propnum '
+            else ': replacing propnum ' || vicmap_parcel.propnum || ' with '
+        end ||
+        council_parcel.propnum  as comments
 from
     PC_Vicmap_Parcel vicmap_parcel,
     PC_Council_Parcel council_parcel
 where
-    vicmap_parcel.spi is not null and
-    council_parcel.propnum is not null and
+    vicmap_parcel.spi <> '' and
+    council_parcel.propnum <> '' and
     vicmap_parcel.spi = council_parcel.spi and
     ( vicmap_parcel.propnum is null or vicmap_parcel.propnum not in ( select PC_Council_Parcel.propnum from PC_Council_Parcel ) )
 )

@@ -8,7 +8,7 @@ select
         case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
         house_prefix_2 || house_number_2 || house_suffix_2 ||
         rtrim ( ' ' || road_name ) ||
-        rtrim ( ' ' || ifnull ( road_type , '' ) ) ||
+        rtrim ( ' ' || road_type ) ||
         rtrim ( ' ' || road_suffix )) as num_road_address
 from (
 

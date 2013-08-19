@@ -54,7 +54,7 @@ select
 from (
 
 select
-    ( select lga_code from PC_Vicmap_Parcel limit 1 ) as lga_code,
+    vicmap_parcel.lga_code as lga_code,
     case
         when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then property_pfi
         else ''
@@ -72,15 +72,14 @@ select
         else ifnull ( vicmap_parcel.lot_number , '' )
     end as lot_number,
     council_parcel.propnum as propnum,
-    'parcel ' || vicmap_parcel.spi ||': adding new multi-assessment - propnum ' || council_parcel.propnum as comments
+    'parcel ' || vicmap_parcel.spi ||': adding propnum ' || council_parcel.propnum || ' as multi-assessment' as comments
 from
     PC_Vicmap_Parcel vicmap_parcel,
     PC_Council_Parcel council_parcel
 where
-    vicmap_parcel.spi is not null and
-    council_parcel.propnum is not null and
-    council_parcel.propnum <> 'NCPR' and
+    vicmap_parcel.spi <> '' and
+    council_parcel.propnum not in ( '' , 'NCPR' ) and
     vicmap_parcel.spi = council_parcel.spi and
-    ( vicmap_parcel.propnum is null or vicmap_parcel.propnum not in ( select PC_Council_Parcel.propnum from PC_Council_Parcel ) ) and
+    ( vicmap_parcel.propnum = '' or vicmap_parcel.propnum not in ( select PC_Council_Parcel.propnum from PC_Council_Parcel ) ) and
     ( select t.num_props from PC_Council_Parcel_Property_Count t where t.spi = council_parcel.spi ) > 1
 )

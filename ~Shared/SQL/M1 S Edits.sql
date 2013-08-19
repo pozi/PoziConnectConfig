@@ -1,5 +1,5 @@
 select
-    ( select lga_code from PC_Vicmap_Property_Address limit 1 ) as lga_code,
+    vicmap_address.lga_code as lga_code,
     '' as new_sub,
     '' as property_pfi,
     '' as parcel_pfi,
@@ -53,7 +53,7 @@ from
     PC_Council_Property_Address council_address,
     PC_Vicmap_Property_Address vicmap_address
 where
-    council_address.propnum is not null and
+    council_address.propnum <> '' and
     council_address.is_primary <> 'N' and
     council_address.propnum = vicmap_address.propnum and
     council_address.num_road_address != vicmap_address.num_road_address
@@ -114,7 +114,7 @@ select
 from
     PC_Council_Property_Address council_address
 where
-    propnum is not null and
+    propnum <> '' and
     is_primary <> 'N' and
     propnum not in ( select propnum from PC_Vicmap_Property_Address )
 --  and ( propnum in ( select propnum from M1_P_Edit ) or propnum in ( select propnum from M1_A_Edit ) )
