@@ -1,4 +1,5 @@
 select
+    'Vicmap parcel ' || vicmap_parcel.spi || ' may be recorded in Council property system as ' || council_parcel.spi as comments,
     vicmap_parcel.propnum as vicmap_propnum,       
     vicmap_parcel.crefno as vicmap_crefno,       
     vicmap_parcel.plan_number as vicmap_plan_number,       

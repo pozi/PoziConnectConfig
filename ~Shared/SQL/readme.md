@@ -68,7 +68,7 @@ All of the SQL queries contain the following to populate the `lga_code`:
 ```sql
 select
     ( select lga_code from PC_Vicmap_Parcel limit 1 ) as lga_code,
-    ....
+    ...
 ```
 
-The purpose of this approach is to enable the reuse of code to make it generic across all councils. Assuming that the data has been correctly filtered from Vicmap and populated from the council, the `lga-code` field should always contain the valid value for that council.
+The purpose of this approach is to enable the reuse of code to make it generic across all councils. Assuming that the data has been correctly filtered from Vicmap and populated from the council, the `lga_code` field should always contain the valid value for that council.
