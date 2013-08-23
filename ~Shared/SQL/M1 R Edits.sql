@@ -1,4 +1,4 @@
-select
+select distinct
     lga_code as lga_code,
     '' as new_sub,
     property_pfi as property_pfi,
@@ -55,7 +55,7 @@ select
     lga_code as lga_code,
     property_pfi,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) || '-parcel property (including parcel ' || vicmap_parcel.spi
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then  'multi-parcel (' || ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) || ') property '
         else 'parcel ' || spi
     end || ': removing multi-assessment propnum ' || propnum as comments
 from
@@ -63,7 +63,6 @@ from
 where
     multi_assessment = 'Y' and    
     spi <> '' and
-    vicmap_parcel.propnum <> '' and
-    vicmap_parcel.propnum <> 'NCPR' and
+    vicmap_parcel.propnum not in ( '' , 'NCPR' ) and
     vicmap_parcel.propnum not in ( select PC_Council_Parcel.propnum from PC_Council_Parcel where PC_Council_Parcel.spi = vicmap_parcel.spi )
 )

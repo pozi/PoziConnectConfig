@@ -27,6 +27,5 @@ If more than one P edit record is supplied for a single property, will any of th
 
 * still to implement _first_ only rule
 * check logic
-* output `lot_number` and `plan_number` instead of spi
 * do we need to consider P edits on multi-parcel properties at all?
-* limit records to those propnums in (Vicmap, P edits or A edits) and not R edits
+* exclude multi-assessments?

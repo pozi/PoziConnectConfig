@@ -49,7 +49,6 @@ select
     '' as outside_property,
     'P' as edit_code,
     comments as comments
-
 from (
 
 select
@@ -63,7 +62,7 @@ select
     'parcel ' || vicmap_parcel.spi || ': ' ||
         case
             when vicmap_parcel.propnum = '' then 'assigning new propnum '
-            else ': replacing propnum ' || vicmap_parcel.propnum || ' with '
+            else 'replacing propnum ' || vicmap_parcel.propnum || ' with '
         end ||
         council_parcel.propnum  as comments
 from
