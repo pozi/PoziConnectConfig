@@ -1,4 +1,5 @@
 select
+    'Vicmap identifies this property''s locality as ' || vicmap_address.locality_name || ' but Council has it recorded as ' || council_address.locality_name as comments,
     council_address.propnum,
     council_address.num_road_address,
     council_address.locality_name as council_locality,

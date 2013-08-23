@@ -1,1 +1,1 @@
-select * from PC_Vicmap_Parcel where propnum is null
+select * from PC_Vicmap_Parcel where propnum = ''
