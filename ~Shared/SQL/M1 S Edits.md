@@ -16,19 +16,19 @@ select from Council Property Address where the property number doesn't match a p
 
 Exlude properties where the property already exists in Vicmap with the same address:
 
-```
-propnum not in ( select t.propnum from PC_Vicmap_Property_Address t where council_address.num_road_address = t.num_road_address and t.is_primary <> 'N' ) and    
+```sql
+propnum not in ( select vpa.propnum from PC_Vicmap_Property_Address vpa where cpa.num_road_address = vpa.num_road_address and vpa.is_primary <> 'N' )  
 ```
 
 Exclude properties that will be retired.
 
-```
-propnum not in ( select propnum from M1_R_Edits ) and
+```sql
+propnum not in ( select vpa.propnum from PC_Vicmap_Property_Address vpa, M1_R_Edits r where vpa.property_pfi = r.property_pfi )
 ```
 
 Include only properties that 1) already exist in Vicmap; 2) will appear in a P edit; or 3) will appear in an A edit.
 
-```
+```sql
     ( propnum in ( select propnum from PC_Vicmap_Property_Address ) or    
       propnum in ( select propnum from M1_P_Edits ) or    
       propnum in ( select propnum from M1_A_Edits ) )    

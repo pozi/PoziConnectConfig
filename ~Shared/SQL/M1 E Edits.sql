@@ -54,32 +54,32 @@ from (
 select
     lga_code as lga_code,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then property_pfi
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then property_pfi
         else ''
     end as property_pfi,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then ''
-        else vicmap_parcel.spi
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then ''
+        else vp.spi
     end as spi,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then ''
-        else vicmap_parcel.plan_number
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then ''
+        else vp.plan_number
     end as plan_number,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then ''
-        else vicmap_parcel.lot_number
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then ''
+        else vp.lot_number
     end as lot_number,
     '' as propnum,
     '' as base_propnum,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then 'multi-parcel property'        
-        else vicmap_parcel.spi        
-    end || ': removing propnum ' || vicmap_parcel.propnum || ' and associated address' as comments
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then 'multi-parcel property'        
+        else vp.spi        
+    end || ': removing propnum ' || vp.propnum || ' and associated address' as comments
 from
-    PC_Vicmap_Parcel vicmap_parcel
+    PC_Vicmap_Parcel vp
 where
-    vicmap_parcel.spi <> '' and
-    vicmap_parcel.propnum not in ( '' , 'NCPR' ) and
-    vicmap_parcel.propnum not in ( select t.propnum from PC_Council_Property_Address t ) and
-	vicmap_parcel.multi_assessment <> 'Y'
+    vp.spi <> '' and
+    vp.propnum not in ( '' , 'NCPR' ) and
+    vp.propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa ) and
+	vp.multi_assessment <> 'Y'
 )

@@ -57,7 +57,7 @@ select
     plan_number as plan_number,
     lot_number as lot_number,
     crefno,
-	'parcel ' || spi || ': replacing crefno (blank) with ' || crefno || ' (propnum ' || propnum || ')' as comments
+    'parcel ' || spi || ': replacing crefno (blank) with ' || crefno || ' (propnum ' || propnum || ')' as comments
 from PC_Council_Parcel
 where rowid in
     ( select min(rowid)

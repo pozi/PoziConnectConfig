@@ -54,32 +54,32 @@ select
 from (
 
 select
-    vicmap_parcel.lga_code as lga_code,
+    vp.lga_code as lga_code,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then property_pfi
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vp.spi ) > 1 then property_pfi
         else ''
     end as property_pfi,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then ''
-        else vicmap_parcel.spi
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vp.spi ) > 1 then ''
+        else vp.spi
     end as spi,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then ''
-        else ifnull ( vicmap_parcel.plan_number , '' )
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vp.spi ) > 1 then ''
+        else ifnull ( vp.plan_number , '' )
     end as plan_number,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then ''
-        else ifnull ( vicmap_parcel.lot_number , '' )
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vp.spi ) > 1 then ''
+        else ifnull ( vp.lot_number , '' )
     end as lot_number,
-    council_parcel.propnum as propnum,
-    'parcel ' || vicmap_parcel.spi ||': adding propnum ' || council_parcel.propnum || ' as multi-assessment' as comments
+    cp.propnum as propnum,
+    'parcel ' || vp.spi ||': adding propnum ' || cp.propnum || ' as multi-assessment' as comments
 from
-    PC_Vicmap_Parcel vicmap_parcel,
-    PC_Council_Parcel council_parcel
+    PC_Vicmap_Parcel vp,
+    PC_Council_Parcel cp
 where
-    vicmap_parcel.spi <> '' and
-    council_parcel.propnum not in ( '' , 'NCPR' ) and
-    vicmap_parcel.spi = council_parcel.spi and
-    ( vicmap_parcel.propnum = '' or vicmap_parcel.propnum not in ( select PC_Council_Parcel.propnum from PC_Council_Parcel ) ) and
-    ( select t.num_props from PC_Council_Parcel_Property_Count t where t.spi = council_parcel.spi ) > 1
+    vp.spi <> '' and
+    cp.propnum not in ( '' , 'NCPR' ) and
+    vp.spi = cp.spi and
+    ( vp.propnum = '' or vp.propnum not in ( select t.propnum from PC_Council_Parcel t ) ) and
+    ( select t.num_props from PC_Council_Parcel_Property_Count t where t.spi = cp.spi ) > 1
 )

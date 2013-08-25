@@ -55,14 +55,14 @@ select
     lga_code as lga_code,
     property_pfi,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) > 1 then  'multi-parcel (' || ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vicmap_parcel.spi ) || ') property '
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then  'multi-parcel (' || ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) || ') property '
         else 'parcel ' || spi
     end || ': removing multi-assessment propnum ' || propnum as comments
 from
-    PC_Vicmap_Parcel vicmap_parcel
+    PC_Vicmap_Parcel vp
 where
     multi_assessment = 'Y' and    
     spi <> '' and
-    vicmap_parcel.propnum not in ( '' , 'NCPR' ) and
-    vicmap_parcel.propnum not in ( select PC_Council_Parcel.propnum from PC_Council_Parcel where PC_Council_Parcel.spi = vicmap_parcel.spi )
+    vp.propnum not in ( '' , 'NCPR' ) and
+    vp.propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.spi = vp.spi )
 )

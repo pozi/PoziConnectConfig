@@ -29,7 +29,7 @@ select
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
-        when A.unit_no ='0' then replace( A.unit_no , '0' , '' )
+        when A.unit_no ='0' then replace ( A.unit_no , '0' , '' )
         else ifnull ( A.unit_no , '' )
     end as blg_unit_id_1,
     upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
