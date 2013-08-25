@@ -67,7 +67,8 @@ select
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
     case    
-        when upper (S.street_name like 'CHADSTONE S%') then 'DANDENONG'
+        when upper ( S.street_name ) like 'A''BECKETT%' then 'ABECKETT'
+        when upper ( S.street_name ) like 'CHADSTONE S%' then 'DANDENONG'
         when S.street_name like 'THE AVENUE' then 'THE AVENUE'        
         when S.street_name like 'THE GRANGE' then 'THE GRANGE'        
         when S.street_name like 'THE BOULEVARD' then 'THE BOULEVARD'
