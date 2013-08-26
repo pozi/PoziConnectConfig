@@ -52,17 +52,22 @@ select distinct
 from (
 
 select
-    lga_code as lga_code,
+    lga_code,
     property_pfi,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then  'multi-parcel (' || ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) || ') property '
+        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then  'multi-parcel (' || ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) || ') property'
         else 'parcel ' || spi
-    end || ': removing multi-assessment propnum ' || propnum as comments
+    end ||
+        ': removing propnum ' ||
+        propnum ||
+        ' from multi-assessment (' ||
+        ( select vppc.num_props from PC_Vicmap_Parcel_Property_Count vppc where vppc.spi = vp.spi ) ||
+        ') property' as comments
 from
     PC_Vicmap_Parcel vp
 where
-    multi_assessment = 'Y' and    
+    multi_assessment = 'Y' and
     spi <> '' and
-    vp.propnum not in ( '' , 'NCPR' ) and
-    vp.propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.spi = vp.spi )
+    propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.spi = vp.spi ) and
+    property_pfi not in ( select max ( t.property_pfi ) from PC_Vicmap_Parcel t group by t.parcel_pfi )
 )

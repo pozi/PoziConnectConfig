@@ -2,9 +2,9 @@
 
 ## DEPI
 
-### Rule for C Edits
+### Rule
 
->Edit Code C is used for only updating the parcel based Council Reference number (Crefno). This edit code can be used to populate or null a Crefno.
+Edit Code C is used for only updating the parcel based Council Reference number (Crefno). This edit code can be used to populate or null a Crefno.
 
 ### Q&A
 
@@ -26,6 +26,8 @@ Looking at all Vicmap Parcels:
 
 
 ## SQL
+
+[M1 C Edits.sql](https://raw.github.com/groundtruth/PoziConnectConfig/master/~Shared/SQL/M1%20C%20Edits.sql)
 
 We select only the first record for each `spi`, since submitting multiple C edits on a single parcel will cause all the respective edits to fail.
 

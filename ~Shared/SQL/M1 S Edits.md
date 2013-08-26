@@ -1,18 +1,24 @@
 # Edit Code ‘S’
 
-DEPI Rule:
->Edit Code S updates address details for a given record. It requires that the Address – Road and Locality Information columns are populated as required including the Address – Location attributes for creating spatially located address points.
+## DEPI
 
-Question to DEPI: Can we update the address of an existing property using the existing propnum (not prop_pfi)?
+### Rule
 
-> It is my understanding that an existing propnum can be used as the mapbase locator for a street address update.
+Edit Code S updates address details for a given record. It requires that the Address – Road and Locality Information columns are populated as required including the Address – Location attributes for creating spatially located address points.
 
+### Q&A
+
+##### Can we update the address of an existing property using the existing propnum (not prop_pfi)?
+
+It is my understanding that an existing propnum can be used as the mapbase locator for a street address update.
 
 ## Logic
 
 select from Council Property Address where the property number doesn't match a property in Vicmap with the same address (and it's not in the R batch)
 
 ## SQL
+
+[M1 S Edits.sql](https://raw.github.com/groundtruth/PoziConnectConfig/master/~Shared/SQL/M1%20S%20Edits.sql)
 
 Exlude properties where the property already exists in Vicmap with the same address:
 

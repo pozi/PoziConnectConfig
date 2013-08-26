@@ -57,20 +57,25 @@ select
     vp.spi as spi,
     vp.plan_number as plan_number,
     vp.lot_number as lot_number,
-    council_parcel.propnum as propnum,
+    cp.propnum as propnum,
     '' as base_propnum,
     'parcel ' || vp.spi || ': ' ||
         case
             when vp.propnum = '' then 'assigning new propnum '
             else 'replacing propnum ' || vp.propnum || ' with '
         end ||
-        council_parcel.propnum  as comments
+        cp.propnum  as comments
 from
     PC_Vicmap_Parcel vp,
-    PC_Council_Parcel council_parcel
+    PC_Council_Parcel cp
 where
     vp.spi <> '' and
-    council_parcel.propnum <> '' and
-    vp.spi = council_parcel.spi and
-    ( vp.propnum <> '' or vp.propnum not in ( select PC_Council_Parcel.propnum from PC_Council_Parcel ) )
+    vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props = 1 ) and
+    cp.propnum <> '' and
+    vp.spi = cp.spi and
+    vp.propnum <> cp.propnum and
+    ( vp.propnum in ( '' , 'NCPR' ) or
+      vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address ) )
+group by vp.spi
 )
+order by plan_number, lot_number

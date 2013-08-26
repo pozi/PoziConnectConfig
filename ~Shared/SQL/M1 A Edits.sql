@@ -80,6 +80,8 @@ where
     vp.spi <> '' and
     cp.propnum not in ( '' , 'NCPR' ) and
     vp.spi = cp.spi and
-    ( vp.propnum = '' or vp.propnum not in ( select t.propnum from PC_Council_Parcel t ) ) and
-    ( select t.num_props from PC_Council_Parcel_Property_Count t where t.spi = cp.spi ) > 1
+    vp.propnum <> cp.propnum and
+    not ( vp.multi_assessment = 'N' and vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props > 1 ) ) and
+    vp.propnum in ( select t.propnum from PC_Council_Parcel t ) and
+    ( select cppc.num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) > 1
 )
