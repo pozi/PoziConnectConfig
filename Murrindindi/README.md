@@ -20,7 +20,25 @@ Brian Hall from Civica says:
  
 > So in the majority of cases where the site is happy with the primary parcel being the one with the lowest parcel number (generally first one created) the sequence numbers are all null and so you need to take that into account.
 
-#### Proposed Logic
+#### Logic
+
+Based on the number of parcels in an assessment whose str_seq value is equal to ‘0’:
+
+* none: use the address of the parcel with the lowest pcl_num value
+* one: use that one parcel's address whose str_seq value is equal to ‘0’
+* more than one: use the address of the parcel with the lowest pcl_num value out of those parcels whose str_seq value is equal to ‘0’
+
+#### SQL
+
+```sql
+case (select num_parcels from ... )
+    when 0 then
+    when 1 then
+    else 
+end
+```
+
+##### Initial Proposed Logic (probably no longer required if the new one works)
 
 For single-parcel properties:
 
