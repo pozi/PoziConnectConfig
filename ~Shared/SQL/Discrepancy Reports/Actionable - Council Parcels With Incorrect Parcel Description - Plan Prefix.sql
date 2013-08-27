@@ -1,5 +1,5 @@
 select
-    'Council''s parcel description uses plan prefix ' || council_parcel.plan_prefix || ' but the corrent plan prefix in Vicmap is ' || vicmap_parcel.plan_prefix as comments,
+    'Council''s parcel description uses plan prefix ' || council_parcel.plan_prefix || ' but the correct plan prefix in Vicmap is ' || vicmap_parcel.plan_prefix as comments,
     council_parcel.propnum as council_propnum,
     council_parcel.crefno as council_crefno,
     council_parcel.spi as council_spi,    
@@ -13,5 +13,6 @@ from
     PC_Vicmap_Parcel vicmap_parcel
 where
     council_parcel.simple_spi = vicmap_parcel.simple_spi and    
+    council_parcel.plan_numeral <> '' and
     council_parcel.spi <> vicmap_parcel.spi and
     council_parcel.spi not in ( select spi from PC_Vicmap_Parcel where spi <> '' )
