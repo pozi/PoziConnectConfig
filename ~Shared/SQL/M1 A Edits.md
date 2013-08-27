@@ -24,13 +24,65 @@ I am not sure what Logica are referring to here but there is a chance that what 
 
 ## Logic
 
+Selecting all multi-property council parcels where the parcel description matches a Vicmap parcel that is not already associated with the Council's propnum.
+
+## SQL
+
+[M1 A Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20A%20Edits.sql)
+
+Include only parcels that have a valid property number.
+
+```sql
+    cp.propnum not in ( '' , 'NCPR' )
+```
+
+Include only parcels that have a valid parcel description.
+
+```sql
+    cp.spi <> ''
+```
+
+Include only parcels where the Council has more than one property associated with it (otherwise it would be submitted as a P edit.)
+
+```sql
+    ( select cppc.num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) > 1
+```
+
+Exclude parcels that are associated with multiple properties but NOT classed as multi-assessments in Vicmap. These parcels have custom properties and we should not attempt to them. Eg 2\PS400861 at Stonnington.
+
+```sql
+    cp.spi in ( select vp.spi from PC_Vicmap_Parcel vp where not ( vp.multi_assessment = 'N' and vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props > 1 ) ) )
+```
+
+Include only parcels where the existing `propnum` value in Vicmap actually exists in Council.
+
+```sql
+    cp.spi in ( select vp.spi from PC_Vicmap_Parcel vp where vp.propnum in ( select propnum from PC_Council_Parcel ) )
+```
+
+Exclude any parcels where the `propnum` value is already the same in Vicmap.
+
+```sql
+    cp.propnum not in ( select vp.propnum from PC_Vicmap_Parcel vp where vp.spi = cp.spi )
+```
+
+## Old
+
+This section shows the previous logic and SQL used to solve the A edits.
+
+I couldn't find the fault in the query, but it returned too many results (> 500,000) for the Stonnington sample data.
+
+We will keep a record of it for a while in case we need to revert back to it.
+
+### Logic
+
 Comparing Vicmap Parcel against Council Parcel based on a common `spi` value:
 
 * where Vicmap `propnum` is null or doesn't exist in any Council Parcel, and more than one Council parcels have a populated `propnum`, then update with the _second and subsequent_ Council `propnum` values
 
-## SQL
+### SQL
 
-[M1 A Edits.sql](https://raw.github.com/groundtruth/PoziConnectConfig/master/~Shared/SQL/M1%20A%20Edits.sql)
+[M1 A Edits.sql at 26 Aug 2013](https://github.com/groundtruth/PoziConnectConfig/blob/cd27392f9b25ed644bc80417f1ab4394f349414e/~Shared/SQL/M1%20A%20Edits.sql)
 
 Include only parcels that have a valid parcel description.
 
@@ -78,26 +130,4 @@ Exclude parcels that are associated with multiple properties but NOT classed as 
 
 ```sql
 not ( vp.multi_assessment = 'N' and vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props > 1 ) )
-```
-
-## Developer Notes
-
-I can't find the fault in the above query, but it is currently returning too many results for the Stonnington sample data.
-
-### Potential New Logic
-
-Selecting all multi-property council parcels where the parcel description matches a Vicmap parcel that is not already associated with the Council's propnum
-
-### Potential New SQL
-
-Work in progress...
-
-```sql
-select
-    *    
-from
-    PC_Council_Parcel cp    
-where
-    cp.spi in ( select cppc.spi from PC_Council_Parcel_Property_Count cppc where cppc.num_props > 1 ) and    
-    cp.spi in ( select vp.spi from PC_Vicmap_Parcel vp where vp.spi = cp.spi and vp.propnum <> cp.propnum )
 ```

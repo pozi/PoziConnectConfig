@@ -22,4 +22,4 @@ Note: the second part deliberately checks for the existence of the propnum in th
 
 ## SQL
 
-[M1 E Edits.sql](https://raw.github.com/groundtruth/PoziConnectConfig/master/~Shared/SQL/M1%20E%20Edits.sql)
+[M1 E Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20E%20Edits.sql)

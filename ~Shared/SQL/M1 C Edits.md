@@ -27,7 +27,7 @@ Looking at all Vicmap Parcels:
 
 ## SQL
 
-[M1 C Edits.sql](https://raw.github.com/groundtruth/PoziConnectConfig/master/~Shared/SQL/M1%20C%20Edits.sql)
+[M1 C Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20C%20Edits.sql)
 
 We select only the first record for each `spi`, since submitting multiple C edits on a single parcel will cause all the respective edits to fail.
 

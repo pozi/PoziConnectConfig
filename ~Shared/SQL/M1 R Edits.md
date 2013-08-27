@@ -16,7 +16,7 @@ Retire any multi-assessment associated with Vicmap Parcels where Vicmap `propnum
 
 ## SQL
 
-[M1 R Edits.sql](https://raw.github.com/groundtruth/PoziConnectConfig/master/~Shared/SQL/M1%20R%20Edits.sql)
+[M1 R Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20R%20Edits.sql)
 
 Include only parcels that are actually multi-assessments.
 

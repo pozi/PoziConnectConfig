@@ -28,7 +28,7 @@ Comparing Vicmap Parcel against Council Parcel based on a common `spi` value:
 
 ## SQL
 
-[M1 P Edits.sql](https://raw.github.com/groundtruth/PoziConnectConfig/master/~Shared/SQL/M1%20P%20Edits.sql)
+[M1 P Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20P%20Edits.sql)
 
 Include only Vicmap parcels that have a valid parcel description (`spi`).
 

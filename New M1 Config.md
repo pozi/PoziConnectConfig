@@ -12,6 +12,6 @@ For each of Parcel and Property/Address SQL:
 * ensure propnum and crefno fields are character
 * remove unneeded fields
 * test query against council's sqlite database
-* eliminate null values (replace with blanks if appropriate)
+* eliminate null values (replace with blanks if appropriate), *especially spi, propnum*
 
 

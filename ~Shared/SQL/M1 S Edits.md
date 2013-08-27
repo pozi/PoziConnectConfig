@@ -18,7 +18,7 @@ select from Council Property Address where the property number doesn't match a p
 
 ## SQL
 
-[M1 S Edits.sql](https://raw.github.com/groundtruth/PoziConnectConfig/master/~Shared/SQL/M1%20S%20Edits.sql)
+[M1 S Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20S%20Edits.sql)
 
 Exlude properties where the property already exists in Vicmap with the same address:
 

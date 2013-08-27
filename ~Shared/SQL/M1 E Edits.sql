@@ -73,7 +73,7 @@ select
     '' as base_propnum,
     case
         when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then 'multi-parcel property'        
-        else vp.spi        
+        else 'parcel ' || vp.spi        
     end || ': removing propnum ' || vp.propnum || ' and associated address' as comments
 from
     PC_Vicmap_Parcel vp

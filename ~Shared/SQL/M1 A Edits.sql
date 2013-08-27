@@ -1,13 +1,12 @@
-
 select
     lga_code as lga_code,
     '' as new_sub,
     property_pfi as property_pfi,
     '' as parcel_pfi,
     '' as address_pfi,
-    spi as spi,
-    plan_number as plan_number,
-    lot_number as lot_number,
+    '' as spi,
+    '' as plan_number,
+    '' as lot_number,
     '' as base_propnum,
     propnum as propnum,
     '' as crefno,
@@ -50,38 +49,23 @@ select
     '' as outside_property,
     'A' as edit_code,
     comments as comments
-
 from (
 
-select
-    vp.lga_code as lga_code,
-    case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vp.spi ) > 1 then property_pfi
-        else ''
-    end as property_pfi,
-    case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vp.spi ) > 1 then ''
-        else vp.spi
-    end as spi,
-    case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vp.spi ) > 1 then ''
-        else ifnull ( vp.plan_number , '' )
-    end as plan_number,
-    case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count t where t.spi = vp.spi ) > 1 then ''
-        else ifnull ( vp.lot_number , '' )
-    end as lot_number,
+select distinct
+    cp.lga_code as lga_code,    
+    ( select vp.property_pfi from PC_Vicmap_Parcel vp where vp.spi = cp.spi limit 1 ) as property_pfi,
     cp.propnum as propnum,
-    'parcel ' || vp.spi ||': adding propnum ' || cp.propnum || ' as multi-assessment' as comments
+    case    
+        when ( select vpppc.num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = cp.spi ) > 1 then 'multi-parcel property'        
+        else 'parcel ' || cp.spi     
+    end ||': adding propnum ' || cp.propnum || ' as multi-assessment' as comments
 from
-    PC_Vicmap_Parcel vp,
     PC_Council_Parcel cp
 where
-    vp.spi <> '' and
     cp.propnum not in ( '' , 'NCPR' ) and
-    vp.spi = cp.spi and
-    vp.propnum <> cp.propnum and
-    not ( vp.multi_assessment = 'N' and vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props > 1 ) ) and
-    vp.propnum in ( select t.propnum from PC_Council_Parcel t ) and
-    ( select cppc.num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) > 1
+    cp.spi <> '' and
+    ( select cppc.num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) > 1 and
+    cp.spi in ( select vp.spi from PC_Vicmap_Parcel vp where not ( vp.multi_assessment = 'N' and vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props > 1 ) ) ) and
+    cp.spi in ( select vp.spi from PC_Vicmap_Parcel vp where vp.propnum in ( select propnum from PC_Council_Parcel ) ) and
+    cp.propnum not in ( select vp.propnum from PC_Vicmap_Parcel vp where vp.spi = cp.spi )
 )
