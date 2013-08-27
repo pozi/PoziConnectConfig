@@ -1,6 +1,6 @@
 select 
-    vicmap_parcel.spi,
-    vicmap_parcel.status
+    vicmap_parcel.spi as spi,
+    vicmap_parcel.status as status,
     max ( vicmap_property_parcel_count.num_parcels ) as num_parcels_in_prop
 from
     PC_Vicmap_Parcel vicmap_parcel,
