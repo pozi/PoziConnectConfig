@@ -1,15 +1,20 @@
 select
+    *,    
+    ltrim ( num_address ||
+        rtrim ( ' ' || road_name ) ||
+        rtrim ( ' ' || road_type ) ||
+        rtrim ( ' ' || road_suffix ) ) as num_road_address
+from (
+
+select
     *,
-    ltrim ( blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
+    blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
         case when ( blg_unit_id_2 <> '' or blg_unit_suffix_2 <> '' ) then '-' else '' end ||
         blg_unit_prefix_2 || blg_unit_id_2 || blg_unit_suffix_2 ||
         case when ( blg_unit_id_1 <> '' or blg_unit_suffix_1 <> '' ) then '/' else '' end ||
         house_prefix_1 || house_number_1 || house_suffix_1 ||
         case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
-        house_prefix_2 || house_number_2 || house_suffix_2 ||
-        rtrim ( ' ' || road_name ) ||
-        rtrim ( ' ' || road_type ) ||
-        rtrim ( ' ' || road_suffix )) as num_road_address
+        house_prefix_2 || house_number_2 || house_suffix_2 as num_address
 from (
 
 select
@@ -96,7 +101,7 @@ select
         when S.street_name like '% ACCESS%' then 'ACCESS'
         when S.street_name like '% ARCADE%' then 'ARCADE'
         when S.street_name like '% AVENUE%' then 'AVENUE'
-        when S.street_name like '% Bend%' then 'Bend'
+        when S.street_name like '% BEND%' then 'BEND'
         when S.street_name like '% BOULEVARDE%' then 'BOULEVARDE'
         when S.street_name like '% BOULEVARD%' then 'BOULEVARD'
         when S.street_name like '% BRAE%' then 'BRAE'
@@ -171,4 +176,4 @@ from
 where
     P.status in ( 'C' , 'c' , 'P' , 'p'  ) 
 ) 
-
+)

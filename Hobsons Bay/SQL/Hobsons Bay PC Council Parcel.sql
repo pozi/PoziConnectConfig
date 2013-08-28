@@ -11,9 +11,9 @@ select
 from
 (
 select 
-    Assessment.Assess_Number as propnum,
+    cast ( Assessment.Assess_Number as varchar ) as propnum,
     '' as status,
-    Title.Title_Id as crefno,
+    cast ( Title.Title_Id as varchar ) as crefno,
     Title.Title_Legal_Description as summary,
     case when Title_Is_Part_of_Lot = 1 then 'P' else '' end as part,
     ifnull ( Plan_Type.Plan_Type_Code || Title.Title_Plan_Number , '' ) as plan_number,

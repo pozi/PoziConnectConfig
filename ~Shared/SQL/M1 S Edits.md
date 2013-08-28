@@ -14,11 +14,19 @@ It is my understanding that an existing propnum can be used as the mapbase locat
 
 ## Logic
 
+### Part 1
+
 select from Council Property Address where the property number doesn't match a property in Vicmap with the same address (and it's not in the R batch)
+
+### Part 2
+
+This part adds addresses for proposed parcels where the council uses the same property number for both the approved and proposed parcels. These properties are prevented from appearing in the P edits to avoid the properties being merged and potentially losing any address information submitted via SPEAR. This part of the query enables these addresses to be submitted as S edits, without using the property number.
 
 ## SQL
 
 [M1 S Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20S%20Edits.sql)
+
+### Part 1
 
 Exclude properties where the property already exists in Vicmap with the same address:
 
@@ -48,6 +56,19 @@ Include only properties that 1) already exist in Vicmap; 2) will appear in a P e
   propnum in ( select propnum from M1_A_Edits ) ) 
 ```
 
+### Part 2
 
+Join the respective property/address and parcel tables to include records for proposed parcels when the Vicmap address has no property number and no house number and Council does have a house number.
+
+```sql
+cpa.propnum not in ( '' , 'NCPR' ) and
+cpa.propnum = cp.propnum and
+cp.spi = vp.spi and    
+vp.property_pfi = vpa.property_pfi and
+vp.status = 'P' and
+vpa.propnum = '' and
+cpa.num_address <> '' and
+vpa.num_address = ''
+```
 
 

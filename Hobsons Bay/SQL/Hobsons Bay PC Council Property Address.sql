@@ -1,19 +1,24 @@
 select
+    *,    
+    ltrim ( num_address ||
+        rtrim ( ' ' || road_name ) ||
+        rtrim ( ' ' || road_type ) ||
+        rtrim ( ' ' || road_suffix ) ) as num_road_address
+from (
+
+select
     *,
-    ltrim ( blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
+    blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
         case when ( blg_unit_id_2 <> '' or blg_unit_suffix_2 <> '' ) then '-' else '' end ||
         blg_unit_prefix_2 || blg_unit_id_2 || blg_unit_suffix_2 ||
         case when ( blg_unit_id_1 <> '' or blg_unit_suffix_1 <> '' ) then '/' else '' end ||
         house_prefix_1 || house_number_1 || house_suffix_1 ||
         case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
-        house_prefix_2 || house_number_2 || house_suffix_2 ||
-        rtrim ( ' ' || road_name ) ||
-        rtrim ( ' ' || road_type ) ||
-        rtrim ( ' ' || road_suffix )) as num_road_address
+        house_prefix_2 || house_number_2 || house_suffix_2 as num_address
 from (
 
 select distinct
-    Assessment.Assess_Number as propnum,
+    cast ( Assessment.Assess_Number as varchar ) as propnum,
 	'' as base_propnum,
 	'' as is_primary,
     '' as hsa_flag,
@@ -73,4 +78,5 @@ where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status not in ( '9' , '22' ) and    
     Assessment.Assess_Number is not null
+)
 )
