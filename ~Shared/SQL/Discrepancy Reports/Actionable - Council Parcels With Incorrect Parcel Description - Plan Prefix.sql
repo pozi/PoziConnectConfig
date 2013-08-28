@@ -16,3 +16,4 @@ where
     council_parcel.plan_numeral <> '' and
     council_parcel.spi <> vicmap_parcel.spi and
     council_parcel.spi not in ( select spi from PC_Vicmap_Parcel where spi <> '' )
+group by council_spi, council_propnum
