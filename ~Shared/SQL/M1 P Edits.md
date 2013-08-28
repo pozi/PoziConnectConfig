@@ -65,8 +65,14 @@ Include only parcels where the existing property number is blank or NCPR, *OR* w
 We check for the existence of the propnum in the Council _Property Address_ table, rather than the seemingly more precise Council _Parcel_ table. Council property information is traditionally more reliable than its parcel information, so we want to check if the propnum exists at all in the property table before potentially replacing a valid property that just isn't recorded properly by the council in its parcel table.
 
 ```sql
-    ( vp.propnum in ( '' , 'NCPR' ) or
-      vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address ) )
+( vp.propnum in ( '' , 'NCPR' ) or
+  vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address ) )
+```
+
+Exclude matches where Vicmap parcels status is proposed and the Council property number is already matched to an approved parcel
+
+```sql
+not ( vp.status = 'P' and cp.propnum in ( select vpx.propnum from PC_Vicmap_Parcel vpx where status = 'A' ) )
 ```
 
 Return only one record per `spi` value
@@ -75,5 +81,8 @@ Return only one record per `spi` value
 group by vp.spi
 ```
 
+## Development Notes
 
+[x] exclude matches where Vicmap parcels status is proposed and where the council property number is already matched to an approved parcel
+[ ] compensate the S edit code to make up for the fact that proposed parcels may not appear in the P edits anymore
 
