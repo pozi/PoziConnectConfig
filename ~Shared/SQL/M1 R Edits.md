@@ -30,10 +30,10 @@ Include only parcels that have a valid parcel description.
 spi <> ''
 ```
 
-Include only parcels that don't have corresponding `propnum` and `spi` values in Council.
+Include only parcels that don't have corresponding matching property number and simplified parcel description in Council. The use of the *simplified* parcel description `simple_spi` (as opposed to the standard `spi` means that if the council has the wrong plan prefix recorded, it will not be included in the results to be retired.
 
 ```sql
-propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.spi = vp.spi )
+propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.simple_spi = vp.simple_spi )
 ```
 
 Exclude the last record in the multi-assessment. This will ensure that the not all the records can be retired at once. Unfortunately this prevents us from targeting the last record for retirement.

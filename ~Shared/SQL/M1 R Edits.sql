@@ -68,6 +68,6 @@ from
 where
     multi_assessment = 'Y' and
     spi <> '' and
-    propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.spi = vp.spi ) and
+    propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.simple_spi = vp.simple_spi ) and
     property_pfi not in ( select max ( t.property_pfi ) from PC_Vicmap_Parcel t group by t.parcel_pfi )
 )

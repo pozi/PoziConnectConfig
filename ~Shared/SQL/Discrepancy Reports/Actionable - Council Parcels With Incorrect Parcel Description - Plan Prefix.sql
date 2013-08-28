@@ -1,5 +1,5 @@
 select
-    'Council''s parcel description uses plan prefix ' || council_parcel.plan_prefix || ' but the correct plan prefix in Vicmap is ' || vicmap_parcel.plan_prefix as comments,
+    'Council''s plan prefix is ' || council_parcel.plan_prefix || ' but the correct plan prefix in Vicmap is ' || vicmap_parcel.plan_prefix as comments,
     council_parcel.propnum as council_propnum,
     council_parcel.crefno as council_crefno,
     council_parcel.spi as council_spi,    

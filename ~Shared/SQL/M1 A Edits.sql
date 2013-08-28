@@ -52,13 +52,18 @@ select
 from (
 
 select distinct
-    cp.lga_code as lga_code,    
+    cp.lga_code as lga_code,
     ( select vp.property_pfi from PC_Vicmap_Parcel vp where vp.spi = cp.spi limit 1 ) as property_pfi,
     cp.propnum as propnum,
-    case    
-        when ( select vpppc.num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = cp.spi ) > 1 then 'multi-parcel property'        
-        else 'parcel ' || cp.spi     
-    end ||': adding propnum ' || cp.propnum || ' as multi-assessment' as comments
+    case
+        when ( select vpppc.num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = cp.spi ) > 1 then 'multi-parcel (' || ( select vpppc.num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = cp.spi ) || ') property'
+        else 'parcel ' || cp.spi
+    end ||
+        ': adding propnum ' ||
+        cp.propnum ||
+        ' to multi-assessment (' ||
+        ( select vppc.num_props from PC_Vicmap_Parcel_Property_Count vppc where vppc.spi = cp.spi ) ||
+        ') property' as comments
 from
     PC_Council_Parcel cp
 where
