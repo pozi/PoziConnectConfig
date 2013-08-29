@@ -81,8 +81,4 @@ Return only one record per `spi` value
 group by vp.spi
 ```
 
-## Development Notes
-
-[x] exclude matches where Vicmap parcels status is proposed and where the council property number is already matched to an approved parcel
-[ ] compensate the S edit code to make up for the fact that proposed parcels may not appear in the P edits anymore
 
