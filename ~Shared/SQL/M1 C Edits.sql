@@ -52,17 +52,26 @@ select
 from (
 
 select
-    lga_code as lga_code,
-    spi,
-    plan_number as plan_number,
-    lot_number as lot_number,
-    crefno,
-    'parcel ' || spi || ': replacing crefno (blank) with ' || crefno || ' (propnum ' || propnum || ')' as comments
-from PC_Council_Parcel
-where rowid in
-    ( select min(rowid)
-    from PC_Council_Parcel
-    where spi in ( select spi from PC_Vicmap_Parcel where crefno = '' ) and crefno <> ''    
-    group by spi )
-order by plan_number, lot_number
+    vp.lga_code as lga_code,
+    vp.spi as spi,
+    vp.plan_number as plan_number,
+    vp.lot_number as lot_number,
+    cp.crefno as crefno,
+    'parcel ' || vp.spi || ': replacing crefno ' ||
+        case vp.crefno
+            when '' then '(blank)'
+            else vp.crefno
+        end ||
+        ' with ' || cp.crefno || ' (propnum ' || cp.propnum || ')' as comments
+from
+    PC_Vicmap_Parcel vp,
+    PC_Council_Parcel cp
+where
+    vp.spi <> '' and
+    vp.spi = cp.spi and
+    cp.crefno <> '' and
+    ( vp.crefno = '' or
+      vp.crefno not in ( select cpx.crefno from PC_Council_Parcel cpx where cpx.simple_spi = vp.simple_spi ) )
+group by vp.spi
+order by vp.plan_number, vp.lot_number
 )

@@ -14,32 +14,45 @@ If the details are the same, the first one will be loaded and the second tagged 
 
 ## Logic
 
-Comparing Vicmap Parcel against Council Parcel based on a common `spi`:
+Where Vicmap `crefno` value is blank or doesn't exist in any Council record that shares the same `spi` value, then update with `crefno` value from Council which has the same `spi` value (only one).
 
-* where Vicmap `crefno` is null and the Council `crefno` is populated, then update with the *first* Council `crefno` value
-
-Looking at all Vicmap Parcels:
-
-* where Vicmap `crefno` value doesn't exist in Council Parcel and...
-  * there exists an alternative Council `crefno` value for that parcel, then update with the *first* Council `crefno` value
-  * there is no Council `crefno` value for that parcel, then null the `crefno`
-
+Note this will never replace an existing Vicmap `crefno` with a blank one, even if the Vicmap one does not exist in Council. The soltuion to this is for the council to have a valid `spi` with the desired `crefno` value.
 
 ## SQL
 
+### Complete SQL
+
 [M1 C Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20C%20Edits.sql)
 
-We select only the first record for each `spi`, since submitting multiple C edits on a single parcel will cause all the respective edits to fail.
+### Explanation
+
+Include only Vicmap parcels with a valid parcel description.
 
 ```sql
-where rowid in
-    ( select min(rowid)
-    from PC_Council_Parcel
-    ... 
-    group by spi )
+vp.spi <> ''
 ```
 
-## Development notes:
+Match the Vicmap and Council parcels on parcel description.
 
-[ ] so far only implemented Scenario 2
-* still to implement _first only_ rule
+```sql
+vp.spi = cp.spi
+```
+
+Exclude parcels where Council `crefno` value is blank.
+
+```sql
+cp.crefno <> ''
+```
+
+Include only parcels where the Vicmap `crefno` value is blank or does not exist in any Council parcel with the same simplified parcel description.
+
+```sql
+( vp.crefno = '' or
+  vp.crefno not in ( select cpx.crefno from PC_Council_Parcel cpx where cpx.simple_spi = vp.simple_spi ) )
+```
+
+Include only one record per parcel
+
+```sql
+group by vp.spi
+```
