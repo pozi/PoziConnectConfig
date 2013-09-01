@@ -1,5 +1,11 @@
 select
     *,    
+    ltrim ( num_road_address ||
+        rtrim ( ' ' || locality_name ) ) as ezi_address
+from (
+
+select
+    *,    
     ltrim ( num_address ||
         rtrim ( ' ' || road_name ) ||
         rtrim ( ' ' || road_type ) ||
@@ -176,4 +182,5 @@ from
 where
     P.status in ( 'C' , 'c' , 'P' , 'p'  ) 
 ) 
+)
 )

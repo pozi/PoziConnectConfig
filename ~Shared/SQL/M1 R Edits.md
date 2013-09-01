@@ -24,22 +24,28 @@ Include only parcels that are actually multi-assessments.
 multi_assessment = 'Y'
 ```
 
-Include only parcels that have a valid parcel description.
+Include only records where parcels have a valid parcel description.
 
 ```sql
 spi <> ''
 ```
 
-Include only parcels that don't have corresponding matching property number and simplified parcel description in Council. The use of the *simplified* parcel description `simple_spi` (as opposed to the standard `spi` means that if the council has the wrong plan prefix recorded, it will not be included in the results to be retired.
+Retire only records where the parcels that don't have a corresponding matching property number and simplified parcel description in Council. The use of the *simplified* parcel description `simple_spi` (as opposed to the standard `spi`) means that if the council has the wrong plan prefix recorded, it will not be included in the results to be retired.
 
 ```sql
 propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.simple_spi = vp.simple_spi )
 ```
 
-Exclude the last record in the multi-assessment. This will ensure that the not all the records can be retired at once. Unfortunately this prevents us from targeting the last record for retirement.
+Exclude from retirement the last record in the multi-assessment. This will ensure that the not all the records can be retired at once. Unfortunately this prevents us from targeting the last record for retirement.
 
 ```sql
 property_pfi not in ( select max ( t.property_pfi ) from PC_Vicmap_Parcel t group by t.parcel_pfi )
+```
+
+Retire only records where the parcel description exists in Council (because we don't want to remove the record if there is nothing to replace it) or where propnum doesn't exist in Council.
+
+```sql
+( spi in ( select cp.spi from PC_Council_Parcel cp ) or propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa ) )
 ```
 
 ## Development notes:

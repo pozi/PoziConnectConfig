@@ -50,9 +50,9 @@ select
     'S' as edit_code,
     'property ' || propnum || ': ' ||
     case    
-        when propnum in ( select vpa.propnum from PC_Vicmap_Property_Address vpa ) then 'replacing address ' || ( select vpa.num_road_address from PC_Vicmap_Property_Address vpa where cpa.propnum = vpa.propnum and vpa.is_primary <> 'N' limit 1) || ' with '
+        when propnum in ( select vpa.propnum from PC_Vicmap_Property_Address vpa ) then 'replacing address ' || ( select vpa.ezi_address from PC_Vicmap_Property_Address vpa where cpa.propnum = vpa.propnum and vpa.is_primary <> 'N' limit 1) || ' with '
         else 'assigning new address '       
-    end || cpa.num_road_address as comments
+    end || cpa.ezi_address as comments
 from
     PC_Council_Property_Address cpa
 where
@@ -62,7 +62,9 @@ where
     propnum not in ( select vpa.propnum from PC_Vicmap_Property_Address vpa, M1_R_Edits r where vpa.property_pfi = r.property_pfi ) and
     ( propnum in ( select propnum from PC_Vicmap_Property_Address ) or    
       propnum in ( select propnum from M1_P_Edits ) or
-      propnum in ( select propnum from M1_A_Edits ) )
+      propnum in ( select propnum from M1_A_Edits ) ) and
+    not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = replace ( replace ( ( select vpa.num_road_address from PC_Vicmap_Property_Address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' )
+group by propnum
 
 union
 
@@ -130,3 +132,4 @@ where
     vp.status = 'P' and
     cpa.num_address <> '' and
     vpa.num_address = ''
+group by propnum

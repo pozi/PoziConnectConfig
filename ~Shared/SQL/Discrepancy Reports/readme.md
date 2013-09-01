@@ -26,6 +26,12 @@ Development notes:
 
 These 'reference' audits provide general information about detected discrepancies, many of which will automatically generate the appropriate fixes in the M1.
 
+## Council Addresses vs Vicmap Address
+
+This audit compares all non-secondary addresses in Council and Vicmap based on property number and where the `num_address` vales differ.
+
+Many of these results will appear in the S edits of the M1.
+
 ## Council Properties Not Found In Vicmap
 
 Note: may include current P edits

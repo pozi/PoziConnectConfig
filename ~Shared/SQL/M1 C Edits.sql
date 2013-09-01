@@ -62,7 +62,7 @@ select
             when '' then '(blank)'
             else vp.crefno
         end ||
-        ' with ' || cp.crefno || ' (propnum ' || cp.propnum || ')' as comments
+        ' with ' || cp.crefno as comments
 from
     PC_Vicmap_Parcel vp,
     PC_Council_Parcel cp

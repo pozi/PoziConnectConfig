@@ -62,17 +62,17 @@ select
     end as parish,
     fmt_ttl as summary,
     '355' as lga_code
-
-FROM
+from
     AUTHORITY_auprparc auprparc,
     AUTHORITY_auprstad auprstad,
     AUTHORITY_ausrsubr ausrsubr,
     AUTHORITY_aualrefn aualrefn
-WHERE
-    ( auprparc.pcl_num = auprstad.pcl_num ) and
-    ( auprstad.sbr_nme = ausrsubr.sbr_nme ) and
+where
+    auprparc.pcl_num = auprstad.pcl_num and
+    auprstad.sbr_nme = ausrsubr.sbr_nme and
     auprparc.pcl_flg = 'R' and
     auprparc.ass_num is not null and
     auprparc.udn_cd1 = aualrefn.ref_val and
     aualrefn.ref_typ = 'udn_cd1'
+order by auprparc.pcl_num
 )

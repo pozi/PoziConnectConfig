@@ -8,7 +8,8 @@
 For each of Parcel and Property/Address SQL:
 
 * replace old field names (if using existing PIQA SQL as a starting point)
-* add expression for num_road_address or spi/simple_spi
+* add expression for num_road_address/ezi_address or spi/simple_spi
+* include expression in road name to replace apostraphes with nothing?
 * replace tabs with spaces
 * convert upper case syntax to lower case
 * ensure propnum and crefno fields are character

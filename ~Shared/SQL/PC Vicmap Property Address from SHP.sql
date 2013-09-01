@@ -5,7 +5,7 @@ select
     property.pr_multass as multi_assessment,
     property.pr_stat as status,
     address.pfi as address_pfi,
-    address.ezi_add as ezi_address,
+    substr ( address.ezi_add , 1 , length ( address.ezi_add ) - 5 ) as ezi_address,
     address.source as source,
     ifnull ( address.src_verif , '' ) as src_verified,
     address.is_primary as is_primary,

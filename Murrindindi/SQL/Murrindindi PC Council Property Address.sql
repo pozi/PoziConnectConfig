@@ -1,5 +1,11 @@
 select
     *,    
+    ltrim ( num_road_address ||
+        rtrim ( ' ' || locality_name ) ) as ezi_address
+from (
+
+select
+    *,    
     ltrim ( num_address ||
         rtrim ( ' ' || road_name ) ||
         rtrim ( ' ' || road_type ) ||
@@ -18,14 +24,17 @@ select
 from (
 
 select distinct
-	cast ( auprparc.ass_num as varchar(10) ) as propnum,
-	'' as base_propnum,
-	'' as is_primary,
+    cast ( auprparc.ass_num as varchar(10) ) as propnum,
+    '' as base_propnum,
+    case
+        when auprparc.pcl_num = ( select t.pcl_num from AUTHORITY_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
+        else 'N'
+    end as is_primary,
     '' as hsa_flag,
     '' as hsa_unit_id,
-	'' as blg_unit_type,   
+    '' as blg_unit_type,   
     '' as blg_unit_prefix_1,
-    ifnull ( auprstad.pcl_unt , '' ) as blg_unit_id_1,
+    ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) as blg_unit_id_1,
     ifnull ( auprstad.unt_alp , '' ) as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     '' as blg_unit_id_2,
@@ -41,17 +50,16 @@ select distinct
     '' as complex_name,
     '' as location_descriptor,
     '' as house_prefix_1,
-    ifnull ( auprstad.hou_num , '' ) as house_number_1,
+    ifnull ( cast ( auprstad.hou_num as varchar ) , '' ) as house_number_1,
     ifnull ( auprstad.hou_alp , '' ) as house_suffix_1,
     '' as house_prefix_2,
-    ifnull ( auprstad.hou_end , '' ) as house_number_2,
+    ifnull ( cast ( auprstad.hou_end as varchar ) , '' ) as house_number_2,
     ifnull ( auprstad.end_alp , '' ) as house_suffix_2,
     case
         when upper ( auprstad.str_nme ) = 'PARK AVENUE NORTH' then 'PARK'
         when upper ( auprstad.str_nme ) = 'HILLSIDE (SOUTH)' then 'HILLSIDE'
-        when upper ( auprstad.str_nme ) like '%-LEFT ARM' then replace (upper( auprstad.str_nme ),'-',' ')
-        when upper ( auprstad.str_nme ) like '%-RIGHT ARM' then replace (upper( auprstad.str_nme ),'-',' ')
-        when upper ( auprstad.str_nme ) like '%-FIRST' then replace (upper( auprstad.str_nme ),'-',' ')        
+        when upper ( auprstad.str_nme ) = 'GHIN GHIN (SEYMOUR)' then 'GHIN GHIN'
+        when upper ( auprstad.str_nme ) like '%&%' then replace ( upper ( auprstad.str_nme ) , '&' , 'AND' )     
         else replace ( upper ( auprstad.str_nme ) , '''' , '' )
     end as road_name,
     case
@@ -96,11 +104,12 @@ select distinct
         when UPPER ( auprstad.str_nme ) like '% AVENUE NORTH' then 'N'
         when UPPER ( auprstad.str_nme ) like '% (SOUTH)' then 'S'
         else ''
-    end as road_suffix, 
-	upper ( auprstad.sbr_nme ) as locality_name,
+    end as road_suffix,
+    upper ( auprstad.sbr_nme ) as locality_name,
     '' as postcode,
     '' as access_type,
-    '355' as lga_code
+    '355' as lga_code,
+    cast ( auprparc.pcl_num as varchar(10) ) as crefno
 from
     AUTHORITY_auprparc as auprparc ,
     AUTHORITY_auprstad as auprstad
@@ -109,5 +118,7 @@ where
     auprparc.pcl_flg in ( 'R' , 'P' ) AND
     auprparc.ass_num <> 0 AND
     auprstad.seq_num = 0
+order by auprparc.ass_num, auprparc.pcl_num
+)
 )
 )

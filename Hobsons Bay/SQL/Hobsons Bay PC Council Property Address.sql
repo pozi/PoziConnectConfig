@@ -1,5 +1,11 @@
 select
     *,    
+    ltrim ( num_road_address ||
+        rtrim ( ' ' || locality_name ) ) as ezi_address
+from (
+
+select
+    *,    
     ltrim ( num_address ||
         rtrim ( ' ' || road_name ) ||
         rtrim ( ' ' || road_type ) ||
@@ -51,7 +57,7 @@ select distinct
     upper ( ifnull ( Address.Addr_House_Suffix_2 , '' ) )  as house_suffix_2, 
     case
         when upper ( Street.Street_Name ) like 'OFF %' then substr ( upper ( Street.Street_Name ) , 5 )
-        else upper ( ifnull ( Street.Street_Name , '' ) )
+        else upper ( ifnull ( replace ( Street.Street_Name , '`' , '''' ) , '' ) )
     end as road_name,
     upper ( ifnull ( Street_Type.Street_Type_Name , '' ) )  as road_type,
     case
@@ -78,5 +84,6 @@ where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status not in ( '9' , '22' ) and    
     Assessment.Assess_Number is not null
+)
 )
 )

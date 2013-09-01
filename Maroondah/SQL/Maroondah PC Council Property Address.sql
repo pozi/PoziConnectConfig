@@ -1,5 +1,11 @@
 select
     *,    
+    ltrim ( num_road_address ||
+        rtrim ( ' ' || locality_name ) ) as ezi_address
+from (
+
+select
+    *,    
     ltrim ( num_address ||
         rtrim ( ' ' || road_name ) ||
         rtrim ( ' ' || road_type ) ||
@@ -135,5 +141,6 @@ where
     lpaaddr.addrtype = 'P' and
     lpaprtp.abbrev <> 'BASE' and
     lpaprop.tfklpacncl = 12
+)
 )
 )
