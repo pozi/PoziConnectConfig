@@ -33,37 +33,37 @@ Selecting all multi-property council parcels where the parcel description matche
 Include only parcels that have a valid property number.
 
 ```sql
-    cp.propnum not in ( '' , 'NCPR' )
+cp.propnum not in ( '' , 'NCPR' )
 ```
 
 Include only parcels that have a valid parcel description.
 
 ```sql
-    cp.spi <> ''
+cp.spi <> ''
 ```
 
 Include only parcels where the Council has more than one property associated with it (otherwise it needs to be submitted as a P edit.)
 
 ```sql
-    ( select cppc.num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) > 1
+( select cppc.num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) > 1
 ```
 
 Exclude parcels that are associated with multiple properties but NOT classed as multi-assessments in Vicmap. These parcels have custom properties and we should not attempt to add to them. Eg 2\PS400861 at Stonnington.
 
 ```sql
-    cp.spi in ( select vp.spi from PC_Vicmap_Parcel vp where not ( vp.multi_assessment = 'N' and vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props > 1 ) ) )
+cp.spi in ( select vp.spi from PC_Vicmap_Parcel vp where not ( vp.multi_assessment = 'N' and vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props > 1 ) ) )
 ```
 
 Include only parcels where the existing `propnum` value in Vicmap actually exists in Council.
 
 ```sql
-    cp.spi in ( select vp.spi from PC_Vicmap_Parcel vp where vp.propnum in ( select propnum from PC_Council_Parcel ) )
+cp.spi in ( select vp.spi from PC_Vicmap_Parcel vp where vp.propnum in ( select propnum from PC_Council_Parcel ) )
 ```
 
 Exclude any parcels where the `propnum` value is already the same in Vicmap.
 
 ```sql
-    cp.propnum not in ( select vp.propnum from PC_Vicmap_Parcel vp where vp.spi = cp.spi )
+cp.propnum not in ( select vp.propnum from PC_Vicmap_Parcel vp where vp.spi = cp.spi )
 ```
 
 ## Old

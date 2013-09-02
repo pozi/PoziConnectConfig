@@ -16,5 +16,6 @@ For each of Parcel and Property/Address SQL:
 * remove unneeded fields
 * test query against council's data
 * eliminate null values (replace with blanks if appropriate), *especially spi, propnum*
+* test if the Parcel and Property/Address queries return the same set of property numbers
 
 

@@ -78,7 +78,7 @@ from
     PROPERTYGOV_Address as Address on Parcel.Address_Id = Address.Address_Id inner join
     PROPERTYGOV_Street_Locality as Street_Locality on Address.Street_Locality_Id = Street_Locality.Street_Locality_Id inner join
     PROPERTYGOV_Street as Street on Street_Locality.Street_Id = Street.Street_Id inner join
-    PROPERTYGOV_Locality as Locality on Street_Locality.Locality_Id = Locality.Locality_Id inner join
+    PROPERTYGOV_Locality as Locality on Street_Locality.Locality_Id = Locality.Locality_Id left join
     PROPERTYGOV_Street_Type as Street_Type on Street.Street_Type_Abbreviation = Street_Type.Street_Type_Abbreviation
 where
     Parcel.Parcel_Status = 0 and
