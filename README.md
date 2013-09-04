@@ -9,18 +9,18 @@ This repository contains the configuration files used by Pozi Connect for many o
 To install the latest configuration into an existing installation of Pozi Connect:
 
 1. backup your existing Pozi Connect configuration by renaming the Tasks folder (found within the PoziConnect folder) to something like 'Tasks.bak'
-*  download [this zip file](https://github.com/groundtruth/PoziConnectConfig/archive/master.zip)
-*  unzip the zip file (to its default location or a temporary location)
-*  rename the folder 'PoziConnectConfig-master' to 'Tasks'
-*  move this Tasks folder into your PoziConnect folder (replacing the Tasks folder you renamed in Step 1.)
+2.  download [this zip file](https://github.com/groundtruth/PoziConnectConfig/archive/master.zip)
+3. unzip the zip file to its default location or a temporary location
+4. rename the folder 'PoziConnectConfig-master' to 'Tasks'
+5. move this Tasks folder into your PoziConnect folder (replacing the Tasks folder you renamed in Step 1.)
 
 You are now ready to launch Pozi Connect (PoziConnect.exe).
 
 #### Optional Setup
 
-With complete configuration now installed, your Pozi Connect task drop-down list will contain every task for every project maintained by Groundtruth in this repository.
+With the configuration now installed, your Pozi Connect task drop-down list will contain every task for every project maintained by Groundtruth in this repository.
 
-If you want to see only the tasks relating to you, you may delete the unneeded Task subfolders, leaving only your folder and the '~Shared' folder. For instance, if your organisation's name is Melton, delete all folders with the Tasks folder except for '~Shared' and 'Melton'.
+If you want to see only the tasks relating to you, you may delete the unneeded Tasks subfolders, leaving only your folder and the '~Shared' folder. For instance, if your organisation's name is Melton, delete all folders with the Tasks folder except for '~Shared' and 'Melton'.
 
 ### Troubleshooting
 
