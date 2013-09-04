@@ -82,4 +82,5 @@ where
     vp.propnum not in ( '' , 'NCPR' ) and
     vp.propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa ) and
 	vp.multi_assessment <> 'Y'
+group by property_pfi, plan_number, lot_number
 )

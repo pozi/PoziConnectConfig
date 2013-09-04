@@ -22,4 +22,40 @@ Note: the second part deliberately checks for the existence of the propnum in th
 
 ## SQL
 
+### Complete SQL
+
 [M1 E Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20E%20Edits.sql)
+
+### Explanation
+
+Note: all records here are essentially retirements. The explanations below are based on including or excluding records from being submitted as retirements.
+
+Retire only records with a valid parcel description.
+
+```sql
+vp.spi <> ''
+```
+
+Retire only those records that are populated with a property number.
+
+```sql
+vp.propnum not in ( '' , 'NCPR' )
+```
+Exclude from retirement those records where the property number exists in Council.
+
+```sql
+vp.propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa )
+```
+
+Exclude from retirement any multi-assessment records (because these are dealt with by the R edit).
+
+```sql
+vp.multi_assessment <> 'Y'
+```
+
+Eliminate duplicate records.
+
+```sql
+group by property_pfi, plan_number, lot_number
+```
+
