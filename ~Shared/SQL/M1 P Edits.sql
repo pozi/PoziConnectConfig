@@ -75,7 +75,9 @@ where
     vp.spi = cp.spi and
     vp.propnum <> cp.propnum and
     ( vp.propnum in ( '' , 'NCPR' ) or
-      vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address ) )
+      vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address ) ) and
+    not ( vp.status = 'P' and ( select cppc.num_parcels from PC_Council_Property_Parcel_Count cppc where cppc.propnum = cp.propnum ) > 1 )
+
 group by vp.spi
 )
 order by plan_number, lot_number
