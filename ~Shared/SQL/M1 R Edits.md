@@ -12,11 +12,56 @@ The current M1 loading software will identify that you are trying to retire all 
 
 ## Logic
 
+Retire multi-assessment properties whose property number does not exist in Council, except the last record in the multi-assessment.
+
+Note: This will not remove incorrectly matched properties - only ones that do not exist at all in Council. For a more aggressive approach, see the section below titled *Alternative 'Aggressive' Retirement*.
+
+## SQL
+
+### Complete SQL
+
+[M1 R Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20R%20Edits.sql)
+
+### Explanation
+
+Retire only properties that are multi-assessment.
+
+```sql
+multi_assessment = 'Y'
+```
+
+Exclude from retirement the last record in the multi-assessment. This will ensure that the not all the records can be retired at once. Unfortunately this prevents us from targeting the last record for retirement.
+
+```sql
+property_pfi not in ( select max ( t.property_pfi ) from PC_Vicmap_Parcel t group by t.parcel_pfi )
+```
+Retire only those properties that don't exist in Council.
+
+```sql
+propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa )
+```
+
+Eliminate duplicate records.
+
+```sql
+group by property_pfi
+```
+
+# Alternative 'Aggressive' Retirement
+
+The alternative approach detailed below retires not only properties that do not exist in Council, but also any properties where the parcel descriptions do not match. This approach has been put on hold due to it generating excessive records caused by the inevitable dodgy parcel descriptions in Council.
+
+At Stonnington, replacing this aggressive approach with the conservative approach reduced R records from 1130 to 109.
+
+## Logic
+
 Retire any multi-assessment associated with Vicmap Parcels where Vicmap `propnum` doesn't exist in Council Parcel with the same `spi`, except the last one.
 
 ## SQL
 
-[M1 R Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20R%20Edits.sql)
+[M1 R Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/99b5717932971dfe1676319670c6d1fc57008030/~Shared/SQL/M1%20R%20Edits.sql) as at 04 Sep 2013
+
+### Explanation
 
 Include only parcels that are actually multi-assessments.
 
@@ -53,15 +98,4 @@ Retire only records where the parcel description exists in Council (because we d
 ```sql
 ( spi in ( select cp.spi from PC_Council_Parcel cp ) or propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa ) )
 ```
-## Development notes:
 
-### Further Development Ideas
-
-* prevent retiring 
-
-### Old Logic (probably no longer relevant)
-
-Looking at all _multi-assessment_ Vicmap Parcels where Vicmap `propnum` doesn't exist in Council Parcel with the same `spi`:
-
-* when Parcel is a single-parcel property, then null the _second and any subsequent_ `propnum` values
-* when Parcel is part of a multi-parcel property, and none of the parcels match any Council Parcel `propnum` values based on any of the `spi` values in the multi-parcel property, then null the _second and any subsequent_ `propnum` values

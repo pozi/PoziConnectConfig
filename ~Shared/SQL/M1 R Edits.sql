@@ -67,9 +67,7 @@ from
     PC_Vicmap_Parcel vp
 where
     multi_assessment = 'Y' and
-    spi <> '' and
-    propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.simple_spi = vp.simple_spi ) and
-    propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.spi not in ( select vpx.spi from PC_Vicmap_Parcel vpx ) ) and
     property_pfi not in ( select max ( t.property_pfi ) from PC_Vicmap_Parcel t group by t.parcel_pfi ) and
-    ( spi in ( select cp.spi from PC_Council_Parcel cp ) or propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa ) )
+    propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa )
+group by property_pfi
 )
