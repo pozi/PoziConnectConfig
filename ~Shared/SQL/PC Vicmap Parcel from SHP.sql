@@ -1,4 +1,4 @@
-SELECT
+select
     parcel.parcel_pfi as parcel_pfi,
     ifnull ( parcel.parcel_spi , '' ) as spi,
     ifnull ( case
@@ -22,11 +22,11 @@ SELECT
     property.prop_pfi as property_pfi,
     property.pr_multass as multi_assessment,
     ifnull ( property.pr_propnum , '' ) as propnum
-FROM
+from
     VMPROP_PARCEL parcel,
     VMPROP_PARCEL_PROPERTY parcel_property,
     VMPROP_PROPERTY property
-WHERE
+where
     parcel.parcel_pfi = parcel_property.parcel_pfi and    
     parcel_property.pr_pfi = property.prop_pfi and 
     property.pr_ptype = 'O'
