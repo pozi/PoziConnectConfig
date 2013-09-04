@@ -24,14 +24,8 @@ select
 from (
 
 select
-    case
-        when P.property_no in ( '14359' , '15127' , '14360' , '15893' , '15303' ) then 'NCPR'
-        else P.property_no
-    end as propnum,
-    case
-        when P.status = 'C' then 'A'
-        when P.status = 'P' then 'P'
-    end as status,
+    P.property_no as propnum,
+    '' as status,
     '' as base_propnum,
     '' as is_primary,
     '' as hsa_flag,
@@ -180,7 +174,7 @@ from
     join PROCLAIM_nucStreet S on S.street_no = A.street_no
     join PROCLAIM_nucLocality L on L.locality_ctr = S.locality_ctr
 where
-    P.status in ( 'C' , 'c' , 'P' , 'p'  ) 
+    P.status in ( 'C' , 'c' ) 
 ) 
 )
 )

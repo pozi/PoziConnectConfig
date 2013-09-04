@@ -11,15 +11,9 @@ select
 from (
 
 select
-    case
-        when A.key1 in ( '14359' , '15127' , '14360' , '15893' , '15303' ) then 'NCPR'
-        else A.key1
-    end as propnum,
+    A.key1 as propnum,
     '' as crefno,
-    case
-        when L.status = 'C' then 'A'
-        when L.status = 'P' then 'P'
-    end as status,
+    '' as status,
     ifnull ( upper ( part_lot ) , '' ) as part,
     case
         when substr ( trim ( ifnull ( L.plan_no , '' ) ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( ifnull ( L.plan_desc , '' ) ) || ifnull ( L.plan_no , '' )
