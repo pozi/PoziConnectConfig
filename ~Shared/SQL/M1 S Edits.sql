@@ -112,7 +112,7 @@ select
     cpa.road_suffix as road_suffix,
     cpa.locality_name as locality_name,
     '' as distance_related_flag,
-    cpa.is_primary as is_primary,
+    '' as is_primary,
     '' as easting,
     '' as northing,
     '' as datum_proj,
@@ -132,4 +132,4 @@ where
     vp.status = 'P' and
     cpa.num_address <> '' and
     vpa.num_address = ''
-group by propnum
+group by cpa.propnum, vp.plan_number, vp.lot_number

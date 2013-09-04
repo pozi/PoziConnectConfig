@@ -62,6 +62,12 @@ Exclude properties where the only difference between the Council and Vicmap addr
 not replace ( cpa.num_road_address , '-' , ' ' ) = replace ( ( select vpa.num_road_address from PC_Vicmap_Property_Address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) and
 ```
 
+Generate only one record per property.
+
+```sql
+group by propnum
+```
+
 ### Part 2
 
 Join the respective property/address and parcel tables to include records for proposed parcels when the Vicmap address has no property number and no house number and Council does have a house number.
@@ -77,4 +83,9 @@ cpa.num_address <> '' and
 vpa.num_address = ''
 ```
 
+Generate a record per plan/lot combination.
+
+```sql
+group by cpa.propnum, vp.plan_number, vp.lot_number
+```
 
