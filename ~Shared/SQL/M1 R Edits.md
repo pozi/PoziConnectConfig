@@ -36,6 +36,12 @@ Retire only records where the parcels that don't have a corresponding matching p
 propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.simple_spi = vp.simple_spi )
 ```
 
+Exclude from retirement properties whose parcel descriptions in Council are not found at all in Vicmap (because we don't want to retire any property that has no other chance of being matched correctly).
+
+```sql
+propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.spi not in ( select vpx.spi from PC_Vicmap_Parcel vpx ) )
+```
+
 Exclude from retirement the last record in the multi-assessment. This will ensure that the not all the records can be retired at once. Unfortunately this prevents us from targeting the last record for retirement.
 
 ```sql
@@ -47,8 +53,11 @@ Retire only records where the parcel description exists in Council (because we d
 ```sql
 ( spi in ( select cp.spi from PC_Council_Parcel cp ) or propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa ) )
 ```
-
 ## Development notes:
+
+### Further Development Ideas
+
+* prevent retiring 
 
 ### Old Logic (probably no longer relevant)
 
