@@ -89,3 +89,8 @@ Generate a record per plan/lot combination.
 group by cpa.propnum, vp.plan_number, vp.lot_number
 ```
 
+## Developer Notes
+
+At Hobsons Bay, there are multiple addresses per property (possibly one per parcel), none of which is considered the primary address. To prevent good addresses in Vicmap being overwritten with one of the parcel addresses, we could introduce a filter to only overwrite an existing Vicmap address that already contains both `house_number_1` and `house_number_2` if there is only a single primary Council address for that property.
+
+This will prevent good addresses being overwritten with bad ones, but it won't solve the problem of getting good address information submitted for new properties. This will need to solved specifically for the Hobsons Bay property address query.

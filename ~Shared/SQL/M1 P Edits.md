@@ -69,10 +69,10 @@ We check for the existence of the propnum in the Council _Property Address_ tabl
   vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address ) )
 ```
 
-Exclude matches where Vicmap parcels status is proposed and the Council property number is already matched to an approved parcel
+Exclude matches where Vicmap parcels status is proposed and the Council property number has multiple parcels associated with it (because these could get merged in Vicmap).
 
 ```sql
-not ( vp.status = 'P' and cp.propnum in ( select vpx.propnum from PC_Vicmap_Parcel vpx where status = 'A' ) )
+not ( vp.status = 'P' and ( select cppc.num_parcels from PC_Council_Property_Parcel_Count cppc where cppc.propnum = cp.propnum ) > 1 )
 ```
 
 Return only one record per `spi` value
