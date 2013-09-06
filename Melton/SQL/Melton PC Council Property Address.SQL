@@ -43,7 +43,6 @@ select distinct
     ifnull ( cast ( auprstad.unt_end as varchar ) , '' ) as blg_unit_id_2,
     ifnull ( auprstad.una_end , '' ) as blg_unit_suffix_2,
     '' as floor_type,
-
     ifnull ( auprstad.flo_pre , '' ) as floor_prefix_1,
     ifnull ( auprstad.flo_num , '' ) as floor_no_1,
     '' as floor_suffix_1,
