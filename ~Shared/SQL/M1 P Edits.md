@@ -24,13 +24,13 @@ Where you have two records that contain different details, both records will be 
 
 Comparing Vicmap Parcel against Council Parcel based on a common `spi` value:
 
-* where Vicmap `propnum` is null or doesn't exist in any Council Parcel, and one or more Council records have a populated `propnum`, then update with the *first* Council `propnum` value
+* where Vicmap property number is blank or doesn't exist in any Council Parcel, and one or more Council records have a populated property number, then update with the *first* Council property number
 
 ## SQL
 
 [M1 P Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20P%20Edits.sql)
 
-Include only Vicmap parcels that have a valid parcel description (`spi`).
+Include only Vicmap parcels that have a valid parcel description.
 
 ```sql
 vp.spi <> ''
@@ -48,13 +48,13 @@ Include only valid council property numbers.
 cp.propnum <> ''
 ```
 
-Include only parcels where Vicmap and Council agree on the parcel description (`spi`).
+Include only parcels where Vicmap and Council agree on the parcel description.
 
 ```sql
 vp.spi = cp.spi
 ```
 
-Include only parcels where the `propnum` values are different.
+Include only parcels where the Vicmap and Council property numbers are different.
 
 ```sql
 vp.propnum <> cp.propnum
@@ -75,7 +75,7 @@ Exclude matches where Vicmap parcels status is proposed and the Council property
 not ( vp.status = 'P' and ( select cppc.num_parcels from PC_Council_Property_Parcel_Count cppc where cppc.propnum = cp.propnum ) > 1 )
 ```
 
-Return only one record per `spi` value
+Return only one record per parcel.
 
 ```sql
 group by vp.spi
