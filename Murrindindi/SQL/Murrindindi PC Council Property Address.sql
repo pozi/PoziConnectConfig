@@ -24,7 +24,7 @@ select
 from (
 
 select distinct
-    cast ( auprparc.ass_num as varchar(10) ) as propnum,
+    cast ( auprparc.ass_num as varchar ) as propnum,
     '' as base_propnum,
     case
         when auprparc.pcl_num = ( select t.pcl_num from AUTHORITY_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
@@ -101,22 +101,22 @@ select distinct
         when auprstad.str_typ in ( 'AVEE' , 'RDE' , 'STE' ) then 'E'
         when auprstad.str_typ in ( 'AVEW' , 'RDW' , 'STW' ) then 'W'
         when auprstad.str_typ in ( 'AVEX' , 'RDEX' , 'STEX' ) then 'EX'
-        when UPPER ( auprstad.str_nme ) like '% AVENUE NORTH' then 'N'
-        when UPPER ( auprstad.str_nme ) like '% (SOUTH)' then 'S'
+        when upper ( auprstad.str_nme ) like '% AVENUE NORTH' then 'N'
+        when upper ( auprstad.str_nme ) like '% (SOUTH)' then 'S'
         else ''
     end as road_suffix,
     upper ( auprstad.sbr_nme ) as locality_name,
     '' as postcode,
     '' as access_type,
     '355' as lga_code,
-    cast ( auprparc.pcl_num as varchar(10) ) as crefno
+    cast ( auprparc.pcl_num as varchar ) as crefno
 from
     AUTHORITY_auprparc as auprparc ,
     AUTHORITY_auprstad as auprstad
 where
-    auprparc.pcl_num = auprstad.pcl_num AND
-    auprparc.pcl_flg in ( 'R' , 'P' ) AND
-    auprparc.ass_num <> 0 AND
+    auprparc.pcl_num = auprstad.pcl_num and
+    auprparc.pcl_flg in ( 'R' , 'P' ) and
+    auprparc.ass_num <> 0 and
     auprstad.seq_num = 0
 order by auprparc.ass_num, auprparc.pcl_num
 )
