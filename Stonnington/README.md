@@ -10,9 +10,9 @@ Starting with these existing SQL files on which to base the PC_Council_Parcel an
 - [x] copy INI
 - [x] update INI
 - [x] copy SQL
-- [ ] update SQL
-- [ ] compensate for potential new inclusion of 'TransPRLD' association type
-- [ ] more...
+- [x] update SQL
+- [x] compensate for potential new inclusion of 'TransPRLD' association type
+- [x] config supplied to council for review
 
 ## Notes
 
