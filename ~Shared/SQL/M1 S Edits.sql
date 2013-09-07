@@ -118,7 +118,7 @@ select
     '' as datum_proj,
     '' as outside_property,
     'S' as edit_code,
-    'parcel ' || cp.spi || ' (proposed): replacing address ' || vpa.num_road_address || ' with ' || cpa.num_road_address || ' (council property ' || cpa.propnum || ')' as comments
+    'parcel ' || cp.spi || ' (proposed): replacing address ' || vpa.ezi_address || ' with ' || cpa.ezi_address as comments
 from
     PC_Council_Property_Address cpa,    
     PC_Council_Parcel cp,
@@ -131,5 +131,6 @@ where
     vp.property_pfi = vpa.property_pfi and
     vp.status = 'P' and
     cpa.num_address <> '' and
-    vpa.num_address = ''
+    vpa.num_address = '' and
+    ( cpa.crefno = cp.crefno or cpa.crefno = '' )
 group by cpa.propnum, vp.plan_number, vp.lot_number

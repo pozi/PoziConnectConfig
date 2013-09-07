@@ -70,7 +70,7 @@ group by propnum
 
 ### Part 2
 
-Join the respective property/address and parcel tables to include records for proposed parcels when the Vicmap address has no property number and no house number and Council does have a house number.
+Join the respective property/address and parcel tables to include records for proposed parcels.
 
 ```sql
 cpa.propnum not in ( '' , 'NCPR' ) and
@@ -79,8 +79,19 @@ cp.spi = vp.spi and
 vp.property_pfi = vpa.property_pfi and
 vp.status = 'P' and
 vpa.propnum = '' and
+```
+
+Include only addresses where the Council address contains more information (such as house number) than Vicmap address to ensure that we're not overwriting addresses that may have been submitted by SPEAR with addresses from the Council system that may not be as good.
+
+```sql
 cpa.num_address <> '' and
 vpa.num_address = ''
+```
+
+If the Council address has a `crefno` value (such as in Authority systems), match the addresses using this value.
+
+```sql
+( cpa.crefno = cp.crefno or cpa.crefno = '' )
 ```
 
 Generate a record per plan/lot combination.
