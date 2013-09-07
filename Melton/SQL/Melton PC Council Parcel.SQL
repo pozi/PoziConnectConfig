@@ -42,7 +42,14 @@ from
         when 18 then 'TP'
         when 51 then 'PS'
         when 52 then 'PC'
-    end || trim ( auprparc.ttl_no5 ) as plan_number,
+        else ''
+    end ||
+        case    
+            when null then ''
+            when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
+            when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 )        
+            else ''
+        end as plan_number,
     case auprparc.ttl_cde
         when 1 then 'PS'
         when 2 then 'PC'
@@ -55,7 +62,12 @@ from
         when 52 then 'PC'
         else ''
     end as plan_prefix,
-    ifnull ( substr ( trim ( auprparc.ttl_no5 ) , 1 , 6 ) , '' ) as plan_numeral,
+    case    
+        when null then ''
+        when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
+        when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 )        
+        else ''
+    end as plan_numeral,
     case
         when auprparc.ttl_cde in ( 3 , 4 , 6 , 8 , 16 , 18 ) then ifnull ( trim ( auprparc.ttl_no1 ) , '' )
         when auprparc.ttl_cde in ( 1, 5 , 51 ) then ifnull ( trim ( auprparc.ttl_no1 ) , ifnull ( trim ( auprparc.ttl_no2 ) , '' ) )

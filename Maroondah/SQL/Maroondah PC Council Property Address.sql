@@ -125,7 +125,8 @@ select distinct
 	upper ( lpasubr.suburbname ) as locality_name,
     '' as postcode,
     '' as access_type,
-    '342' as lga_code
+    '342' as lga_code,
+    '' as crefno
 from
     PATHWAY_lpaprop as lpaprop left join 
     PATHWAY_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join 

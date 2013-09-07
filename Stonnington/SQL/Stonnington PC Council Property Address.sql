@@ -167,7 +167,8 @@ select
     L.locality_name as locality_name,
     L.postcode as postcode,
     '' as access_type,
-    '363' as lga_code
+    '363' as lga_code,
+    '' as crefno
 from
     PROCLAIM_nucProperty P
     join PROCLAIM_nucAddress A on A.property_no = P.property_no

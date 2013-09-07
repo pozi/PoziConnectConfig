@@ -70,7 +70,8 @@ select distinct
     upper ( ifnull ( Locality.Locality_Name , '' ) )  as locality_name,
     Locality.Locality_Postcode as postcode,
     '' as access_type,
-    '331' as lga_code
+    '331' as lga_code,
+    '' as crefno
 from
     PROPERTYGOV_Parcel as Parcel inner join
     PROPERTYGOV_Assessment_Parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
