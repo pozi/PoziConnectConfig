@@ -1,12 +1,24 @@
 select
     *,
     case
-        when plan_prefix in ( 'CP' , 'PC' ) then plan_number
-        else lot_number || '\' || plan_number
+        when plan_number <> '' and lot_number = '' then plan_number
+        when plan_number <> '' then lot_number || '\' || plan_number
+        when ( parish_code <> '' or township_code <> '' ) then
+            allotment ||
+            case when sec <> '' then '~' || sec else '' end ||
+            '\PP' ||
+            case when township_code <> '' then township_code else parish_code end
+        else ''
     end as spi,
     case
-        when plan_prefix in ( 'CP' , 'PC' ) then plan_numeral
-        else lot_number || '\' || plan_numeral
+        when plan_numeral <> '' and lot_number = '' then plan_numeral
+        when plan_numeral <> '' then lot_number || '\' || plan_numeral
+        when ( parish_code <> '' or township_code <> '' ) then
+            allotment ||
+            case when sec <> '' then '~' || sec else '' end ||
+            '\PP' ||
+            case when township_code <> '' then township_code else parish_code end
+        else ''
     end as simple_spi
 from
 (
@@ -55,11 +67,12 @@ select
         when auprparc.ttl_cde = 3 then ifnull ( auprparc.ttl_no4 , '' )
         when auprparc.ttl_cde = 6 then ifnull ( auprparc.ttl_no3 , '' )
         else ''
-    end as section,
+    end as sec,
     case
         when auprparc.ttl_cde in ( 3 , 6 ) then ifnull ( upper ( aualrefn.dsc_no1 ) , '' )
         else ''
-    end as parish,
+    end as parish_code,
+    '' as township_code,
     fmt_ttl as summary,
     '355' as lga_code
 from

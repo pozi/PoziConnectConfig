@@ -1,12 +1,24 @@
 select
     *,
     case
-        when plan_prefix in ( 'CP' , 'PC' ) then plan_number
-        else lot_number || '\' || plan_number
+        when plan_number <> '' and lot_number = '' then plan_number
+        when plan_number <> '' then lot_number || '\' || plan_number
+        when ( parish_code <> '' or township_code <> '' ) then
+            allotment ||
+            case when sec <> '' then '~' || sec else '' end ||
+            '\PP' ||
+            case when township_code <> '' then township_code else parish_code end
+        else ''
     end as spi,
     case
-        when plan_prefix in ( 'CP' , 'PC' ) then plan_numeral
-        else lot_number || '\' || plan_numeral
+        when plan_numeral <> '' and lot_number = '' then plan_numeral
+        when plan_numeral <> '' then lot_number || '\' || plan_numeral
+        when ( parish_code <> '' or township_code <> '' ) then
+            allotment ||
+            case when sec <> '' then '~' || sec else '' end ||
+            '\PP' ||
+            case when township_code <> '' then township_code else parish_code end
+        else ''
     end as simple_spi
 from
 (
@@ -26,7 +38,8 @@ select
     ifnull ( Title.Title_Portion , '' ) as portion,
     ifnull ( Title.Title_Subdivision , '' ) as subdivision,
     ifnull ( Parish.Parish_Code , '' ) as parish_code,
-   '331' as lga_code
+    '' as township_code,
+    '331' as lga_code
 from
     PROPERTYGOV_parcel as Parcel inner join
     PROPERTYGOV_parcel_title as Parcel_Title on Parcel.Parcel_Id = Parcel_Title.Parcel_Id inner join

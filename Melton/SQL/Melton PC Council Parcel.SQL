@@ -1,15 +1,28 @@
 select
     *,
     case
-        when plan_prefix in ( 'CP' , 'PC' ) then plan_number
-        else lot_number || '\' || plan_number
+        when plan_number <> '' and lot_number = '' then plan_number
+        when plan_number <> '' then lot_number || '\' || plan_number
+        when ( parish_code <> '' or township_code <> '' ) then
+            allotment ||
+            case when sec <> '' then '~' || sec else '' end ||
+            '\PP' ||
+            case when township_code <> '' then township_code else parish_code end
+        else ''
     end as spi,
     case
-        when plan_prefix in ( 'CP' , 'PC' ) then plan_numeral
-        else lot_number || '\' || plan_numeral
+        when plan_numeral <> '' and lot_number = '' then plan_numeral
+        when plan_numeral <> '' then lot_number || '\' || plan_numeral
+        when ( parish_code <> '' or township_code <> '' ) then
+            allotment ||
+            case when sec <> '' then '~' || sec else '' end ||
+            '\PP' ||
+            case when township_code <> '' then township_code else parish_code end
+        else ''
     end as simple_spi
 from
-(select
+(
+select
     case
         when auprparc.ass_num in ( 310227 , 199380 , 310227 , 594440 , 594457 , 594465 , 594473 , 594481 , 594499 , 594507 , 594515 , 594523 , 594531 ) then 'NCPR'   
         else cast ( auprparc.ass_num as varchar )
@@ -81,7 +94,7 @@ from
         when trim ( auprparc.ttl_no4 ) = 'NONE' then '' 
         when auprparc.ttl_cde in ( 9 , 10 , 11 ) then ifnull ( trim ( auprparc.ttl_no4 ) , '' )
         else ''
-    end as section,
+    end as sec,
     case
         when ( auprparc.ttl_cde = 16 ) then trim ( auprparc.ttl_in5 )
         else ''
@@ -105,13 +118,13 @@ from
         when 17 then '3552'
         when 18 then '3651'
         else ''
-    end as parish,
+    end as parish_code,
     case auprparc.udn_cd5
         when 1 then '5781'
         when 3 then '5515'
         when 9 then '5791'
         else ''
-    end as township,
+    end as township_code,
     fmt_ttl as summary,
     '344' as lga_code
 from
