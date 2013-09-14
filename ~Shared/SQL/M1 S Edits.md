@@ -88,7 +88,7 @@ cpa.num_address <> '' and
 vpa.num_address = ''
 ```
 
-If the Council address has a `crefno` value (such as in Authority systems), match the addresses using this value.
+If the Council address has a `crefno` value (such as in Authority and Property.Gov systems), match the addresses using this value.
 
 ```sql
 ( cpa.crefno = cp.crefno or cpa.crefno = '' )
