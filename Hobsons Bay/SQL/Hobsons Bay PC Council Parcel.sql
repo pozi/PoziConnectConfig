@@ -47,9 +47,10 @@ from
     PROPERTYGOV_assessment_parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
     PROPERTYGOV_assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id left outer join
     PROPERTYGOV_plan_type as Plan_Type on Title.Plan_Type = Plan_Type.Plan_Type left outer join
-    PROPERTYGOV_parish as Parish on Title.Parish_Id = Parish.Parish_Id 
+    PROPERTYGOV_parish as Parish on Title.Parish_Id = Parish.Parish_Id
 where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status not in ( '9' , '22' ) and    
     Assessment.Assess_Number is not null
+order by propnum, crefno
 )
