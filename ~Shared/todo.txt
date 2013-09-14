@@ -1,2 +1,0 @@
-Ballarat and Towong both have different parcel multi assesment count feild names for VICMAP_PropertyParcel.sql
-
