@@ -28,21 +28,21 @@ PV_UFI_OLD|PROPV_UFI_OLD|
 
 ## PROP_STATUS
 
-|Value|Definition|
-|--|--|
-|A | Approved|
-|P | Proposed|
+Value|Definition
+---|---
+A|Approved
+P|Proposed
 
 ## PROP_PROPERTY_TYPE
 
-|Value|Definition|
-|--|--|
-|G | Graphic|
-|O | Occupancy|
+Value|Definition
+---|---
+G|Graphic
+O|Occupancy
 
 ## PROPV_GRAPHIC_TYPE
 
-|Value|Definition|
-|--|--|
-|B | Base|
-|P | Primary|
+Value|Definition
+---|---
+B|Base
+P|Primary
