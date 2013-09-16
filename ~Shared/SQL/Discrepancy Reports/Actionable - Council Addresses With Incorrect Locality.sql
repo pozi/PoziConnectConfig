@@ -10,4 +10,5 @@ from
 where
     council_address.propnum = vicmap_address.propnum and
     council_address.num_road_address = vicmap_address.num_road_address and    
-    council_address.locality_name <> vicmap_address.locality_name
+    council_address.locality_name <> vicmap_address.locality_name and
+    vicmap_address.locality_name not like council_address.locality_name || ' (%'
