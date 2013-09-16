@@ -19,3 +19,6 @@ For each of Parcel and Property/Address SQL:
 * test if the Parcel and Property/Address queries return the same set of property numbers
 
 
+Ask council
+
+* assign 'NCPR' to all common properties?
