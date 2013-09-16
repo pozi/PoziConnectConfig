@@ -1,3 +1,5 @@
+## Field List
+
 Vicmap SHP|Vicmap TAB|M1v12
 ----------|----------|----------
 PROP_PFI|PROP_PFI|property_pfi
@@ -17,9 +19,28 @@ PV_BASEPFI|PROPV_BASE_PFI|
 PV_CNT_PFI|PROPV_CENTROID_PFI|
 PV_GRTYPE|PROPV_GRAPHIC_TYPE|
 PV_ZLEVEL|PROPV_Z_LEVEL |
-PV_FTYPE|PROPV_FEATURE_TYPE|
+PV_FTYPE|PROPV_FEATURE_TYPE|_(note: field due to be retired)_
 PV_FQID|PROPV_FEATURE_QUALITY_ID|
 PV_PFI_CR|PROPV_PFI_CREATED |
 PROPV_UFI|PROPV_UFI |
 PV_UFI_CR|PROPV_UFI_CREATED|
 PV_UFI_OLD|PROPV_UFI_OLD|
+
+## PROP_STATUS
+
+Value|Definition
+--|
+A | Approved
+P | Proposed
+
+## PROP_PROPERTY_TYPE
+Value|Definition
+--|
+G | Graphic
+O | Occupancy
+
+## PROPV_GRAPHIC_TYPE
+Value|Definition
+--|
+B | Base
+P | Primary
