@@ -52,6 +52,11 @@ Exclude from retirement any multi-assessment records (because these are dealt wi
 ```sql
 vp.multi_assessment <> 'Y'
 ```
+Exclude from retirement any parcel whose description exists in Council (and thus avoid recording an E edit that will have a corresponding P edit).
+
+```sql
+vp.spi not in ( select cp.spi from PC_Council_Parcel cp )
+```
 
 Eliminate duplicate records.
 
