@@ -38,6 +38,12 @@ Match the Vicmap and Council parcels on parcel description.
 vp.spi = cp.spi
 ```
 
+Exclude parcels where the `crefno` values already match.
+
+```sql
+vp.crefno <> cp.crefno
+```
+ 
 Exclude parcels where Council `crefno` value is blank.
 
 ```sql
@@ -49,6 +55,13 @@ Include only parcels where the Vicmap `crefno` value is blank or does not exist 
 ```sql
 ( vp.crefno = '' or
   vp.crefno not in ( select cpx.crefno from PC_Council_Parcel cpx where cpx.simple_spi = vp.simple_spi ) )
+```
+
+Include only parcels where the Vicmap `plan_number` field is populated (due to the higher standard of plan descriptions rather then crown descrpiption) OR where the Vicmap and Council `propnum` values already match (which is a good indicator that the correct parcel is matched, despite it being only a crown descrpiption).
+
+```sql
+( vp.plan_number <> '' or    
+  vp.propnum = cp.propnum )
 ```
 
 Include only one record per parcel

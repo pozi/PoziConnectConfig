@@ -2,7 +2,7 @@ select
     lga_code as lga_code,
     '' as new_sub,
     '' as property_pfi,
-    '' as parcel_pfi,
+    parcel_pfi as parcel_pfi,
     '' as address_pfi,
     spi as spi,
     plan_number as plan_number,
@@ -53,6 +53,10 @@ from (
 
 select
     vp.lga_code as lga_code,
+    case    
+        when vp.plan_number = '' then vp.parcel_pfi        
+        else ''        
+    end as parcel_pfi,
     vp.spi as spi,
     vp.plan_number as plan_number,
     vp.lot_number as lot_number,
@@ -69,9 +73,12 @@ from
 where
     vp.spi <> '' and
     vp.spi = cp.spi and
+    vp.crefno <> cp.crefno and
     cp.crefno <> '' and
     ( vp.crefno = '' or
-      vp.crefno not in ( select cpx.crefno from PC_Council_Parcel cpx where cpx.simple_spi = vp.simple_spi ) )
+      vp.crefno not in ( select cpx.crefno from PC_Council_Parcel cpx where cpx.simple_spi = vp.simple_spi ) ) and 
+    ( vp.plan_number <> '' or    
+      vp.propnum = cp.propnum )
 group by vp.spi
 order by vp.plan_number, vp.lot_number
 )
