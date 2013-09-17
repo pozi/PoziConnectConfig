@@ -131,3 +131,9 @@ Exclude parcels that are associated with multiple properties but NOT classed as 
 ```sql
 not ( vp.multi_assessment = 'N' and vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props > 1 ) )
 ```
+
+Exclude parcels with only crown descriptions (ie, do not have a plan number). Crown descriptions are notoriously poor parcel identifiers, and are unlikely to be involved in multi-assessments anyway. Eliminating crown parcels from this query reduced the number of A edits at Swan Hill from 227 to 45.
+
+```sql
+cp.plan_number <> ''
+```
