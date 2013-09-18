@@ -22,3 +22,4 @@ For each of Parcel and Property/Address SQL:
 Ask council
 
 * assign 'NCPR' to all common properties?
+* how are parish and township attributes stored?
