@@ -90,18 +90,18 @@ select distinct
         when auprparc.ttl_cde in ( 9 , 10 , 27 ) then ifnull ( auprparc.ttl_no5 , '' )
         else ifnull ( auprparc.ttl_no3 , '' )
     end as sec,
-    aualrefn.ref_val as parish_code,
-    '' as township_code,
+    cast ( auprparc.udn_cd1 as varchar ) as parish_code,
+    case
+        when auprparc.udn_cd3 = 6000 then ''
+        else cast ( auprparc.udn_cd3 as varchar )
+    end as township_code,
     fmt_ttl as summary,
     '366' as lga_code
 from
-    AUTHORITY_auprparc auprparc,
-    AUTHORITY_aualrefn aualrefn
+    AUTHORITY_auprparc auprparc
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
-    auprparc.ass_num is not null and
-    auprparc.udn_cd1 = aualrefn.ref_val and
-    aualrefn.ref_typ = 'udn_cd1'
+    auprparc.ass_num is not null
 order by
     ass_num
 )
