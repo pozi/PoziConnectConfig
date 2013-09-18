@@ -1,0 +1,16 @@
+"LOCATION_DESCRIPTOR","DESCRIPTION","UFI","UFI_CREATED"
+"ABOVE","Above or over specified feature/address",10015002,20080602
+"ADJACENT","Close to (not necessarily abutting) specified feature/address",10015003,20080602
+"BELOW","Below or under specified feature/address",10015016,20080602
+"BETWEEN","Between referenced addressing (eg. 45-49 Smith St.)",10015004,20080602
+"CORNER","Corner of specific road name",10015005,20080602
+"EAST","Eastward direction from specified feature/address",10015006,20080602
+"FRONT","Front of specified feature/address",10015007,20080602
+"NORTH","Northward direction from specified feature/address",10015008,20080602
+"OFF","References road name providing nearest access route",10015009,20080602
+"OPPOSITE","Opposite (generally across road) from specified feature/address",10015010,20080602
+"PART","Part only of the the specified feature/address",10015011,20080602
+"REAR","Rear or behind identified feature/address",10015015,20080602
+"ROOFTOP","Rooftop of the the specified feature/address",10015012,20080602
+"SOUTH","Southward direction from specified feature/address",10015013,20080602
+"WEST","Westward direction from specified feature/address",10015014,20080602
