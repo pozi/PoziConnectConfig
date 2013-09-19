@@ -18,6 +18,8 @@ For each of Parcel and Property/Address SQL:
 * eliminate null values (replace with blanks if appropriate), *especially spi, propnum*
 * test if the Parcel and Property/Address queries return the same set of property numbers
 
+* check for properties without parcels
+* check for parcels without properties
 
 Ask council
 
