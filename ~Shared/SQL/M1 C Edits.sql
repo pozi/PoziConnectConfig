@@ -76,7 +76,7 @@ where
     vp.crefno <> cp.crefno and
     cp.crefno <> '' and
     ( vp.crefno = '' or
-      cp.crefno <> '' and vp.crefno not in ( select cpx.crefno from PC_Council_Parcel cpx where cpx.simple_spi = vp.simple_spi ) ) and 
+      vp.crefno not in ( select cpx.crefno from PC_Council_Parcel cpx where cpx.simple_spi = vp.simple_spi ) ) and 
     ( vp.plan_number <> '' or    
       vp.propnum = cp.propnum )
 group by vp.spi
