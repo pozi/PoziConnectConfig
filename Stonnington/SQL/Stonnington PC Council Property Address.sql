@@ -24,7 +24,7 @@ select
 from (
 
 select
-    P.property_no as propnum,
+    cast ( P.property_no as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
     '' as is_primary,

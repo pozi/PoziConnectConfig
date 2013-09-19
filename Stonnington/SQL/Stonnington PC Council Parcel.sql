@@ -23,7 +23,7 @@ select
 from (
 
 select
-    A.key1 as propnum,
+    cast ( A.key1 as varchar ) as propnum,
     '' as crefno,
     '' as status,
     ifnull ( upper ( part_lot ) , '' ) as part,
