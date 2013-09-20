@@ -31,11 +31,7 @@ select
     case L.status
         when 'F' then 'P'
         else ''
-    end as status,		
-    case P.text2
-        when 'Yes' then 'Y'
-        else ''
-    end as distance_related_flag,
+    end as status,
     ifnull ( upper ( part_lot ) , '' ) as part,
     case
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) THEN trim ( L.plan_desc ) || L.plan_no
@@ -55,17 +51,17 @@ select
 from
     PROCLAIM_nucLand L
     join PROCLAIM_nucAssociation A on L.land_no = A.key2 and
-    L.status in ( 'C' , 'F')
+        L.status in ( 'C' , 'F')
     join PROCLAIM_nucProperty P on A.key1 = p.Property_no
     left join PROCLAIM_nucAssociation T on A.key1 = T.key1 and
-    A.key2 = T.key2 and
-    T.association_type = 'TransPRLD' and
-    A.date_ended is null
+        A.key2 = T.key2 and
+        T.association_type = 'TransPRLD' and
+        A.date_ended is null
 where
     A.association_type = 'PropLand' and
     A.date_ended is null and
-    L.plan_desc in ( 'TP' , 'LP' , 'PS' , 'PC' , 'CP' , 'SP' , 'CS' ,'RP','CG' ) and
+    L.plan_desc in ( 'TP' , 'LP' , 'PS' , 'PC' , 'CP' , 'SP' , 'CS' , 'RP' , 'CG' ) and
     T.key1 is null and
-    p.property_no not in ('16953','16899','17736','15127','14359','15893','14360','15303') and
+    p.property_no not in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 ) and
     P.status in ( 'C' , 'c' )
 )

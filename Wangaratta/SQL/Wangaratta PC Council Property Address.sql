@@ -21,14 +21,20 @@ select
         house_prefix_1 || house_number_1 || house_suffix_1 ||
         case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
         house_prefix_2 || house_number_2 || house_suffix_2 as num_address
-from
-(
+from (
+
 select
     cast ( P.property_no as varchar ) as propnum,
-    '' as status,
+    case P.status
+        when 'F' then 'P'
+        else ''
+    end as status,
     '' as base_propnum,
     '' as is_primary,
-    '' as distance_related_flag,
+    case P.text2
+        when 'Yes' then 'Y'
+        else ''
+    end as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
     '' as location_descriptor,
@@ -39,7 +45,6 @@ select
     '' as blg_unit_prefix_2,
     ifnull ( A.unit_no_to , '' ) as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
-
     upper ( ifnull ( A.floor_desc , '' ) ) as floor_type,
     '' as floor_prefix_1,
     ifnull ( A.floor_no , '' ) as floor_no_1,
@@ -151,7 +156,7 @@ from
     join PROCLAIM_nucLocality L on L.locality_ctr = S.locality_ctr
 where
     P.status in ( 'C' , 'F' , 'c' , 'f' ) and
-    p.property_no not in ('16953','16899','17736','15127','14359','15893','14360','15303')
+    p.property_no not in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 )
 )
 )
 )
