@@ -27,6 +27,7 @@ select distinct
 	cast ( lpaprop.tpklpaprop as varchar ) as propnum,
 	'' as base_propnum,
 	'' as is_primary,
+    '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
 	case

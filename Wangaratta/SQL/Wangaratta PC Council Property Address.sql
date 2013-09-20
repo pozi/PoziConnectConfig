@@ -28,6 +28,7 @@ select
     '' as status,
     '' as base_propnum,
     '' as is_primary,
+    '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
     '' as location_descriptor,
