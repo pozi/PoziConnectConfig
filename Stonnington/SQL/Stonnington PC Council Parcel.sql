@@ -43,10 +43,10 @@ select
     '' as township_code,
     '363' as lga_code
 from
-    PROCLAIM_nucLand L
-    join PROCLAIM_nucAssociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F')
-    join PROCLAIM_nucProperty P on A.key1 = P.property_no
-    left join PROCLAIM_nucAssociation T on A.key1 = T.key1 and A.key2 = t.key2 and
+    TechOne_nucLand L
+    join TechOne_nucAssociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F')
+    join TechOne_nucProperty P on A.key1 = P.property_no
+    left join TechOne_nucAssociation T on A.key1 = T.key1 and A.key2 = t.key2 and
     T.association_type = 'TransPRLD' and A.date_ended is null
 where
     A.association_type = 'PropLand' and
