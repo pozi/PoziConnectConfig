@@ -150,10 +150,10 @@ select
     '368' as lga_code,
     '' as crefno
 from
-    PROCLAIM_nucProperty P
-    join PROCLAIM_nucAddress A on A.property_no = P.property_no
-    join PROCLAIM_nucStreet S on S.street_no = A.street_no
-    join PROCLAIM_nucLocality L on L.locality_ctr = S.locality_ctr
+    TechOne_nucProperty P
+    join TechOne_nucAddress A on A.property_no = P.property_no
+    join TechOne_nucStreet S on S.street_no = A.street_no
+    join TechOne_nucLocality L on L.locality_ctr = S.locality_ctr
 where
     P.status in ( 'C' , 'F' , 'c' , 'f' ) and
     p.property_no not in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 )
