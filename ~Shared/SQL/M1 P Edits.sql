@@ -59,12 +59,16 @@ select
     vp.lot_number as lot_number,
     cp.propnum as propnum,
     '' as base_propnum,
-    'parcel ' || vp.spi || ': ' ||
+    'parcel ' || vp.spi ||
+        case vp.status
+            when 'P' then ' (proposed): '
+            else ': '
+        end ||
         case
             when vp.propnum = '' then 'assigning new propnum '
             else 'replacing propnum ' || vp.propnum || ' with '
         end ||
-        cp.propnum  as comments
+        cp.propnum as comments
 from
     PC_Vicmap_Parcel vp,
     PC_Council_Parcel cp
