@@ -24,7 +24,7 @@ select
 from (
 
 select
-	Property.Property as propnum,
+	cast ( Property.Property as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
     '' as is_primary,
@@ -46,31 +46,31 @@ select
 	'' as floor_prefix_2,
 	'' as floor_no_2,
 	'' as floor_suffix_2,
-	'' as building_name,
+	ifnull ( Property.Name ) as building_name,
 	'' as complex_name,
 	'' as house_prefix_1,
 	case
-		when substr ( Property.StreetNofrom , 1, 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
+		when substr ( Property.StreetNofrom , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
 		when substr ( Property.StreetNofrom , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then Property.StreetNofrom
-		else ifnull ( substr ( Property.StreetNofrom , 1 , LENGTH ( Property.StreetNofrom ) - 1) , '' ) 
+		else ifnull ( substr ( Property.StreetNofrom , 1 , length ( Property.StreetNofrom ) - 1 ) , '' ) 
 	end as house_number_1,
 	case
-		when substr ( Property.StreetNofrom , 1, 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
+		when substr ( Property.StreetNofrom , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
 		when substr ( Property.StreetNofrom , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
 		else ifnull ( substr ( Property.StreetNofrom , -1 , 1 ) , '' )
 	end as house_suffix_1,
 	'' as house_prefix_2,
 	case
-		when substr ( Property.StreetNoTo , 1, 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
+		when substr ( Property.StreetNoTo , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
 		when substr ( Property.StreetNoTo , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then Property.StreetNoTo 
-		else ifnull ( substr ( Property.StreetNoTo , 1 , LENGTH ( Property.StreetNoTo ) - 1) , '' ) 
+		else ifnull ( substr ( Property.StreetNoTo , 1 , length ( Property.StreetNoTo ) - 1 ) , '' ) 
 	end as house_number_2,
 	case
-		when substr ( Property.StreetNoTo , 1, 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
+		when substr ( Property.StreetNoTo , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
 		when substr ( Property.StreetNoTo , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
 		else ifnull ( substr ( Property.StreetNoTo , -1 , 1 ) , '' )
 	end as house_suffix_2,
-	upper ( Street.Name ) as road_name,
+	replace ( upper ( Street.Name ) , ' - ' , '-' ) as road_name,
 	case
 		when StreetType.Type like 'Road %' then 'ROAD'
 		when StreetType.Type like 'Street %' then 'STREET'
