@@ -36,7 +36,10 @@ select
     cpa.house_number_2 as house_number_2,
     cpa.house_suffix_2 as house_suffix_2,
     cpa.access_type as access_type,
-    '' as new_road,
+    case
+        when cpa.propnum not in ( select propnum from PC_Vicmap_Property_Address ) and cpa.road_name not in ( select road_name from PC_Vicmap_Property_Address ) then 'Y'
+        else ''
+    end as new_road,
     cpa.road_name as road_name,
     cpa.road_type as road_type,
     cpa.road_suffix as road_suffix,
