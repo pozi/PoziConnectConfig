@@ -68,6 +68,17 @@ Generate only one record per property.
 group by propnum
 ```
 
+#### Field `new_road`
+
+Populate `new_road` with 'Y' if property is new and if the Council road name/type/locality combination doesn't already exist in Vicmap.
+
+```sql
+case
+    when cpa.propnum not in ( select vpa.propnum from PC_Vicmap_Property_Address vpa ) and ( cpa.road_name || ' ' || cpa.road_type || ' ' || cpa.locality_name ) not in ( select vpa.road_name || ' ' || vpa.road_type || ' ' || vpa.locality_name from PC_Vicmap_Property_Address vpa ) then 'Y'
+    else ''
+end as new_road,
+```
+
 ### Part 2
 
 Join the respective property/address and parcel tables to include records for proposed parcels.
