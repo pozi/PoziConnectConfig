@@ -21,9 +21,13 @@ For each of Parcel and Property/Address SQL:
 * convert upper case SQL syntax to lower case
 * replace old field names (if using existing PIQA SQL as a starting point)
 * add expression for num_road_address/ezi_address or spi/simple_spi
-* include expression in road name to replace apostrophes with nothing?
+* include any necessary expression in road name standardise with Vicmap
+  * replace ' with (blank)
+  * replace & with AND
+  * replace ' - ' with '-'
+  * etc
 * ensure propnum and crefno fields are character fields
-* remove unneeded fields
+* remove any unneeded fields
 * eliminate null values (replace with blanks if appropriate), *especially spi, propnum*
 * test query against council's data
 * test if the Parcel and Property/Address queries return the same set of property numbers
@@ -34,3 +38,4 @@ Ask council
 
 * assign 'NCPR' to all common properties?
 * how are parish and township attributes stored?
+* all 'E' edits - are they happy for these propnums to be retired?
