@@ -30,25 +30,9 @@ select distinct
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-	case
-        when upper ( lpaaddr.unitprefix ) = 'ATM' then 'ATM'
-        when upper ( lpaaddr.unitprefix ) = 'CAR PARK' then 'CARP'
-        when upper ( lpaaddr.unitprefix ) = 'COTTAGE' then 'CTGE'
-        when upper ( lpaaddr.unitprefix ) = 'FACTORY' then 'FCTY'
-        when upper ( lpaaddr.unitprefix ) = 'FLAT' then 'FLAT'
-        when upper ( lpaaddr.unitprefix ) = 'HOSTEL' then 'HOST'
-        when upper ( lpaaddr.unitprefix ) in ( 'KSK' , 'KIOSK' ) then 'KSK'
-        when upper ( lpaaddr.unitprefix ) = 'OFFICE' then 'OFFC'
-        when upper ( lpaaddr.unitprefix ) = 'SHED' then 'SHED'
-        when upper ( lpaaddr.unitprefix ) = 'SHOP' then 'SHOP'
-        when upper ( lpaaddr.unitprefix ) = 'SIGN' then 'SIGN'
-        when upper ( lpaaddr.unitprefix ) in ( 'STOR' , 'STORE' ) then 'STOR'
-        when upper ( lpaaddr.unitprefix ) = 'SUITE' then 'SE'
-        when upper ( lpaaddr.unitprefix ) = 'UNIT' then 'UNIT'
-        when upper ( lpaaddr.unitprefix ) in ( 'L' , 'LOT' ) then 'LOT'
-        when upper ( lpaaddr.unitprefix ) = 'ROOM' then 'ROOM'
-        when upper ( lpaaddr.unitprefix ) like '%TOWER%' then 'TWR'
-        else ''
+    case
+        when lpaaddr.prefix is null then upper ( ifnull ( lpaaddr.unitprefix , '' ) )
+        else upper ( ifnull ( lpaaddr.unitprefix , '' ) )
     end as blg_unit_type,   
     '' as blg_unit_prefix_1,
     case
@@ -65,13 +49,7 @@ select distinct
        when trim ( lpaaddr.endunitsfx ) = '0' or lpaaddr.endunitsfx is null then ''
        else trim ( lpaaddr.endunitsfx )
     end as blg_unit_suffix_2,
-    case
-        when upper ( lpaaddr.lvlprefix ) = 'BASEMENT' then 'B'
-        when upper ( lpaaddr.lvlprefix ) = 'LEVEL' then 'L'
-        when upper ( lpaaddr.lvlprefix ) = 'FLOOR' then 'FL'
-        when upper ( lpaaddr.lvlprefix ) = 'GRD FLOOR' then 'G'
-        else ''
-    end as floor_type,
+    '' as floor_type,
     '' as floor_prefix_1,
     case
         when upper ( lpaaddr.lvlprefix ) in ( 'FLOOR' , 'LEVEL' ) then trim ( lpaaddr.strlvlnum )
@@ -87,12 +65,7 @@ select distinct
     ifnull ( upper ( lpapnam.propname ) , '' ) as building_name,
     '' as complex_name,
     case
-        when upper ( lpaaddr.prefix ) in ( 'ABOVE' ) then 'ABOVE'
-        when upper ( lpaaddr.prefix ) in ( 'BELOW' , 'UNDER' ) then 'BELOW'
-        when upper ( lpaaddr.prefix ) in ( 'FRONT' ) then 'FRONT'
-        when upper ( lpaaddr.prefix ) in ( 'OFF' ) then 'OFF'
-        when upper ( lpaaddr.prefix ) in ( 'OPPOSITE' ) then 'OPPOSITE'
-        when upper ( lpaaddr.prefix ) in ( 'REAR' , 'REAR OF' ) then 'REAR'
+        when cnacomp.descr like '% OFF' then 'OFF'
         else ''
     end as location_descriptor,
     '' as house_prefix_1,
@@ -107,7 +80,7 @@ select distinct
         else cast ( cast ( lpaaddr.endhousnum as integer ) as varchar )
     end as house_number_2,
     ifnull ( lpaaddr.endhoussfx , '' ) as house_suffix_2,
-    upper ( replace ( replace ( cnacomp.descr , ' - ' , '-' ) , '''' , '' ) ) as road_name, 
+    upper ( replace ( replace ( cnacomp.descr , '&' , 'AND' ) , '''' , '' ) ) as road_name,
     case
         when
 		    cnaqual.descr like '% NORTH' or
