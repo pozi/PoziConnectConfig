@@ -13,7 +13,7 @@
   * Tasks\\_Council Name_\\M1 _Council Name_ - 4 - Generate SPEAR Report.ini
   * Tasks\\_Council Name_\\SQL\\_Council Name_ PC Council Parcel.sql
   * Tasks\\_Council Name_\\SQL\\_Council Name_ PC Council Property Address.sql
-
+* look up [LGA code](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/Reference/VMADMIN_LGA.csv) and update INI settings in Process Vicmap task and SQL files
 
 For each of Parcel and Property/Address SQL:
 
