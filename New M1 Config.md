@@ -18,7 +18,7 @@
 For each of Parcel and Property/Address SQL:
 
 * replace tabs with spaces (4)
-* convert upper case SQL syntax to lower case
+* convert upper case SQL syntax to lower case (use [Instant SQL Formatter](http://www.dpriver.com/pp/sqlformat.htm))
 * replace old field names (if using existing PIQA SQL as a starting point)
 * add expression for num_road_address/ezi_address or spi/simple_spi
 * include any necessary expression in road name standardise with Vicmap
