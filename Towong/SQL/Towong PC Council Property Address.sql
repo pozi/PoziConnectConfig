@@ -6,10 +6,10 @@ from (
 
 select
     *,    
+    ltrim ( road_name_combined ||
+        rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
-        rtrim ( ' ' || road_name ) ||
-        rtrim ( ' ' || road_type ) ||
-        rtrim ( ' ' || road_suffix ) ) as num_road_address
+        rtrim ( ' ' || road_name_combined ) ) as num_road_address
 from (
 
 select
@@ -20,7 +20,10 @@ select
         case when ( blg_unit_id_1 <> '' or blg_unit_suffix_1 <> '' ) then '/' else '' end ||
         house_prefix_1 || house_number_1 || house_suffix_1 ||
         case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
-        house_prefix_2 || house_number_2 || house_suffix_2 as num_address
+        house_prefix_2 || house_number_2 || house_suffix_2 as num_address,
+    ltrim ( road_name ||
+        rtrim ( ' ' || road_type ) ||
+        rtrim ( ' ' || road_suffix ) ) as road_name_combined
 from (
 
 select
