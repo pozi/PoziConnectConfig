@@ -27,68 +27,107 @@ select
 from (
 
 select
-    P.ASSESSMENT_ID  as propnum,
-    P.PROPERTY_TYPE as status,
-	'' as base_propnum,
-	'' as is_primary,
+    P.ASSESSMENT_ID as propnum,
+    '' as status,
+    '' as base_propnum,
+    '' as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
-    '' as hsa_unit_id,
-    '' as blg_unit_type,
-    '' as blg_unit_prefix_1,    
+    '' as hsa_unit_id,    
+    case
+        when P.HOUSE_NO_PREFIX like 'ATM%' then 'ATM'
+        when P.HOUSE_NO_PREFIX like 'FACT%' then 'FCTY'
+        when P.HOUSE_NO_PREFIX like 'OFF%' then 'OFFC'
+        when P.HOUSE_NO_PREFIX like 'SHOP%' then 'SHOP'
+        when P.HOUSE_NO_PREFIX like 'SHP%' then 'SHOP'
+        when P.HOUSE_NO_PREFIX like 'SH %' then 'SHOP'
+        when P.HOUSE_NO_PREFIX like 'SUITE%' then 'SUITE'
+        when P.HOUSE_NO_PREFIX like 'TWR%' then 'TWR'
+    else ''
+    end as blg_unit_type,
+    case
+        when substr (P.HOUSE_NO_PREFIX,1,1) in ('B','G') and substr (P.HOUSE_NO_PREFIX,2,1) in ('1','2','3','4','5','6','7','8','9','0') then substr (P.HOUSE_NO_PREFIX,1,1)
+        else ''
+    end as blg_unit_prefix_1,    
     case 
+        when P.HOUSE_NO_PREFIX like '000%' then substr (P.HOUSE_NO_PREFIX,4,99)
+        when P.HOUSE_NO_PREFIX like '00%' then substr (P.HOUSE_NO_PREFIX,3,99)
+        when P.HOUSE_NO_PREFIX like '0%' then substr (P.HOUSE_NO_PREFIX,2,99)
+        when P.HOUSE_NO_PREFIX = 'FRONT' then ''        
+        when substr (P.HOUSE_NO_PREFIX,1,1) in ('B','G') and substr (P.HOUSE_NO_PREFIX,2,1) = '0' then substr (P.HOUSE_NO_PREFIX,3,99)
+        when substr (P.HOUSE_NO_PREFIX,1,1) in ('B','G') and substr (P.HOUSE_NO_PREFIX,2,1) in ('1','2','3','4','5','6','7','8','9','0') then substr (P.HOUSE_NO_PREFIX,2,99)
         when substr (P.HOUSE_NO_PREFIX,1,8) in ('UPSTAIRS','U/STAIRS','GR FLOOR', 'VIC ROAD','AUSTPOST','PIPELINE','GRND FL') then TRIM (substr (P.HOUSE_NO_PREFIX,9,(length(HOUSE_NO_PREFIX)-8)))
-        when substr (P.HOUSE_NO_PREFIX,1,7) in ('CARPARK','CARAVAN','UPSTAIR','PIPELIN','GRD FLR','PT GRND','GRD/FLR') then TRIM (substr (P.HOUSE_NO_PREFIX,8,(length(HOUSE_NO_PREFIX)-7))) 
-        when substr (P.HOUSE_NO_PREFIX,1,6) in ('GND FL','GRD FL','GRND F','PT GRN','GRD/FL','CHURCH','FROUNT') then TRIM (substr (P.HOUSE_NO_PREFIX,7,(length(HOUSE_NO_PREFIX)-6))) 
-        when substr (P.HOUSE_NO_PREFIX,1,5) in ('SUITE','GR FL','LEVEL','GD FL','FRONT') then TRIM (substr (P.HOUSE_NO_PREFIX,6,(length(HOUSE_NO_PREFIX)-5))) 
-        when substr (P.HOUSE_NO_PREFIX,1,4) in ('SHOP','REAR','FACT','SUTE','UPST','GD F','FRON') then TRIM (substr (P.HOUSE_NO_PREFIX,5,(length(HOUSE_NO_PREFIX)-4)))            
-        when substr (P.HOUSE_NO_PREFIX,1,3) in ('TWR','SHP','OFF','ATM','LVL') then TRIM (substr (P.HOUSE_NO_PREFIX,4,(length(HOUSE_NO_PREFIX)-3)))    
-        when substr (P.HOUSE_NO_PREFIX,1,2) in ('SH','LV','GN') then TRIM (substr (P.HOUSE_NO_PREFIX,5,(length(HOUSE_NO_PREFIX)-2)))  
-        when substr (P.HOUSE_NO_PREFIX,-1,1) in ('A','B','C','D','E','F','G','S','L','T','R') then substr (P.HOUSE_NO_PREFIX,1,(length(HOUSE_NO_PREFIX)-1))    
+        when substr (P.HOUSE_NO_PREFIX,1,7) in ('1ST FLR','CARPARK','CARAVAN','UPSTAIR','PIPELIN','GRD FLR','PT GRND','GRD/FLR') then TRIM (substr (P.HOUSE_NO_PREFIX,8,(length(HOUSE_NO_PREFIX)-7))) 
+        when substr (P.HOUSE_NO_PREFIX,1,6) in ('1ST FL','2ND FL','GND FL','GRD FL','GRND F','PT GRN','GRD/FL','CHURCH') then TRIM (substr (P.HOUSE_NO_PREFIX,7,(length(HOUSE_NO_PREFIX)-6))) 
+        when substr (P.HOUSE_NO_PREFIX,1,5) in ('SUITE','GR FL','LEVEL','GD FL') then TRIM (substr (P.HOUSE_NO_PREFIX,6,(length(HOUSE_NO_PREFIX)-5))) 
+        when substr (P.HOUSE_NO_PREFIX,1,4) in ('SHOP','REAR','FACT','SUTE','UPST','GD F') then TRIM (substr (P.HOUSE_NO_PREFIX,5,(length(HOUSE_NO_PREFIX)-4)))            
+        when substr (P.HOUSE_NO_PREFIX,1,3) in ('1FL','TWR','SHP','OFF','ATM') then TRIM (substr (P.HOUSE_NO_PREFIX,4,(length(HOUSE_NO_PREFIX)-3)))    
+        when substr (P.HOUSE_NO_PREFIX,1,2) in ('SH','GN') then TRIM (substr (P.HOUSE_NO_PREFIX,4,(length(HOUSE_NO_PREFIX)-2)))  
+        when substr (P.HOUSE_NO_PREFIX,1,1) in ('1','2','3','4','5','6','7','8','9') and P.HOUSE_NO_PREFIX not like '%ST%' and P.HOUSE_NO_PREFIX not like '%ND%' and substr (P.HOUSE_NO_PREFIX,-1,1) in ('A','B','C','D','E','F','G') then substr (P.HOUSE_NO_PREFIX,1,(length(HOUSE_NO_PREFIX)-1)) 
         when substr (P.HOUSE_NO_PREFIX,1,1) in ('A','B','C','D','E','F','G','S') then substr (P.HOUSE_NO_PREFIX,-1,(length(HOUSE_NO_PREFIX)-1))
-        when substr (P.HOUSE_NO_PREFIX,-2,1) ='-' then substr (P.HOUSE_NO_PREFIX,1,(length(HOUSE_NO_PREFIX)-2))    
-        when substr (P.HOUSE_NO_PREFIX,-3,1) ='-' then substr (P.HOUSE_NO_PREFIX,1,(length(HOUSE_NO_PREFIX)-3))
-        when substr (P.HOUSE_NO_PREFIX,-4,1) ='-' then substr (P.HOUSE_NO_PREFIX,1,(length(HOUSE_NO_PREFIX)-4))
-        when substr (P.HOUSE_NO_PREFIX,-5,1) ='-' then substr (P.HOUSE_NO_PREFIX,1,(length(HOUSE_NO_PREFIX)-5))    
+        when substr (P.HOUSE_NO_PREFIX,-2,1) in ( '-' , '&' )  then substr (P.HOUSE_NO_PREFIX,1,(length(HOUSE_NO_PREFIX)-2))    
+        when substr (P.HOUSE_NO_PREFIX,-3,1) in ( '-' , '&' )  then substr (P.HOUSE_NO_PREFIX,1,(length(HOUSE_NO_PREFIX)-3))
+        when substr (P.HOUSE_NO_PREFIX,-4,1) in ( '-' , '&' )  then substr (P.HOUSE_NO_PREFIX,1,(length(HOUSE_NO_PREFIX)-4))
+        when substr (P.HOUSE_NO_PREFIX,-5,1) in ( '-' , '&' )  then substr (P.HOUSE_NO_PREFIX,1,(length(HOUSE_NO_PREFIX)-5))  
+        when substr (P.HOUSE_NO_PREFIX,1,1) not in ('1','2','3','4','5','6','7','8','9','0') then ''
         when P.HOUSE_NO_PREFIX not null then P.HOUSE_NO_PREFIX
-     else ''
+        else ''
     end as blg_unit_id_1,
     case
-        when substr (P.HOUSE_NO_PREFIX,-1,1) in ('A','B','C') then substr (P.HOUSE_NO_PREFIX,-1,(length(HOUSE_NO_PREFIX)-1))
+        when substr (P.HOUSE_NO_PREFIX,1,1) in ('1','2','3','4','5','6','7','8','9') and substr (P.HOUSE_NO_PREFIX,-1,1) in ('A','B','C','D','E','F','G') then substr (P.HOUSE_NO_PREFIX,-1,(length(HOUSE_NO_PREFIX)-1))
       else '' 
     end  as blg_unit_suffix_1, 
      '' as blg_unit_prefix_2,
      case
-        when substr (P.HOUSE_NO_PREFIX,-2,1) ='-' then substr (P.HOUSE_NO_PREFIX,-1,1) 
-        when substr (P.HOUSE_NO_PREFIX,-3,1) ='-' then substr (P.HOUSE_NO_PREFIX,-2,2)
-        when substr (P.HOUSE_NO_PREFIX,-4,1) ='-' then substr (P.HOUSE_NO_PREFIX,-3,3)
-        when substr (P.HOUSE_NO_PREFIX,-5,1) ='-' then substr (P.HOUSE_NO_PREFIX,-4,4)        
-      else ''
+        when substr (P.HOUSE_NO_PREFIX,-2,1) in ( '-' , '&' ) then substr (P.HOUSE_NO_PREFIX,-1,1)
+        when substr (P.HOUSE_NO_PREFIX,-3,1) in ( '-' , '&' ) then substr (P.HOUSE_NO_PREFIX,-2,2)
+        when substr (P.HOUSE_NO_PREFIX,-4,1) in ( '-' , '&' ) then substr (P.HOUSE_NO_PREFIX,-3,3)
+        when substr (P.HOUSE_NO_PREFIX,-5,1) in ( '-' , '&' ) then substr (P.HOUSE_NO_PREFIX,-4,4)
+        else ''
     end as blg_unit_id_2,
     '' as blg_unit_suffix_2,
     case
-	  when upper ( P.HOUSE_NO_PREFIX ) in ( 'GD FL' , 'GFL' , 'GND' , 'GND FL' , 'GR FL' , 'GR FLR' , 'GR FLOOR' , 'GRD FL' , 'GRD FLR' , 'GRND FL' ) THEN 'G'
-	  else ''
+        when upper ( P.HOUSE_NO_PREFIX ) in ( 'GD FL' , 'GFL' , 'GND' , 'GND FL' , 'GR FL' , 'GR FLR' , 'GR FLOOR' , 'GRD FL' , 'GRD FLR' , 'GRND FL' ) THEN 'G'      
+        when P.HOUSE_NO_PREFIX like '1FL%' then 'F'
+        when P.HOUSE_NO_PREFIX like '1ST FL%' then 'F'
+        when P.HOUSE_NO_PREFIX like '2ND FL%' then 'F'
+        when P.HOUSE_NO_PREFIX like 'LEVEL%' then 'L'
+        when P.HOUSE_NO_PREFIX like 'LV%' then 'L'    
+        else ''
     end as floor_type,
-    '' as floor_prefix_1,
-    '' as floor_no_1,
+    '' as floor_prefix_1,    
+    case
+        when P.HOUSE_NO_PREFIX like '1FL%' then '1'
+        when P.HOUSE_NO_PREFIX like '1ST FL%' then '1'
+        when P.HOUSE_NO_PREFIX like '2ND FL%' then '2'
+        when P.HOUSE_NO_PREFIX like 'LEVEL%' then TRIM (substr (P.HOUSE_NO_PREFIX,6,(length(HOUSE_NO_PREFIX)-5))) 
+        when P.HOUSE_NO_PREFIX like 'LVL%' then TRIM (substr (P.HOUSE_NO_PREFIX,4,(length(HOUSE_NO_PREFIX)-3)))
+        when P.HOUSE_NO_PREFIX like 'LV%' then TRIM (substr (P.HOUSE_NO_PREFIX,3,(length(HOUSE_NO_PREFIX)-2)))
+        else ''
+    end as floor_no_1,
     '' as floor_suffix_1,
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
     '' as building_name,
     '' as complex_name,
-    '' as location_descriptor,
+    case
+        when P.HOUSE_NO_PREFIX = 'FRONT' then 'FRONT'
+        when P.HOUSE_NO_PREFIX = 'REAR' then 'REAR'
+        when P.HOUSE_NO_PREFIX like 'UPST%' then 'UPSTAIRS'
+        when P.HOUSE_NO_PREFIX like 'U/STAIRS%' then 'UPSTAIRS'
+        else ''
+    end as location_descriptor,
     '' as house_prefix_1,
     ifnull ( cast ( cast ( P.HOUSE_NUMBER as integer ) as varchar ) , '' ) as house_number_1,
     case 
-        when substr (P.HOUSE_NO_SUFFIX,1) in ('A','B','C','D','E','F','G','H','I','J')  then substr (P.HOUSE_NO_SUFFIX,1) 
+        when substr (P.HOUSE_NO_SUFFIX,1) in ('A','B','C','D','E','F','G','H','I','J') then substr (P.HOUSE_NO_SUFFIX,1) 
         else ''
     end as house_suffix_1,
     '' as house_prefix_2,    
     case 
         when substr (P.HOUSE_NO_SUFFIX,1,1) = '-' and substr (P.HOUSE_NO_SUFFIX,-1,1) in ('A','B','C','D','E','F','G') then substr (P.HOUSE_NO_SUFFIX,2,(length(HOUSE_NO_SUFFIX)-2))
-        when substr (P.HOUSE_NO_SUFFIX,1,1) = '-'  then substr (P.HOUSE_NO_SUFFIX,2)
+        when substr (P.HOUSE_NO_SUFFIX,1,1) = '-' then substr (P.HOUSE_NO_SUFFIX,2)
         else '' 
     end as house_number_2,
     case
@@ -115,7 +154,7 @@ select
         when S.Description like '% ACCESS%' then 'ACCESS'
         when S.Description like '% ARCADE%' then 'ARCADE'
         when S.Description like '% AVE%' then 'AVENUE'
-        when S.Description like '% Bend%' then 'Bend'
+        when S.Description like '% BEND%' then 'BEND'
         when S.Description like '% BVD%' then 'BOULEVARD'
         when S.Description like '% BRAE%' then 'BRAE'
         when S.Description like '% CIRCLE%' then 'CIRCLE'
@@ -125,13 +164,14 @@ select
         when S.Description like '% COVE%' then 'COVE'
         when S.Description like '% CR' then 'CRESCENT'        
         when S.Description like '% CRES' then 'CRESCENT'
+        when S.Description like '% CRES %' then 'CRESCENT'
         when S.Description like '% CREST%' then 'CREST'
         when S.Description like '% CUTTING%' then 'CUTTING'
         when S.Description like '% DIVIDE%' then 'DIVIDE'
         when S.Description like '% DR%' then 'DRIVE'        
         when S.Description like '% DRIVE%' then 'DRIVE'
         when S.Description like '% EDGE%' then 'EDGE'
-        when S.Description like '% end%' then 'end'
+        when S.Description like '% END%' then 'END'
         when S.Description like '% FREEWAY%' then 'FREEWAY'
         when S.Description like '% GARDENS%' then 'GARDENS'
         when S.Description like '% GLADES' then ''
