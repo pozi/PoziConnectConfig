@@ -12,6 +12,8 @@ select
         when parcel.pc_planno like 'SP%' then replace ( parcel_spi , '\SP' , '\' )
         when parcel.pc_planno like 'TP%' then replace ( parcel_spi , '\TP' , '\' )
     end , '' ) as simple_spi,
+    parcel.pc_spic as spi_code,
+    parcel.pc_dtype as desc_type,
     parcel.pc_lgac as lga_code,
     ifnull ( parcel.pc_planno , '' ) as plan_number,
     substr ( ifnull ( parcel.pc_planno , '' ) , 1 , 2 ) as plan_prefix,

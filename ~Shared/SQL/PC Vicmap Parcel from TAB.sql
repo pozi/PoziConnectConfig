@@ -13,6 +13,8 @@ select
         when parcel.parcel_plan_number like 'TP%' then replace ( parcel.parcel_spi , '\TP' , '\' )
         else ''
     end as simple_spi,
+    parcel.parcel_spi_code as spi_code,
+    parcel.parcel_desc_type as desc_type,
     parcel.parcel_lga_code as lga_code,
     parcel.parcel_plan_number as plan_number,
     substr ( parcel.parcel_plan_number , 1 , 2 ) as plan_prefix,
