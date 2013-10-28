@@ -73,7 +73,7 @@ union
 
 select
     cpa.lga_code as lga_code,
-    '' as new_sub,
+    'Y' as new_sub,
     '' as property_pfi,
     '' as parcel_pfi,
     '' as address_pfi,
