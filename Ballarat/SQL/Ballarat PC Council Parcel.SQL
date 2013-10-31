@@ -27,7 +27,7 @@ from
 select distinct
     lpaprop.tpklpaprop as propnum,
     '' as status,
-    '' as crefno,
+    cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     ifnull ( lpaparc.plancode , '' ) ||
         case
