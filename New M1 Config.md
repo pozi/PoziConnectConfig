@@ -18,7 +18,7 @@
 For each of Parcel and Property/Address SQL:
 
 * replace tabs with spaces (4)
-* convert upper case SQL syntax to lower case (use [Instant SQL Formatter](http://www.dpriver.com/pp/sqlformat.htm))
+* convert upper case SQL syntax to lower case (edit manually or use [Instant SQL Formatter](http://www.dpriver.com/pp/sqlformat.htm))
 * replace old field names (if using existing PIQA SQL as a starting point)
 * add expression for num_road_address/ezi_address or spi/simple_spi
 * include any necessary expression in road name standardise with Vicmap
@@ -30,6 +30,10 @@ For each of Parcel and Property/Address SQL:
 * remove any unneeded fields
 * eliminate null values (replace with blanks if appropriate), *especially spi, propnum*
 * test query against council's data
+* check that address values comply with:
+  * [BLG_UNIT_TYPE](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/Reference/VMADD_BLG_UNIT_TYPE.csv)
+  * [FLOOR_TYPE](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/Reference/VMADD_FLOOR_TYPE.csv)
+  * [LOCATION_DESCRIPTOR](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/Reference/VMADD_LOCATION_DESCRIPTOR.csv)
 * test if the Parcel and Property/Address queries return the same set of property numbers
   * check for parcels without properties
   * check for properties without parcels
@@ -38,4 +42,10 @@ Ask council
 
 * assign 'NCPR' to all common properties?
 * how are parish and township attributes stored?
+
+Supply to council
+
 * all 'E' edits - are they happy for these propnums to be retired?
+* address discrepancies
+* initial M1
+* ...
