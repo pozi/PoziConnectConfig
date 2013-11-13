@@ -10,7 +10,7 @@ To install the latest configuration into an existing installation of Pozi Connec
 
 1. backup your existing Pozi Connect configuration by renaming the Tasks folder (found within the PoziConnect folder) to something like 'Tasks.bak'
 2.  download [this zip file](https://github.com/groundtruth/PoziConnectConfig/archive/master.zip)
-3. unzip the zip file (to its default location or other temporary location)
+3. unzip the zip file (to its default location or other temporary location), which will generate a folder called 'PoziConnectConfig-master'
 4. rename the folder 'PoziConnectConfig-master' to 'Tasks'
 5. move this Tasks folder into your PoziConnect folder (replacing the Tasks folder you renamed in Step 1.)
 
