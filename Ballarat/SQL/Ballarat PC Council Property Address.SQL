@@ -123,7 +123,7 @@ select distinct
         else ''
     end as road_suffix, 
     upper ( lpasubr.suburbname ) as locality_name,
-    '' as "postcode",
+    '' as postcode,
     '' as access_type,
     '302' as lga_code,
     '' as crefno
