@@ -49,14 +49,3 @@ The rules and process outline above are part of a 'second generation' of the Poz
 This is fundamentally different from the 'first generation' method of generating records based on different property 'scenarios' and trying to determine the attributes, rules and edit codes afterwards.
 
 It is expected this new approach makes the logic simpler and more transparent, and give us more control over the output. It also reduces the amount of council-specific configuration as the bulk of the processing logic is common across all councils.
-
-## New Subdivisions
-
-### Potential Problem
-
-Councils can sometimes add new subdivision parcels into their property system as belonging to the existing property (ie, same propnum). If these are submitted on the M1, DEPI could merge these parcels into a single property, and lose any address information relating to the parcels submitted via SPEAR.
-
-### Potential Solution
-
-Before we attempt to allocate a property number to an proposed parcel (status = P), we first check whether that same propnum is already matched to any existing property (status = A). If so, exclude this record from the M1.
-
