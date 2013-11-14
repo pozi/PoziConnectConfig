@@ -24,7 +24,7 @@ from
 (
 select
     case
-        when A.key1 in ( 14359 , 15127 , 14360 , 15893 , 15303 ) then 'NCPR'
+        when A.key1 in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 ) then 'NCPR'
         else cast ( A.key1 as varchar )
     end as propnum,
     cast ( L.land_no as varchar ) as crefno,
@@ -62,6 +62,5 @@ where
     A.date_ended is null and
     L.plan_desc in ( 'TP' , 'LP' , 'PS' , 'PC' , 'CP' , 'SP' , 'CS' , 'RP' , 'CG' ) and
     T.key1 is null and
-    p.property_no not in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 ) and
     P.status in ( 'C' , 'c' )
 )
