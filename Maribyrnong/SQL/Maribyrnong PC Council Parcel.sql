@@ -2,6 +2,7 @@ select
     *,
     case
         when plan_number <> '' and lot_number = '' then plan_number
+        when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
         when plan_number <> '' then lot_number || '\' || plan_number
         when ( parish_code <> '' or township_code <> '' ) then
             allotment ||
@@ -12,16 +13,17 @@ select
     end as spi,
     case
         when plan_numeral <> '' and lot_number = '' then plan_numeral
+        when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_numeral
         when plan_numeral <> '' then lot_number || '\' || plan_numeral
         when ( parish_code <> '' or township_code <> '' ) then
             allotment ||
             case when sec <> '' then '~' || sec else '' end ||
-            '\PP' ||
+            '\' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
     end as simple_spi
-from (
-
+from
+(
 select 
     P.ASSESSMENT_ID as propnum,
     P.PROPERTY_TYPE as status,
