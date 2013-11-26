@@ -1,84 +1,67 @@
-SELECT DISTINCT
-
-   CAST(CAST(pthdbo_lraassm.assmnumber AS integer) AS Varchar) AS PROPNUM,
-   CAST (pthdbo_lpaparc.tpklpaparc AS varchar) AS CREFNO,
-
-   CASE
-      WHEN pthdbo_lpaparc.plancode IS NOT NULL
-      THEN CAST (pthdbo_lpaparc.parcelnum AS varchar)
-      ELSE CAST (NULL AS varchar)
-   END AS LOT_NUMBER,
-
-
-
-   CASE
-      WHEN pthdbo_lpaparc.plannum Is Null
-      THEN CAST (Null AS varchar)
-      ELSE        
-         CAST (Trim(pthdbo_lpaparc.plancode)||
-         CASE
-            WHEN Substr(Trim(pthdbo_lpaparc.plannum),-1) > '9' AND Substr(Trim(pthdbo_lpaparc.plannum),1) <> '0' THEN Substr(pthdbo_lpaparc.plannum,1,(LENGTH (Trim(plannum))-1))
-           
-           WHEN Substr(Trim(pthdbo_lpaparc.plannum),2) = '00'  THEN Substr(pthdbo_lpaparc.plannum,3,99)
-            WHEN Substr(Trim(pthdbo_lpaparc.plannum),1) = '0'  THEN Substr(pthdbo_lpaparc.plannum,2,99)
-            ELSE Trim(pthdbo_lpaparc.plannum)
-         END
-         AS varchar)
-   END AS PLAN_NUMBER, 
-
-   CASE
-      WHEN pthdbo_lpasect.parcelsect IS NOT NULL
-      THEN CAST (pthdbo_lpaparc.parcelnum AS varchar)
-      ELSE CAST (NULL AS varchar)
-   END AS ALLOTMENT,
-
-   CAST (pthdbo_lpasect.parcelsect AS varchar) AS [SECTION], 
-
-   CASE
-      WHEN pthdbo_lpaparc.parcelcode Is Null
-      THEN CAST ('N' AS varchar)
-      ELSE
-          CASE
-            WHEN Substr(RTrim(pthdbo_lpaparc.parcelcode),2)='PT'
-            THEN CAST ('P' AS varchar)
-            ELSE CAST ('N' AS varchar)
-          END
-   END AS PART,
-
-   CAST (NULL as varchar) AS PARISH_CODE, 
-   CAST (NULL as varchar) AS TOWNSHIP_CODE,   
-
-
-
-	CASE
-		WHEN pthdbo_lpaparc.parcelnum is not null THEN RTrim(pthdbo_lpaparc.parcelnum) || '\'
-	END ||
-	CASE
-		WHEN pthdbo_lpaparc.plannum Is Null THEN pthdbo_lpaparc.plancode=''
-		ELSE CAST (RTrim(pthdbo_lpaparc.plancode) ||
-			CASE
-            WHEN Substr(Trim(pthdbo_lpaparc.plannum),-1) > '9' AND Substr(Trim(pthdbo_lpaparc.plannum),1) <> '0' THEN Substr(pthdbo_lpaparc.plannum,1,(LENGTH (Trim(plannum))-1))
-           WHEN Substr(Trim(pthdbo_lpaparc.plannum),2) = '00' THEN Substr(pthdbo_lpaparc.plannum,3,99)
-            WHEN Substr(Trim(pthdbo_lpaparc.plannum),1) = '0' THEN Substr(pthdbo_lpaparc.plannum,2,99)
-            ELSE Trim(pthdbo_lpaparc.plannum)
-			END
-			AS varchar)
-   END AS SPI,
-   
-   pthdbo_lpaparc.status AS PARCEL_STATUS
-   
-
-
-FROM
-   PATHWAY_lpaprop AS pthdbo_lpaprop LEFT OUTER JOIN
-   PATHWAY_lpaprti AS pthdbo_lpaprti  ON pthdbo_lpaprop.tpklpaprop = pthdbo_lpaprti.tfklpaprop LEFT OUTER JOIN
-   PATHWAY_lpatipa AS pthdbo_lpatipa  ON pthdbo_lpaprti.tfklpatitl = pthdbo_lpatipa.tfklpatitl LEFT OUTER JOIN
-   PATHWAY_lpaparc AS pthdbo_lpaparc  ON pthdbo_lpatipa.tfklpaparc = pthdbo_lpaparc.tpklpaparc LEFT OUTER JOIN
-   PATHWAY_lpasect AS pthdbo_lpasect ON pthdbo_lpaparc.tpklpaparc = pthdbo_lpasect.tfklpaparc LEFT OUTER JOIN
-   PATHWAY_lparole_filtered AS pthdbo_lparole_filt ON pthdbo_lpaprop.tpklpaprop = pthdbo_lparole_filt.tfklocl LEFT OUTER JOIN
-   PATHWAY_lraassm AS pthdbo_lraassm ON pthdbo_lparole_filt.tfkappl = pthdbo_lraassm.tpklraassm  
-
-WHERE
-   pthdbo_lpaparc.status <> 'H' AND   
-   pthdbo_lraassm.applicatn = 'R' AND
-   pthdbo_lpaprop.tfklpacncl = 13
+select
+    *,
+    case
+        when plan_number <> '' and lot_number = '' then plan_number
+        when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
+        when plan_number <> '' then lot_number || '\' || plan_number
+        when ( parish_code <> '' or township_code <> '' ) then
+            allotment ||
+            case when sec <> '' then '~' || sec else '' end ||
+            '\PP' ||
+            case when township_code <> '' then township_code else parish_code end
+        else ''
+    end as spi,
+    case
+        when plan_numeral <> '' and lot_number = '' then plan_numeral
+        when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_numeral
+        when plan_numeral <> '' then lot_number || '\' || plan_numeral
+        when ( parish_code <> '' or township_code <> '' ) then
+            allotment ||
+            case when sec <> '' then '~' || sec else '' end ||
+            '\' ||
+            case when township_code <> '' then township_code else parish_code end
+        else ''
+    end as simple_spi
+from
+(
+select distinct
+    cast ( cast ( lraassm.assmnumber as integer ) as varchar ) as propnum,
+    lpaparc.status as status,
+    '' as crefno,
+    ifnull ( lpaparc.fmtparcel , '' ) as summary,
+    case
+        when lpaparc.plannum is null then cast (null as varchar)
+        else cast ( trim (lpaparc.plancode ) ||
+            case
+                when substr ( trim ( lpaparc.plannum ) , -1 ) > '9' and substr ( trim ( lpaparc.plannum ) , 1 ) <> '0' then substr ( lpaparc.plannum , 1 , ( length ( trim ( plannum ) ) -1 ) )
+                when substr ( trim ( lpaparc.plannum ) , 2 ) = '00'  then substr ( lpaparc.plannum , 3 , 99 )
+                when substr ( trim ( lpaparc.plannum ) , 1 ) = '0'  then substr ( lpaparc.plannum , 2 , 99 )
+                else trim ( lpaparc.plannum )
+            end as varchar)
+    end as plan_number,
+    ifnull ( lpaparc.plancode , '' ) as plan_prefix,
+    case
+        when substr ( trim ( lpaparc.plannum ) , -1 ) > '9' and substr ( trim ( lpaparc.plannum ) , 1 ) <> '0' then substr ( lpaparc.plannum , 1 , ( length ( trim ( plannum ) ) -1 ) )
+        when substr ( trim ( lpaparc.plannum ) , 2 ) = '00'  then substr ( lpaparc.plannum , 3 , 99 )
+        when substr ( trim ( lpaparc.plannum ) , 1 ) = '0'  then substr ( lpaparc.plannum , 2 , 99 )
+        else trim ( lpaparc.plannum )
+    end as plan_numeral,
+    ifnull ( lpaparc.parcelnum , '' ) as lot_number,
+    ifnull ( lpaparc.parcelnum , '' ) as allotment,
+    ifnull ( lpasect.parcelsect , '' ) as sec,
+    '' as parish_code,
+    '' as township_code,
+    '322' as lga_code
+from
+   PATHWAY_lpaprop as lpaprop left outer join
+   PATHWAY_lpaprti as lpaprti  ON lpaprop.tpklpaprop = lpaprti.tfklpaprop left outer join
+   PATHWAY_lpatipa as lpatipa  ON lpaprti.tfklpatitl = lpatipa.tfklpatitl left outer join
+   PATHWAY_lpaparc as lpaparc  ON lpatipa.tfklpaparc = lpaparc.tpklpaparc left outer join
+   PATHWAY_lpasect as lpasect ON lpaparc.tpklpaparc = lpasect.tfklpaparc left outer join
+   PATHWAY_lparole_filtered as lparole_filt ON lpaprop.tpklpaprop = lparole_filt.tfklocl left outer join
+   PATHWAY_lraassm as lraassm ON lparole_filt.tfkappl = lraassm.tpklraassm  
+where
+   lpaparc.status <> 'H' and   
+   lraassm.applicatn = 'R' and
+   lpaprop.tfklpacncl = 13
+)
