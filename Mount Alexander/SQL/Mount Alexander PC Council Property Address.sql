@@ -61,7 +61,7 @@ select distinct
     upper ( ifnull ( Address.Addr_House_Suffix_2 , '' ) ) as house_suffix_2, 
 	case
         when upper ( Street.Street_Name ) like 'OFF %' then substr ( upper ( Street.Street_Name ) , 5 )
-        else upper ( ifnull ( Replace(Street.Street_Name,'`','') , '' ) )
+        else upper ( ifnull ( replace ( Street.Street_Name , '`' , '' ) , '' ) )
     end as road_name,
     upper ( ifnull ( Street_Type.Street_Type_Name , '' ) ) as road_type,
     case
@@ -87,13 +87,13 @@ from (
     from
         PropertyGov_Parcel as Parcel inner join
         PropertyGov_Assessment_Parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
-        PropertyGov_Assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id     
+        PropertyGov_Assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id
     where
         Parcel.Parcel_Status = 0 and
-        assessment.Assessment_Status not in ( '9' , '22' ) and    
-        assessment.Assess_Number is not null    
-    group by Assessment.Assess_Number 
-) as Unique_Assessment inner join 
+        Assessment.Assessment_Status not in ( '9' , '22' ) and
+        Assessment.Assess_Number is not null
+    group by Assessment.Assess_Number
+) as Unique_Assessment inner join
     PropertyGov_Address as Address on Unique_Assessment.Address_Id = Address.Address_Id inner join
     PropertyGov_Street_Locality as Street_Locality on Address.Street_Locality_Id = Street_Locality.Street_Locality_Id left outer join
     PropertyGov_Street as Street on Street_Locality.Street_Id = Street.Street_Id left outer join
