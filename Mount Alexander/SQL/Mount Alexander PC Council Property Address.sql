@@ -91,7 +91,8 @@ from (
     where
         Parcel.Parcel_Status = 0 and
         Assessment.Assessment_Status not in ( '9' , '22' ) and
-        Assessment.Assess_Number is not null
+        Assessment.Assess_Number is not null and
+        Assessment.Assessment_Id not in ( '10978' , '10986'  )
     group by Assessment.Assess_Number
 ) as Unique_Assessment inner join
     PropertyGov_Address as Address on Unique_Assessment.Address_Id = Address.Address_Id inner join
