@@ -53,7 +53,6 @@ from
 where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status not in ( '9' , '22' ) and    
-    Assessment.Assess_Number is not null and
-    Assessment.Assessment_Id not in ( '10978' , '10986' )
+    Assessment.Assess_Number is not null
 order by propnum, crefno
 )
