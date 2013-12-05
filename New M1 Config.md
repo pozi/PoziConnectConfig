@@ -3,26 +3,22 @@
 * obtain council data
 * order and download Vicmap data
 * create new folder _Council Name_ based on client name
-* copy INI and SQL files from similar site (based on an existing site using the same property system)
-  * Tasks\\_Council Name_\\M1 _Council Name_ - 1 - Import _Property System_.ini
-  * Tasks\\_Council Name_\\M1 _Council Name_ - 1.5 - Process _Property System_.ini
-  * Tasks\\_Council Name_\\M1 _Council Name_ - 2 - Import Vicmap _SHPs/TABs_.ini
-  * Tasks\\_Council Name_\\M1 _Council Name_ - 2.5 - Process Vicmap.ini
-  * Tasks\\_Council Name_\\M1 _Council Name_ - 3 - Generate M1.ini
-  * Tasks\\_Council Name_\\M1 _Council Name_ - 3.5 - Generate Discrepancy Reports.ini
-  * Tasks\\_Council Name_\\M1 _Council Name_ - 4 - Generate SPEAR Report.ini
-  * Tasks\\_Council Name_\\SQL\\_Council Name_ PC Council Parcel.sql
-  * Tasks\\_Council Name_\\SQL\\_Council Name_ PC Council Property Address.sql
+* copy INI and SQL files from similar site (based on an existing site using the same property system) into new folder
 * look up [LGA code](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/Reference/VMADMIN_LGA.csv) and update INI settings in Process Vicmap task and SQL files
+
+Ask council
+
+* are there any "dummy" property numbers?
+* assign 'NCPR' to all common properties?
 
 For each of Parcel and Property/Address SQL:
 
 * replace tabs with spaces (4)
-* convert upper case SQL syntax to lower case (edit manually or use [Instant SQL Formatter](http://www.dpriver.com/pp/sqlformat.htm))
+* convert upper case SQL syntax to lower case (edit manually or try [Instant SQL Formatter](http://www.dpriver.com/pp/sqlformat.htm))
 * replace old field names (if using existing PIQA SQL as a starting point)
 * add expression for num_road_address/ezi_address or spi/simple_spi
 * include any necessary expression in road name standardise with Vicmap
-  * replace ' with (blank)
+  * replace (apostrophe) with (blank)
   * replace & with AND
   * replace ' - ' with '-'
   * etc
@@ -37,15 +33,14 @@ For each of Parcel and Property/Address SQL:
 * test if the Parcel and Property/Address queries return the same set of property numbers
   * check for parcels without properties
   * check for properties without parcels
-
-Ask council
-
-* assign 'NCPR' to all common properties?
-* how are parish and township attributes stored?
+* update/create PIQA query
 
 Supply to council
 
-* all 'E' edits - are they happy for these propnums to be retired?
-* address discrepancies
-* initial M1
-* ...
+* select 10 properties from the 'S' list - ask if they're satisfied with the  address we've extracted
+* select 10 properties from the 'E' and 'R' lists - ask if they're satisfied for them  to be retired
+* select 10 properties from the 'A' list - ask if they're satisfied with them being added as multi-assessments
+* select 10 properties from the 'C' list (mix of new and replacement records)
+* select 10 properties from the 'P' list (mix of new and replacement records)
+
+Await feedback, adjust configuration as required, generate M1, send to council
