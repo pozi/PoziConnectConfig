@@ -63,11 +63,13 @@ select
         case vp.status
             when 'P' then ' (proposed): '
             else ': '
+        end ||        
+        'replacing propnum ' || 
+        case vp.propnum
+            when '' then '(blank)'            
+            else vp.propnum
         end ||
-        case
-            when vp.propnum = '' then 'assigning new propnum '
-            else 'replacing propnum ' || vp.propnum || ' with '
-        end ||
+        ' with ' || 
         cp.propnum as comments
 from
     PC_Vicmap_Parcel vp,
