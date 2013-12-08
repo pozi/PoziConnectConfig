@@ -10,6 +10,7 @@ Ask council
 
 * are there any "dummy" property numbers?
 * assign 'NCPR' to all common properties?
+* SHP or TAB?
 
 For each of Parcel and Property/Address SQL:
 
