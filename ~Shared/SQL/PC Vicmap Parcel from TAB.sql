@@ -24,7 +24,8 @@ select
     parcel.parcel_status as status,
     property.prop_pfi as property_pfi,
     property.prop_multi_assessment as multi_assessment,
-    property.prop_propnum as propnum
+    property.prop_propnum as propnum,
+    parcel.geometry as parcel_geometry
 from
     VMPROP_PARCEL parcel,
     VMPROP_PARCEL_PROPERTY parcel_property,

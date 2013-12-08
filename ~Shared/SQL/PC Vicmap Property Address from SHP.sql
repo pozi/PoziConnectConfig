@@ -43,7 +43,9 @@ select
     ifnull ( address.num_add , '' ) as num_address,
     address.add_class as address_class,
     address.accesstype as access_type,
-    address.out_prop as outside_property
+    address.out_prop as outside_property,
+    property.geometry as property_geometry,
+    address.geometry as address_geometry
 from
     VMPROP_PROPERTY property,   
     VMADD_ADDRESS address
