@@ -11,6 +11,8 @@ Ask council
 * are there any "dummy" property numbers?
 * assign 'NCPR' to all common properties?
 * SHP or TAB?
+* folder location for Vicmap Address
+* folder location for Vicmap Property Simplified 1
 
 For each of Parcel and Property/Address SQL:
 
@@ -35,6 +37,7 @@ For each of Parcel and Property/Address SQL:
   * check for parcels without properties
   * check for properties without parcels
 * update/create PIQA query
+* create SPEAR task
 
 Supply to council
 
