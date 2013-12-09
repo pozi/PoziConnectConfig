@@ -231,9 +231,9 @@ select
     '' as crefno,
     '' as summary
 from
-    FUJITSU_PR_assessment P
-    join FUJITSU_PR_street S on P.Street_ID = S.Street_ID
-    join FUJITSU_PR_Locality L on L.locality_ID = S.locality_ID
+    Fujitsu_PR_assessment P
+    join Fujitsu_PR_street S on P.Street_ID = S.Street_ID
+    join Fujitsu_PR_Locality L on L.locality_ID = S.locality_ID
 where
     P.Rating_Zone in ('1','4','5','9') and
     P.DELETE_FLAG is null

@@ -77,16 +77,16 @@ select distinct
     '331' as lga_code,
     cast ( Title.Title_Id as varchar ) as crefno
 from
-    PROPERTYGOV_title as Title inner join
-    PROPERTYGOV_parcel_title as Parcel_Title on Title.Title_Id = Parcel_Title.Title_Id inner join
-    PROPERTYGOV_parcel as Parcel on Parcel_Title.Parcel_Id = Parcel.Parcel_Id inner join
-    PROPERTYGOV_Assessment_Parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
-    PROPERTYGOV_Assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id inner join
-    PROPERTYGOV_Address as Address on Parcel.Address_Id = Address.Address_Id inner join
-    PROPERTYGOV_Street_Locality as Street_Locality on Address.Street_Locality_Id = Street_Locality.Street_Locality_Id inner join
-    PROPERTYGOV_Street as Street on Street_Locality.Street_Id = Street.Street_Id inner join
-    PROPERTYGOV_Locality as Locality on Street_Locality.Locality_Id = Locality.Locality_Id left join
-    PROPERTYGOV_Street_Type as Street_Type on Street.Street_Type_Abbreviation = Street_Type.Street_Type_Abbreviation
+    PropertyGov_title as Title inner join
+    PropertyGov_parcel_title as Parcel_Title on Title.Title_Id = Parcel_Title.Title_Id inner join
+    PropertyGov_parcel as Parcel on Parcel_Title.Parcel_Id = Parcel.Parcel_Id inner join
+    PropertyGov_Assessment_Parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
+    PropertyGov_Assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id inner join
+    PropertyGov_Address as Address on Parcel.Address_Id = Address.Address_Id inner join
+    PropertyGov_Street_Locality as Street_Locality on Address.Street_Locality_Id = Street_Locality.Street_Locality_Id inner join
+    PropertyGov_Street as Street on Street_Locality.Street_Id = Street.Street_Id inner join
+    PropertyGov_Locality as Locality on Street_Locality.Locality_Id = Locality.Locality_Id left join
+    PropertyGov_Street_Type as Street_Type on Street.Street_Type_Abbreviation = Street_Type.Street_Type_Abbreviation
 where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status not in ( '9' , '22' ) and    

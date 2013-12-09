@@ -22,7 +22,7 @@ Note, within our subquery, if the `str_seq` value is null, then it is assigned a
 
 ```sql
 case
-    when auprparc.pcl_num = ( select t.pcl_num from AUTHORITY_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
+    when auprparc.pcl_num = ( select t.pcl_num from Authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
     else 'N'
 end as is_primary,
 

@@ -126,18 +126,18 @@ select
     '322' as lga_code,
     '' as crefno
 from
-    PATHWAY_lpaprop as lpaprop left join
-    PATHWAY_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join 
-    PATHWAY_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join 
-    PATHWAY_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join 
-    PATHWAY_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join 
-    PATHWAY_cnacomp as cnacomp_1 on lpaaddr.tfkcnacomp = cnacomp_1.tpkcnacomp left join 
-    PATHWAY_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join 
-    PATHWAY_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join 
-    PATHWAY_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
-    PATHWAY_lparole_filtered as lparole_filt on lpaprop.tpklpaprop = lparole_filt.tfklocl left join
-    PATHWAY_lraassm as lraassm on lparole_filt.tfkappl = lraassm.tpklraassm left join
-    PATHWAY_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
+    Pathway_lpaprop as lpaprop left join
+    Pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join 
+    Pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join 
+    Pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join 
+    Pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join 
+    Pathway_cnacomp as cnacomp_1 on lpaaddr.tfkcnacomp = cnacomp_1.tpkcnacomp left join 
+    Pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join 
+    Pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join 
+    Pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
+    Pathway_lparole_filtered as lparole_filt on lpaprop.tpklpaprop = lparole_filt.tfklocl left join
+    Pathway_lraassm as lraassm on lparole_filt.tfkappl = lraassm.tpklraassm left join
+    Pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
     lpaprop.status in ( 'A' , 'C' ) and 
     lraassm.applicatn = 'R' and

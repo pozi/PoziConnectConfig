@@ -98,7 +98,7 @@ select distinct
     fmt_ttl as summary,
     '366' as lga_code
 from
-    AUTHORITY_auprparc auprparc
+    Authority_auprparc auprparc
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
     auprparc.ass_num is not null

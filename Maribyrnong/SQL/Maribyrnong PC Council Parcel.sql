@@ -53,8 +53,8 @@ select
     '341' as lga_code
 from
     Fujitsu_PR_Parcel L
-    join FUJITSU_pr_parcel_xref A on L.PARCEL_ID = A.PARCEL_ID
-    join FUJITSU_PR_Assessment P on A.ASS_INTERNAL_ID = P.ASS_INTERNAL_ID 
+    join Fujitsu_pr_parcel_xref A on L.PARCEL_ID = A.PARCEL_ID
+    join Fujitsu_PR_Assessment P on A.ASS_INTERNAL_ID = P.ASS_INTERNAL_ID 
 where
     trim ( L.PLAN_TYPE_CODE in ( 'TP' , 'LP' , 'PS' , 'PC' , 'CP' , 'SP' , 'CS' , 'RP' , 'CG' ) ) and
     ifnull ( L.FORMER_TITLE , '' ) <> 'Y' and

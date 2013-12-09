@@ -78,10 +78,10 @@ select
     fmt_ttl as summary,
     '355' as lga_code
 from
-    AUTHORITY_auprparc auprparc,
-    AUTHORITY_auprstad auprstad,
-    AUTHORITY_ausrsubr ausrsubr,
-    AUTHORITY_aualrefn aualrefn
+    Authority_auprparc auprparc,
+    Authority_auprstad auprstad,
+    Authority_ausrsubr ausrsubr,
+    Authority_aualrefn aualrefn
 where
     auprparc.pcl_num = auprstad.pcl_num and
     auprstad.sbr_nme = ausrsubr.sbr_nme and
