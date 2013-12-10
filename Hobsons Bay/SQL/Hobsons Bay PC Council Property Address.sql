@@ -75,7 +75,8 @@ select distinct
     Locality.Locality_Postcode as postcode,
     '' as access_type,
     '331' as lga_code,
-    cast ( Title.Title_Id as varchar ) as crefno
+    cast ( Title.Title_Id as varchar ) as crefno,
+    Assessment.Property_Name_Address_Locality as summary
 from
     PropertyGov_title as Title inner join
     PropertyGov_parcel_title as Parcel_Title on Title.Title_Id = Parcel_Title.Title_Id inner join
