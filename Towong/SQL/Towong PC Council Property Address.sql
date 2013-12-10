@@ -49,7 +49,7 @@ select
 	'' as floor_prefix_2,
 	'' as floor_no_2,
 	'' as floor_suffix_2,
-	ifnull ( Property.Name ) as building_name,
+	ifnull ( Property.Name , '' ) as building_name,
 	'' as complex_name,
 	'' as house_prefix_1,
 	case

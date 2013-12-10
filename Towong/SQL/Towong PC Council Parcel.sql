@@ -26,7 +26,7 @@ from
 (
 select
     cast ( Parcel.PropertyNumber as varchar ) as propnum,
-    cast ( Parcel.LandParcelNumber ) as crefno,    
+    cast ( Parcel.LandParcelNumber as varchar ) as crefno,    
     '' as status,
     '' as part,
     case Parcel.Type    
