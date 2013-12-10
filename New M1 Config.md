@@ -41,4 +41,13 @@ For each of Parcel and Property/Address SQL:
 * generate 'sampler' query (10 records from each edit code)
 * copy/paste results into audit template and email to council
 
-Await feedback, adjust configuration as required, generate M1, send to council
+Await feedback...
+
+* adjust configuration as required
+* generate M1
+* send to council
+
+Await feedback...
+
+* send instructions for installing and running Pozi Connect, and/or
+* organise site visit
