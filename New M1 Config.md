@@ -38,13 +38,7 @@ For each of Parcel and Property/Address SQL:
   * check for properties without parcels
 * update/create PIQA query
 * create SPEAR task
-
-Supply to council
-
-* select 10 properties from the 'S' list - ask if they're satisfied with the  address we've extracted
-* select 10 properties from the 'E' and 'R' lists - ask if they're satisfied for them  to be retired
-* select 10 properties from the 'A' list - ask if they're satisfied with them being added as multi-assessments
-* select 10 properties from the 'C' list (mix of new and replacement records)
-* select 10 properties from the 'P' list (mix of new and replacement records)
+* generate 'sampler' query (10 records from each edit code)
+* copy/paste results into audit template and email to council
 
 Await feedback, adjust configuration as required, generate M1, send to council
