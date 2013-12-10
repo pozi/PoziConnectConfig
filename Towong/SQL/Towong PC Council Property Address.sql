@@ -60,7 +60,7 @@ select
     case
         when substr ( Property.StreetNofrom , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
         when substr ( Property.StreetNofrom , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        else ifnull ( substr ( Property.StreetNofrom , -1 , 1 ) , '' )
+        else ifnull ( upper ( substr ( Property.StreetNofrom , -1 , 1 ) ) , '' )
     end as house_suffix_1,
     '' as house_prefix_2,
     case
@@ -71,7 +71,7 @@ select
     case
         when substr ( Property.StreetNoTo , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
         when substr ( Property.StreetNoTo , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        else ifnull ( substr ( Property.StreetNoTo , -1 , 1 ) , '' )
+        else ifnull ( upper ( substr ( Property.StreetNoTo , -1 , 1 ) ) , '' )
     end as house_suffix_2,
     replace ( upper ( Street.Name ) , ' - ' , '-' ) as road_name,
     case
