@@ -13,6 +13,7 @@ Ask council
 * SHP or TAB?
 * folder location for Vicmap Address
 * folder location for Vicmap Property Simplified 1
+* rural addressing (separate table and/or flag in property system)
 
 For each of Parcel and Property/Address SQL:
 
