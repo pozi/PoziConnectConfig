@@ -27,7 +27,12 @@ select
 from (
 
 select distinct
-    Assessment.Assess_Number as propnum,
+    case   
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.?' then cast ( Assessment.Assess_Number as varchar ) || '000'
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.??' then cast ( Assessment.Assess_Number as varchar ) || '00'
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.???' then cast ( Assessment.Assess_Number as varchar ) || '0'
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.????' then cast ( Assessment.Assess_Number as varchar )
+    end as propnum,
 	'' as base_propnum,
 	'' as is_primary,
     '' as distance_related_flag,

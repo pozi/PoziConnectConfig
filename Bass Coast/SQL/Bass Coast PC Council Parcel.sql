@@ -25,7 +25,12 @@ select
 from
 (
 select 
-    cast ( cast ( Assessment.Assess_Number as integer ) as varchar ) as propnum,
+    case   
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.?' then cast ( Assessment.Assess_Number as varchar ) || '000'
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.??' then cast ( Assessment.Assess_Number as varchar ) || '00'
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.???' then cast ( Assessment.Assess_Number as varchar ) || '0'
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.????' then cast ( Assessment.Assess_Number as varchar )
+    end as propnum,
     '' as status,
     cast ( Title.Title_Id as varchar ) as crefno,
     Title.Title_Legal_Description as summary,
