@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -27,14 +27,14 @@ select
 from (
 
 select distinct
-    case   
+    case
         when cast ( Assessment.Assess_Number as varchar ) glob '*.?' then cast ( Assessment.Assess_Number as varchar ) || '000'
         when cast ( Assessment.Assess_Number as varchar ) glob '*.??' then cast ( Assessment.Assess_Number as varchar ) || '00'
         when cast ( Assessment.Assess_Number as varchar ) glob '*.???' then cast ( Assessment.Assess_Number as varchar ) || '0'
         when cast ( Assessment.Assess_Number as varchar ) glob '*.????' then cast ( Assessment.Assess_Number as varchar )
     end as propnum,
-	'' as base_propnum,
-	'' as is_primary,
+    '' as base_propnum,
+    '' as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
@@ -48,22 +48,22 @@ select distinct
     upper ( ifnull ( Address.Address_Floor_Type_Abbrev , '' ) ) as floor_type,
     upper ( ifnull ( Address.Addr_Floor_Prefix_1 , '' ) ) as floor_prefix_1,
     cast ( ifnull ( Address.Addr_Floor_Number_1 , '' ) as varchar ) as floor_no_1,
-    upper ( ifnull ( Address.Addr_Floor_Suffix_1 , '' ) )  as floor_suffix_1, 
+    upper ( ifnull ( Address.Addr_Floor_Suffix_1 , '' ) )  as floor_suffix_1,
     upper ( ifnull ( Address.Addr_Floor_Prefix_2 , '' ) )  as floor_prefix_2,
-    cast ( ifnull ( Address.Addr_Floor_Number_2 , '' ) as varchar ) as floor_no_2, 
+    cast ( ifnull ( Address.Addr_Floor_Number_2 , '' ) as varchar ) as floor_no_2,
     upper ( ifnull ( Address.Addr_Floor_Suffix_2 , '' ) )  as floor_suffix_2,
-    upper ( ifnull ( Assessment.Assess_Property_Name , '' ) ) as building_name, 
-    '' as complex_name, 
+    upper ( ifnull ( Assessment.Assess_Property_Name , '' ) ) as building_name,
+    '' as complex_name,
     case
         when upper ( Street.Street_Name ) like 'OFF %' then 'OFF'
         else ''
     end as location_descriptor,
     upper ( ifnull ( Address.Addr_House_Prefix_1 , '' ) )  as house_prefix_1,
-    cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) as house_number_1, 
+    cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) as house_number_1,
     upper ( ifnull ( Address.Addr_House_Suffix_1 , '' ) )  as house_suffix_1,
-    upper ( ifnull ( Address.Addr_House_Prefix_2 , '' ) )  as house_prefix_2, 
+    upper ( ifnull ( Address.Addr_House_Prefix_2 , '' ) )  as house_prefix_2,
     cast ( ifnull ( Address.Addr_House_Number_2 , '' ) as varchar ) as house_number_2,
-    upper ( ifnull ( Address.Addr_House_Suffix_2 , '' ) )  as house_suffix_2, 
+    upper ( ifnull ( Address.Addr_House_Suffix_2 , '' ) )  as house_suffix_2,
     case
         when upper ( Street.Street_Name ) like 'OFF %' then substr ( upper ( Street.Street_Name ) , 5 )
         else upper ( ifnull ( replace ( Street.Street_Name , '`' , '''' ) , '' ) )
