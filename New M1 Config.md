@@ -8,7 +8,7 @@
 
 Ask council
 
-* are there any "dummy" property numbers?
+* example retired/concelled/historic/dummy property numbers
 * assign 'NCPR' to all common properties?
 * SHP or TAB?
 * folder location for Vicmap Address
