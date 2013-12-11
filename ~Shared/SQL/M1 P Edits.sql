@@ -79,9 +79,11 @@ where
     vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props = 1 ) and
     cp.propnum <> '' and
     vp.spi = cp.spi and
+    vp.spi not in ( select spi from PC_Council_Parcel where propnum = vp.propnum ) and
     vp.propnum <> cp.propnum and
     ( vp.propnum in ( '' , 'NCPR' ) or
-      vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address ) ) and
+      vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address ) or
+      ( select num_parcels from PC_Vicmap_Property_Parcel_Count where propnum = vp.propnum ) > 1 ) and
     not ( vp.status = 'P' and ( select cppc.num_parcels from PC_Council_Property_Parcel_Count cppc where cppc.propnum = cp.propnum ) > 1 )
 
 group by vp.spi

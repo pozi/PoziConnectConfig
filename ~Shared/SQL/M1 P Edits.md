@@ -54,19 +54,32 @@ Include only parcels where Vicmap and Council agree on the parcel description.
 vp.spi = cp.spi
 ```
 
+Include only parcels from Vicmap whose `spi` is not in Council with the same `propnum`.
+
+```sql
+vp.spi not in ( select spi from PC_Council_Parcel where propnum = vp.propnum )
+```
+
 Include only parcels where the Vicmap and Council property numbers are different.
 
 ```sql
 vp.propnum <> cp.propnum
 ```
 
-Include only parcels where the existing property number is blank or NCPR, *OR* where the Vicmap `propnum` doesn't actually exist in Council. This is a conservative approach that ensures that we are don't replace property numbers that are still valid, even if the council has not recorded parcel descriptions correctly.
+Include only parcels where the Vicmap `propnum` value:
 
-We check for the existence of the propnum in the Council _Property Address_ table, rather than the seemingly more precise Council _Parcel_ table. Council property information is traditionally more reliable than its parcel information, so we want to check if the propnum exists at all in the property table before potentially replacing a valid property that just isn't recorded properly by the council in its parcel table.
+* is either blank or NCPR, or
+* doesn't exist in Council, or
+* is matched to more than one parcel
+
+This is a conservative approach that ensures that we are don't completely remove valid property numbers from Vicmap.
+
+(We check for the existence of the propnum in the Council _Property Address_ table, rather than the seemingly more precise Council _Parcel_ table. Council property information is typically more reliable than its parcel information, so we want to check if the propnum exists at all in the property table before potentially replacing a valid property that just isn't recorded properly by the council in its parcel table.)
 
 ```sql
 ( vp.propnum in ( '' , 'NCPR' ) or
-  vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address ) )
+  vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address )  or
+  ( select num_parcels from PC_Vicmap_Property_Parcel_Count where PC_Vicmap_Property_Parcel_Count.propnum = vp.propnum ) > 1 )
 ```
 
 Exclude matches where Vicmap parcels status is proposed and the Council property number has multiple parcels associated with it (because these could get merged in Vicmap).
