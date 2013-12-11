@@ -63,7 +63,7 @@ select distinct
         cp.propnum ||
         case ( select vp.multi_assessment from PC_Vicmap_Parcel vp where vp.spi = cp.spi )
             when 'Y' then ' to existing multi-assessment (' || ( select vppc.num_props from PC_Vicmap_Parcel_Property_Count vppc where vppc.spi = cp.spi ) || ') property'
-            else ' as new multi-assessment'
+            else ' as new multi-assessment to property ' || ( select vp.propnum from PC_Vicmap_Parcel vp where vp.spi = cp.spi )
         end as comments
 from
     PC_Council_Parcel cp
