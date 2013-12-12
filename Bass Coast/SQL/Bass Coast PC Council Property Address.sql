@@ -82,7 +82,10 @@ select distinct
     '' as easting,
     '' as northing,
     '' as datum_proj,
-    '' as outside_property,
+    case
+        when Address.Addr_Is_Outside_the_Property = '1' then 'Y'
+        else ''
+    end as outside_property,
     '304' as lga_code,
     cast ( Title.Title_Id as varchar ) as crefno,
     Assessment.Property_Name_Address_Locality as summary
