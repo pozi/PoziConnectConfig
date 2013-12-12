@@ -27,9 +27,9 @@ select
 from (
 
 select distinct
-	cast ( lpaprop.tpklpaprop as varchar ) as propnum,
-	'' as base_propnum,
-	'' as is_primary,
+    cast ( lpaprop.tpklpaprop as varchar ) as propnum,
+    '' as base_propnum,
+    '' as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
@@ -86,7 +86,7 @@ select distinct
     upper ( replace ( replace ( cnacomp.descr , '&' , 'AND' ) , '''' , '' ) ) as road_name,
     case
         when
-		    cnaqual.descr like '% NORTH' or
+            cnaqual.descr like '% NORTH' or
             cnaqual.descr like '% SOUTH' or
             cnaqual.descr like '% EAST' or
             cnaqual.descr like '% WEST' then upper ( trim ( substr ( cnaqual.descr , 1 , length ( cnaqual.descr ) - 5 ) ) )
@@ -99,7 +99,7 @@ select distinct
         when upper ( cnaqual.descr ) like '% WEST' then 'W'
         else ''
     end as road_suffix, 
-	upper ( lpasubr.suburbname ) as locality_name,
+    upper ( lpasubr.suburbname ) as locality_name,
     '' as postcode,
     '' as access_type,
     '339' as lga_code,

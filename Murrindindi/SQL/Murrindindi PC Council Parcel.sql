@@ -27,12 +27,12 @@ from
 select
     case
         when ttl_no1 like 'CM%' then 'NCPR'
-		else cast ( auprparc.ass_num as varchar(10) )
+        else cast ( auprparc.ass_num as varchar(10) )
     end as propnum,
     '' as status,
     case
         when ttl_no1 like 'CM%' then ''
-		else cast ( auprparc.pcl_num as varchar(10) )
+        else cast ( auprparc.pcl_num as varchar(10) )
     end as crefno,
     case
         when auprparc.ttl_no2 in ( 'P' , 'PT' ) then 'P'

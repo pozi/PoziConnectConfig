@@ -28,8 +28,8 @@ from (
 
 select distinct
     cast ( cast ( Assessment.Assess_Number as integer ) as varchar ) as propnum,
-	'' as base_propnum,
-	'' as is_primary,
+    '' as base_propnum,
+    '' as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
