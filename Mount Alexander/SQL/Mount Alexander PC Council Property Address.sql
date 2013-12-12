@@ -90,7 +90,7 @@ from (
         PropertyGov_Assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id
     where
         Parcel.Parcel_Status = 0 and
-        Assessment.Assessment_Status not in ( '9' ) and
+        Assessment.Assessment_Status <> '9' and
         Assessment.Assess_Number is not null and
         Assessment.Assessment_Id not in ( '10978' , '10986'  )
     group by Assessment.Assess_Number

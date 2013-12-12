@@ -52,7 +52,7 @@ from
     PropertyGov_parish as Parish on Title.Parish_Id = Parish.Parish_Id
 where
     Parcel.Parcel_Status = 0 and
-    Assessment.Assessment_Status not in ( '9' ) and    
+    Assessment.Assessment_Status <> '9' and    
     Assessment.Assess_Number is not null and
     Assessment.Assessment_Id not in ( '10978' , '10986'  )
 order by propnum, crefno
