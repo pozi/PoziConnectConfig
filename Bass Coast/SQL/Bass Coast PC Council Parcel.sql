@@ -34,12 +34,21 @@ select
     '' as status,
     cast ( Title.Title_Id as varchar ) as crefno,
     Title.Title_Legal_Description as summary,
-    case when Title_Is_Part_of_Lot = 1 then 'P' else '' end as part,
-    ifnull ( Plan_Type.Plan_Type_Code || Title.Title_Plan_Number , '' ) as plan_number,
-    ifnull ( Plan_Type.Plan_Type_Code , '' ) as plan_prefix,
+    case when Title_Is_Part_of_Lot = 1 or Title.Title_Crown_Allotment like '% PT' then 'P' else '' end as part,
+    case    
+        when Plan_Type.Plan_Type_Code = 'CA' then ''
+        else ifnull ( Plan_Type.Plan_Type_Code || Title.Title_Plan_Number , '' )
+    end as plan_number,
+    case
+        when Plan_Type.Plan_Type_Code = 'CA' then ''
+        else ifnull ( Plan_Type.Plan_Type_Code , '' )
+    end as plan_prefix,
     ifnull ( Title.Title_Plan_Number ,'' ) as plan_numeral,
     ifnull ( Title_Lot , '' ) as lot_number,
-    ifnull ( Title.Title_Crown_Allotment , '' ) as allotment,
+    case
+        when Title.Title_Crown_Allotment like '% PT' then substr ( Title.Title_Crown_Allotment , 1 , length ( Title.Title_Crown_Allotment ) - 3 )
+        else ifnull ( Title.Title_Crown_Allotment , '' )
+    end as allotment,
     ifnull ( Title.Title_Section , '' ) as sec,
     ifnull ( Title.Title_Block , '' ) as block,
     ifnull ( Title.Title_Portion , '' ) as portion,
