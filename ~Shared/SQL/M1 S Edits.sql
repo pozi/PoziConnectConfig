@@ -46,10 +46,10 @@ select
     cpa.locality_name as locality_name,
     cpa.distance_related_flag as distance_related_flag,
     cpa.is_primary as is_primary,
-    '' as easting,
-    '' as northing,
-    '' as datum_proj,
-    '' as outside_property,
+    cpa.easting as easting,
+    cpa.northing as northing,
+    cpa.datum_proj as datum_proj,
+    cpa.outside_property as outside_property,
     'S' as edit_code,
     'property ' || propnum || ': ' ||
     case    

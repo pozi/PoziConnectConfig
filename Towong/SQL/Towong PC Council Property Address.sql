@@ -89,6 +89,10 @@ select
     upper ( Locality.Locality ) as locality_name,
     Locality.Postcode as postcode,
     '' as access_type,
+    '' as easting,
+    '' as northing,
+    '' as datum_proj,
+    '' as outside_property,
     '367' as lga_code,
     '' as crefno
 from

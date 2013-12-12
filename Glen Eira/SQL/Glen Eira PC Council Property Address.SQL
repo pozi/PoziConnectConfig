@@ -123,6 +123,10 @@ select
     lpasubr.suburbname as locality_name, 
     cnacomp_1.descr as postcode,
     '' as access_type,
+    '' as easting,
+    '' as northing,
+    '' as datum_proj,
+    '' as outside_property,
     '322' as lga_code,
     '' as crefno
 from

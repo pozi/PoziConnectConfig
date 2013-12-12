@@ -150,6 +150,10 @@ select
     L.locality_name as locality_name,
     L.postcode as postcode,
     '' as access_type,
+    '' as easting,
+    '' as northing,
+    '' as datum_proj,
+    '' as outside_property,
     '368' as lga_code,
     '' as crefno
 from

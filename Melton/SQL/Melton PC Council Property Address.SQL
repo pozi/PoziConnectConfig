@@ -169,6 +169,10 @@ select distinct
     upper ( trim ( auprstad.sbr_nme ) ) as locality_name,
     ifnull ( ausrsubr.pst_cde , '' ) as postcode,
     '' as access_type,
+    '' as easting,
+    '' as northing,
+    '' as datum_proj,
+    '' as outside_property,
     '344' as lga_code,
     cast ( auprparc.pcl_num as varchar ) as crefno
 from 

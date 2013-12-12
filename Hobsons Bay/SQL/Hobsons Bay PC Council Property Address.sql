@@ -74,6 +74,10 @@ select distinct
     upper ( ifnull ( Locality.Locality_Name , '' ) )  as locality_name,
     Locality.Locality_Postcode as postcode,
     '' as access_type,
+    '' as easting,
+    '' as northing,
+    '' as datum_proj,
+    '' as outside_property,
     '331' as lga_code,
     cast ( Title.Title_Id as varchar ) as crefno,
     Assessment.Property_Name_Address_Locality as summary

@@ -227,6 +227,10 @@ select
     L.LOCALITY_DESC as locality_name,
     L.POSTCODE as postcode,
     '' as access_type,
+    '' as easting,
+    '' as northing,
+    '' as datum_proj,
+    '' as outside_property,
     '341' as lga_code,
     '' as crefno,
     '' as summary

@@ -129,6 +129,10 @@ select distinct
     upper ( lpasubr.suburbname ) as locality_name,
     '' as postcode,
     '' as access_type,
+    '' as easting,
+    '' as northing,
+    '' as datum_proj,
+    '' as outside_property,
     '342' as lga_code,
     '' as crefno
 from
