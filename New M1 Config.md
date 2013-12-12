@@ -8,7 +8,8 @@
 
 Ask council
 
-* example retired/concelled/historic/dummy property numbers
+* any status codes for filtering properties?
+* example retired/cancelled/historic/dummy property numbers
 * assign 'NCPR' to all common properties?
 * SHP or TAB?
 * folder location for Vicmap Address
