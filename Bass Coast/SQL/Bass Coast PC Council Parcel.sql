@@ -57,6 +57,7 @@ from
     PropertyGov_parish as Parish on Title.Parish_Id = Parish.Parish_Id
 where
     Parcel.Parcel_Status = 0 and
-    Assessment.Assess_Number <> 999999999999.9999990
+    Assessment.Assessment_Status <> '9' and
+    Assessment.Assess_Number < 999999999999
 order by propnum, crefno
 )

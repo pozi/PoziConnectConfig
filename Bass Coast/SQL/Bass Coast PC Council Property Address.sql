@@ -95,7 +95,8 @@ from
     PropertyGov_Street_Type as Street_Type on Street.Street_Type_Abbreviation = Street_Type.Street_Type_Abbreviation
 where
     Parcel.Parcel_Status = 0 and
-    Assessment.Assess_Number <> 999999999999.9999990
+    Assessment.Assessment_Status <> '9' and
+    Assessment.Assess_Number < 999999999999
 )
 )
 )
