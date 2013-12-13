@@ -30,7 +30,7 @@ This part adds addresses for proposed parcels where the council uses the same pr
 
 Exclude records whose property number has a Council address that already matches the Vicmap address with the same property number:
 
-*Note: this has been introduced to cater for Property.Gov systems where the council property can have multiple addresses, one of which may already match, and would not warrant being updated.*
+*Note: This replaces a similar condition for checking addresses. The new condition caters for systems such as Property.Gov where there can be multiple records per council property, each with different addresses If any one of them match the Vicmap address, it would not warrant an update.*
 
 ```sql
 propnum not in (
