@@ -61,7 +61,7 @@ from
 where
     propnum not in ( '' , 'NCPR' ) and
     is_primary <> 'N' and
-    propnum not in ( select vpa.propnum from PC_Vicmap_Property_Address vpa where vpa.num_road_address = cpa.num_road_address and vpa.is_primary <> 'N' ) and    
+    propnum not in ( select propnum from PC_Council_Property_Address where num_road_address in ( select num_road_address from PC_Vicmap_Property_Address where propnum = cpa.propnum ) ) and    
     propnum not in ( select vpa.propnum from PC_Vicmap_Property_Address vpa, M1_R_Edits r where vpa.property_pfi = r.property_pfi ) and
     ( propnum in ( select propnum from PC_Vicmap_Property_Address ) or    
       propnum in ( select propnum from M1_P_Edits ) or

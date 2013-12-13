@@ -28,15 +28,16 @@ This part adds addresses for proposed parcels where the council uses the same pr
 
 ### Part 1
 
-Exclude properties where the property already exists in Vicmap with the same address:
+Exclude records whose property number has a Council address that already matches the Vicmap address with the same property number:
+
+*Note: this has been introduced to cater for Property.Gov systems where the council property can have multiple addresses, one of which may already match, and would not warrant being updated.*
 
 ```sql
 propnum not in (
-    select vpa.propnum
-        from PC_Vicmap_Property_Address vpa
-        where
-            cpa.num_road_address = vpa.num_road_address and
-            vpa.is_primary <> 'N' )  
+    select propnum
+        from PC_Council_Property_Address
+        where num_road_address in (
+            select num_road_address from PC_Vicmap_Property_Address where propnum = cpa.propnum ) )
 ```
 
 Exclude properties that will be retired.
