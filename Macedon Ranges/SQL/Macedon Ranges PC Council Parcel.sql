@@ -47,7 +47,8 @@ select distinct
         else ifnull ( lpaparc.parcelnum , '' )     
     end as lot_number,
     case    
-        when lpaparc.parcelcode in ( 'CA' , 'PTCA' ) then ifnull ( lpaparc.parcelnum , '' )        
+        when lpaparc.parcelcode = 'CA' and lpaparc.fmtparcel like 'CA%' then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'CA' , '' ) , 1, 10 ) )
+        when lpaparc.parcelcode = 'PTCA' and lpaparc.fmtparcel like 'PTCA%' then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'PTCA' , '' ) , 1, 10 ) )
         else ''
     end as allotment,    
     ifnull ( lpasect.parcelsect , '' ) as sec,
