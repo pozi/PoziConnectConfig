@@ -42,18 +42,20 @@ select distinct
         else ''
     end as plan_numeral,
     case
-        when lpaparc.parcelcode in ( 'CA' , 'PTCA' ) then ''
+        when lpaparc.parcelcode in ( 'CA' , 'PTCA' , 'PORT' , 'PTPORT' ) then ''
         when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
         else ifnull ( lpaparc.parcelnum , '' )
     end as lot_number,
     case
         when lpaparc.parcelcode = 'CA' and lpaparc.fmtparcel like 'CA%' then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'CA' , '' ) , 1, 10 ) )
         when lpaparc.parcelcode = 'PTCA' and lpaparc.fmtparcel like 'PTCA%' then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'PTCA' , '' ) , 1, 10 ) )
+        when lpaparc.parcelcode = 'PORT' and lpaparc.fmtparcel like 'CP%' and substr ( lpaparc.fmtparcel , 4 , 1 ) not in ( 'P' , 'S' ) then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'CP' , '' ) , 1, 10 ) )
+        when lpaparc.parcelcode = 'PTPORT' and lpaparc.fmtparcel like 'PTCP%' then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'PTCP' , '' ) , 1, 10 ) )
         else ''
     end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     case
-        when lpaparc.parcelcode not in ( 'CA' , 'PTCA' ) then ''
+        when lpaparc.parcelcode not in ( 'CA' , 'PTCA' , 'PORT' , 'PTPORT' ) then ''
         when lpaparc.fmtparcel like '%P/BAYNTON%' then '2094'
         when lpaparc.fmtparcel like '%P/BLACKWOOD%' then '2160'
         when lpaparc.fmtparcel like '%P/BULLENGAROOK%' then '2265'
@@ -85,7 +87,7 @@ select distinct
         else ''
     end as parish_code,
     case
-        when lpaparc.parcelcode not in ( 'CA' , 'PTCA' ) then ''
+        when lpaparc.parcelcode not in ( 'CA' , 'PTCA' , 'PORT' , 'PTPORT' ) then ''
         when lpaparc.fmtparcel like '%T/BARRINGO%' then '5049'
         when lpaparc.fmtparcel like '%T/CARLSRUHE%' then '5155'
         when lpaparc.fmtparcel like '%T/CHEROKEE%' then '5169'
@@ -121,5 +123,6 @@ where
    lpaparc.status = 'C' and
    lpatipa.status = 'C' and
    lpaprti_mod.status = 'C' and
-   lpatitl.status = 'C'
+   lpatitl.status = 'C' and
+   lpaparc.fmtparcel not like 'U/R Licence%'
 )
