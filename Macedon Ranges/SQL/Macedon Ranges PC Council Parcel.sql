@@ -46,7 +46,7 @@ select distinct
         when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
         else ifnull ( lpaparc.parcelnum , '' )     
     end as lot_number,
-    '' as allotment,
+    ifnull ( lpaparc.parcelnum , '' ) as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     ifnull ( cnacomp.descrsrch , '' ) as parish_code,
     '' as township_code,
