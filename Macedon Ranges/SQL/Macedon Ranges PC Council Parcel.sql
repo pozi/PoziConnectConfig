@@ -42,9 +42,10 @@ select distinct
         else ''        
     end as plan_numeral,
     case    
-        when lpaparc.parcelcode = 'RES' then 'RES'        
-        else ''        
-    end || ifnull ( lpaparc.parcelnum , '' ) as lot_number,
+        when lpaparc.parcelcode in ( 'CA' , 'PTCA' ) then ''
+        when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
+        else ifnull ( lpaparc.parcelnum , '' )     
+    end as lot_number,
     '' as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     ifnull ( cnacomp.descrsrch , '' ) as parish_code,
