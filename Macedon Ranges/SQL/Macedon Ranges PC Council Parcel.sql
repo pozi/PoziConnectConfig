@@ -32,28 +32,77 @@ select distinct
     ifnull ( lpaparc.plancode , '' ) ||
         case
             when substr ( lpaparc.plannum , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then lpaparc.plannum
-            when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 ) 
+            when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 )
             else ''
         end as plan_number,
     ifnull ( lpaparc.plancode , '' ) as plan_prefix,
     case
         when substr ( lpaparc.plannum , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then lpaparc.plannum
         when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 )
-        else ''        
+        else ''
     end as plan_numeral,
-    case    
+    case
         when lpaparc.parcelcode in ( 'CA' , 'PTCA' ) then ''
         when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
-        else ifnull ( lpaparc.parcelnum , '' )     
+        else ifnull ( lpaparc.parcelnum , '' )
     end as lot_number,
-    case    
+    case
         when lpaparc.parcelcode = 'CA' and lpaparc.fmtparcel like 'CA%' then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'CA' , '' ) , 1, 10 ) )
         when lpaparc.parcelcode = 'PTCA' and lpaparc.fmtparcel like 'PTCA%' then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'PTCA' , '' ) , 1, 10 ) )
         else ''
-    end as allotment,    
+    end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
-    ifnull ( cnacomp.descrsrch , '' ) as parish_code,
-    '' as township_code,
+    case
+        when lpaparc.parcelcode not in ( 'CA' , 'PTCA' ) then ''
+        when lpaparc.fmtparcel like '%P/BAYNTON%' then '2094'
+        when lpaparc.fmtparcel like '%P/BLACKWOOD%' then '2160'
+        when lpaparc.fmtparcel like '%P/BULLENGAROOK%' then '2265'
+        when lpaparc.fmtparcel like '%P/BURKE%' then '2293'
+        when lpaparc.fmtparcel like '%P/BYLANDS%' then '2318'
+        when lpaparc.fmtparcel like '%P/CARLSRUHE%' then '2348'
+        when lpaparc.fmtparcel like '%P/CHINTIN%' then '2385'
+        when lpaparc.fmtparcel like '%P/COBAW%' then '2392'
+        when lpaparc.fmtparcel like '%P/COLIBAN%' then '2409'
+        when lpaparc.fmtparcel like '%P/COORNMILL%' then '2444'
+        when lpaparc.fmtparcel like '%P/DARRAWEIT GUIM%' then '2496'
+        when lpaparc.fmtparcel like '%P/EDGECOMBE%' then '2576'
+        when lpaparc.fmtparcel like '%P/GISBORNE%' then '2662'
+        when lpaparc.fmtparcel like '%P/GLENHOPE%' then '2675'
+        when lpaparc.fmtparcel like '%P/GOLDIE%' then '2694'
+        when lpaparc.fmtparcel like '%P/HAVELOCK%' then '2746'
+        when lpaparc.fmtparcel like '%P/KERRIE%' then '2865'
+        when lpaparc.fmtparcel like '%P/LANCEFIELD%' then '2962'
+        when lpaparc.fmtparcel like '%P/LANGLEY%' then '2970'
+        when lpaparc.fmtparcel like '%P/LAURISTON%' then '2979'
+        when lpaparc.fmtparcel like '%P/MACEDON%' then '3027'
+        when lpaparc.fmtparcel like '%P/MONEGEETTA%' then '3150'
+        when lpaparc.fmtparcel like '%P/NEWHAM%' then '3304'
+        when lpaparc.fmtparcel like '%P/ROCHFORD%' then '3455'
+        when lpaparc.fmtparcel like '%P/SPRINGFIELD%' then '3494'
+        when lpaparc.fmtparcel like '%P/TRENTHAM%' then '3649'
+        when lpaparc.fmtparcel like '%P/TYLDEN%' then '3673'
+        when lpaparc.fmtparcel like '%P/WOODEND%' then '3872'
+        else ''
+    end as parish_code,
+    case
+        when lpaparc.parcelcode not in ( 'CA' , 'PTCA' ) then ''
+        when lpaparc.fmtparcel like '%T/BARRINGO%' then '5049'
+        when lpaparc.fmtparcel like '%T/CARLSRUHE%' then '5155'
+        when lpaparc.fmtparcel like '%T/CHEROKEE%' then '5169'
+        when lpaparc.fmtparcel like '%T/DARRAWEIT GUIM%' then '5228'
+        when lpaparc.fmtparcel like '%T/GISBORNE%' then '5320'
+        when lpaparc.fmtparcel like '%T/KYNETON%' then '5439'
+        when lpaparc.fmtparcel like '%T/LANCEFIELD%' then '5450'
+        when lpaparc.fmtparcel like '%T/LAURISTON%' then '5454'
+        when lpaparc.fmtparcel like '%T/MACEDON%' then '5487'
+        when lpaparc.fmtparcel like '%T/MALMSBURY%' then '5495'
+        when lpaparc.fmtparcel like '%T/RIDDELL%' then '5675'
+        when lpaparc.fmtparcel like '%T/ROMSEY%' then '5681'
+        when lpaparc.fmtparcel like '%T/SPRING HILL%' then '5726'
+        when lpaparc.fmtparcel like '%T/TYLDEN%' then '5809'
+        when lpaparc.fmtparcel like '%T/WOODEND%' then '5874'
+        else ''
+    end as township_code,
     '339' as lga_code
 from
     Pathway_lpaprop as lpaprop left join
