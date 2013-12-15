@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -36,7 +36,7 @@ select distinct
     case
         when lpaaddr.prefix is null then upper ( ifnull ( lpaaddr.unitprefix , '' ) )
         else upper ( ifnull ( lpaaddr.unitprefix , '' ) )
-    end as blg_unit_type,   
+    end as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
@@ -83,8 +83,32 @@ select distinct
         else cast ( cast ( lpaaddr.endhousnum as integer ) as varchar )
     end as house_number_2,
     ifnull ( lpaaddr.endhoussfx , '' ) as house_suffix_2,
-    upper ( replace ( replace ( cnacomp.descr , '&' , 'AND' ) , '''' , '' ) ) as road_name,
     case
+        when cnacomp.descr like '% AVE OFF' then replace ( upper ( cnacomp.descr ) , ' AVE OFF' , '' )
+        when cnacomp.descr like '% CRES OFF' then replace ( upper ( cnacomp.descr ) , ' CRES OFF' , '' )
+        when cnacomp.descr like '% CT WEST OFF' then replace ( upper ( cnacomp.descr ) , ' CT WEST OFF' , '' )
+        when cnacomp.descr like '% CT OFF' then replace ( upper ( cnacomp.descr ) , ' CT OFF' , '' )
+        when cnacomp.descr like '% DR OFF' then replace ( upper ( cnacomp.descr ) , ' DR OFF' , '' )
+        when cnacomp.descr like '% LANE OFF' then replace ( upper ( cnacomp.descr ) , ' LANE OFF' , '' )
+        when cnacomp.descr like '% PL OFF' then replace ( upper ( cnacomp.descr ) , ' PL OFF' , '' )
+        when cnacomp.descr like '% RD OFF' then replace ( upper ( cnacomp.descr ) , ' RD OFF' , '' )
+        when cnacomp.descr like '% STREET OFF' then replace ( upper ( cnacomp.descr ) , ' STREET OFF' , '' )
+        when cnacomp.descr like '% ST OFF' then replace ( upper ( cnacomp.descr ) , ' ST OFF' , '' )
+        when cnacomp.descr like '% TRK OFF' then replace ( upper ( cnacomp.descr ) , ' TRK OFF' , '' )
+        else upper ( replace ( replace ( cnacomp.descr , '&' , 'AND' ) , '''' , '' ) )
+    end as road_name,
+    case
+        when cnacomp.descr like '% AVE OFF' then 'AVENUE'
+        when cnacomp.descr like '% CRES OFF' then 'CRESCENT'
+        when cnacomp.descr like '% CT WEST OFF' then 'COURT'
+        when cnacomp.descr like '% CT OFF' then 'COURT'
+        when cnacomp.descr like '% DR OFF' then 'DRIVE'
+        when cnacomp.descr like '% LANE OFF' then 'LANE'
+        when cnacomp.descr like '% PL OFF' then 'PLACE'
+        when cnacomp.descr like '% RD OFF' then 'ROAD'
+        when cnacomp.descr like '% STREET OFF' then 'STREET'
+        when cnacomp.descr like '% ST OFF' then 'STREET'
+        when cnacomp.descr like '% TRK OFF' then 'TRACK'
         when
             cnaqual.descr like '% NORTH' or
             cnaqual.descr like '% SOUTH' or
@@ -93,12 +117,16 @@ select distinct
         else upper ( ifnull ( cnaqual.descr , '' ) )
     end as road_type,
     case
-        when upper ( cnaqual.descr ) like '% NORTH' then 'N'
-        when upper ( cnaqual.descr ) like '% SOUTH' then 'S'
-        when upper ( cnaqual.descr ) like '% EAST' then 'E'
-        when upper ( cnaqual.descr ) like '% WEST' then 'W'
+        when cnacomp.descr like '% NORTH OFF' then 'N'
+        when cnacomp.descr like '% SOUTH OFF' then 'S'
+        when cnacomp.descr like '% EAST OFF' then 'E'
+        when cnacomp.descr like '% WEST OFF' then 'W'
+        when cnaqual.descr like '% NORTH' then 'N'
+        when cnaqual.descr like '% SOUTH' then 'S'
+        when cnaqual.descr like '% EAST' then 'E'
+        when cnaqual.descr like '% WEST' then 'W'
         else ''
-    end as road_suffix, 
+    end as road_suffix,
     upper ( lpasubr.suburbname ) as locality_name,
     '' as postcode,
     '' as access_type,
@@ -109,17 +137,17 @@ select distinct
     '339' as lga_code,
     '' as crefno
 from
-    Pathway_lpaprop as lpaprop left join 
-    Pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join 
-    Pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join 
-    Pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join 
-    Pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join 
-    Pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join 
-    Pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join 
+    Pathway_lpaprop as lpaprop left join
+    Pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
+    Pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join
+    Pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join
+    Pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join
+    Pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join
+    Pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join
     Pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
-    Pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop 
+    Pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
-    lpaprop.status in ('A', 'C') and 
+    lpaprop.status in ('A', 'C') and
     lpaaddr.addrtype = 'P' and
     lpaprtp.abbrev <> 'BASE' and
     lpaprop.tfklpacncl = 12
