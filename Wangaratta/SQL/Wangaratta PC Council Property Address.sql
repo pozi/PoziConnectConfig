@@ -155,7 +155,8 @@ select
     '' as datum_proj,
     '' as outside_property,
     '368' as lga_code,
-    '' as crefno
+    '' as crefno,
+    A.formatted_address as summary
 from
     TechOne_nucProperty P
     join TechOne_nucAddress A on A.property_no = P.property_no

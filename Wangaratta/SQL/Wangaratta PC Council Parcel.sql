@@ -36,7 +36,7 @@ select
     end as status,
     ifnull ( upper ( part_lot ) , '' ) as part,
     case
-        when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) THEN trim ( L.plan_desc ) || L.plan_no
+        when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( L.plan_desc ) || L.plan_no
         else ifnull ( trim ( L.plan_desc ) || substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_number,
     ifnull ( L.plan_desc , '' ) as plan_prefix,
