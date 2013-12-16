@@ -34,7 +34,10 @@ select distinct
         when cast ( Assessment.Assess_Number as varchar ) glob '*.????' then cast ( Assessment.Assess_Number as varchar )
     end as propnum,
     '' as base_propnum,
-    '' as is_primary,
+    case
+        when Address.Addr_Is_Primary_Address = '1' then ''
+        else 'N'
+    end as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
