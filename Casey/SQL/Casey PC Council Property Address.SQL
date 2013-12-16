@@ -1,183 +1,193 @@
-
-SELECT
+select
     *,
-    street_name ||
-        RTRIM ( ' ' || street_type ) ||
-        RTRIM ( ' ' || street_suffix ) AS roadnt_pr,
-    street_name ||
-        RTRIM ( ' ' || street_type ) ||
-        RTRIM ( ' ' || street_suffix ) || ' ' ||
-        locality AS stjoin_pr,
-    LTRIM ( su_prefix_1 || su_no_1 || su_suff_1 ||
-        CASE WHEN su_no_2 <> '' THEN '-' ELSE '' END ||
-        su_prefix_2 || su_no_2 || su_suff_2 ||
-        CASE WHEN su_no_1 <> '' THEN '/' ELSE '' END ||
+    ltrim ( num_road_address ||
+        rtrim ( ' ' || locality_name ) ) as ezi_address
+from (
+
+select
+    *,
+    ltrim ( road_name_combined ||
+        rtrim ( ' ' || locality_name ) ) as road_locality,
+    ltrim ( num_address ||
+        rtrim ( ' ' || road_name_combined ) ) as num_road_address
+from (
+
+select
+    *,
+    blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
+        case when ( blg_unit_id_2 <> '' or blg_unit_suffix_2 <> '' ) then '-' else '' end ||
+        blg_unit_prefix_2 || blg_unit_id_2 || blg_unit_suffix_2 ||
+        case when ( blg_unit_id_1 <> '' or blg_unit_suffix_1 <> '' ) then '/' else '' end ||
         house_prefix_1 || house_number_1 || house_suffix_1 ||
-        CASE WHEN house_number_2 <> '' THEN '-' ELSE '' END ||
-        house_prefix_2 || house_number_2 || house_suffix_2 ||
-        RTRIM ( ' ' || street_name ) ||
-        RTRIM ( ' ' || street_type ) ||
-        RTRIM ( ' ' || street_suffix ) ||
-        RTRIM ( ' ' || locality ) ) AS address_pr,
-    LTRIM ( su_prefix_1 || su_no_1 || su_suff_1 ||
-        CASE WHEN su_no_2 <> '' THEN '-' ELSE '' END ||
-        su_prefix_2 || su_no_2 || su_suff_2 ||
-        CASE WHEN su_no_1 <> '' THEN '/' ELSE '' END ||
-        house_prefix_1 || house_number_1 || house_suffix_1 ||
-        CASE WHEN house_number_2 <> '' THEN '-' ELSE '' END ||
-        house_prefix_2 || house_number_2 || house_suffix_2 ||
-        RTRIM ( ' ' || street_name ) ||
-        RTRIM ( ' ' || street_type ) ||
-        RTRIM ( ' ' || street_suffix ) ||
-        RTRIM ( ' ' || locality ) ||
-        RTRIM ( ' ' || propnum ) ) AS address_propnum_pr
+        case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
+        house_prefix_2 || house_number_2 || house_suffix_2 as num_address,
+    ltrim ( road_name ||
+        rtrim ( ' ' || road_type ) ||
+        rtrim ( ' ' || road_suffix ) ) as road_name_combined
+from (
 
-FROM (
-
-SELECT
-    CAST (P.property_no AS VARCHAR) AS propnum,
-
-	P.status AS "Property_status",
-
-    '' AS "su_type",
-    '' AS "su_prefix_1",
-    IFNULL ( A.unit_no , '' ) AS "su_no_1",
-    UPPER ( IFNULL ( A.unit_no_suffix , '' ) ) AS "su_suff_1",
-    '' AS "su_prefix_2",
-    IFNULL ( A.unit_no_to , '' ) AS "su_no_2",
-    UPPER ( IFNULL ( A.unit_no_to_suffix , '' ) ) AS "su_suff_2",
-
-    UPPER ( IFNULL ( A.floor_desc , '' ) ) AS "fl_type",
-    '' AS "fl_prefix_1",
-    IFNULL ( A.floor_no , '' ) AS "fl_no_1",
-    UPPER ( IFNULL ( A.floor_suffix , '' ) ) AS "fl_suff_1",
-    '' AS "fl_prefix_2",
-    IFNULL ( A.floor_no_to , '' ) AS "fl_no_2",
-    UPPER ( IFNULL ( A.floor_suffix_to , '' ) ) AS "fl_suff_2",
-
-    '' AS "pr_name_1",
-    '' AS "pr_name_2",
-    '' AS "loc_des",
-
-    '' AS "house_prefix_1",
-    IFNULL ( A.house_no , '' ) AS "house_number_1",
-    UPPER ( IFNULL ( A.house_no_suffix , '' ) ) AS "house_suffix_1",
-    '' AS "house_prefix_2",
-    IFNULL ( A.house_no_to , '' ) AS "house_number_2",
-    UPPER ( IFNULL ( A.house_no_to_suffix , '' ) ) AS "house_suffix_2",
-
-    '' AS "display_prefix_1",
-    '' AS "display_no_1",
-    '' AS "display_suffix_1",
-    '' AS "display_prefix_2",
-    '' AS "display_no_2",
-    '' AS "display_suffix_2",
-
-    CASE
-        WHEN UPPER ( SUBSTR ( S.street_name , -4 ) ) IN ( ' END' , ' ROW' , ' RUN', ' KEY', ' WAY' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 4 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -5 ) ) IN ( ' BEND', ' BRAE', ' COVE' , ' EDGE' , ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' RISE', ' ROAD', ' VIEW', ' WALK', ' WYND' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 5 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -6 ) ) IN ( ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA', ' GREEN' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 6 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -7 ) ) IN ( ' ACCESS', ' ARCADE', ' AVENUE', ' CIRCLE', ' DIVIDE', ' GRANGE', ' PARADE', ' SQUARE', ' STREET', ' WATERS' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 7 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -8 ) ) IN ( ' CIRCUIT', ' CUTTING', ' FREEWAY', ' GARDENS', ' HIGHWAY', ' RETREAT', ' TERRACE' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 8 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -9 ) ) IN ( ' CRESCENT', ' QUADRANT' , ' WATERWAY' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 9 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -10 ) ) IN ( ' BOULEVARD', ' ESPLANADE' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 10 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -11 ) ) IN ( ' BOULEVARDE' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 11 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -10 ) ) IN ( ' ROAD EAST', ' ROAD WEST', ' WAY NORTH' , ' WAY SOUTH' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 10 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -11 ) ) IN ( ' GROVE EAST' , ' GROVE WEST', ' LANE NORTH' , ' LANE SOUTH' , ' ROAD NORTH' , ' ROAD SOUTH', ' DRIVE EAST' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 11 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -12 ) ) IN ( ' CLOSE NORTH' , ' CLOSE SOUTH' , ' COURT NORTH' , ' COURT SOUTH' , ' STREET EAST' , ' STREET WEST' ,' DRIVE NORTH' , ' DRIVE SOUTH' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 12 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -13 ) ) IN ( ' AVENUE NORTH' , ' AVENUE SOUTH' , ' STREET NORTH' , ' STREET SOUTH' , ' PARADE NORTH' , ' PARADE SOUTH' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 13 ) )
-        WHEN UPPER ( SUBSTR ( S.street_name , -14 ) ) IN ( ' HIGHWAY NORTH' , ' HIGHWAY SOUTH' ) THEN UPPER ( SUBSTR ( S.street_name , 1 , LENGTH ( S.street_name ) - 14 ) )
-        WHEN UPPER (S.street_name) = 'CRANBOURNE PARK S/CENTRE' THEN 'GREAVES'
-        WHEN UPPER (S.street_name) = 'WESTFIELD F/GATE' THEN 'PRINCES'
-        ELSE UPPER ( S.street_name )
-    END AS "street_name",
-
-    CASE
-        WHEN UPPER (S.street_name) = 'WESTFIELD F/GATE' THEN 'HIGHWAY'
-        WHEN UPPER (S.street_name) = 'CRANBOURNE PARK S/CENTRE' THEN 'STREET'
-        WHEN S.street_name LIKE '% ROAD%' THEN 'ROAD'
-        WHEN S.street_name LIKE '% ACCESS%' THEN 'ACCESS'
-        WHEN S.street_name LIKE '% ARCADE%' THEN 'ARCADE'
-        WHEN S.street_name LIKE '% AVENUE%' THEN 'AVENUE'
-        WHEN S.street_name LIKE '% BEND%' THEN 'BEND'
-        WHEN S.street_name LIKE '% BOULEVARDE%' THEN 'BOULEVARDE'
-        WHEN S.street_name LIKE '% BOULEVARD%' THEN 'BOULEVARD'
-        WHEN S.street_name LIKE '% BRAE%' THEN 'BRAE'
-        WHEN S.street_name LIKE '% CIRCLE%' THEN 'CIRCLE'
-        WHEN S.street_name LIKE '% CIRCUIT%' THEN 'CIRCUIT'
-        WHEN S.street_name LIKE '% CLOSE%' THEN 'CLOSE'
-        WHEN S.street_name LIKE '% COURT%' THEN 'COURT'
-        WHEN S.street_name LIKE '% COVE%' THEN 'COVE'
-        WHEN S.street_name LIKE '% CRESCENT%' THEN 'CRESCENT'
-        WHEN S.street_name LIKE '% CREST%' THEN 'CREST'
-        WHEN S.street_name LIKE '% CUTTING%' THEN 'CUTTING'
-        WHEN S.street_name LIKE '% DIVIDE%' THEN 'DIVIDE'
-        WHEN S.street_name LIKE '% DRIVE%' THEN 'DRIVE'
-        WHEN S.street_name LIKE '% EDGE%' THEN 'EDGE'
-        WHEN S.street_name LIKE '% END%' THEN 'END'
-        WHEN S.street_name LIKE '% ESPLANADE%' THEN 'ESPLANADE'
-        WHEN S.street_name LIKE '% FREEWAY%' THEN 'FREEWAY'
-        WHEN S.street_name LIKE '% GARDENS%' THEN 'GARDENS'
-        WHEN S.street_name LIKE '% GLADES' THEN ''
-        WHEN S.street_name LIKE '% GLADE%' THEN 'GLADE'
-        WHEN S.street_name LIKE '% GRANGE%' THEN 'GRANGE'
-        WHEN S.street_name LIKE '% GROVE%' THEN 'GROVE'
-        WHEN S.street_name LIKE '% HEATH%' THEN 'HEATH'
-        WHEN S.street_name LIKE '% HIGHWAY%' THEN 'HIGHWAY'
-        WHEN S.street_name LIKE '% LANE%' THEN 'LANE'
-        WHEN S.street_name LIKE '% LINK%' THEN 'LINK'
-        WHEN S.street_name LIKE '% MEWS%' THEN 'MEWS'
-        WHEN S.street_name LIKE '% NOOK%' THEN 'NOOK'
-        WHEN S.street_name LIKE '% PARADE%' THEN 'PARADE'
-        WHEN S.street_name LIKE '% PLACE%' THEN 'PLACE'
-        WHEN S.street_name LIKE '% PLAZA%' THEN 'PLAZA'
-        WHEN S.street_name LIKE '% POINT%' THEN 'POINT'
-        WHEN S.street_name LIKE '% QUADRANT%' THEN 'QUADRANT'
-        WHEN S.street_name LIKE '% QUAY' THEN 'QUAY'
-        WHEN S.street_name LIKE '% RETREAT%' THEN 'RETREAT'
-        WHEN S.street_name LIKE '% GREEN%' THEN 'GREEN'
-        WHEN S.street_name LIKE '% RIDGE%' THEN 'RIDGE'
-        WHEN S.street_name LIKE '% RISE%' THEN 'RISE'
-        WHEN S.street_name LIKE '% ROUND%' THEN 'ROUND'
-        WHEN S.street_name LIKE '% ROW%' THEN 'ROW'
-        WHEN S.street_name LIKE '% RUN%' THEN 'RUN'
-        WHEN S.street_name LIKE '% SQUARE%' THEN 'SQUARE'
-        WHEN S.street_name LIKE '% SLOPE%' THEN 'SLOPE'
-        WHEN S.street_name LIKE '% STREET%' THEN 'STREET'
-        WHEN S.street_name LIKE '% STRIP%' THEN 'STRIP'
-        WHEN S.street_name LIKE '% TERRACE%' THEN 'TERRACE'
-        WHEN S.street_name LIKE '% TRACK%' THEN 'TRACK'
-        WHEN S.street_name LIKE '% VIEW%' THEN 'VIEW'
-        WHEN S.street_name LIKE '% VISTA%' THEN 'VISTA'
-        WHEN S.street_name LIKE '% WALK%' THEN 'WALK'
-        WHEN S.street_name LIKE '% WATERS%' THEN 'WATERS'
-        WHEN S.street_name LIKE '% WATERWAY%' THEN 'WATERWAY'
-        WHEN S.street_name LIKE '% WAY%' THEN 'WAY'
-        WHEN S.street_name LIKE '% WYND%' THEN 'WYND'
-
-        ELSE ''
-
-    END AS "street_type",
-
-    CASE
-        WHEN S.street_name LIKE '% NORTH' THEN 'N'
-        WHEN S.street_name LIKE '% SOUTH' THEN 'S'
-        WHEN S.street_name LIKE '% EAST' THEN 'E'
-        WHEN S.street_name LIKE '% WEST' THEN 'W'
-        ELSE ''
-    END AS "street_suffix",
-
-    L.locality_name AS "locality",
-    L.postcode AS "postcode"
-
-FROM
-    PROCLAIM_nucProperty P
-    JOIN PROCLAIM_nucAddress A ON A.property_no = P.property_no
-    JOIN PROCLAIM_nucStreet S ON S.street_no = A.street_no
-    JOIN PROCLAIM_nucLocality L ON L.locality_ctr = S.locality_ctr
-
-WHERE
-    P.status IN ( 'C' , 'F' , 'c' , 'f' ) and p.property_no not in ('16953','16899','17736','15127','14359','15893','14360','15303')
-
-) 
-
+select
+    cast ( P.property_no as varchar ) as propnum,
+    case P.status
+        when 'F' then 'P'
+        else ''
+    end as status,
+    '' as base_propnum,
+    '' as is_primary,
+    '' as distance_related_flag,
+    '' as hsa_flag,
+    '' as hsa_unit_id,
+    '' as location_descriptor,
+    case
+        when A.unit_no is not null and A.unit_no <> 0 then upper ( ifnull ( A.unit_desc , '' ) )  
+        else ''    
+    end as blg_unit_type,
+    '' as blg_unit_prefix_1,
+    case
+        when A.unit_no = 0 then ''
+        else ifnull ( A.unit_no , '' )
+    end as blg_unit_id_1,
+    upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
+    '' as blg_unit_prefix_2,
+    case
+        when A.unit_no_to = 0 then ''
+        else ifnull ( A.unit_no_to , '' )
+    end as blg_unit_id_2,
+    upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
+    upper ( ifnull ( A.floor_desc , '' ) ) as floor_type,
+    '' as floor_prefix_1,
+    case
+        when A.floor_no = 0 then ''
+        else ifnull ( A.floor_no , '' )
+    end as floor_no_1,
+    upper ( ifnull ( A.floor_suffix , '' ) ) as floor_suffix_1,
+    '' as floor_prefix_2,
+    case
+        when A.floor_no_to = 0 then ''
+        else ifnull ( A.floor_no_to , '' )
+    end as floor_no_2,
+    upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
+    '' as building_name,
+    '' as complex_name,
+    '' as house_prefix_1,
+    case
+        when A.house_no = 0 then ''
+        else ifnull ( A.house_no , '' )
+    end as house_number_1,
+    upper ( ifnull ( A.house_no_suffix , '' ) ) as house_suffix_1,
+    '' as house_prefix_2,
+    case
+        when A.house_no_to = 0 then ''
+        else ifnull ( A.house_no_to , '' )
+    end as house_number_2,
+    upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
+    case
+        when upper ( substr ( S.street_name , -4 ) ) in ( ' END' , ' ROW' , ' RUN', ' KEY', ' WAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
+        when upper ( substr ( S.street_name , -5 ) ) in ( ' BEND', ' BRAE', ' COVE' , ' EDGE' , ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' RISE', ' ROAD', ' VIEW', ' WALK', ' WYND' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
+        when upper ( substr ( S.street_name , -6 ) ) in ( ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA', ' GREEN' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 6 ) )
+        when upper ( substr ( S.street_name , -7 ) ) in ( ' ACCESS', ' ARCADE', ' AVENUE', ' CIRCLE', ' DIVIDE', ' GRANGE', ' PARADE', ' SQUARE', ' STREET', ' WATERS' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 7 ) )
+        when upper ( substr ( S.street_name , -8 ) ) in ( ' CIRCUIT', ' CUTTING', ' FREEWAY', ' GARDENS', ' HIGHWAY', ' RETREAT', ' TERRACE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 8 ) )
+        when upper ( substr ( S.street_name , -9 ) ) in ( ' CRESCENT', ' QUADRANT' , ' WATERWAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 9 ) )
+        when upper ( substr ( S.street_name , -10 ) ) in ( ' BOULEVARD', ' ESPLANADE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 10 ) )
+        when upper ( substr ( S.street_name , -11 ) ) in ( ' BOULEVARDE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 11 ) )
+        when upper ( substr ( S.street_name , -10 ) ) in ( ' ROAD EAST', ' ROAD WEST', ' WAY NORTH' , ' WAY SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 10 ) )
+        when upper ( substr ( S.street_name , -11 ) ) in ( ' GROVE EAST' , ' GROVE WEST', ' LANE NORTH' , ' LANE SOUTH' , ' ROAD NORTH' , ' ROAD SOUTH', ' DRIVE EAST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 11 ) )
+        when upper ( substr ( S.street_name , -12 ) ) in ( ' CLOSE NORTH' , ' CLOSE SOUTH' , ' COURT NORTH' , ' COURT SOUTH' , ' STREET EAST' , ' STREET WEST' ,' DRIVE NORTH' , ' DRIVE SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 12 ) )
+        when upper ( substr ( S.street_name , -13 ) ) in ( ' AVENUE NORTH' , ' AVENUE SOUTH' , ' STREET NORTH' , ' STREET SOUTH' , ' PARADE NORTH' , ' PARADE SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 13 ) )
+        when upper ( substr ( S.street_name , -14 ) ) in ( ' HIGHWAY NORTH' , ' HIGHWAY SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 14 ) )
+        when upper (S.street_name) = 'CRANBOURNE PARK S/CENTRE' then 'GREAVES'
+        when upper (S.street_name) = 'WESTFIELD F/GATE' then 'PRINCES'
+        else upper ( S.street_name )
+    end as road_name,
+    case
+        when upper (S.street_name) = 'WESTFIELD F/GATE' then 'HIGHWAY'
+        when upper (S.street_name) = 'CRANBOURNE PARK S/CENTRE' then 'STREET'
+        when S.street_name like '% ROAD%' then 'ROAD'
+        when S.street_name like '% ACCESS%' then 'ACCESS'
+        when S.street_name like '% ARCADE%' then 'ARCADE'
+        when S.street_name like '% AVENUE%' then 'AVENUE'
+        when S.street_name like '% BEND%' then 'BEND'
+        when S.street_name like '% BOULEVARDE%' then 'BOULEVARDE'
+        when S.street_name like '% BOULEVARD%' then 'BOULEVARD'
+        when S.street_name like '% BRAE%' then 'BRAE'
+        when S.street_name like '% CIRCLE%' then 'CIRCLE'
+        when S.street_name like '% CIRCUIT%' then 'CIRCUIT'
+        when S.street_name like '% CLOSE%' then 'CLOSE'
+        when S.street_name like '% COURT%' then 'COURT'
+        when S.street_name like '% COVE%' then 'COVE'
+        when S.street_name like '% CRESCENT%' then 'CRESCENT'
+        when S.street_name like '% CREST%' then 'CREST'
+        when S.street_name like '% CUTTING%' then 'CUTTING'
+        when S.street_name like '% DIVIDE%' then 'DIVIDE'
+        when S.street_name like '% DRIVE%' then 'DRIVE'
+        when S.street_name like '% EDGE%' then 'EDGE'
+        when S.street_name like '% end%' then 'end'
+        when S.street_name like '% ESPLANADE%' then 'ESPLANADE'
+        when S.street_name like '% FREEWAY%' then 'FREEWAY'
+        when S.street_name like '% GARDENS%' then 'GARDENS'
+        when S.street_name like '% GLADES' then ''
+        when S.street_name like '% GLADE%' then 'GLADE'
+        when S.street_name like '% GRANGE%' then 'GRANGE'
+        when S.street_name like '% GROVE%' then 'GROVE'
+        when S.street_name like '% HEATH' then 'HEATH'
+        when S.street_name like '% HIGHWAY%' then 'HIGHWAY'
+        when S.street_name like '% LANE%' then 'LANE'
+        when S.street_name like '% LINK%' then 'LINK'
+        when S.street_name like '% MEWS%' then 'MEWS'
+        when S.street_name like '% NOOK%' then 'NOOK'
+        when S.street_name like '% PARADE%' then 'PARADE'
+        when S.street_name like '% PLACE%' then 'PLACE'
+        when S.street_name like '% PLAZA%' then 'PLAZA'
+        when S.street_name like '% POINT%' then 'POINT'
+        when S.street_name like '% QUADRANT%' then 'QUADRANT'
+        when S.street_name like '% QUAY' then 'QUAY'
+        when S.street_name like '% RETREAT%' then 'RETREAT'
+        when S.street_name like '% GREEN%' then 'GREEN'
+        when S.street_name like '% RIDGE%' then 'RIDGE'
+        when S.street_name like '% RISE%' then 'RISE'
+        when S.street_name like '% ROUND%' then 'ROUND'
+        when S.street_name like '% ROW%' then 'ROW'
+        when S.street_name like '% RUN%' then 'RUN'
+        when S.street_name like '% SQUARE%' then 'SQUARE'
+        when S.street_name like '% SLOPE%' then 'SLOPE'
+        when S.street_name like '% STREET%' then 'STREET'
+        when S.street_name like '% STRIP%' then 'STRIP'
+        when S.street_name like '% TERRACE%' then 'TERRACE'
+        when S.street_name like '% TRACK%' then 'TRACK'
+        when S.street_name like '% VIEW' then 'VIEW'
+        when S.street_name like '% VISTA%' then 'VISTA'
+        when S.street_name like '% WALK%' then 'WALK'
+        when S.street_name like '% WATERS%' then 'WATERS'
+        when S.street_name like '% WATERWAY%' then 'WATERWAY'
+        when S.street_name like '% WAY%' then 'WAY'
+        when S.street_name like '% WYND%' then 'WYND'
+        else ''
+    end as road_type,
+    case
+        when S.street_name like '% NORTH' then 'N'
+        when S.street_name like '% SOUTH' then 'S'
+        when S.street_name like '% EAST' then 'E'
+        when S.street_name like '% WEST' then 'W'
+        else ''
+    end as road_suffix,
+    L.locality_name as locality_name,
+    L.postcode as postcode,
+    '' as access_type,
+    '' as easting,
+    '' as northing,
+    '' as datum_proj,
+    '' as outside_property,
+    '312' as lga_code,
+    '' as crefno,
+    A.formatted_address as summary
+from
+    TechOne_nucProperty P
+    join TechOne_nucAddress A on A.property_no = P.property_no
+    join TechOne_nucStreet S on S.street_no = A.street_no
+    join TechOne_nucLocality L on L.locality_ctr = S.locality_ctr
+where
+    P.status in ( 'C' , 'F' , 'c' , 'f' ) and
+    P.property_no not in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 )
+)
+)
+)
