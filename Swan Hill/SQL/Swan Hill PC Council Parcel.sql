@@ -37,7 +37,7 @@ select distinct
         else ''
     end as part,
     case
-        when auprparc.ttl_cde not in ( 9 , 10 , 27 , 28 ) then
+        when auprparc.ttl_cde not in ( 9 , 10 , 27 ) then
             case
                 when auprparc.ttl_cde in ( 1 , 2 , 13 , 18 , 19 , 20 , 21 ) then 'PS'
                 when auprparc.ttl_cde in ( 3 , 4 ) then 'LP'
@@ -69,7 +69,7 @@ select distinct
         else ''
     end as plan_prefix,
     case
-        when auprparc.ttl_cde not in ( 9 , 10 , 27 , 28 ) then
+        when auprparc.ttl_cde not in ( 9 , 10 , 27 ) then
             case    
                 when null then ''
                 when substr ( cast ( auprparc.ttl_in5 as varchar ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then cast ( auprparc.ttl_in5 as varchar )
@@ -79,15 +79,15 @@ select distinct
         else ''
     end as plan_numeral,
     case
-        when auprparc.ttl_cde not in ( 9 , 10 , 27 , 28 ) then ifnull ( auprparc.ttl_no1 , '' )
+        when auprparc.ttl_cde not in ( 9 , 10 , 27 ) then ifnull ( auprparc.ttl_no1 , '' )
         else ''
     end as lot_number,
     case
-        when auprparc.ttl_cde in ( 9 , 10 , 27 , 28 ) then ifnull ( auprparc.ttl_no1 , '' )
+        when auprparc.ttl_cde in ( 9 , 10 , 27 ) then ifnull ( auprparc.ttl_no1 , '' )
         else ''
     end as allotment,
     case
-        when auprparc.ttl_cde in ( 9 , 10 , 27 , 28 ) then ifnull ( auprparc.ttl_no5 , '' )
+        when auprparc.ttl_cde in ( 9 , 10 , 27 ) then ifnull ( auprparc.ttl_no5 , '' )
         else ifnull ( auprparc.ttl_no3 , '' )
     end as sec,
     cast ( auprparc.udn_cd1 as varchar ) as parish_code,
