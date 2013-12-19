@@ -4,6 +4,11 @@ Pozi Connect, developed by Groundtruth, is a utility for translating and process
 
 This repository contains the configuration files used by Pozi Connect for many of Groundtruth's clients. The projects include PIQA, M1s and Vicmap data loading.
 
+## Change History
+
+#### December 2013
+* include PIQA exports in all M1 configs
+
 ## Client Instructions
 
 **IMPORTANT**: All instructions for installing, updating and running Pozi Connect for M1s are now available at the Groundtruth website:
