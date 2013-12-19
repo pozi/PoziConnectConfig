@@ -56,7 +56,10 @@ select
         when auprparc.ttl_cde = 13 then 'PS'
         else ''
     end as plan_prefix,
-    ifnull ( substr ( auprparc.ttl_no5 , 1 , 6 ) , '' ) as plan_numeral,
+    case
+        when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 ) then ifnull ( substr ( auprparc.ttl_no5 , 1 , 6 ) , '' )
+        else ''
+    end as plan_numeral,
     case
         when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 ) then upper ( ifnull ( auprparc.ttl_no1 , '' ) )
         else ''
@@ -71,7 +74,66 @@ select
         else ''
     end as sec,
     case
-        when auprparc.ttl_cde in ( 3 , 6 ) then ifnull ( upper ( aualrefn.dsc_no1 ) , '' )
+        when auprparc.ttl_cde in ( 3 , 6 ) then
+            case upper ( aualrefn.dsc_no1 )
+                when 'ACHERON' then '2001'
+                when 'ALEXANDRA' then '2009'
+                when 'BANYARMBITE' then '2064'
+                when 'BILLIAN' then '2144'
+                when 'BRANKEET' then '2221'
+                when 'BUXTON' then '2312'
+                when 'DARLINGFORD' then '2491'
+                when 'DERRIL' then '2515'
+                when 'DROPMORE' then '2546'
+                when 'EILDON' then '2580'
+                when 'ENOCHS POINT' then '2593'
+                when 'FLOWERDALE' then '2614'
+                when 'GARRATANBUNELL' then '2635'
+                when 'GHIN GHIN' then '2651'
+                when 'GLENDALE' then '2670'
+                when 'GLENWATTS' then '2686'
+                when 'GOBUR' then '2693'
+                when 'GOULBURN' then '2713'
+                when 'GRANTON' then '2719'
+                when 'HOWQUA WEST' then '2769'
+                when 'KERRISDALE' then '2866'
+                when 'KILLINGWORTH' then '2877'
+                when 'KINGLAKE' then '2881'
+                when 'KNOCKWOOD' then '2891'
+                when 'KOBYBOYN' then '2894'
+                when 'LAURAVILLE' then '2978'
+                when 'LINTON' then '3000'
+                when 'LODGE PARK' then '3008'
+                when 'MAINTONGOON' then '3038'
+                when 'MANANGO' then '3050'
+                when 'MERTON' then '3098'
+                when 'MOHICAN' then '3137'
+                when 'MOLESWORTH' then '3142'
+                when 'MONDA' then '3147'
+                when 'MURRINDINDI' then '3237'
+                when 'NARBETHONG' then '3263'
+                when 'NIAGAROON' then '3308'
+                when 'RUFFY' then '3460'
+                when 'ST. CLAIR' then '3464'
+                when 'STEAVENSON' then '3500'
+                when 'SWITZERLAND' then '3516'
+                when 'TAGGERTY' then '3521'
+                when 'TAPONGA' then '3545'
+                when 'TARLDARN' then '3550'
+                when 'TARRAWARRA NORTH' then '3559'
+                when 'THORNTON' then '3587'
+                when 'TORBRECK' then '3636'
+                when 'TRAAWOOL' then '3645'
+                when 'WAPPAN' then '3734'
+                when 'WHANREGARWEN' then '3803'
+                when 'WINDHAM' then '3834'
+                when 'WOODBOURNE' then '3871'
+                when 'WORROUGH' then '3903'
+                when 'YARCK' then '3958'
+                when 'YEA' then '3979'
+                when 'YOUARRABUK' then '3997'
+                else ifnull ( upper ( aualrefn.dsc_no1 ) , '' )
+            end
         else ''
     end as parish_code,
     '' as township_code,
