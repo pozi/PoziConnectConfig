@@ -6,8 +6,13 @@ This repository contains the configuration files used by Pozi Connect for many o
 
 ## Change History
 
+*For a complete history with every change, see [here](https://github.com/groundtruth/PoziConnectConfig/commits/master/~Shared).*
+
 #### December 2013
 * include PIQA exports in all M1 configs
+* improve comments for M1 A edits
+* improve logic for P edits
+* enable S edits to take into account multiple council addresses
 
 ## Client Instructions
 
