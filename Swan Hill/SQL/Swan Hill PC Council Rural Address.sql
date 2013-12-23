@@ -1,6 +1,6 @@
 update PC_Council_Property_Address
 set
-    is_primary = ( select case when [primary] = 'T' then 'Y' else 'N' end from SHRCC_Rural_Address where SHRCC_Rural_Address.ra_complete = PC_Council_Property_Address.num_road_address ),
+    is_primary = ( select case when is_primary = 'T' then 'Y' else 'N' end from SHRCC_Rural_Address where SHRCC_Rural_Address.ra_complete = PC_Council_Property_Address.num_road_address ),
     distance_related_flag = 'Y' ,
     easting = ( select xcoord from SHRCC_Rural_Address where SHRCC_Rural_Address.ra_complete = PC_Council_Property_Address.num_road_address ),
     northing = ( select ycoord from SHRCC_Rural_Address where SHRCC_Rural_Address.ra_complete = PC_Council_Property_Address.num_road_address ),    
