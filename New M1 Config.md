@@ -9,6 +9,7 @@
 Ask council
 
 * any status codes for filtering properties?
+* number of properties at date of extract
 * example retired/cancelled/historic/dummy property numbers
 * assign 'NCPR' to all common properties?
 * SHP or TAB?
