@@ -36,3 +36,48 @@ Tips:
 
 * To preserve any existing configuration, move or rename your existing Tasks folder before downloading the latest configuration
 * You may delete unneeded Tasks subfolders, leaving only your folder and the `~Shared` folder. For instance, if your organisation's name is Melton, delete all folders with the Tasks folder except for `~Shared` and `Melton`.
+
+## Development Notes
+
+### To Dos
+
+* [ ] replace MapBasic script for generating VMREFTAB CSVs with new Pozi Connect task
+* [ ] create Vicmap QGS project (start with VMLITE layers)
+* [ ] move config settings that users won't need to change from User Settings to General Settings
+* [ ] rewrite Swan Hill rural address import task to rename `primary` field to avoid later issues
+* [ ] write Pozi Connect task for importing table to PostGIS
+
+### Notes
+
+#### Config for Updating
+
+Herve wrote:
+
+> In this case, you might want to use this pattern in conjunction with the SQL file parameter, i.e.:
+
+```ini
+[Updating]
+OGRInfoOnly: true
+Destination: {PostGIS_Connection},dummy
+SQLFile: tasks/Swan_Hill_PC_Council_Rural_Address.sql
+```
+
+> Note: it seems that square brackets [ and ] might not be allowed. Can the query be rewritten without those?
+
+```ini
+[User Settings]
+PostGIS_host:localhost
+PostGIS_port:5432
+PostGIS_DB:test
+PostGIS_DB_username: opengeo
+PostGIS_DB_password: opengeo
+
+[General Settings]
+Description: Load vector data from files (MapInfo TAB, Shapefile, ...) into a PostGIS database.
+PostGIS_Connection: PG:host='{PostGIS_host}' port='{PostGIS_port}' dbname='{PostGIS_DB}' user='{PostGIS_DB_username}' password='{PostGIS_DB_password}'
+
+[Updating]
+OGRInfoOnly: true
+Destination: {PostGIS_Connection},dummy
+Sql: update open_space set area=ST_Area(ST_Transform(the_geom,3111))
+```
