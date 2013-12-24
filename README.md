@@ -41,30 +41,19 @@ Tips:
 
 ### To Dos
 
-* [ ] replace MapBasic script for generating VMREFTAB CSVs with new Pozi Connect task
-* [ ] create Vicmap QGS project (start with VMLITE layers)
-* [ ] move config settings that users won't need to change from User Settings to General Settings
-* [ ] rewrite Swan Hill rural address import task to rename `primary` field to avoid later issues
-* [ ] write Pozi Connect task for importing table to PostGIS
+- [ ] replace MapBasic script for generating VMREFTAB CSVs with new Pozi Connect task
+- [ ] create Vicmap QGS project (start with VMLITE layers)
+- [ ] move config settings that users won't need to change from User Settings to General Settings
+- [x] rewrite Swan Hill rural address import task to rename `primary` field to avoid later issues
+- [ ] write Pozi Connect task for importing table to PostGIS
 
 ### Notes
 
 #### Config for Updating
 
-Herve wrote:
+Sample code for importing to PostGIS:
 
-> In this case, you might want to use this pattern in conjunction with the SQL file parameter, i.e.:
-
-```ini
-[Updating]
-OGRInfoOnly: true
-Destination: {PostGIS_Connection},dummy
-SQLFile: tasks/Swan_Hill_PC_Council_Rural_Address.sql
 ```
-
-> Note: it seems that square brackets [ and ] might not be allowed. Can the query be rewritten without those?
-
-```ini
 [User Settings]
 PostGIS_host:localhost
 PostGIS_port:5432
