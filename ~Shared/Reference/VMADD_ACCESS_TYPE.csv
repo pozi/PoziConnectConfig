@@ -1,4 +1,4 @@
-"ACCESS_TYPE_CODE","ACCESS_TYPE","DESCRIPTION","UFI","UFI_CREATED"
-"L","LAND","An address that is access from a land based road",10137999,20120726
-"W","WATER","An address that is accessed from a water way",10138000,20120726
-"I","ISLAND","An address that is located on an island that cannot be accessed from athe mainland by road",10138001,20120726
+ACCESS_TYPE_CODE,ACCESS_TYPE,DESCRIPTION,UFI,UFI_CREATED
+L,LAND,An address that is access from a land based road,       10137999,2012/07/26
+W,WATER,An address that is accessed from a water way,       10138000,2012/07/26
+I,ISLAND,An address that is located on an island that cannot be accessed from athe mainland by road,       10138001,2012/07/26
