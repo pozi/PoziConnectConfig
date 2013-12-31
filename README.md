@@ -41,11 +41,15 @@ Tips:
 
 ### To Dos
 
-- [ ] replace MapBasic script for generating VMREFTAB CSVs with new Pozi Connect task
-- [ ] create Vicmap QGS project (start with VMLITE layers)
 - [ ] move config settings that users won't need to change from User Settings to General Settings
-- [x] rewrite Swan Hill rural address import task to rename `primary` field to avoid later issues
 - [ ] write Pozi Connect task for importing table to PostGIS
+- [ ] update `~\Shared\Reference\Vicmap Property Field LUT.md` with new format Vicmap
+
+### Done
+
+- [x] replace MapBasic script for generating VMREFTAB CSVs with new Pozi Connect task
+- [x] create Vicmap QGS project (start with VMLITE layers)
+- [x] rewrite Swan Hill rural address import task to rename `primary` field to avoid later issues
 
 ### Notes
 
