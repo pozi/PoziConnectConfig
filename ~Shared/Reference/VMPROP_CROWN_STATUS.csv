@@ -1,7 +1,7 @@
-"CROWN_STATUS_CODE","CROWN_STATUS","DESCRIPTION","UFI","UFI_CREATED"
-"C","CROWN LAND PARCEL","A Crown Land Parcel which may include a Special Reserve.",10012510,20080228
-"E","PRE-EMPTIVE RIGHT","Indicates Pre-emptive Right (PR). The Pre-emptive Right name will appear in the Further Descripition Field.",10012511,20080228
-"K","CROWN SPECIAL SURVEY","Indicates a Crown Special Survey Area.  The Survey Name will appear in the Further Description field.",10012512,20080228
-"M","DESCRIPTION ONLY","Parcel that is identified by a descrtion only.  This is different to ""E"" & ""K"") e.g. Road closed by shire.",10012513,20080228
-"V","VESTED","Parcel that has been vested or appropriated by a Public Authority",10012514,20080228
-"G","GOVERNMENT ROAD","A Government Road Parcel created through the Land Act, VicRoads Act and the Local Government Act.",10080294,20110729
+CROWN_STATUS_CODE,CROWN_STATUS,DESCRIPTION,UFI,UFI_CREATED
+C,CROWN LAND PARCEL,A Crown Land Parcel which may include a Special Reserve.,       10012510,2008/02/28
+E,PRE-EMPTIVE RIGHT,Indicates Pre-emptive Right (PR). The Pre-emptive Right name will appear in the Further Descripition Field.,       10012511,2008/02/28
+K,CROWN SPECIAL SURVEY,Indicates a Crown Special Survey Area.  The Survey Name will appear in the Further Description field.,       10012512,2008/02/28
+M,DESCRIPTION ONLY,"Parcel that is identified by a descrtion only.  This is different to ""E"" & ""K"") e.g. Road closed by shire.",       10012513,2008/02/28
+V,VESTED,Parcel that has been vested or appropriated by a Public Authority,       10012514,2008/02/28
+G,GOVERNMENT ROAD,"A Government Road Parcel created through the Land Act, VicRoads Act and the Local Government Act.",       10080294,2011/07/29

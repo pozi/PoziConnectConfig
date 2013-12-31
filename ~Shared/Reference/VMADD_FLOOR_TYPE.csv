@@ -1,16 +1,16 @@
-"FLOOR_TYPE_ABBREVIATION","FLOOR_TYPE","DESCRIPTION","UFI","UFI_CREATED"
-"B","BASEMENT","Immediately below the Ground Floor",10014913,20080523
-"FL","FLOOR","Floor",10000007,20080228
-"G","GROUND","On or closet to ground level",10014914,20080523
-"L","LEVEL","Level",10000009,20080228
-"LG","LOWER GROUND FLOOR","Lower of 2 entrances at ground level",10014915,20080523
-"M","MEZZANINE","Immediate floor, between floor levels",10014916,20080523
-"UG","UPPER GROUND FLOOR","Higher of 2 entrances at ground level",10014920,20080523
-"RT","ROOFTOP","Uppermost level - rooftop",10014922,20080523
-"PD","PODIUM","Podium",10016221,20080724
-"LB","LOBBY","Lobby",10000016,20080228
-"LL","LOWER LEVEL","Basement - non preferred",10014902,20080523
-"OD","OBSERVATION DECK","Observation Deck",10066035,20110517
-"P","PARKING","Parking Area",10014917,20080523
-"PF","PLATFORM","Platform",10016231,20080724
-"SB","SUB-BASEMENT","Next level down from Basement",10014912,20080523
+FLOOR_TYPE_ABBREVIATION,FLOOR_TYPE,DESCRIPTION,UFI,UFI_CREATED
+B,BASEMENT,Immediately below the Ground Floor,       10014913,2008/05/23
+FL,FLOOR,Floor,       10000007,2008/02/28
+G,GROUND,On or closet to ground level,       10014914,2008/05/23
+L,LEVEL,Level,       10000009,2008/02/28
+LG,LOWER GROUND FLOOR,Lower of 2 entrances at ground level,       10014915,2008/05/23
+M,MEZZANINE,"Immediate floor, between floor levels",       10014916,2008/05/23
+UG,UPPER GROUND FLOOR,Higher of 2 entrances at ground level,       10014920,2008/05/23
+RT,ROOFTOP,Uppermost level - rooftop,       10014922,2008/05/23
+PD,PODIUM,Podium,       10016221,2008/07/24
+LB,LOBBY,Lobby,       10000016,2008/02/28
+LL,LOWER LEVEL,Basement - non preferred,       10014902,2008/05/23
+OD,OBSERVATION DECK,Observation Deck,       10066035,2011/05/17
+P,PARKING,Parking Area,       10014917,2008/05/23
+PF,PLATFORM,Platform,       10016231,2008/07/24
+SB,SUB-BASEMENT,Next level down from Basement,       10014912,2008/05/23
