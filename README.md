@@ -44,14 +44,16 @@ Tips:
 - [ ] move config settings that users won't need to change from User Settings to General Settings
 - [ ] write Pozi Connect task for importing table to PostGIS
 - [ ] update `~\Shared\Reference\Vicmap Property Field LUT.md` with new format Vicmap
-- [ ] create import task for VMELEV
-- [ ] create import task for VMHYDRO
+- [ ] create Planning Scheme style
 
 ### Done
 
 - [x] replace MapBasic script for generating VMREFTAB CSVs with new Pozi Connect task
 - [x] create Vicmap QGS project (start with VMLITE layers)
 - [x] rewrite Swan Hill rural address import task to rename `primary` field to avoid later issues
+- [x] create import task for VFEAT
+- [x] create import task for VMELEV
+- [x] create import task for VMHYDRO
 
 ### Notes
 
