@@ -1,0 +1,18 @@
+Prefix,From,To,Comment
+AP,1,,Application
+RP,1,19926,Strata Plan
+SP,19927,40000,Strata Plan
+TP,1,,Title Plan
+CS,1000,10000,Cluster Plan (Cluster sub-division)
+LP,1,99999,Lodge Plan (sub-division)
+LP,110000,149999,Lodge Plan (sub-division)
+LP,200000,299999,Lodge Plan (sub-division)
+PS,300001,350000,Plan of Sub-division
+PS,400001,450000,Plan of Sub-division
+PS,500001,550000,Plan of Sub-division
+PS,600001,650000,Plan of Sub-division
+CP,100000,109999,Consolidation Plan
+CP,150000,199999,Consolidation Plan
+PC,350001,400000,Plan of Consolidation
+PC,450001,500000,Plan of Consolidation
+PC,550001,600000,Plan of Consolidation
