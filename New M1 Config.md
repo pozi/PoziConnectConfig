@@ -13,6 +13,7 @@ Ask council
 * example retired/cancelled/historic/dummy property numbers
 * assign 'NCPR' to all common properties?
 * SHP or TAB?
+* coordinate system
 * folder location for Vicmap Address
 * folder location for Vicmap Property Simplified 1
 * file location of any rural address table
