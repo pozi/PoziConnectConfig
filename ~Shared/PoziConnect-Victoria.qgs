@@ -26,13 +26,7 @@
     <legend updateDrawingOrder="true">
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="Vicmap Address"/>
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="Vicmap Features of Interest"/>
-        <legendgroup open="true" checked="Qt::Checked" name="Vicmap Transport">
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="vmlite_tr_road" showFeatureCount="0">
-                <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_tr_road20140108172835414" visible="1"/>
-                </filegroup>
-            </legendlayer>
-        </legendgroup>
+        <legendgroup open="true" checked="Qt::PartiallyChecked" name="Vicmap Transport"/>
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="Vicmap Hydro"/>
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="Vicmap Elevation"/>
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="Vicmap Vegetation"/>
@@ -40,6 +34,11 @@
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="VIcmap Planning"/>
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="Vicmap Admin"/>
         <legendgroup open="true" checked="Qt::Checked" name="Vicmap Lite">
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="vmlite_tr_road" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="vmlite_tr_road20140108172835414" visible="1"/>
+                </filegroup>
+            </legendlayer>
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="vmlite_victoria_polygon_su5" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
                     <legendlayerfile isInOverview="0" layerid="vmlite_victoria_polygon_su520140108172623965" visible="1"/>
