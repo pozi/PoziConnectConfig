@@ -23,7 +23,7 @@
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
-    <legend updateDrawingOrder="true" activeLayer="vmlite_victoria_polygon_su520140108172623965">
+    <legend updateDrawingOrder="true" activeLayer="vmlite_tr_road20140108172835414">
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="Vicmap Address"/>
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="Vicmap Features of Interest"/>
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="Vicmap Transport"/>
@@ -74,6 +74,7 @@
             <renderer-v2 symbollevels="0" type="RuleRenderer">
                 <rules>
                     <rule filter=" &quot;CLASS_CODE&quot;  =  0 " symbol="0" label="Freeway"/>
+                    <rule filter=" &quot;CLASS_CODE&quot;  =  1" symbol="1" label="Highway"/>
                 </rules>
                 <symbols>
                     <symbol alpha="1" type="line" name="0">
@@ -87,7 +88,7 @@
                             <prop k="offset_unit" v="MM"/>
                             <prop k="penstyle" v="solid"/>
                             <prop k="use_custom_dash" v="0"/>
-                            <prop k="width" v="0.5"/>
+                            <prop k="width" v="0.8"/>
                             <prop k="width_unit" v="MM"/>
                         </layer>
                         <layer pass="0" class="SimpleLine" locked="0">
@@ -96,6 +97,34 @@
                             <prop k="customdash" v="5;2"/>
                             <prop k="customdash_unit" v="MM"/>
                             <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="penstyle" v="solid"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="0.26"/>
+                            <prop k="width_unit" v="MM"/>
+                        </layer>
+                    </symbol>
+                    <symbol alpha="1" type="line" name="1">
+                        <layer pass="0" class="SimpleLine" locked="1">
+                            <prop k="capstyle" v="square"/>
+                            <prop k="color" v="178,178,178,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="customdash_unit" v="MM"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="penstyle" v="solid"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="0.7"/>
+                            <prop k="width_unit" v="MM"/>
+                        </layer>
+                        <layer pass="0" class="SimpleLine" locked="0">
+                            <prop k="capstyle" v="square"/>
+                            <prop k="color" v="192,223,255,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="customdash_unit" v="MM"/>
+                            <prop k="joinstyle" v="round"/>
                             <prop k="offset" v="0"/>
                             <prop k="offset_unit" v="MM"/>
                             <prop k="penstyle" v="solid"/>
