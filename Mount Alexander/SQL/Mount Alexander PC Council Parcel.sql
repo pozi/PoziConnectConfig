@@ -35,7 +35,7 @@ select
     ifnull ( Title.Title_Plan_Number ,'' ) as plan_numeral,
     ifnull ( Title_Lot , '' ) as lot_number,
     ifnull ( Title.Title_Crown_Allotment , '' ) as allotment,
-    ifnull ( Title.Title_Section , '' ) as sec,
+    case when Title.Title_Section = 'NO SEC' then '' else ifnull ( Title.Title_Section , '' ) end as sec,
     ifnull ( Title.Title_Block , '' ) as block,
     ifnull ( Title.Title_Portion , '' ) as portion,
     ifnull ( Title.Title_Subdivision , '' ) as subdivision,
