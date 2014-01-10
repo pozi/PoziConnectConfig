@@ -35,8 +35,24 @@ select distinct
     end as propnum,
     '' as base_propnum,
     case
-        when Address.Addr_Is_Primary_Address = '1' then ''
-        else 'N'
+        when
+            Assessment.Property_Name_Address_Locality not like
+                '%' ||            
+                cast ( ifnull ( Address.Addr_Building_Unit_Number_1 , '' ) as varchar ) ||
+                '%' ||            
+                cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) ||
+                '%'
+            and
+                ( Assessment.Property_Name_Address_Locality like '%1%' or
+                  Assessment.Property_Name_Address_Locality like '%2%' or
+                  Assessment.Property_Name_Address_Locality like '%3%' or
+                  Assessment.Property_Name_Address_Locality like '%4%' or
+                  Assessment.Property_Name_Address_Locality like '%5%' or
+                  Assessment.Property_Name_Address_Locality like '%6%' or
+                  Assessment.Property_Name_Address_Locality like '%7%' or
+                  Assessment.Property_Name_Address_Locality like '%8%' or
+                  Assessment.Property_Name_Address_Locality like '%9%' ) then 'N'
+        else ''
     end as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
