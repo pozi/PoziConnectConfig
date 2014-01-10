@@ -37,6 +37,7 @@ Pozi Connect also generates supplementary tables based on the above tables that 
 Table                                   | Description
 ----------------------------------------|-----------------------------
 PC Council Parcel Property Count        | List of Council parcels, with a count of the number of properties that share each parcel
+PC Council Property Count               | List of Council properties, with a count of the number of property/address records for each property
 PC Council Property Parcel Count        | List of Council properties, with a count of the number of parcels in each property
 PC Vicmap Parcel Property Count         | List of Vicmap parcels, with a count of the number of properties that share each parcel
 PC Vicmap Parcel Property Parcel Count  | List of Vicmap parcels, with a count of the number of other parcels it shares its property with (ie, a count of more than one identifies that parcel as being part of a *multi-parcel* property
