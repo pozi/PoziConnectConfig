@@ -28,6 +28,14 @@ This part adds addresses for proposed parcels where the council uses the same pr
 
 ### Part 1
 
+Include only property address records where the address is not marked as non-primary OR if there is only one property record for that propnum.
+
+(Allowing non-primary records if they're the only record for that property suits Property.Gov sites whose addresses may be marked as non-primary if the address doesn't closely match the free-form address summary field.)
+
+```sql
+( is_primary <> 'N' or ( select cpc.num_records from PC_Council_Property_Count cpc where cpc.propnum = cpa.propnum ) = 1 ) and
+```
+
 Exclude records whose property number has a Council address that already matches the Vicmap address with the same property number:
 
 *Note: This replaces a similar condition for checking addresses. The new condition caters for systems such as Property.Gov where there can be multiple records per council property, each with different addresses If any one of them match the Vicmap address, it would not warrant an update.*
