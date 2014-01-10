@@ -45,7 +45,7 @@ select
     cpa.road_suffix as road_suffix,
     cpa.locality_name as locality_name,
     cpa.distance_related_flag as distance_related_flag,
-    cpa.is_primary as is_primary,
+    '' as is_primary,
     cpa.easting as easting,
     cpa.northing as northing,
     cpa.datum_proj as datum_proj,
