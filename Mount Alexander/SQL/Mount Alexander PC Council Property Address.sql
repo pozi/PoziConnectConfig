@@ -27,7 +27,7 @@ select
 from (
 
 select distinct
-    cast ( cast ( Unique_Assessment.Assess_Number as integer ) as varchar ) as propnum,
+    cast ( cast ( Assessment.Assessment_Id as integer ) as varchar ) as propnum,
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
@@ -47,7 +47,7 @@ select distinct
     upper ( ifnull ( Address.Addr_Floor_Prefix_2 , '' ) ) as floor_prefix_2,
     cast ( ifnull ( Address.Addr_Floor_Number_2 , '' ) as varchar ) as floor_no_2, 
     upper ( ifnull ( Address.Addr_Floor_Suffix_2 , '' ) ) as floor_suffix_2,
-    upper ( ifnull ( Unique_Assessment.Assess_Property_Name , '' ) ) as building_name, 
+    upper ( ifnull ( Assessment.Assess_Property_Name , '' ) ) as building_name, 
     '' as complex_name, 
     case
         when upper ( Street.Street_Name ) like 'OFF %' then 'OFF'
@@ -80,30 +80,23 @@ select distinct
     '' as outside_property,
     '353' as lga_code,
     '' as crefno,
-    summary as summary
-from (
-    select
-        Parcel.Address_Id as Address_Id,
-        Parcel.Parcel_Id as Parcel_Id,
-        Assessment.Assess_Property_Name as Assess_Property_Name,
-        Assessment.Assessment_Id as Assess_Number,
-        Assessment.Property_Name_Address_Locality as summary
-    from
-        PropertyGov_Parcel as Parcel inner join
-        PropertyGov_Assessment_Parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
-        PropertyGov_Assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id
-    where
-        Parcel.Parcel_Status = 0 and
-        Assessment.Assessment_Status <> '9' and
-        Assessment.Assess_Number is not null and
-        Assessment.Assessment_Id not in ( '10978' , '10986'  )
-    group by Assessment.Assess_Number
-) as Unique_Assessment inner join
-    PropertyGov_Address as Address on Unique_Assessment.Address_Id = Address.Address_Id inner join
-    PropertyGov_Street_Locality as Street_Locality on Address.Street_Locality_Id = Street_Locality.Street_Locality_Id left outer join
-    PropertyGov_Street as Street on Street_Locality.Street_Id = Street.Street_Id left outer join
-    PropertyGov_Locality as Locality on Street_Locality.Locality_Id = Locality.Locality_Id left outer join
+    Assessment.Property_Name_Address_Locality as summary
+from
+    PropertyGov_title as Title inner join
+    PropertyGov_parcel_title as Parcel_Title on Title.Title_Id = Parcel_Title.Title_Id inner join
+    PropertyGov_parcel as Parcel on Parcel_Title.Parcel_Id = Parcel.Parcel_Id inner join
+    PropertyGov_Assessment_Parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
+    PropertyGov_Assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id inner join
+    PropertyGov_Address as Address on Parcel.Address_Id = Address.Address_Id inner join
+    PropertyGov_Street_Locality as Street_Locality on Address.Street_Locality_Id = Street_Locality.Street_Locality_Id inner join
+    PropertyGov_Street as Street on Street_Locality.Street_Id = Street.Street_Id inner join
+    PropertyGov_Locality as Locality on Street_Locality.Locality_Id = Locality.Locality_Id left join
     PropertyGov_Street_Type as Street_Type on Street.Street_Type_Abbreviation = Street_Type.Street_Type_Abbreviation
+where
+    Parcel.Parcel_Status = 0 and
+    Assessment.Assessment_Status <> '9' and
+    Assessment.Assess_Number is not null and
+    Assessment.Assessment_Id not in ( '10978' , '10986'  )
 )
 )
 )
