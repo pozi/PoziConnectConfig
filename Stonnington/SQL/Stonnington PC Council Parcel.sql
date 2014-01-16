@@ -27,6 +27,7 @@ from
 select
     cast ( A.key1 as varchar ) as propnum,
     '' as crefno,
+    '' as summary,
     '' as status,
     ifnull ( upper ( part_lot ) , '' ) as part,
     case

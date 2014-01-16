@@ -30,6 +30,7 @@ select
         else cast ( A.key1 as varchar )
     end as propnum,
     cast ( L.land_no as varchar ) as crefno,
+    '' as summary,
     case L.status
         when 'F' then 'P'
         else ''
