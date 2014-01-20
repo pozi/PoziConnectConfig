@@ -39,8 +39,9 @@ For each of Parcel and Property/Address SQL:
   * [FLOOR_TYPE](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/Reference/VMADD_FLOOR_TYPE.csv)
   * [LOCATION_DESCRIPTOR](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/Reference/VMADD_LOCATION_DESCRIPTOR.csv)
 * test if the Parcel and Property/Address queries return the same set of property numbers
-  * check for parcels without properties
-  * check for properties without parcels
+  * check for parcels without properties: `select * from pc_council_parcel where propnum not in ( select propnum from pc_council_property_address )`
+  * check for properties without parcels: `select * from pc_council_property_address where propnum not in ( select propnum from pc_council_parcel )`
+* check for blank values in road_type field: `select * from pc_council_property_address where road_type = ''`
 * update/create PIQA query
 * create SPEAR task
 * generate 'sampler' query (10 records from each edit code)
