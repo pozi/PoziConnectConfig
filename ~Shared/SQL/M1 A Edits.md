@@ -36,6 +36,12 @@ Include only parcels that have a valid property number.
 cp.propnum not in ( '' , 'NCPR' )
 ```
 
+Include only parcels whose property number has a corresponding record in the council property table. (Ideally the council data extract would include only these parcels anyway.)
+
+```sql
+cp.propnum in ( select propnum from PC_Council_Property_Address )
+```
+
 Include only parcels that have a valid parcel description.
 
 ```sql

@@ -78,6 +78,7 @@ where
     vp.spi <> '' and
     vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props = 1 ) and
     cp.propnum <> '' and
+    cp.propnum in ( select propnum from PC_Council_Property_Address ) and
     vp.spi = cp.spi and
     vp.spi not in ( select spi from PC_Council_Parcel where propnum = vp.propnum ) and
     vp.propnum <> cp.propnum and
