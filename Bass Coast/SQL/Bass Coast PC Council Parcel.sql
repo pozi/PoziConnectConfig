@@ -45,7 +45,7 @@ select
         else ifnull ( Plan_Type.Plan_Type_Code , '' )
     end as plan_prefix,
     ifnull ( Title.Title_Plan_Number ,'' ) as plan_numeral,
-    ifnull ( Title_Lot , '' ) as lot_number,
+    ifnull ( upper ( replace ( Title_Lot , ' ' , '' ) ) , '' ) as lot_number,
     case
         when Title.Title_Crown_Allotment like '% PT' then substr ( Title.Title_Crown_Allotment , 1 , length ( Title.Title_Crown_Allotment ) - 3 )
         else ifnull ( Title.Title_Crown_Allotment , '' )
