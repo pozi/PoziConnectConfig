@@ -198,8 +198,7 @@ from
     join TechOne_nucStreet S on S.street_no = A.street_no
     join TechOne_nucLocality L on L.locality_ctr = S.locality_ctr
 where
-    P.status in ( 'C' , 'F' , 'c' , 'f' ) and
-    P.property_no not in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 )
+    P.status in ( 'C' , 'F' , 'c' , 'f' )
 )
 )
 )
