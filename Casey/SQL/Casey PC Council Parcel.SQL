@@ -62,7 +62,6 @@ where
     A.association_type = 'PropLand' and
     A.date_ended is null AND
     L.plan_desc in ( 'TP' , 'LP' , 'PS' , 'PC' , 'CP' , 'SP' , 'CS' , 'RP' , 'CG' ) and
-    t.key1 is null and
-    p.property_no not in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 )
+    t.key1 is null
 )
 
