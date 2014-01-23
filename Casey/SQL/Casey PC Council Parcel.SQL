@@ -25,10 +25,7 @@ select
 from
 (
 select
-    case
-        when A.key1 in ( 14359 , 15127 , 14360 , 15893 , 15303 )  then 'NCPR'
-  	    else cast ( A.key1 as varchar)
-    end as propnum,
+    cast ( A.key1 as varchar) as propnum,
     cast ( L.land_no as varchar ) as crefno,
     '' as summary,
     case L.status
