@@ -20,6 +20,7 @@ select
     substr ( parcel.parcel_plan_number , 1 , 2 ) as plan_prefix,
     substr ( parcel.parcel_plan_number , 3 , 6 ) as plan_numeral,
     parcel.parcel_lot_number as lot_number,
+    parcel.parcel_further_description as further_description,
     parcel.parcel_crefno as crefno,
     parcel.parcel_status as status,
     property.prop_pfi as property_pfi,
