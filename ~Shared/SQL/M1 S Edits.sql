@@ -37,7 +37,7 @@ select
     cpa.house_suffix_2 as house_suffix_2,
     cpa.access_type as access_type,
     case
-        when cpa.propnum not in ( select vpa.propnum from PC_Vicmap_Property_Address vpa ) and ( cpa.road_name || ' ' || cpa.road_type || ' ' || cpa.locality_name ) not in ( select vpa.road_name || ' ' || vpa.road_type || ' ' || vpa.locality_name from PC_Vicmap_Property_Address vpa ) then 'Y'
+        when cpa.propnum not in ( select vpa.propnum from pc_vicmap_property_address vpa ) and ( cpa.road_name || ' ' || cpa.road_type || ' ' || cpa.locality_name ) not in ( select vpa.road_name || ' ' || vpa.road_type || ' ' || vpa.locality_name from pc_vicmap_property_address vpa ) then 'Y'
         else ''
     end as new_road,
     cpa.road_name as road_name,
@@ -53,20 +53,20 @@ select
     'S' as edit_code,
     'property ' || propnum || ': ' ||
     case    
-        when propnum in ( select vpa.propnum from PC_Vicmap_Property_Address vpa ) then 'replacing address ' || ( select vpa.ezi_address from PC_Vicmap_Property_Address vpa where cpa.propnum = vpa.propnum and vpa.is_primary <> 'N' limit 1) || ' with '
+        when propnum in ( select vpa.propnum from pc_vicmap_property_address vpa ) then 'replacing address ' || ( select vpa.ezi_address from pc_vicmap_property_address vpa where cpa.propnum = vpa.propnum and vpa.is_primary <> 'N' limit 1) || ' with '
         else 'assigning new address '       
     end || cpa.ezi_address as comments
 from
-    PC_Council_Property_Address cpa
+    pc_council_property_address cpa
 where
     propnum not in ( '' , 'NCPR' ) and
-    ( is_primary <> 'N' or ( select cpc.num_records from PC_Council_Property_Count cpc where cpc.propnum = cpa.propnum ) = 1 ) and
-    propnum not in ( select propnum from PC_Council_Property_Address where num_road_address in ( select num_road_address from PC_Vicmap_Property_Address where propnum = cpa.propnum ) ) and    
-    propnum not in ( select vpa.propnum from PC_Vicmap_Property_Address vpa, M1_R_Edits r where vpa.property_pfi = r.property_pfi ) and
-    ( propnum in ( select propnum from PC_Vicmap_Property_Address ) or    
-      propnum in ( select propnum from M1_P_Edits ) or
-      propnum in ( select propnum from M1_A_Edits ) ) and
-    not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = replace ( replace ( ( select vpa.num_road_address from PC_Vicmap_Property_Address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' )
+    ( is_primary <> 'N' or ( select cpc.num_records from pc_council_property_count cpc where cpc.propnum = cpa.propnum ) = 1 ) and
+    propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address where propnum = cpa.propnum ) ) and    
+    propnum not in ( select vpa.propnum from pc_vicmap_property_address vpa, M1_R_Edits r where vpa.property_pfi = r.property_pfi ) and
+    ( propnum in ( select propnum from pc_vicmap_property_address ) or    
+      propnum in ( select propnum from m1_p_edits ) or
+      propnum in ( select propnum from m1_a_edits ) ) and
+    not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' )
 group by propnum
 
 union
@@ -123,10 +123,10 @@ select
     'S' as edit_code,
     'parcel ' || cp.spi || ' (proposed): replacing address ' || vpa.ezi_address || ' with ' || cpa.ezi_address as comments
 from
-    PC_Council_Property_Address cpa,    
-    PC_Council_Parcel cp,
-    PC_Vicmap_Parcel vp,
-    PC_Vicmap_Property_Address vpa
+    pc_council_property_address cpa,    
+    pc_council_parcel cp,
+    pc_vicmap_parcel vp,
+    pc_vicmap_property_address vpa
 where
     cpa.propnum not in ( '' , 'NCPR' ) and
     cpa.propnum = cp.propnum and

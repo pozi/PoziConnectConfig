@@ -68,15 +68,15 @@ select
         end ||
         ' with ' || cp.crefno as comments
 from
-    PC_Vicmap_Parcel vp,
-    PC_Council_Parcel cp
+    pc_vicmap_parcel vp,
+    pc_council_parcel cp
 where
     vp.spi <> '' and
     vp.spi = cp.spi and
     vp.crefno <> cp.crefno and
     cp.crefno <> '' and
     ( vp.crefno = '' or
-      vp.crefno not in ( select cpx.crefno from PC_Council_Parcel cpx where cpx.simple_spi = vp.simple_spi ) ) and 
+      vp.crefno not in ( select cpx.crefno from pc_council_parcel cpx where cpx.simple_spi = vp.simple_spi ) ) and 
     ( vp.plan_number <> '' or    
       vp.propnum = cp.propnum )
 group by vp.spi

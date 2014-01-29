@@ -39,7 +39,7 @@ vp.spi <> ''
 Include only parcels that are associated to only one property. (Multi-assessment edits are handled by the 'A' and 'R' edits.) We will use our parcel count table here rather than the `multi_assessment` field because there are scenarios where Vicmap has multiple properties associated to a single property and are still not classed as multi-assessment. Eg 2\PS400861 at Stonnington.
 
 ```sql
-vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props = 1 )
+vp.spi in ( select vppc.spi from pc_vicmap_parcel_property_count vppc where vppc.num_props = 1 )
 ```
 
 Include only valid council property numbers.
@@ -51,7 +51,7 @@ cp.propnum <> ''
 Include only parcels whose property number has a corresponding record in the Council property table. (Ideally the council data extract would include only these parcels anyway.)
 
 ```sql
-cp.propnum in ( select propnum from PC_Council_Property_Address )
+cp.propnum in ( select propnum from pc_council_property_address )
 ```
 
 Include only parcels where Vicmap and Council agree on the parcel description.
@@ -63,7 +63,7 @@ vp.spi = cp.spi
 Include only parcels from Vicmap whose `spi` is not in Council with the same `propnum`.
 
 ```sql
-vp.spi not in ( select spi from PC_Council_Parcel where propnum = vp.propnum )
+vp.spi not in ( select spi from pc_council_parcel where propnum = vp.propnum )
 ```
 
 Include only parcels where the Vicmap and Council property numbers are different.
@@ -84,14 +84,14 @@ This is a conservative approach that ensures that we are don't completely remove
 
 ```sql
 ( vp.propnum in ( '' , 'NCPR' ) or
-  vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address )  or
-  ( select num_parcels from PC_Vicmap_Property_Parcel_Count where PC_Vicmap_Property_Parcel_Count.propnum = vp.propnum ) > 1 )
+  vp.propnum not in ( select pc_council_property_address.propnum from pc_council_property_address )  or
+  ( select num_parcels from pc_vicmap_property_parcel_count where pc_vicmap_property_parcel_count.propnum = vp.propnum ) > 1 )
 ```
 
 Exclude matches where Vicmap parcels status is proposed and the Council property number has multiple parcels associated with it (because these could get merged in Vicmap).
 
 ```sql
-not ( vp.status = 'P' and ( select cppc.num_parcels from PC_Council_Property_Parcel_Count cppc where cppc.propnum = cp.propnum ) > 1 )
+not ( vp.status = 'P' and ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cp.propnum ) > 1 )
 ```
 
 Return only one record per parcel.

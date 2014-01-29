@@ -54,34 +54,34 @@ from (
 select
     lga_code as lga_code,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then property_pfi
+        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then property_pfi
         else ''
     end as property_pfi,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then ''
+        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then ''
         else vp.spi
     end as spi,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then ''
+        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then ''
         else vp.plan_number
     end as plan_number,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then ''
+        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then ''
         else vp.lot_number
     end as lot_number,
     '' as propnum,
     '' as base_propnum,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then 'multi-parcel property'        
+        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then 'multi-parcel property'        
         else 'parcel ' || vp.spi        
     end || ': removing propnum ' || vp.propnum || ' and associated address' as comments
 from
-    PC_Vicmap_Parcel vp
+    pc_vicmap_parcel vp
 where
     vp.spi <> '' and
     vp.propnum not in ( '' , 'NCPR' ) and
-    vp.propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa ) and
-    vp.spi not in ( select cp.spi from PC_Council_Parcel cp ) and
+    vp.propnum not in ( select cpa.propnum from pc_council_property_address cpa ) and
+    vp.spi not in ( select cp.spi from pc_council_parcel cp ) and
     vp.multi_assessment <> 'Y'
 group by property_pfi, plan_number, lot_number
 )

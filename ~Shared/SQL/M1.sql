@@ -1,11 +1,11 @@
-select * from M1_R_Edits
+select * from m1_r_edits
 union
-select * from M1_C_Edits
+select * from m1_c_edits
 union
-select * from M1_P_Edits
+select * from m1_p_edits
 union
-select * from M1_A_Edits
+select * from m1_a_edits
 union
-select * from M1_E_Edits
+select * from m1_e_edits
 union
-select * from M1_S_Edits
+select * from m1_s_edits

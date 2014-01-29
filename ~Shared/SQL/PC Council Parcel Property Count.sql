@@ -2,7 +2,7 @@ select
     spi,
     status,
     count(*) as num_props
-from PC_Council_Parcel
-where propnum in ( select propnum from PC_Council_Property_Address )
+from pc_council_parcel
+where propnum in ( select propnum from pc_council_property_address )
 group by spi, status
 order by num_props desc

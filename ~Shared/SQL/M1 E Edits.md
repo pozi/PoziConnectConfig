@@ -44,7 +44,7 @@ vp.propnum not in ( '' , 'NCPR' )
 Exclude from retirement those records where the property number exists in Council.
 
 ```sql
-vp.propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa )
+vp.propnum not in ( select cpa.propnum from pc_council_property_address cpa )
 ```
 
 Exclude from retirement any multi-assessment records (because these are dealt with by the R edit).
@@ -55,7 +55,7 @@ vp.multi_assessment <> 'Y'
 Exclude from retirement any parcel whose description exists in Council (and thus avoid recording an E edit that will have a corresponding P edit).
 
 ```sql
-vp.spi not in ( select cp.spi from PC_Council_Parcel cp )
+vp.spi not in ( select cp.spi from pc_council_parcel cp )
 ```
 
 Eliminate duplicate records.

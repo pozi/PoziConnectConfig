@@ -54,7 +54,7 @@ Include only parcels where the Vicmap `crefno` value is blank or does not exist 
 
 ```sql
 ( vp.crefno = '' or
-  vp.crefno not in ( select cpx.crefno from PC_Council_Parcel cpx where cpx.simple_spi = vp.simple_spi ) )
+  vp.crefno not in ( select cpx.crefno from pc_council_parcel cpx where cpx.simple_spi = vp.simple_spi ) )
 ```
 
 Include only parcels where the Vicmap `plan_number` field is populated (due to the higher standard of plan descriptions rather then crown description) OR where the Vicmap and Council `propnum` values already match (which is a good indicator that the correct parcel is matched, despite it being only a crown description).

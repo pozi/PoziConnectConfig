@@ -33,12 +33,12 @@ multi_assessment = 'Y'
 Exclude from retirement the last record in the multi-assessment. This will ensure that the not all the records can be retired at once. Unfortunately this prevents us from targeting the last record for retirement.
 
 ```sql
-property_pfi not in ( select max ( t.property_pfi ) from PC_Vicmap_Parcel t group by t.parcel_pfi )
+property_pfi not in ( select max ( t.property_pfi ) from pc_vicmap_parcel t group by t.parcel_pfi )
 ```
 Retire only those properties that don't exist in Council.
 
 ```sql
-propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa )
+propnum not in ( select cpa.propnum from pc_council_property_address cpa )
 ```
 
 Eliminate duplicate records.
@@ -78,24 +78,24 @@ spi <> ''
 Retire only records where the parcels that don't have a corresponding matching property number and simplified parcel description in Council. The use of the *simplified* parcel description `simple_spi` (as opposed to the standard `spi`) means that if the council has the wrong plan prefix recorded, it will not be included in the results to be retired.
 
 ```sql
-propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.simple_spi = vp.simple_spi )
+propnum not in ( select cp.propnum from pc_council_parcel cp where cp.simple_spi = vp.simple_spi )
 ```
 
 Exclude from retirement properties whose parcel descriptions in Council are not found at all in Vicmap (because we don't want to retire any property that has no other chance of being matched correctly).
 
 ```sql
-propnum not in ( select cp.propnum from PC_Council_Parcel cp where cp.spi not in ( select vpx.spi from PC_Vicmap_Parcel vpx ) )
+propnum not in ( select cp.propnum from pc_council_parcel cp where cp.spi not in ( select vpx.spi from pc_vicmap_parcel vpx ) )
 ```
 
 Exclude from retirement the last record in the multi-assessment. This will ensure that the not all the records can be retired at once. Unfortunately this prevents us from targeting the last record for retirement.
 
 ```sql
-property_pfi not in ( select max ( t.property_pfi ) from PC_Vicmap_Parcel t group by t.parcel_pfi )
+property_pfi not in ( select max ( t.property_pfi ) from pc_vicmap_parcel t group by t.parcel_pfi )
 ```
 
 Retire only records where the parcel description exists in Council (because we don't want to remove the record if there is nothing to replace it) or where propnum doesn't exist in Council.
 
 ```sql
-( spi in ( select cp.spi from PC_Council_Parcel cp ) or propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa ) )
+( spi in ( select cp.spi from pc_council_parcel cp ) or propnum not in ( select cpa.propnum from pc_council_property_address cpa ) )
 ```
 

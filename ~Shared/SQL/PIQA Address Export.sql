@@ -38,4 +38,4 @@ select distinct
     ezi_address as address_pr,
     ezi_address || ' ' || propnum as address_propnum_pr
 from
-    PC_Council_Property_Address
+    pc_council_property_address

@@ -5,4 +5,4 @@ select distinct
     spi,
     summary
 from
-    PC_Council_Parcel
+    pc_council_parcel

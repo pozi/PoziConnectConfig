@@ -33,7 +33,7 @@ Include only property address records where the address is not marked as non-pri
 (Allowing non-primary records if they're the only record for that property suits Property.Gov sites whose addresses may be marked as non-primary if the address doesn't closely match the free-form address summary field.)
 
 ```sql
-( is_primary <> 'N' or ( select cpc.num_records from PC_Council_Property_Count cpc where cpc.propnum = cpa.propnum ) = 1 ) and
+( is_primary <> 'N' or ( select cpc.num_records from pc_council_property_count cpc where cpc.propnum = cpa.propnum ) = 1 ) and
 ```
 
 Exclude records whose property number has a Council address that already matches the Vicmap address with the same property number:
@@ -43,9 +43,9 @@ Exclude records whose property number has a Council address that already matches
 ```sql
 propnum not in (
     select propnum
-        from PC_Council_Property_Address
+        from pc_council_property_address
         where num_road_address in (
-            select num_road_address from PC_Vicmap_Property_Address where propnum = cpa.propnum ) )
+            select num_road_address from pc_vicmap_property_address where propnum = cpa.propnum ) )
 ```
 
 Exclude properties that will be retired.
@@ -53,22 +53,22 @@ Exclude properties that will be retired.
 ```sql
 propnum not in (
     select vpa.propnum
-        from PC_Vicmap_Property_Address vpa, M1_R_Edits r
+        from pc_vicmap_property_address vpa, M1_R_Edits r
         where vpa.property_pfi = r.property_pfi )
 ```
 
 Include only properties that 1) already exist in Vicmap; 2) will appear in a P edit; or 3) will appear in an A edit.
 
 ```sql
-( propnum in ( select propnum from PC_Vicmap_Property_Address ) or
-  propnum in ( select propnum from M1_P_Edits ) or
-  propnum in ( select propnum from M1_A_Edits ) ) 
+( propnum in ( select propnum from pc_vicmap_property_address ) or
+  propnum in ( select propnum from m1_p_edits ) or
+  propnum in ( select propnum from m1_a_edits ) ) 
 ```
 
 Exclude properties where the only difference between the Council and Vicmap address is a hyphen or an apostrophe.
 
 ```sql
-not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = replace ( replace ( ( select vpa.num_road_address from PC_Vicmap_Property_Address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' )
+not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' )
 ```
 
 Generate only one record per property.
@@ -83,7 +83,7 @@ Populate `new_road` with 'Y' if property is new and if the Council road name/typ
 
 ```sql
 case
-    when cpa.propnum not in ( select vpa.propnum from PC_Vicmap_Property_Address vpa ) and ( cpa.road_name || ' ' || cpa.road_type || ' ' || cpa.locality_name ) not in ( select vpa.road_name || ' ' || vpa.road_type || ' ' || vpa.locality_name from PC_Vicmap_Property_Address vpa ) then 'Y'
+    when cpa.propnum not in ( select vpa.propnum from pc_vicmap_property_address vpa ) and ( cpa.road_name || ' ' || cpa.road_type || ' ' || cpa.locality_name ) not in ( select vpa.road_name || ' ' || vpa.road_type || ' ' || vpa.locality_name from pc_vicmap_property_address vpa ) then 'Y'
     else ''
 end as new_road,
 ```

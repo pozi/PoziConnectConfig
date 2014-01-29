@@ -72,20 +72,20 @@ select
         ' with ' || 
         cp.propnum as comments
 from
-    PC_Vicmap_Parcel vp,
-    PC_Council_Parcel cp
+    pc_vicmap_parcel vp,
+    pc_council_parcel cp
 where
     vp.spi <> '' and
-    vp.spi in ( select vppc.spi from PC_Vicmap_Parcel_Property_Count vppc where vppc.num_props = 1 ) and
+    vp.spi in ( select vppc.spi from pc_vicmap_parcel_property_count vppc where vppc.num_props = 1 ) and
     cp.propnum <> '' and
-    cp.propnum in ( select propnum from PC_Council_Property_Address ) and
+    cp.propnum in ( select propnum from pc_council_property_address ) and
     vp.spi = cp.spi and
-    vp.spi not in ( select spi from PC_Council_Parcel where propnum = vp.propnum ) and
+    vp.spi not in ( select spi from pc_council_parcel where propnum = vp.propnum ) and
     vp.propnum <> cp.propnum and
     ( vp.propnum in ( '' , 'NCPR' ) or
-      vp.propnum not in ( select PC_Council_Property_Address.propnum from PC_Council_Property_Address ) or
-      ( select num_parcels from PC_Vicmap_Property_Parcel_Count where propnum = vp.propnum ) > 1 ) and
-    not ( vp.status = 'P' and ( select cppc.num_parcels from PC_Council_Property_Parcel_Count cppc where cppc.propnum = cp.propnum ) > 1 )
+      vp.propnum not in ( select pc_council_property_address.propnum from pc_council_property_address ) or
+      ( select num_parcels from pc_vicmap_property_parcel_count where propnum = vp.propnum ) > 1 ) and
+    not ( vp.status = 'P' and ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cp.propnum ) > 1 )
 
 group by vp.spi
 )

@@ -55,19 +55,19 @@ select
     lga_code,
     property_pfi,
     case
-        when ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) > 1 then  'multi-parcel (' || ( select num_parcels_in_prop from PC_Vicmap_Parcel_Property_Parcel_Count vpppc where vpppc.spi = vp.spi ) || ') property'
+        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then  'multi-parcel (' || ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) || ') property'
         else 'parcel ' || spi
     end ||
         ': removing propnum ' ||
         propnum ||
         ' from multi-assessment (' ||
-        ( select vppc.num_props from PC_Vicmap_Parcel_Property_Count vppc where vppc.spi = vp.spi ) ||
+        ( select vppc.num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = vp.spi ) ||
         ') property' as comments
 from
-    PC_Vicmap_Parcel vp
+    pc_vicmap_parcel vp
 where
     multi_assessment = 'Y' and
-    property_pfi not in ( select max ( t.property_pfi ) from PC_Vicmap_Parcel t group by t.parcel_pfi ) and
-    propnum not in ( select cpa.propnum from PC_Council_Property_Address cpa )
+    property_pfi not in ( select max ( t.property_pfi ) from pc_vicmap_parcel t group by t.parcel_pfi ) and
+    propnum not in ( select cpa.propnum from pc_council_property_address cpa )
 group by property_pfi
 )
