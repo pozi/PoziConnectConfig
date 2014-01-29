@@ -19,6 +19,7 @@ select
     substr ( ifnull ( parcel.pc_planno , '' ) , 1 , 2 ) as plan_prefix,
     substr ( ifnull ( parcel.pc_planno , '' ) , 3 , 6 ) as plan_numeral,
     ifnull ( parcel.pc_lotno , '' ) as lot_number,
+    ifnull ( parcel.pc_fdesc , '' ) as further_description,
     ifnull ( parcel.pc_crefno , '' ) as crefno,
     parcel.pc_stat as status,
     property.prop_pfi as property_pfi,
