@@ -30,7 +30,7 @@ select distinct
     cast ( auprparc.ass_num as varchar ) as propnum,
     '' as base_propnum,
     case
-        when auprparc.pcl_num = ( select t.pcl_num from Authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
+        when auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
         else 'N'
     end as is_primary,
     '' as distance_related_flag,
@@ -119,8 +119,8 @@ select distinct
     '355' as lga_code,
     cast ( auprparc.pcl_num as varchar ) as crefno
 from
-    Authority_auprparc as auprparc ,
-    Authority_auprstad as auprstad
+    authority_auprparc as auprparc ,
+    authority_auprstad as auprstad
 where
     auprparc.pcl_num = auprstad.pcl_num and
     auprparc.pcl_flg in ( 'R' , 'P' ) and

@@ -133,7 +133,7 @@ select
     end as township_code,
     '367' as lga_code
 from
-    Lynx_vwLandParcel Parcel
+    lynx_vwlandparcel Parcel
 where
     Parcel.Status = 'Active' and
     Parcel.Ended is null

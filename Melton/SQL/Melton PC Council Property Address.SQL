@@ -33,7 +33,7 @@ select distinct
     end as propnum,
     '' as base_propnum,
     case
-        when auprparc.pcl_num = ( select t.pcl_num from Authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
+        when auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
         else 'N'
     end as is_primary,
     '' as distance_related_flag,
@@ -176,9 +176,9 @@ select distinct
     '344' as lga_code,
     cast ( auprparc.pcl_num as varchar ) as crefno
 from 
-    Authority_auprparc auprparc inner join
-    Authority_auprstad auprstad ON auprparc.pcl_num = auprstad.pcl_num left outer join                                 
-    Authority_ausrsubr ausrsubr ON auprstad.sbr_nme = ausrsubr.sbr_nme
+    authority_auprparc auprparc inner join
+    authority_auprstad auprstad ON auprparc.pcl_num = auprstad.pcl_num left outer join                                 
+    authority_ausrsubr ausrsubr ON auprstad.sbr_nme = ausrsubr.sbr_nme
 where
     auprparc.pcl_flg in ( 'R' , 'U' , 'P' ) and
     auprparc.ass_num not in ( '' , '0' ) and

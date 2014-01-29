@@ -130,7 +130,7 @@ select
     fmt_ttl as summary,
     '344' as lga_code
 from
-    Authority_auprparc as auprparc
+    authority_auprparc as auprparc
 where
     auprparc.pcl_flg in ( 'R' , 'P' )
 order by

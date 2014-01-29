@@ -89,20 +89,20 @@ from (
         Assessment.Assess_Number as Assess_Number,
         Assessment.Property_Name_Address_Locality as summary
     from
-        PropertyGov_Parcel as Parcel inner join
-        PropertyGov_Assessment_Parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
-        PropertyGov_Assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id     
+        propertygov_parcel as Parcel inner join
+        propertygov_assessment_parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
+        propertygov_assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id     
     where
         Parcel.Parcel_Status = 0 and
-        assessment.Assessment_Status not in ( '9' , '22' ) and    
-        assessment.Assess_Number is not null    
+        Assessment.Assessment_Status not in ( '9' , '22' ) and    
+        Assessment.Assess_Number is not null    
     group by Assessment.Assess_Number 
 ) as Unique_Assessment inner join 
-    PropertyGov_Address as Address on Unique_Assessment.Address_Id = Address.Address_Id inner join
-    PropertyGov_Street_Locality as Street_Locality on Address.Street_Locality_Id = Street_Locality.Street_Locality_Id left outer join
-    PropertyGov_Street as Street on Street_Locality.Street_Id = Street.Street_Id left outer join
-    PropertyGov_Locality as Locality on Street_Locality.Locality_Id = Locality.Locality_Id left outer join
-    PropertyGov_Street_Type as Street_Type on Street.Street_Type_Abbreviation = Street_Type.Street_Type_Abbreviation
+    propertygov_address as Address on Unique_Assessment.Address_Id = Address.Address_Id inner join
+    propertygov_street_locality as Street_Locality on Address.Street_Locality_Id = Street_Locality.Street_Locality_Id left outer join
+    propertygov_street as Street on Street_Locality.Street_Id = Street.Street_Id left outer join
+    propertygov_locality as Locality on Street_Locality.Locality_Id = Locality.Locality_Id left outer join
+    propertygov_street_type as Street_Type on Street.Street_Type_Abbreviation = Street_Type.Street_Type_Abbreviation
 )
 )
 )

@@ -179,10 +179,10 @@ select
     '363' as lga_code,
     '' as crefno
 from
-    TechOne_nucProperty P
-    join TechOne_nucAddress A on A.property_no = P.property_no
-    join TechOne_nucStreet S on S.street_no = A.street_no
-    join TechOne_nucLocality L on L.locality_ctr = S.locality_ctr
+    techone_nucproperty P
+    join techone_nucaddress A on A.property_no = P.property_no
+    join techone_nucstreet S on S.street_no = A.street_no
+    join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
     P.status in ( 'C' , 'c' ) 
 ) 

@@ -52,11 +52,11 @@ select
     '' as township_code,
     '368' as lga_code
 from
-    TechOne_nucLand L
-    join TechOne_nucAssociation A on L.land_no = A.key2 and
+    techone_nucLand L
+    join techone_nucassociation A on L.land_no = A.key2 and
         L.status in ( 'C' , 'F')
-    join TechOne_nucProperty P on A.key1 = p.Property_no
-    left join TechOne_nucAssociation T on A.key1 = T.key1 and
+    join techone_nucproperty P on A.key1 = p.Property_no
+    left join techone_nucassociation T on A.key1 = T.key1 and
         A.key2 = T.key2 and
         T.association_type = 'TransPRLD' and
         A.date_ended is null

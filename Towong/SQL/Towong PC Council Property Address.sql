@@ -96,11 +96,11 @@ select
     '367' as lga_code,
     '' as crefno
 from
-    Lynx_vwPropertyClassification Classification,
-    Lynx_Propertys Property,
-    Lynx_Streets Street,
-    Lynx_StreetType StreetType,
-    Lynx_Localities Locality
+    lynx_vwpropertyclassification Classification,
+    lynx_propertys Property,
+    lynx_streets Street,
+    lynx_streettype StreetType,
+    lynx_localities Locality
 where
     Classification.PropertyNumber = Property.Property and
     Property.StreetID = Street.ID and
