@@ -1,6 +1,0 @@
-
-
-1.Update PropertyParcel and PorpertyAddress queries to extract properties only from Glen Eira LGA (filter of PR_LGAC code)
-
-2. remove all parcel reference from  "VICMAP Compare -Melton" (PARCEL Comparison - using SPI difference Council props (Changes to Property associations to parcels))
- and "VICMAP_COMPARE_M1_DifferentCouncil_Props" so there are no duplicates properties being retired
