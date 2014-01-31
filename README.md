@@ -41,7 +41,6 @@ Tips:
 
 ### To Dos
 
-- [ ] move config settings that users won't need to change from User Settings to General Settings
 - [ ] write Pozi Connect task for importing table to PostGIS
 - [ ] update `~\Shared\Reference\Vicmap Property Field LUT.md` with new format Vicmap
 - [ ] create Planning Scheme style
