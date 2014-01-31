@@ -81,7 +81,7 @@ select
         else ifnull ( A.house_no_to , '' )
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
-    case
+    replace ( case
         when upper (S.street_name) = 'THE PROMENADE' then 'THE PROMENADE'
         when upper (S.street_name) = 'CRANBOURNE PARK S/CENTRE' then 'GREAVES'
         when upper (S.street_name) = 'WESTFIELD F/GATE' then 'PRINCES'
@@ -99,7 +99,7 @@ select
         when upper ( substr ( S.street_name , -13 ) ) in ( ' AVENUE NORTH' , ' AVENUE SOUTH' , ' STREET NORTH' , ' STREET SOUTH' , ' PARADE NORTH' , ' PARADE SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 13 ) )
         when upper ( substr ( S.street_name , -14 ) ) in ( ' HIGHWAY NORTH' , ' HIGHWAY SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 14 ) )
         else upper ( S.street_name )
-    end as road_name,
+    end , '''' , '' ) as road_name,
     case
         when upper (S.street_name) = 'WESTFIELD F/GATE' then 'HIGHWAY'
         when upper (S.street_name) = 'CRANBOURNE PARK S/CENTRE' then 'STREET'
