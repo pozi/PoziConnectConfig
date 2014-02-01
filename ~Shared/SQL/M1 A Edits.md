@@ -51,7 +51,7 @@ cp.spi <> ''
 Include only parcels where the Council has more than one property associated with it (otherwise it needs to be submitted as a P edit.)
 
 ```sql
-( select cppc.num_props from pc_council_parcel_Property_Count cppc where cppc.spi = cp.spi ) > 1
+( select cppc.num_props from pc_council_parcel_property_count cppc where cppc.spi = cp.spi ) > 1
 ```
 
 Exclude parcels that are associated with multiple properties but NOT classed as multi-assessments in Vicmap. These parcels have custom properties and we should not attempt to add to them. Eg 2\PS400861 at Stonnington.
@@ -129,7 +129,7 @@ vp.propnum in ( select t.propnum from pc_council_parcel t )
 Include only Council parcel record if the Council has multiple properties associated to that parcel.
 
 ```sql
-( select cppc.num_props from pc_council_parcel_Property_Count cppc where cppc.spi = cp.spi ) > 1
+( select cppc.num_props from pc_council_parcel_property_count cppc where cppc.spi = cp.spi ) > 1
 ```
 
 Exclude parcels that are associated with multiple properties but NOT classed as multi-assessments in Vicmap. These parcels have custom properties and we should not attempt to them. Eg 2\PS400861 at Stonnington.
