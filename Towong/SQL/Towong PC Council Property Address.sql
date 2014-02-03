@@ -94,7 +94,8 @@ select
     '' as datum_proj,
     '' as outside_property,
     '367' as lga_code,
-    '' as crefno
+    '' as crefno,
+    '' as summary
 from
     lynx_vwpropertyclassification Classification,
     lynx_propertys Property,

@@ -26,8 +26,9 @@ from
 (
 select
     cast ( Parcel.PropertyNumber as varchar ) as propnum,
-    cast ( Parcel.LandParcelNumber as varchar ) as crefno,    
     '' as status,
+    cast ( Parcel.LandParcelNumber as varchar ) as crefno,    
+    '' as summary,
     '' as part,
     case Parcel.Type    
         when 'Lodged Plan' then 'LP' || Parcel.PlanNo
