@@ -46,7 +46,7 @@ select
     address.outside_property as outside_property,
     property.geometry as geometry
 from
-    vmprop_property property,   
+    vmprop_property_mp property,   
     vmadd_address address
 where
     property.prop_pfi = address.property_pfi and  

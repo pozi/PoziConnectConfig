@@ -28,9 +28,9 @@ select
     property.prop_propnum as propnum,
     parcel.geometry as geometry
 from
-    vmprop_parcel parcel,
+    vmprop_parcel_mp parcel,
     vmprop_parcel_property parcel_property,
-    vmprop_property property
+    vmprop_property_mp property
 where
     parcel.parcel_pfi = parcel_property.parcel_pfi and    
     parcel_property.property_pfi = property.prop_pfi and 
