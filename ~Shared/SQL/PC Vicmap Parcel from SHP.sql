@@ -27,9 +27,9 @@ select
     ifnull ( property.pr_propnum , '' ) as propnum,
     parcel.geometry as geometry
 from
-    VMPROP_PARCEL parcel,
-    VMPROP_PARCEL_PROPERTY parcel_property,
-    VMPROP_PROPERTY property
+    vmprop_parcel parcel,
+    vmprop_parcel_property parcel_property,
+    vmprop_property property
 where
     parcel.parcel_pfi = parcel_property.parcel_pfi and    
     parcel_property.pr_pfi = property.prop_pfi and 
