@@ -51,7 +51,7 @@ select distinct
             end ||
                 case
                     when null then ''
-                    when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then cast ( auprparc.ttl_no5 as varchar )
+                    when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then cast ( cast ( auprparc.ttl_no5 as integer ) as varchar )
                     when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( cast ( auprparc.ttl_no5 as varchar ) , 1 , length ( cast ( auprparc.ttl_no5 as varchar ) ) - 1 )        
                     else ''
                 end
@@ -72,7 +72,7 @@ select distinct
         when auprparc.ttl_cde not in ( 9 , 10 , 27 , 28 ) then
             case    
                 when null then ''
-                when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then cast ( auprparc.ttl_no5 as varchar )
+                when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then cast ( cast ( auprparc.ttl_no5 as integer ) as varchar )
                 when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( cast ( auprparc.ttl_no5 as varchar ) , 1 , length ( cast ( auprparc.ttl_no5 as varchar ) ) - 1 )        
                 else ''
             end
