@@ -5,6 +5,7 @@ select
     crefno as council_crefno,
      case
         when length ( spi ) < 6 then 'N'        
+        when plan_numeral like '0%' then 'N'
         when not ( spi like 'CP%' or spi like '%\CS%' or spi like '%\LP%' or spi like 'PC%' or spi like '%\PP%' or spi like '%\PS%' or spi like '%\SP%' or spi like '%\TP%' ) then 'N'
         else ''        
     end as council_spi_valid_format,
