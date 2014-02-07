@@ -96,6 +96,9 @@ select distinct
             '*' , '' ) ,
         '.' , '' ) ,
     '0' , '' ) as sec,
+    '' as block,
+    '' as portion,
+    '' as subdivision,
     cast ( auprparc.udn_cd1 as varchar ) as parish_code,
     case
         when auprparc.udn_cd3 = 6000 then ''

@@ -97,6 +97,8 @@ select
         when auprparc.ttl_cde in ( 9 , 10 , 11 ) then ifnull ( trim ( auprparc.ttl_no4 ) , '' )
         else ''
     end as sec,
+    '' as block,
+    '' as portion,
     case
         when ( auprparc.ttl_cde = 16 ) then trim ( auprparc.ttl_in5 )
         else ''

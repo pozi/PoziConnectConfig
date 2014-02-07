@@ -44,6 +44,9 @@ select distinct
     ifnull ( lpaparc.parcelnum , '' ) as lot_number,
     '' as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
+    '' as block,
+    '' as portion,
+    '' as subdivision,
     ifnull ( cnacomp.descrsrch , '' ) as parish_code,
     '' as township_code,
     '342' as lga_code

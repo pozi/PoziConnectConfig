@@ -54,6 +54,9 @@ select distinct
         else ''
     end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
+    '' as block,
+    '' as portion,
+    '' as subdivision,
     case
         when lpaparc.parcelcode not in ( 'CA' , 'PTCA' , 'PORT' , 'PTPORT' ) then ''
         when lpaparc.fmtparcel like '%P/BAYNTON%' then '2094'
