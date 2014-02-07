@@ -50,6 +50,9 @@ select
     Parcel.Lot as lot_number,
     Parcel.CrownAllotment as allotment,
     Parcel.Section as sec,
+    '' as block,
+    '' as portion,
+    '' as subdivision,
     case upper ( Parcel.Parish )
         when 'ADJIE' then '2003'
         when 'BEETHANG' then '2103'

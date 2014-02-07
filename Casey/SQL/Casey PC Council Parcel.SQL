@@ -46,6 +46,9 @@ select
     ifnull ( L.lot , '' ) as lot_number,
 	ifnull (L.text3,'') as allotment,
     ifnull ( L.parish_section , '' ) as sec,
+    '' as block,
+    '' as portion,
+    '' as subdivision,
     '' as parish_code,
     '' as township_code,
     '312' as lga_code

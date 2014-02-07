@@ -73,6 +73,9 @@ select
         when auprparc.ttl_cde = 6 then ifnull ( auprparc.ttl_no3 , '' )
         else ''
     end as sec,
+    '' as block,
+    '' as portion,
+    '' as subdivision,
     case
         when auprparc.ttl_cde in ( 3 , 6 ) then
             case upper ( aualrefn.dsc_no1 )
