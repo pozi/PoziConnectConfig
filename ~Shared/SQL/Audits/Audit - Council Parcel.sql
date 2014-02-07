@@ -10,7 +10,14 @@ select
         when plan_numeral <> '' and substr ( plan_numeral , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then 'N'
         when lot_number like '%&%' or lot_number like '% %' or lot_number like '%-%' then 'N'
         when not ( spi like 'CP%' or spi like '%\CS%' or spi like '%\LP%' or spi like 'PC%' or spi like '%\PP%' or spi like '%\PS%' or spi like '%\SP%' or spi like '%\TP%' ) then 'N'
-        else ''        
+        when plan_prefix = 'CP' and not ( ( 100000 <= plan_numeral <= 109999 ) or ( 150000 <= plan_numeral <= 199999 ) ) then 'N'
+        when plan_prefix = 'CS' and not ( 1000 <= plan_numeral <= 10000 ) then 'N'        
+        when plan_prefix = 'LP' and not ( ( 1 <= plan_numeral <= 99999 ) or ( 110000 <= plan_numeral <= 149999 ) or ( 200000 <= plan_numeral <= 299999 ) ) then 'N'
+        when plan_prefix = 'PC' and not ( ( 350001 <= plan_numeral <= 400000 ) or ( 450001 <= plan_numeral <= 500000 ) or ( 550001 <= plan_numeral <= 600000 ) or ( 600001 <= plan_numeral <= 650000 ) ) then 'N'
+        when plan_prefix = 'PS' and not ( ( 300001 <= plan_numeral <= 350000 ) or ( 400001 <= plan_numeral <= 450000 ) or ( 500001 <= plan_numeral <= 550000 ) or ( 600001 <= plan_numeral <= 650000 ) ) then 'N'
+        when plan_prefix = 'RP' and not ( plan_numeral <= 19926 ) then 'N'        
+        when plan_prefix = 'SP' and not ( 19927 <= plan_numeral <= 40000 ) then 'N'        
+        else 'Y'        
    end as council_spi_valid_format,
    ifnull ( ( select num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) , 0 ) as num_council_props,
     propnum as council_propnum,
