@@ -43,13 +43,13 @@ select
     '' as township_code,
     '311' as lga_code
 from
-    PropertyGov_parcel as Parcel inner join
-    PropertyGov_parcel_title as Parcel_Title on Parcel.Parcel_Id = Parcel_Title.Parcel_Id inner join
-    PropertyGov_title as Title on Parcel_Title.Title_Id = Title.Title_Id inner join
-    PropertyGov_assessment_parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
-    PropertyGov_assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id left outer join
-    PropertyGov_plan_type as Plan_Type on Title.Plan_Type = Plan_Type.Plan_Type left outer join
-    PropertyGov_parish as Parish on Title.Parish_Id = Parish.Parish_Id
+    propertygov_parcel as Parcel inner join
+    propertygov_parcel_title as Parcel_Title on Parcel.Parcel_Id = Parcel_Title.Parcel_Id inner join
+    propertygov_title as Title on Parcel_Title.Title_Id = Title.Title_Id inner join
+    propertygov_assessment_parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
+    propertygov_assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id left outer join
+    propertygov_plan_type as Plan_Type on Title.Plan_Type = Plan_Type.Plan_Type left outer join
+    propertygov_parish as Parish on Title.Parish_Id = Parish.Parish_Id
 where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status not in ( '9' , '22' ) and    
