@@ -4,6 +4,7 @@ select
     status as council_status,
     crefno as council_crefno,
      case
+        when spi like '\%' then 'N'
         when length ( spi ) < 6 then 'N'        
         when plan_numeral like '0%' then 'N'
         when lot_number like '%&%' or lot_number like '% %' or lot_number like '%-%' then 'N'
