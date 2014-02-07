@@ -86,10 +86,16 @@ select distinct
         when auprparc.ttl_cde in ( 9 , 10 , 27 , 28 ) then ifnull ( auprparc.ttl_no1 , '' )
         else ''
     end as allotment,
-    case
-        when auprparc.ttl_cde in ( 9 , 10 , 27 , 28 ) then ifnull ( auprparc.ttl_no5 , '' )
-        else ifnull ( auprparc.ttl_no3 , '' )
-    end as sec,
+    replace (
+        replace (
+            replace (
+                case
+                    when auprparc.ttl_cde in ( 9 , 10 , 27 , 28 ) then ifnull ( auprparc.ttl_no5 , '' )
+                    else ifnull ( auprparc.ttl_no3 , '' )
+                end ,
+            '*' , '' ) ,
+        '.' , '' ) ,
+    '0' , '' ) as sec,
     cast ( auprparc.udn_cd1 as varchar ) as parish_code,
     case
         when auprparc.udn_cd3 = 6000 then ''
