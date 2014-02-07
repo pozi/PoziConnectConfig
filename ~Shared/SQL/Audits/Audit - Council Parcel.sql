@@ -3,14 +3,15 @@ select
     summary as council_summary,
     status as council_status,
     crefno as council_crefno,
-     case
+    case
         when spi like '\%' then 'N'
         when length ( spi ) < 6 then 'N'        
         when plan_numeral like '0%' then 'N'
+        when plan_numeral <> '' and substr ( plan_numeral , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then 'N'
         when lot_number like '%&%' or lot_number like '% %' or lot_number like '%-%' then 'N'
         when not ( spi like 'CP%' or spi like '%\CS%' or spi like '%\LP%' or spi like 'PC%' or spi like '%\PP%' or spi like '%\PS%' or spi like '%\SP%' or spi like '%\TP%' ) then 'N'
         else ''        
-    end as council_spi_valid_format,
+   end as council_spi_valid_format,
    ifnull ( ( select num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) , 0 ) as num_council_props,
     propnum as council_propnum,
     '' spi_match_in_vicmap,
