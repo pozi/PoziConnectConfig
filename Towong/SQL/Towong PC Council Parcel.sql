@@ -83,6 +83,7 @@ select
         when 'GUNGARLAN' then '2735'
         when 'INDI' then '2772'
         when 'JEMBA' then '2791'
+        when 'JINGELLIC' then '2803'
         when 'JINJELLIC' then '2803'
         when 'KANCOBIN' then '2828'
         when 'KEELANGIE' then '2855'
