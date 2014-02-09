@@ -49,10 +49,14 @@ select
         else ''
     end as plan_prefix,
     Parcel.PlanNo as plan_numeral,
-    Parcel.Lot as lot_number,
+    case
+        when Parcel.Lot glob '?(*' then substr ( Parcel.Lot , 1 , 1 )
+        when Parcel.Lot glob '??(*' then substr ( Parcel.Lot , 1 , 2 )
+        else Parcel.Lot
+    end as lot_number,
     Parcel.CrownAllotment as allotment,
     Parcel.Section as sec,
-    '' as block,
+    case when Lot like '%(BLK%)' then substr ( Lot , length ( Lot ) - 1 , 1 ) else '' end as block,
     '' as portion,
     '' as subdivision,
     case upper ( Parcel.Parish )
