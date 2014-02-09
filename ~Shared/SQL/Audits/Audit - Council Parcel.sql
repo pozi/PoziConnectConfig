@@ -18,16 +18,12 @@ select
         when plan_prefix = 'RP' and not ( plan_numeral <= 19926 ) then 'N'        
         when plan_prefix = 'SP' and not ( 19927 <= plan_numeral <= 40000 ) then 'N'        
         else 'Y'        
-   end as council_spi_valid_format,
-   ifnull ( ( select num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) , 0 ) as num_council_props,
+    end as council_spi_valid_format,
+    ifnull ( ( select num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) , 0 ) as num_council_props,
     propnum as council_propnum,
-    '' spi_match_in_vicmap,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as spi_match_in_vicmap,
     '' partial_spi_match_in_vicmap,
-    case ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi and cp.spi <> '' )
-        when 0 then 'N'
-        when 1 then 'Y'
-        else '(multiple)'
-    end as alternative_spi_match_in_vicmap,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alternative_spi_match_in_vicmap,
     ifnull ( ( select num_props from PC_Vicmap_Parcel_Property_Count vppc where vppc.spi = cp.spi ) , 0 ) as num_vicmap_props,
     ifnull ( ( select crefno from PC_Vicmap_Parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
     case ( select num_props from PC_Vicmap_Parcel_Property_Count vppc where vppc.spi = cp.spi )
