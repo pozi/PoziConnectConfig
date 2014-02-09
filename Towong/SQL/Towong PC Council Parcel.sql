@@ -37,6 +37,7 @@ select
         when 'Title Plan' then 'TP' || Parcel.PlanNo
         when 'Plan of Subdivision' then 'PS' || Parcel.PlanNo
         when 'Consolidation Plan' then 'PC' || Parcel.PlanNo
+        when 'Strata Plan' then 'RP' || Parcel.PlanNo
         when 'Stratum Plan' then 'SP' || Parcel.PlanNo
         else ''
     end as plan_number,
@@ -45,6 +46,7 @@ select
         when 'Title Plan' then 'TP'
         when 'Plan of Subdivision' then 'PS'
         when 'Consolidation Plan' then 'PC'
+        when 'Strata Plan' then 'RP'
         when 'Stratum Plan' then 'SP'
         else ''
     end as plan_prefix,
