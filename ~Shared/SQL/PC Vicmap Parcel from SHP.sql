@@ -25,6 +25,7 @@ select
     property.prop_pfi as property_pfi,
     property.pr_multass as multi_assessment,
     ifnull ( property.pr_propnum , '' ) as propnum,
+    parcel.parv_pfi as parcel_view_pfi,
     parcel.geometry as geometry
 from
     vmprop_parcel_mp parcel,
