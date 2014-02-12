@@ -1,5 +1,6 @@
 select
     spi as council_spi,
+    simple_spi as council_simple_spi,
     summary as council_summary,
     status as council_status,
     crefno as council_crefno,
@@ -23,7 +24,7 @@ select
     propnum as council_propnum,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as spi_match_in_vicmap,
     ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi ) , 0 ) as spi_match_in_council,
-    '' partial_spi_match_in_vicmap,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi ) , 0 ) as spi_partial_match_in_vicmap,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alternative_spi_match_in_vicmap,
     ifnull ( ( select num_props from PC_Vicmap_Parcel_Property_Count vppc where vppc.spi = cp.spi ) , 0 ) as num_vicmap_props,
     ifnull ( ( select crefno from PC_Vicmap_Parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
