@@ -28,7 +28,7 @@ from
 (
 select distinct
     lpaprop.tpklpaprop as propnum,
-    '' as status,
+    case lpaparc.status when 'A' then 'P' else '' end as status,
     '' as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     ifnull ( lpaparc.plancode , '' ) ||
@@ -65,9 +65,9 @@ from
     pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left join
     pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc
 where
-   lpaprop.status = 'C' and
-   lpaparc.status = 'C' and
-   lpatipa.status = 'C' and
-   lpaprti_mod.status = 'C' and
-   lpatitl.status = 'C'
+   lpaprop.status in ( 'A' , 'C' ) and
+   lpaparc.status in ( 'A' , 'C' ) and
+   lpatipa.status in ( 'A' , 'C' ) and
+   lpaprti_mod.status in ( 'A' , 'C' ) and
+   lpatitl.status in ( 'A' , 'C' )
 )
