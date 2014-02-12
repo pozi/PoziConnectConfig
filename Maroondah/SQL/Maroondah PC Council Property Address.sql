@@ -28,6 +28,7 @@ from (
 
 select distinct
     cast ( lpaprop.tpklpaprop as varchar ) as propnum,
+    case lpaprop.status when 'A' then 'P' else '' end as status,
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
@@ -146,7 +147,7 @@ from
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop 
 where
-    lpaprop.status in ('A', 'C') and 
+    lpaprop.status in ( 'A', 'C' ) and 
     lpaaddr.addrtype = 'P' and
     lpaprtp.abbrev <> 'BASE' and
     lpaprop.tfklpacncl = 12
