@@ -1,45 +1,45 @@
 Dataset,Title,Resource_Name,File_Name,ANZLIC_ID,Metatdata_URL
-VMLITE,,,VMLITE_BUILT_UP_AREA,,
-VMLITE,,,VMLITE_DSE_REGION,,
-VMLITE,,,VMLITE_FOREST_SU2,,
-VMLITE,,,VMLITE_FOREST_SU3,,
-VMLITE,,,VMLITE_FOREST_SU5,,
-VMLITE,,,VMLITE_GEO_AREA_LABEL,,
-VMLITE,,,VMLITE_GEO_POINT_LABEL,,
-VMLITE,,,VMLITE_HY_WATER_AREA,,
-VMLITE,,,VMLITE_HY_WATERCOURSE,,
-VMLITE,,,VMLITE_LGA,,
-VMLITE,,,VMLITE_LOCALITY,,
-VMLITE,,,VMLITE_LOCALITY_POLYGON,,
-VMLITE,,,VMLITE_POSTCODE_POLYGON,,
-VMLITE,,,VMLITE_PUBLIC_LAND_SU3,,
-VMLITE,,,VMLITE_PUBLIC_LAND_SU5,,
-VMLITE,,,VMLITE_TR_AIRPORT,,
-VMLITE,,,VMLITE_TR_RAIL,,
-VMLITE,,,VMLITE_TR_RAIL_STATION,,
-VMLITE,,,VMLITE_TR_ROAD,,
+VMLITE,"Statewide Place Area boundaries, polygon - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_BUILT_UP_AREA/)",,VMLITE_BUILT_UP_AREA,ANZVI0803003518,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003518&publicId=guest&extractionProviderId=1
+VMLITE,"Department of Sustainability and Environment Regional Boundaries, polygon - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_DSE_REGION/)",,VMLITE_DSE_REGION,ANZVI0803003523,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003522&publicId=guest&extractionProviderId=1
+VMLITE,"Statewide Forest boundaries, polygon - 1:2 million to 1 :5 million. Vicmap Lite (VMLITE_FOREST_SU2/)",,VMLITE_FOREST_SU2,ANZVI0803003526,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003526&publicId=guest&extractionProviderId=1
+VMLITE,"Statewide Forest boundaries, polygon - 1:1 million to 1 :2 million. Vicmap Lite (VMLITE_FOREST_SU3/)",,VMLITE_FOREST_SU3,ANZVI0803003527,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003527&publicId=guest&extractionProviderId=1
+VMLITE,"Statewide Forest boundaries, polygon - 1:250,000 to 1 :1 million. Vicmap Lite (VMLITE_FOREST_SU5/)",,VMLITE_FOREST_SU5,ANZVI0803003528,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003528&publicId=guest&extractionProviderId=1
+VMLITE,"Statewide Geographic Area boundaries for labelling, polygon - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_GEO_AREA_LABEL/)",,VMLITE_GEO_AREA_LABEL,ANZVI0803003532,http://www.giconnections.vic.gov.au/content/vicgdd/record/ANZVI0803003532.htm
+VMLITE,"Statewide Geographic features for labelling, point - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_GEO_POINT_LABEL/)",,VMLITE_GEO_POINT_LABEL,ANZVI0803003533,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003533&publicId=guest&extractionProviderId=1
+VMLITE,"Statewide water areas, polygon - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_HY_WATER_AREA/)",,VMLITE_HY_WATER_AREA,ANZVI0803003513,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003513&publicId=guest&extractionProviderId=1
+VMLITE,"Statewide watercourse network, line - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_HY_WATERCOURSE/)",,VMLITE_HY_WATERCOURSE,ANZVI0803003512,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003512&publicId=guest&extractionProviderId=1
+VMLITE,"Local Government Area boundaries, polygon - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_LGA/)",,VMLITE_LGA,ANZVI0803003519,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003519&publicId=guest&extractionProviderId=1
+VMLITE,"Place Names, point - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_LOCALITY/)",,VMLITE_LOCALITY,ANZVI0803003531,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003531&publicId=guest&extractionProviderId=1
+VMLITE,"Locality boundaries, polygon - 1:250,000 to 1 :5 million. Vicmap Lite",,VMLITE_LOCALITY_POLYGON,ANZVI0803003520,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003520&publicId=guest&extractionProviderId=1
+VMLITE,"Postcode boundaries, polygon - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_POSTCODE_POLYGON/)",,VMLITE_POSTCODE_POLYGON,ANZVI0803003521,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003521&publicId=guest&extractionProviderId=1
+VMLITE,"Statewide Public Land Classification boundaries, polygon - 1:1 million to 1 :5 million. Vicmap Lite (VMLITE_PUBLIC_LAND_SU3/)",,VMLITE_PUBLIC_LAND_SU3,ANZVI0803003529,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003529&publicId=guest&extractionProviderId=1
+VMLITE,"Statewide Public Land Classification boundaries, polygon - 1:250,000 to 1 :2 million. Vicmap Lite (VMLITE_PUBLIC_LAND_SU5/)",,VMLITE_PUBLIC_LAND_SU5,ANZVI0803003530,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003530&publicId=guest&extractionProviderId=1
+VMLITE,"Aiport, point - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_TR_AIRPORT/)",,VMLITE_TR_AIRPORT,ANZVI0803003511,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003511&publicId=guest&extractionProviderId=1
+VMLITE,"Statewide rail network, line - 1:250,000 to 1 :5 million",,VMLITE_TR_RAIL,ANZVI0803003508,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003508&publicId=guest&extractionProviderId=1
+VMLITE,"Statewide railway stations, point - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_TR_RAIL_STATION/)",,VMLITE_TR_RAIL_STATION,ANZVI0803003510,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003510&publicId=guest&extractionProviderId=1
+VMLITE,"Statewide road network, line - 1:250,000 to 1 :5 million. Vicmap Lite (VMLITE_TR_ROAD/)",,VMLITE_TR_ROAD,ANZVI0803003524,http://www.giconnections.vic.gov.au/content/vicgdd/record/ANZVI0803003524.htm
 VMLITE,,,VMLITE_VICGOV_REGION,,
-VMLITE,,,VMLITE_VICTORIA_LINE_SU2,,
-VMLITE,,,VMLITE_VICTORIA_LINE_SU5,,
-VMLITE,,,VMLITE_VICTORIA_POLYGON_SU2,,
-VMLITE,,,VMLITE_VICTORIA_POLYGON_SU5,,
+VMLITE,"Simplified outline of Victoria and adjoining States, line - 1:2 million to 1 :5 million. Vicmap Lite (VMLITE_VICTORIA_LINE_SU2/)",,VMLITE_VICTORIA_LINE_SU2,ANZVI0803003516,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003516&publicId=guest&extractionProviderId=1
+VMLITE,"Simplified outline of Victoria and adjoining States, line - 1:250,000 to 1 :2 million. Vicmap Lite (VMLITE_VICTORIA_LINE_SU5/)",,VMLITE_VICTORIA_LINE_SU5,ANZVI0803003517,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003517&publicId=guest&extractionProviderId=1
+VMLITE,"Simplified outline of Victoria and adjoining States, polygon - 1:2 million to 1 :5 million. Vicmap Lite (VMLITE_VICTORIA_POLYGON_SU2/)",,VMLITE_VICTORIA_POLYGON_SU2,ANZVI0803003514,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003514&publicId=guest&extractionProviderId=1
+VMLITE,"Simplified outline of Victoria and adjoining States, polygon - 1:250,000 to 1 :2 million. Vicmap Lite",,VMLITE_VICTORIA_POLYGON_SU5,ANZVI0803003515,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003515&publicId=guest&extractionProviderId=1
 VMADD,Address - Vicmap Address ,VMADD_ADDRESS ,ADDRESS,ANZVI0803003126 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003126&publicId=guest&extractionProviderId=1 
-VMADMIN,,,AD_LGA_AREA_POLYGON,,
-VMADMIN,,,AD_LOCALITY_AREA_POLYGON,,
-VMADMIN,,,AD_VICGOV_REGION,,
-VMADMIN,,,CFA_DISTRICT,,
+VMADMIN,Vicmap Admin,,AD_LGA_AREA_POLYGON,ANZVI0803002529,http://services.land.vic.gov.au/SpatialDatamart/dataSearchViewMetadata.html?anzlicId=ANZVI0803002529&extractionProviderId=1
+VMADMIN,Locality Boundaries (Road) (polygon) - Vicmap Admin (VMADMIN_AD_LOCALITY_AREA_POLYGON/),,AD_LOCALITY_AREA_POLYGON,ANZVI0803002531,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002531&publicId=guest&extractionProviderId=1
+VMADMIN,,,AD_VICGOV_REGION,ANZVI0803004758,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803004758&publicId=guest&extractionProviderId=1
+VMADMIN,Country Fire Authority (CFA) District Boundaries - Vicmap Admin,,CFA_DISTRICT,ANZVI0803004758,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803004758&publicId=guest&extractionProviderId=1
 VMADMIN,,,CFA_REGION,,
 VMADMIN,,,CFA_TFB_DISTRICT,,
-VMADMIN,,,DEPI_REGION,,
-VMADMIN,,,LGA_POLYGON,,
-VMADMIN,,,LOCALITY_POLYGON,,
+VMADMIN,Department of Environment and Primary Industries Regional Boundaries - Vicmap Admin,,DEPI_REGION,ANZVI0803005054,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803005054&publicId=guest&extractionProviderId=1
+VMADMIN,Local Government Area Boundaries (Road) (polygon) - Vicmap Admin (VMADMIN_AD_LGA_AREA_POLYGON/),,LGA_POLYGON,ANZVI0803002507,http://www.giconnections.vic.gov.au/content/vicgdd/record/ANZVI0803002507.htm
+VMADMIN,Locality Boundaries (Property) (polygon) - Vicmap Admin,,LOCALITY_POLYGON,ANZVI0803003027,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003027&publicId=guest&extractionProviderId=1
 VMADMIN,,,PARISH_POLYGON,,
 VMADMIN,,,POSTCODE_POLYGON,,
-VMADMIN,,,STATE_ASSEMBLY_2001,,
-VMADMIN,,,STATE_COUNCIL_2005,,
-VMADMIN,,,TOWNSHIP_POLYGON,,
-VMADMIN,,,VICGOV_REGION,,
-VMADMIN,,,WARD_2012,,
+VMADMIN,Victorian Lower House Electoral Boundaries 2001 - Vicmap Admin (VMADMIN_STATE_ASSEMBLY_2001/STASS01),,STATE_ASSEMBLY_2001,ANZVI0803002630,http://www.giconnections.vic.gov.au/content/vicgdd/record/ANZVI0803002630.htm
+VMADMIN,Victorian Upper House Electoral Boundaries 2005 - Vicmap Admin (VMADMIN_STATE_COUNCIL_2005/STCNCL05),,STATE_COUNCIL_2005,ANZVI0803003063,http://www.giconnections.vic.gov.au/content/vicgdd/record/ANZVI0803003063.htm
+VMADMIN,Township Boundaries (polygon) - Vicmap Admin,,TOWNSHIP_POLYGON,ANZVI0803002717,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002717&publicId=guest&extractionProviderId=1
+VMADMIN,Victorian Government Regional Departmental Boundaries - Vicmap Admin (VMADMIN_VICGOV_REGION/),,VICGOV_REGION,ANZVI0803004649,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803004649&publicId=guest&extractionProviderId=1
+VMADMIN,WARD Boundaries 2012 (polygon) - Vicmap Admin (VMADMIN_WARD_2012/WARD),,WARD_2012,ANZVI0803004720,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803004720&publicId=guest&extractionProviderId=1
 VMELEV,,,EL_CONTOUR,,
 VMELEV,,,EL_CONTOUR_1TO5M,,
 VMELEV,,,EL_GRND_SURFACE_POINT,,
@@ -66,11 +66,11 @@ VMHYDRO,,,HY_WATER_STRUCT_AREA_POLYGON,,
 VMHYDRO,,,HY_WATER_STRUCT_LINE,,
 VMHYDRO,,,HY_WATER_STRUCT_POINT,,
 VMHYDRO,"Watercourse Network 1:25,000 - Vicmap Hydro",HY_WATERCOURSE ,HY_WATERCOURSE ,ANZVI0803002490 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002490&publicId=guest&extractionProviderId=1 
-VMPLAN,Planning scheme zones - Vicmap Planning ,VMPLAN_PLAN_ZONE ,PLAN_ZONE,ANZVI0803002909 ,
-VMPLAN,Planning scheme overlay - Vicmap Planning,VMPLAN_PLAN_OVERLAY,PLAN_OVERLAY,ANZVI0803002910 ,
-VMPLAN,Planning scheme Urban Growth Boundary - Vicmap Planning ,VMPLAN_PLAN_UGB,PLAN_UGB,ANZVI0803002912 ,
-VMPLAN,Planning scheme codelist - Vicmap Planning,VMPLAN_PLAN_CODELIST,PLAN_CODELIST,ANZVI0803002913 ,
-VMPLAN,Planning scheme Urban Growth Area - Vicmap Planning,VMPLAN_PLAN_UGA,PLAN_UGA,ANZVI0803002914 ,
+VMPLAN,Planning scheme zones - Vicmap Planning ,VMPLAN_PLAN_ZONE ,PLAN_ZONE,ANZVI0803002909 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002909&publicId=guest&extractionProviderId=1
+VMPLAN,Planning scheme overlay - Vicmap Planning,VMPLAN_PLAN_OVERLAY,PLAN_OVERLAY,ANZVI0803002910 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002910&publicId=guest&extractionProviderId=1
+VMPLAN,Planning scheme Urban Growth Boundary - Vicmap Planning ,VMPLAN_PLAN_UGB,PLAN_UGB,ANZVI0803002912 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002912&publicId=guest&extractionProviderId=1
+VMPLAN,Planning scheme codelist - Vicmap Planning,VMPLAN_PLAN_CODELIST,PLAN_CODELIST,ANZVI0803002913 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002913&publicId=guest&extractionProviderId=1
+VMPLAN,Planning scheme Urban Growth Area - Vicmap Planning,VMPLAN_PLAN_UGA,PLAN_UGA,ANZVI0803002914 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002914&publicId=guest&extractionProviderId=1
 VMPROP,,,ANNOTATION_TEXT,,
 VMPROP,,,CAD_AREA_BDY,,
 VMPROP,,,CENTROID,,
@@ -83,22 +83,22 @@ VMPROP,,,PROPERTY_MP,,
 VMPROP,,,ROAD_CASEMENT_POLYGON,,
 VMTRANS,,,TR_AIR_INFRA_AREA_POLYGON,,
 VMTRANS,,,TR_AIR_INFRA_POINT,,
-VMTRANS,,,TR_AIRPORT_INFRASTRUCTURE,,
-VMTRANS,,,TR_RAIL,,
-VMTRANS,,,TR_RAIL_INFRASTRUCTURE,,
+VMTRANS,Airport Infrastructure - Vicmap Transport (TR_AIRPORT_INFRASTRUCTURE/),,TR_AIRPORT_INFRASTRUCTURE,ANZVI0803002446,http://www.giconnections.vic.gov.au/content/vicgdd/record/ANZVI0803002446.htm
+VMTRANS,Rail Network - Vicmap Transport,,TR_RAIL,ANZVI0803002442,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002442&publicId=guest&extractionProviderId=1
+VMTRANS,,,TR_RAIL_INFRASTRUCTURE,ANZVI0803002444,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002444&publicId=guest&extractionProviderId=1
 VMTRANS,,,TR_ROAD,,
-VMTRANS,,,TR_ROAD_INFRASTRUCTURE,,
-VMTRANS,Aspatial Table - Road Locality Table - Vicmap Transport,TR_ROAD_LOCALITY,TR_ROAD_LOCALITY,ANZVI0803003244 ,
+VMTRANS,,,TR_ROAD_INFRASTRUCTURE,ANZVI0803002612,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002612&publicId=guest&extractionProviderId=1
+VMTRANS,Aspatial Table - Road Locality Table - Vicmap Transport,TR_ROAD_LOCALITY,TR_ROAD_LOCALITY,ANZVI0803003244 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003244&publicId=guest&extractionProviderId=1
 VMTRANS,,,TR_ROAD_LOCALITY_SECTION,,
 VMVEG,,,PLANTATION,,
 VMVEG,,,TREE_DENSITY,,
-PTV,PTV Train Stations,RAIL_STATIONS_VMT,RAE_932_RAIL_STATIONS_VMT,ANZVI0803000053,
-PTV,PTV Bus Routes Metro,METRO_BUS_ROUTES,RAE_955_METRO_BUS_ROUTES,ANZVI0803000054,
-PTV,PTV Tram Stops,TRAM_STOPS_VICMAP,RAE_918_TRAM_STOPS_VICMAP,ANZVI0803000052,
-PTV,PTV Tram Track Centreline,TRAM_TRACK_CENTL,RAE_1220_TRAM_TRACK_CENTL,ANZVI0803000063,
-PTV,PTV Bus Routes Regional,REG_BUS_ROUTES_VM,RAE_909_REG_BUS_ROUTES_VM,ANZVI0803000056,
-PTV,PTV Train Corridor Centreline,TRAIN_CORR_CENTL,RAE_1202_TRAIN_CORR_CENTL,ANZVI0803000061,
-PTV,PTV Train Track Centreline,TRAIN_TRACK_CENTL,RAE_1211_TRAIN_TRACK_CENTL,ANZVI0803000062,
-PTV,PTV Tram Routes,TRAM_ROUTES_VMT,RAE_969_TRAM_ROUTES_VMT,ANZVI0803000055 ,
-PTV,PTV Train Station Platforms,RAIL_STAT_PLATF,RAE_1229_RAIL_STAT_PLATF,ANZVI0803000064,
+PTV,PTV Train Stations,RAIL_STATIONS_VMT,RAE_932_RAIL_STATIONS_VMT,ANZVI0803000053,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803000053&publicId=guest&extractionProviderId=1
+PTV,PTV Bus Routes Metro,METRO_BUS_ROUTES,RAE_955_METRO_BUS_ROUTES,ANZVI0803000054,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803000054&publicId=guest&extractionProviderId=1
+PTV,PTV Tram Stops,TRAM_STOPS_VICMAP,RAE_918_TRAM_STOPS_VICMAP,ANZVI0803000052,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803000052&publicId=guest&extractionProviderId=1
+PTV,PTV Tram Track Centreline,TRAM_TRACK_CENTL,RAE_1220_TRAM_TRACK_CENTL,ANZVI0803000063,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803000063&publicId=guest&extractionProviderId=1
+PTV,PTV Bus Routes Regional,REG_BUS_ROUTES_VM,RAE_909_REG_BUS_ROUTES_VM,ANZVI0803000056,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803000056&publicId=guest&extractionProviderId=1
+PTV,PTV Train Corridor Centreline,TRAIN_CORR_CENTL,RAE_1202_TRAIN_CORR_CENTL,ANZVI0803000061,http://www.giconnections.vic.gov.au/content/vicgdd/record/ANZVI0803000061.htm
+PTV,PTV Train Track Centreline,TRAIN_TRACK_CENTL,RAE_1211_TRAIN_TRACK_CENTL,ANZVI0803000062,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803000062&publicId=guest&extractionProviderId=1
+PTV,PTV Tram Routes,TRAM_ROUTES_VMT,RAE_969_TRAM_ROUTES_VMT,ANZVI0803000055 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803000055&publicId=guest&extractionProviderId=1
+PTV,PTV Train Station Platforms,RAIL_STAT_PLATF,RAE_1229_RAIL_STAT_PLATF,ANZVI0803000064,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803000064&publicId=guest&extractionProviderId=1
 PTV,PTV Bus Stops Metro and Regional,BUS_STOPS_PTV ,RAE_895_BUS_STOPS_VICMAP,ANZVI0803000051,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803000051&publicId=guest&extractionProviderId=1
