@@ -139,8 +139,8 @@ from
     pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join 
     pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join 
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
-    pathway_lparole_filtered as lparole_filt on lpaprop.tpklpaprop = lparole_filt.tfklocl left join
-    pathway_lraassm as lraassm on lparole_filt.tfkappl = lraassm.tpklraassm left join
+    pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
+    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm left join
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
     lpaprop.status in ( 'A' , 'C' ) and 
