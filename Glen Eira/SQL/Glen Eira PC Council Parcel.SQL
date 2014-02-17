@@ -59,12 +59,12 @@ select distinct
     '322' as lga_code
 from
    pathway_lpaprop as lpaprop left outer join
-   pathway_lpaprti as lpaprti  ON lpaprop.tpklpaprop = lpaprti.tfklpaprop left outer join
-   pathway_lpatipa as lpatipa  ON lpaprti.tfklpatitl = lpatipa.tfklpatitl left outer join
-   pathway_lpaparc as lpaparc  ON lpatipa.tfklpaparc = lpaparc.tpklpaparc left outer join
-   pathway_lpasect as lpasect ON lpaparc.tpklpaparc = lpasect.tfklpaparc left outer join
-   pathway_lparole_filtered as lparole_filt ON lpaprop.tpklpaprop = lparole_filt.tfklocl left outer join
-   pathway_lraassm as lraassm ON lparole_filt.tfkappl = lraassm.tpklraassm  
+   pathway_lpaprti as lpaprti on lpaprop.tpklpaprop = lpaprti.tfklpaprop left outer join
+   pathway_lpatipa as lpatipa on lpaprti.tfklpatitl = lpatipa.tfklpatitl left outer join
+   pathway_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc left outer join
+   pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left outer join
+   pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left outer join
+   pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm  
 where
    lpaparc.status <> 'H' and   
    lraassm.applicatn = 'R' and
