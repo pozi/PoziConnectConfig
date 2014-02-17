@@ -35,7 +35,7 @@ VMADMIN,Local Government Area Boundaries (Road) (polygon) - Vicmap Admin (VMADMI
 VMADMIN,Locality Boundaries (Property) (polygon) - Vicmap Admin,,LOCALITY_POLYGON,ANZVI0803003027,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003027&publicId=guest&extractionProviderId=1
 VMADMIN,,,PARISH_POLYGON,,
 VMADMIN,,,POSTCODE_POLYGON,,
-VMADMIN,Victorian Lower House Electoral Boundaries 2001 - Vicmap Admin (VMADMIN_STATE_ASSEMBLY_2001/STASS01),,STATE_ASSEMBLY_2001,ANZVI0803002630,http://www.giconnections.vic.gov.au/content/vicgdd/record/ANZVI0803002630.htm
+VMADMIN,Victorian Lower House Electoral Boundaries 2001 - Vicmap Admin (VMADMIN_STATE_ASSEMBLY_2001/STASS01),,STATE_ASSEMBLY_2001,ANZVI0803002630,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002630&publicId=guest&extractionProviderId=1
 VMADMIN,Victorian Upper House Electoral Boundaries 2005 - Vicmap Admin (VMADMIN_STATE_COUNCIL_2005/STCNCL05),,STATE_COUNCIL_2005,ANZVI0803003063,http://www.giconnections.vic.gov.au/content/vicgdd/record/ANZVI0803003063.htm
 VMADMIN,Township Boundaries (polygon) - Vicmap Admin,,TOWNSHIP_POLYGON,ANZVI0803002717,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002717&publicId=guest&extractionProviderId=1
 VMADMIN,Victorian Government Regional Departmental Boundaries - Vicmap Admin (VMADMIN_VICGOV_REGION/),,VICGOV_REGION,ANZVI0803004649,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803004649&publicId=guest&extractionProviderId=1
@@ -55,11 +55,11 @@ VMFEAT,,,FOI_LINE,,
 VMFEAT,,,FOI_POINT,,
 VMFEAT,,,FOI_POLYGON,,
 VMFEAT,,,GEO_AREA_HYDRO_LABEL,,
-VMFEAT,,,GEO_AREA_RELIEF_LABEL,,
+VMFEAT,,,GEO_AREA_RELIEF_LABEL,ANZVI0803003308,
 VMFEAT,,,GEO_POINT_RELIEF_LABEL,,
 VMFEAT,,,GNR,,
 VMFEAT,,,LOCALITY_POINT,,
-VMFEAT,,,PL_PLACE_AREA_POLYGON,,
+VMFEAT,,,PL_PLACE_AREA_POLYGON,ANZVI0803002538,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002538&publicId=guest&extractionProviderId=1
 VMHYDRO,,,HY_WATER_AREA_POLYGON,,
 VMHYDRO,,,HY_WATER_POINT,,
 VMHYDRO,,,HY_WATER_STRUCT_AREA_POLYGON,,
@@ -82,14 +82,14 @@ VMPROP,,,PROPERTY_CAD_AREA_BDY,,
 VMPROP,,,PROPERTY_MP,,
 VMPROP,,,ROAD_CASEMENT_POLYGON,,
 VMTRANS,,,TR_AIR_INFRA_AREA_POLYGON,,
-VMTRANS,,,TR_AIR_INFRA_POINT,,
+VMTRANS,,,TR_AIR_INFRA_POINT,ANZVI0803002612,
 VMTRANS,Airport Infrastructure - Vicmap Transport (TR_AIRPORT_INFRASTRUCTURE/),,TR_AIRPORT_INFRASTRUCTURE,ANZVI0803002446,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002446&publicId=guest&extractionProviderId=1
 VMTRANS,Rail Network - Vicmap Transport,,TR_RAIL,ANZVI0803002442,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002442&publicId=guest&extractionProviderId=1
-VMTRANS,,,TR_RAIL_INFRASTRUCTURE,ANZVI0803002444,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002444&publicId=guest&extractionProviderId=1
-VMTRANS,,,TR_ROAD,,
+VMTRANS,,,TR_RAIL_INFRASTRUCTURE,,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002444&publicId=guest&extractionProviderId=1
+VMTRANS,,,TR_ROAD,ANZVI0803002457,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002457&publicId=guest&extractionProviderId=1
 VMTRANS,,,TR_ROAD_INFRASTRUCTURE,ANZVI0803002612,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002612&publicId=guest&extractionProviderId=1
 VMTRANS,Aspatial Table - Road Locality Table - Vicmap Transport,TR_ROAD_LOCALITY,TR_ROAD_LOCALITY,ANZVI0803003244 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003244&publicId=guest&extractionProviderId=1
-VMTRANS,,,TR_ROAD_LOCALITY_SECTION,,
+VMTRANS,,,TR_ROAD_LOCALITY_SECTION,ANZVI0803003245,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003245&publicId=guest&extractionProviderId=1
 VMVEG,,,PLANTATION,,
 VMVEG,,,TREE_DENSITY,,
 PTV,PTV Train Stations,RAIL_STATIONS_VMT,RAE_932_RAIL_STATIONS_VMT,ANZVI0803000053,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803000053&publicId=guest&extractionProviderId=1
