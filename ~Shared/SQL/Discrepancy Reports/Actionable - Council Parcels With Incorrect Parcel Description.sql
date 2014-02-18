@@ -3,7 +3,11 @@ select
     vicmap_parcel.propnum as vicmap_propnum,       
     vicmap_parcel.crefno as vicmap_crefno,       
     vicmap_parcel.plan_number as vicmap_plan_number,       
-    vicmap_parcel.lot_number as vicmap_lot_number
+    vicmap_parcel.lot_number as vicmap_lot_number,
+    council_parcel.spi as council_spi,
+    council_parcel.crefno as council_crefno,
+    council_parcel.plan_number as council_plan_number,
+    council_parcel.lot_number as council_lot_number
 from
     PC_Vicmap_Parcel vicmap_parcel,    
     PC_Council_Parcel council_parcel
