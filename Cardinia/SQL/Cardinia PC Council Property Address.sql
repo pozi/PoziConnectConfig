@@ -28,6 +28,7 @@ from (
 
 select distinct
     cast ( cast ( Unique_Assessment.Assess_Number as integer ) as varchar ) as propnum,
+    '' as status,
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,

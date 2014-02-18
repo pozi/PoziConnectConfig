@@ -33,6 +33,7 @@ select distinct
         when cast ( Assessment.Assess_Number as varchar ) glob '*.???' then cast ( Assessment.Assess_Number as varchar ) || '0'
         when cast ( Assessment.Assess_Number as varchar ) glob '*.????' then cast ( Assessment.Assess_Number as varchar )
     end as propnum,
+    '' as status,
     '' as base_propnum,
     case
         when
