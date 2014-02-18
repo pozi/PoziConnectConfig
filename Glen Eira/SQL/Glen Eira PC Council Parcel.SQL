@@ -29,7 +29,7 @@ from
 select distinct
     cast ( cast ( lraassm.assmnumber as integer ) as varchar ) as propnum,
     lpaparc.status as status,
-    '' as crefno,
+    cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     case
         when lpaparc.plannum is null then cast (null as varchar)
