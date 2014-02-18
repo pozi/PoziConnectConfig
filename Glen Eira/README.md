@@ -13,3 +13,5 @@ SELECT * FROM {Pathway_Table_Prefix}lparole WITH (NOLOCK) WHERE fklparolta = 'LR
 The imported table now contains only 67K records.
 
 If the Glen Eira queries are to be reused at other sites, the same import filter must be applied, or the queries must be modified to include the filter.
+
+Note: out of the four Pathway sites implemented as at Feb 2014, Glen Eira is the only one to use the lparole table.
