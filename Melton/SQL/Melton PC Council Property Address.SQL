@@ -31,6 +31,7 @@ select distinct
         when auprparc.ass_num in ( 310227 , 199380 , 199380 , 310227 , 594440 , 594457 , 594465 , 594473 , 594481 , 594499 , 594507 , 594515 , 594523 , 594531 ) then 'NCPR'
         else cast ( auprparc.ass_num as varchar )
     end as propnum,
+    '' as status,
     '' as base_propnum,
     case
         when auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'

@@ -28,6 +28,7 @@ from (
 
 select distinct
     cast ( cast ( Assessment.Assess_Number as integer ) as varchar ) as propnum,
+    '' as status,
     '' as base_propnum,
     case
         when
