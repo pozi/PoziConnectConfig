@@ -28,7 +28,10 @@ from (
 
 select distinct
     cast ( lpaprop.tpklpaprop as varchar ) as propnum,
-    case lpaprop.status when 'A' then 'P' else '' end as status,
+    case lpaprop.status
+        when 'C' then 'A'
+        when 'A' then 'P'
+    end as status,
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,

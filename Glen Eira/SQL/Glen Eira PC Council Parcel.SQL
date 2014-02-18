@@ -28,7 +28,10 @@ from
 (
 select distinct
     cast ( cast ( lraassm.assmnumber as integer ) as varchar ) as propnum,
-    lpaparc.status as status,
+    case lpaparc.status
+        when 'C' then 'A'
+        when 'A' then 'P'
+    end as status,
     cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     case

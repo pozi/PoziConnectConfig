@@ -28,6 +28,10 @@ from (
 
 select
     cast ( cast ( lraassm.assmnumber as integer ) as varchar ) as propnum,
+    case lpaprop.status
+        when 'C' then 'A'
+        when 'A' then 'P'
+    end as status,
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,

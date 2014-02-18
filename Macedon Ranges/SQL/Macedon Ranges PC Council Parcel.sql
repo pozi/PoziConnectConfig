@@ -28,7 +28,10 @@ from
 (
 select distinct
     lpaprop.tpklpaprop as propnum,
-    '' as status,
+    case lpaparc.status
+        when 'C' then 'A'
+        when 'A' then 'P'
+    end as status,
     '' as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     ifnull ( lpaparc.plancode , '' ) ||
