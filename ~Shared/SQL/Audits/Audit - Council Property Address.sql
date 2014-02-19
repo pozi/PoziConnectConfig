@@ -1,6 +1,24 @@
 select
     propnum as council_propnum,
     status as council_status,
-    ifnull ( ( select edit_code from M1 where m1.propnum = cpa.propnum limit 1 ) , '' ) as current_m1
-from PC_Council_Property_Address cpa
+    ifnull ( ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cpa.propnum ) , 0 ) as num_parcels_in_council,
+    num_road_address as council_address,
+    locality_name as council_locality,
+    summary as council_summary,
+    ifnull ( ( select vppc.num_parcels from pc_vicmap_property_parcel_count vppc where vppc.propnum = cpa.propnum ) , 0 ) as num_parcels_in_vicmap,
+    ifnull ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) , '' ) as vicmap_address,
+    ifnull ( ( select vpa.num_locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) , '' ) as vicmap_locality,
+    case
+        when propnum not in ( select vpa.propnum from pc_vicmap_property_address vpa ) then ''
+        when num_road_address = ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) then 'Y'
+        else 'F'
+    end as address_match_in_vicmap,
+    case
+        when propnum not in ( select vpa.propnum from pc_vicmap_property_address vpa ) then ''
+        when locality_name = ( select vpa.locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) then 'Y'
+        else 'F'
+    end as locality_match_in_vicmap,
+    ifnull ( ( select edit_code from m1 where m1.propnum = cpa.propnum limit 1 ) , '' ) as current_m1_edit_code,
+    ifnull ( ( select comments from m1 where m1.propnum = cpa.propnum limit 1 ) , '' ) as current_m1_comments
+from pc_council_property_address cpa
 order by propnum
