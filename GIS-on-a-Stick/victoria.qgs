@@ -125,7 +125,7 @@
     <projectlayers layercount="19">
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_built_up_area20140220114915017</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_built_up_area" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_built_up_area" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -326,7 +326,7 @@
         </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_forest_su320140220114915190</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_forest_su3" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_forest_su3" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -527,7 +527,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_forest_su520140220114915230</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_forest_su5" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_forest_su5" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -603,7 +603,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_geo_area_label20140220114915322</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_geo_area_label" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_geo_area_label" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -807,7 +807,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_geo_point_label20140220114915366</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_geo_point_label" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_geo_point_label" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -886,7 +886,7 @@
         </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_hy_water_area20140220114915389</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_hy_water_area" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_hy_water_area" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -1089,7 +1089,7 @@
         </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_hy_watercourse20140220114915453</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_hy_watercourse" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_hy_watercourse" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -1295,7 +1295,7 @@
         </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_lga20140220114915548</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_lga" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_lga" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -1498,7 +1498,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_locality20140220114915590</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_locality" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_locality" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -1577,7 +1577,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_locality_polygon20140220114915618</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_locality_polygon" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_locality_polygon" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -1653,7 +1653,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_postcode_boundaries_polygon20140220114915680</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_postcode_boundaries_polygon" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_postcode_boundaries_polygon" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -1729,7 +1729,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_public_land_su320140220114915714</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_public_land_su3" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_public_land_su3" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -1931,7 +1931,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_public_land_su520140220114915755</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_public_land_su5" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_public_land_su5" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2133,7 +2133,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_tr_airport20140220114915840</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_tr_airport" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_tr_airport" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2212,7 +2212,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_tr_rail20140220114915878</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_tr_rail" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_tr_rail" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2291,7 +2291,7 @@
         </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_tr_rail_station20140220114915903</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_tr_rail_station" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_tr_rail_station" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2496,7 +2496,7 @@
         </maplayer>
         <maplayer minimumScale="52182" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="1" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_tr_road20140220114915933</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_tr_road" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_tr_road" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2721,7 +2721,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_vicgov_region20140220114915992</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_vicgov_region" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_vicgov_region" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -2797,7 +2797,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_victoria_polygon_su520140220114916116</id>
-            <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_victoria_polygon_su5" (GEOMETRY) sql=</datasource>
+            <datasource>dbname='victoria.sqlite' table="vmlite_victoria_polygon_su5" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
