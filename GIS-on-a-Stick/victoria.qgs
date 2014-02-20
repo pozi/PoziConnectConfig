@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>degrees</units>
         <extent>
-            <xmin>141.86393732489364083</xmin>
-            <ymin>-37.87729016245181413</ymin>
-            <xmax>148.49077505543323241</xmax>
-            <ymax>-34.03112551884451875</ymax>
+            <xmin>144.54695388767189002</xmin>
+            <ymin>-39.0206091638790582</ymin>
+            <xmax>151.17379161821239109</xmax>
+            <ymax>-35.17444452027122281</ymax>
         </extent>
         <projections>0</projections>
         <destinationsrs>
@@ -23,38 +23,8 @@
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
-    <legend updateDrawingOrder="true" activeLayer="vmlite_tr_rail_station20140220114915903">
+    <legend updateDrawingOrder="true" activeLayer="vmlite_hy_watercourse20140220114915453">
         <legendgroup open="true" checked="Qt::PartiallyChecked" name="Vicmap Lite">
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Water Area" showFeatureCount="0">
-                <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_hy_water_area20140220114915389" visible="1"/>
-                </filegroup>
-            </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="Postcode Boundaries" showFeatureCount="0">
-                <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_postcode_boundaries_polygon20140220114915680" visible="0"/>
-                </filegroup>
-            </legendlayer>
-            <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="Locality" showFeatureCount="0">
-                <filegroup open="false" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_locality_polygon20140220114915618" visible="0"/>
-                </filegroup>
-            </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Road" showFeatureCount="0">
-                <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_tr_road20140220114915933" visible="1"/>
-                </filegroup>
-            </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Watercourse" showFeatureCount="0">
-                <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_hy_watercourse20140220114915453" visible="1"/>
-                </filegroup>
-            </legendlayer>
-            <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="Rail" showFeatureCount="0">
-                <filegroup open="false" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_tr_rail20140220114915878" visible="0"/>
-                </filegroup>
-            </legendlayer>
             <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="Airport" showFeatureCount="0">
                 <filegroup open="false" hidden="false">
                     <legendlayerfile isInOverview="0" layerid="vmlite_tr_airport20140220114915840" visible="0"/>
@@ -65,19 +35,39 @@
                     <legendlayerfile isInOverview="0" layerid="vmlite_tr_rail_station20140220114915903" visible="0"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="Geo Point Label" showFeatureCount="0">
-                <filegroup open="false" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_geo_point_label20140220114915366" visible="0"/>
-                </filegroup>
-            </legendlayer>
             <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="Locality Point" showFeatureCount="0">
                 <filegroup open="false" hidden="false">
                     <legendlayerfile isInOverview="0" layerid="vmlite_locality20140220114915590" visible="0"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Geo Area Label" showFeatureCount="0">
+            <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="Geo Point Label" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="vmlite_geo_point_label20140220114915366" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Road" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_geo_area_label20140220114915322" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="vmlite_tr_road20140220114915933" visible="1"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="Rail" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="vmlite_tr_rail20140220114915878" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Watercourse" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="vmlite_hy_watercourse20140220114915453" visible="1"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="Geo Area Label" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="vmlite_geo_area_label20140220114915322" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="Locality" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="vmlite_locality_polygon20140220114915618" visible="0"/>
                 </filegroup>
             </legendlayer>
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Forest" showFeatureCount="0">
@@ -85,14 +75,24 @@
                     <legendlayerfile isInOverview="0" layerid="vmlite_forest_su320140220114915190" visible="1"/>
                 </filegroup>
             </legendlayer>
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Built Up Area" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="vmlite_built_up_area20140220114915017" visible="1"/>
+                </filegroup>
+            </legendlayer>
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="victoria_polygon_su5" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
                     <legendlayerfile isInOverview="0" layerid="vmlite_victoria_polygon_su520140220114916116" visible="0"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Public land" showFeatureCount="0">
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="Public land" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_public_land_su520140220114915755" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="vmlite_public_land_su520140220114915755" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="Postcode Boundaries" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="vmlite_postcode_boundaries_polygon20140220114915680" visible="0"/>
                 </filegroup>
             </legendlayer>
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="Vicgov Regions" showFeatureCount="0">
@@ -105,19 +105,19 @@
                     <legendlayerfile isInOverview="0" layerid="vmlite_lga20140220114915548" visible="1"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Built Up Area" showFeatureCount="0">
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Water Area" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_built_up_area20140220114915017" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="vmlite_hy_water_area20140220114915389" visible="1"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Public land" showFeatureCount="0">
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="Public land" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_public_land_su320140220114915714" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="vmlite_public_land_su320140220114915714" visible="0"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="Forest " showFeatureCount="0">
+            <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Forest " showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmlite_forest_su520140220114915230" visible="0"/>
+                    <legendlayerfile isInOverview="0" layerid="vmlite_forest_su520140220114915230" visible="1"/>
                 </filegroup>
             </legendlayer>
         </legendgroup>
@@ -152,7 +152,7 @@
                     <symbol alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_unit" v="MM"/>
-                            <prop k="color" v="158,243,175,255"/>
+                            <prop k="color" v="222,225,243,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_unit" v="MM"/>
@@ -353,8 +353,8 @@
                     <symbol alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_unit" v="MM"/>
-                            <prop k="color" v="186,221,105,255"/>
-                            <prop k="color_border" v="65,152,45,255"/>
+                            <prop k="color" v="121,158,100,255"/>
+                            <prop k="color_border" v="128,152,72,255"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
@@ -486,7 +486,7 @@
             </customproperties>
             <blendMode>0</blendMode>
             <featureBlendMode>0</featureBlendMode>
-            <layerTransparency>57</layerTransparency>
+            <layerTransparency>0</layerTransparency>
             <displayfield>OGC_FID</displayfield>
             <label>0</label>
             <labelattributes>
@@ -913,8 +913,8 @@
                     <symbol alpha="0.235294" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_unit" v="MM"/>
-                            <prop k="color" v="89,133,255,255"/>
-                            <prop k="color_border" v="0,0,0,255"/>
+                            <prop k="color" v="137,141,221,255"/>
+                            <prop k="color_border" v="114,133,132,255"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_unit" v="MM"/>
                             <prop k="style" v="solid"/>
@@ -1087,7 +1087,7 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_hy_watercourse20140220114915453</id>
             <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_hy_watercourse" (GEOMETRY) sql=</datasource>
             <title></title>
@@ -1116,7 +1116,7 @@
                     <symbol alpha="0.0784314" type="line" name="0">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="round"/>
-                            <prop k="color" v="192,223,255,255"/>
+                            <prop k="color" v="22,108,200,255"/>
                             <prop k="customdash" v="5;2"/>
                             <prop k="customdash_unit" v="MM"/>
                             <prop k="joinstyle" v="round"/>
@@ -1124,7 +1124,7 @@
                             <prop k="offset_unit" v="MM"/>
                             <prop k="penstyle" v="solid"/>
                             <prop k="use_custom_dash" v="0"/>
-                            <prop k="width" v="0.5"/>
+                            <prop k="width" v="1.06"/>
                             <prop k="width_unit" v="MM"/>
                         </layer>
                     </symbol>
@@ -1293,7 +1293,7 @@
             <excludeAttributesWFS/>
             <attributeactions/>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+        <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
             <id>vmlite_lga20140220114915548</id>
             <datasource>dbname='../../../Users/Janahan/Documents/GitHub/PoziConnectConfig/GIS-on-a-Stick/victoria.sqlite' table="vmlite_lga" (GEOMETRY) sql=</datasource>
             <title></title>
@@ -1322,7 +1322,7 @@
                     <symbol alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
                             <prop k="border_width_unit" v="MM"/>
-                            <prop k="color" v="131,156,182,255"/>
+                            <prop k="color" v="237,235,237,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="offset_unit" v="MM"/>
@@ -2521,17 +2521,30 @@
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
                     <symbol alpha="1" type="line" name="0">
-                        <layer pass="1" class="SimpleLine" locked="0">
-                            <prop k="capstyle" v="square"/>
+                        <layer pass="7" class="SimpleLine" locked="1">
+                            <prop k="capstyle" v="round"/>
                             <prop k="color" v="80,80,80,255"/>
                             <prop k="customdash" v="5;2"/>
                             <prop k="customdash_unit" v="MM"/>
-                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="joinstyle" v="round"/>
                             <prop k="offset" v="0"/>
                             <prop k="offset_unit" v="MM"/>
                             <prop k="penstyle" v="solid"/>
                             <prop k="use_custom_dash" v="0"/>
-                            <prop k="width" v="0.26"/>
+                            <prop k="width" v="1"/>
+                            <prop k="width_unit" v="MM"/>
+                        </layer>
+                        <layer pass="14" class="SimpleLine" locked="0">
+                            <prop k="capstyle" v="round"/>
+                            <prop k="color" v="248,248,248,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="customdash_unit" v="MM"/>
+                            <prop k="joinstyle" v="round"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="offset_unit" v="MM"/>
+                            <prop k="penstyle" v="solid"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="1"/>
                             <prop k="width_unit" v="MM"/>
                         </layer>
                     </symbol>
@@ -2659,7 +2672,7 @@
             </customproperties>
             <blendMode>0</blendMode>
             <featureBlendMode>0</featureBlendMode>
-            <layerTransparency>99</layerTransparency>
+            <layerTransparency>19</layerTransparency>
             <displayfield>EZI_ROAD_NAME</displayfield>
             <label>0</label>
             <labelattributes>
