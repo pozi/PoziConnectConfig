@@ -38,38 +38,32 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
-        when lpaaddr.strunitnum <> 0 or lpaaddr.strunitsfx is not null then        
-            case
-                when lpaaddr.unitprefix = 'Apartment' then 'APT'
-                when lpaaddr.unitprefix = 'Flat' then 'FLAT'
-                when lpaaddr.unitprefix = 'Suite' then 'SE'
-                when lpaaddr.unitprefix = 'Unit' then 'UNIT'        
-                else ''        
-            end
-        when lpaaddr.strlvlnum <> 0 then        
-            case
-                when lpaaddr.lvlprefix = 'Hall' then 'HALL'
-                when lpaaddr.lvlprefix = 'House' then 'HSE'
-                when lpaaddr.lvlprefix = 'Office' then 'OFFC'
-                when lpaaddr.lvlprefix = 'Reserve' then 'RESV'
-                when lpaaddr.lvlprefix = 'Shed' then 'SHED'
-                when lpaaddr.lvlprefix = 'Shop' then 'SHOP'
-                when lpaaddr.lvlprefix = 'Suite' then 'SE'
-                when lpaaddr.lvlprefix = 'Tower' then 'TWR'
-                when lpaaddr.lvlprefix = 'ATM' then 'ATM' 
-                else ''         
-            end
+        when upper ( lpaaddr.unitprefix ) = 'APARTMENT' then 'APT'
+        when upper ( lpaaddr.unitprefix ) = 'FLAT' then 'FLAT'
+        when upper ( lpaaddr.unitprefix ) = 'SUITE' then 'SE'
+        when upper ( lpaaddr.unitprefix ) = 'UNIT' then 'UNIT'
+        when upper ( lpaaddr.lvlprefix ) = 'ATM' then 'ATM' 
+        when upper ( lpaaddr.lvlprefix ) = 'HALL' then 'HALL'
+        when upper ( lpaaddr.lvlprefix ) = 'HOUSE' then 'HSE'
+        when upper ( lpaaddr.lvlprefix ) = 'KIOSK' then 'KSK'
+        when upper ( lpaaddr.lvlprefix ) = 'OFFICE' then 'OFFC'
+        when upper ( lpaaddr.lvlprefix ) = 'RESERVE' then 'RESV'
+        when upper ( lpaaddr.lvlprefix ) = 'SHED' then 'SHED'
+        when upper ( lpaaddr.lvlprefix ) = 'SHOP' then 'SHOP'
+        when upper ( lpaaddr.lvlprefix ) = 'SIGN' then 'SIGN'
+        when upper ( lpaaddr.lvlprefix ) = 'SUITE' then 'SE'
+        when upper ( lpaaddr.lvlprefix ) = 'TOWER' then 'TWR'
         else ''
     end as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
-        when lpaaddr.lvlprefix in ( 'Hall' , 'House' , 'Office' , 'Reserve' , 'Shed' , 'Shop' , 'Suite' , 'Tower' , 'ATM' ) and lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
+        when upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'HALL' , 'HOUSE' , 'KIOSK' , 'OFFICE' , 'RESERVE' , 'SHED' , 'SHOP' , 'SIGN' , 'SUITE' , 'TOWER' ) and lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
         when lpaaddr.strunitnum <> 0 then cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
         else ''
     end as blg_unit_id_1,
     case
-        when lpaaddr.strlvlsfx is not null and lpaaddr.lvlprefix in ( 'Hall' , 'House' , 'Office' , 'Reserve' , 'Shed' , 'Shop' , 'Suite' , 'Tower' , 'ATM' ) then cast ( lpaaddr.strlvlsfx as varchar )
-        when lpaaddr.unitprefix not in ( 'Floor' , 'Level' ) and lpaaddr.strunitsfx is not null then cast ( lpaaddr.strunitsfx as varchar )
+        when lpaaddr.strlvlsfx is not null and upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'HALL' , 'HOUSE' , 'KIOSK' , 'OFFICE' , 'RESERVE' , 'SHED' , 'SHOP' , 'SIGN' , 'SUITE' , 'TOWER' ) then cast ( lpaaddr.strlvlsfx as varchar )
+        when upper ( lpaaddr.unitprefix ) not in ( 'FLOOR' , 'LEVEL' ) and lpaaddr.strunitsfx is not null then cast ( lpaaddr.strunitsfx as varchar )
         else ''
     end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
@@ -90,10 +84,10 @@ select
     end as floor_type,
     '' as floor_prefix_1,
     case
-        when lpaaddr.lvlprefix = 'Floor' and lpaaddr.strlvlnum <> 0 then cast (lpaaddr.strlvlnum as varchar)
-        when lpaaddr.lvlprefix = 'Level' and lpaaddr.strlvlnum <> 0 then cast (lpaaddr.strlvlnum as varchar)
-        when lpaaddr.unitprefix = 'Floor' and lpaaddr.strunitnum <> 0 then cast (lpaaddr.strunitnum as varchar)
-        when lpaaddr.unitprefix = 'Level' and lpaaddr.strunitnum <> 0 then cast (lpaaddr.strunitnum as varchar)
+        when lpaaddr.lvlprefix = 'Floor' and lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar)
+        when lpaaddr.lvlprefix = 'Level' and lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar)
+        when lpaaddr.unitprefix = 'Floor' and lpaaddr.strunitnum <> 0 then cast ( cast ( lpaaddr.strunitnum as integer ) as varchar)
+        when lpaaddr.unitprefix = 'Level' and lpaaddr.strunitnum <> 0 then cast ( cast ( lpaaddr.strunitnum as integer ) as varchar)
         else ''
     end as floor_no_1,
     case
@@ -106,9 +100,16 @@ select
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    upper ( ifnull ( lpapnam.propname , ifnull ( lpaaddr.prefix || ' ' , '' ) || ifnull ( lpaaddr.lvlprefix , '' ) ) ) as building_name,
+    case    
+        when upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'FLOOR' , 'KIOSK' , 'LEVEL' , 'OFFICE' , 'REAR' , 'SHOP' , 'SIGN' , 'SUITE' ) then upper ( ifnull ( lpapnam.propname , '' ) )
+        when upper ( lpaaddr.prefix ) in ( 'ATM' , 'FLOOR' , 'KIOSK' , 'LEVEL' , 'OFFICE' , 'REAR' , 'SHOP' , 'SIGN' , 'SUITE' ) then upper ( ifnull ( lpapnam.propname , '' ) )
+        else upper ( ifnull ( lpapnam.propname , ifnull ( lpaaddr.prefix || ' ' , '' ) || ifnull ( lpaaddr.lvlprefix , '' ) ) )
+    end as building_name,
     '' as complex_name,
-    '' as location_descriptor,
+    case    
+        when upper ( lpaaddr.prefix ) = 'REAR' then upper ( lpaaddr.prefix )
+        else ''
+    end as location_descriptor,
     '' as house_prefix_1,
     case
         when lpaaddr.strhousnum = 0 or lpaaddr.strhousnum is null then ''
