@@ -52,18 +52,19 @@ select
         when upper ( lpaaddr.lvlprefix ) = 'SHOP' then 'SHOP'
         when upper ( lpaaddr.lvlprefix ) = 'SIGN' then 'SIGN'
         when upper ( lpaaddr.lvlprefix ) = 'SUITE' then 'SE'
+        when upper ( lpaaddr.lvlprefix ) = 'TOILET' then 'WC'
         when upper ( lpaaddr.lvlprefix ) = 'TOWER' then 'TWR'
         else ''
     end as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
-        when upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'HALL' , 'HOUSE' , 'KIOSK' , 'OFFICE' , 'RESERVE' , 'SHED' , 'SHOP' , 'SIGN' , 'SUITE' , 'TOWER' ) and lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
+        when upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'HALL' , 'HOUSE' , 'KIOSK' , 'OFFICE' , 'RESERVE' , 'SHED' , 'SHOP' , 'SIGN' , 'SUITE' , 'TOILET' ,  'TOWER' ) and lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
         when upper ( lpaaddr.unitprefix ) in ( 'FLOOR' , 'LEVEL' ) and lpaaddr.strlvlnum = 0 then ''
         when lpaaddr.strunitnum <> 0 then cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
         else ''
     end as blg_unit_id_1,
     case
-        when lpaaddr.strlvlsfx is not null and upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'HALL' , 'HOUSE' , 'KIOSK' , 'OFFICE' , 'RESERVE' , 'SHED' , 'SHOP' , 'SIGN' , 'SUITE' , 'TOWER' ) then cast ( lpaaddr.strlvlsfx as varchar )
+        when lpaaddr.strlvlsfx is not null and upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'HALL' , 'HOUSE' , 'KIOSK' , 'OFFICE' , 'RESERVE' , 'SHED' , 'SHOP' , 'SIGN' , 'SUITE' , 'TOILET' ,  'TOWER' ) then cast ( lpaaddr.strlvlsfx as varchar )
         when upper ( lpaaddr.unitprefix ) not in ( 'FLOOR' , 'LEVEL' ) and lpaaddr.strunitsfx is not null then cast ( lpaaddr.strunitsfx as varchar )
         else ''
     end as blg_unit_suffix_1,
