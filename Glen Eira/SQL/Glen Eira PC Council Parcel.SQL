@@ -71,5 +71,7 @@ from
 where
    lpaparc.status <> 'H' and   
    lraassm.applicatn = 'R' and
-   lpaprop.tfklpacncl = 13
+   lpaprop.tfklpacncl = 13 and
+   lparole.fklparolta = 'LRA' and
+   lparole.fklparoltn = 0
 )
