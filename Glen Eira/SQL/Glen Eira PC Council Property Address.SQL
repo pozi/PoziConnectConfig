@@ -153,7 +153,9 @@ where
     lpaprop.status in ( 'A' , 'C' ) and 
     lraassm.applicatn = 'R' and
     lpaaddr.addrtype = 'P' and 
-    lpaprop.tfklpacncl = 13
+    lpaprop.tfklpacncl = 13 and
+    lparole.fklparolta = 'LRA' and
+    lparole.fklparoltn = 0
 )
 )
 )
