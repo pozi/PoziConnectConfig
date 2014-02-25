@@ -9,3 +9,5 @@ union
 select * from m1_e_edits
 union
 select * from m1_s_edits
+
+order by edit_code
