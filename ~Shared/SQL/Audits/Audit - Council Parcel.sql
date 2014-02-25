@@ -6,18 +6,18 @@ select
     crefno as council_crefno,
     case
         when spi like '\%' then 'N'
-        when length ( spi ) < 6 then 'N'        
+        when length ( spi ) < 5 then 'N'        
         when plan_numeral like '0%' then 'N'
         when plan_numeral <> '' and substr ( plan_numeral , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then 'N'
         when lot_number like '%&%' or lot_number like '% %' or lot_number like '%-%' then 'N'
-        when not ( spi like 'CP%' or spi like '%\CS%' or spi like '%\LP%' or spi like 'PC%' or spi like '%\PP%' or spi like '%\PS%' or spi like '%\SP%' or spi like '%\TP%' ) then 'N'
-        when plan_prefix = 'CP' and not ( ( 100000 <= plan_numeral <= 109999 ) or ( 150000 <= plan_numeral <= 199999 ) ) then 'N'
-        when plan_prefix = 'CS' and not ( 1000 <= plan_numeral <= 10000 ) then 'N'        
-        when plan_prefix = 'LP' and not ( ( 1 <= plan_numeral <= 99999 ) or ( 110000 <= plan_numeral <= 149999 ) or ( 200000 <= plan_numeral <= 299999 ) ) then 'N'
-        when plan_prefix = 'PC' and not ( ( 350001 <= plan_numeral <= 400000 ) or ( 450001 <= plan_numeral <= 500000 ) or ( 550001 <= plan_numeral <= 600000 ) or ( 600001 <= plan_numeral <= 650000 ) ) then 'N'
-        when plan_prefix = 'PS' and not ( ( 300001 <= plan_numeral <= 350000 ) or ( 400001 <= plan_numeral <= 450000 ) or ( 500001 <= plan_numeral <= 550000 ) or ( 600001 <= plan_numeral <= 650000 ) ) then 'N'
-        when plan_prefix = 'RP' and not ( plan_numeral <= 19926 ) then 'N'        
-        when plan_prefix = 'SP' and not ( 19927 <= plan_numeral <= 40000 ) then 'N'        
+        when not ( spi like 'CP%' or spi like '%\CS%' or spi like '%\LP%' or spi like 'PC%' or spi like '%\PP%' or spi like '%\PS%' or spi like '%\RP%' or spi like '%\SP%' or spi like '%TP%' ) then 'N'
+        when plan_prefix = 'CP' and not ( ( 100000 <= cast ( plan_numeral as integer ) <= 109999 ) or ( 150000 <= plan_numeral <= 199999 ) ) then 'N'
+        when plan_prefix = 'CS' and not ( 1000 <= cast ( plan_numeral as integer ) <= 10000 ) then 'N'        
+        when plan_prefix = 'LP' and not ( ( 1 <= cast ( plan_numeral as integer ) <= 99999 ) or ( 110000 <= cast ( plan_numeral as integer ) <= 149999 ) or ( 200000 <= cast ( plan_numeral as integer ) <= 299999 ) ) then 'N'
+        when plan_prefix = 'PC' and not ( ( 350001 <= cast ( plan_numeral as integer ) <= 400000 ) or ( 450001 <= cast ( plan_numeral as integer ) <= 500000 ) or ( 550001 <= cast ( plan_numeral as integer ) <= 600000 ) or ( 600001 <= cast ( plan_numeral as integer ) <= 650000 ) ) then 'N'
+        when plan_prefix = 'PS' and not ( ( 300001 <= cast ( plan_numeral as integer ) <= 350000 ) or ( 400001 <= cast ( plan_numeral as integer ) <= 450000 ) or ( 500001 <= cast ( plan_numeral as integer ) <= 550000 ) or ( 600001 <= cast ( plan_numeral as integer ) <= 650000 ) ) then 'N'
+        when plan_prefix = 'RP' and not ( cast ( plan_numeral as integer ) <= 19926 ) then 'N'        
+        when plan_prefix = 'SP' and not ( 19927 <= cast ( plan_numeral as integer ) <= 40000 ) then 'N'        
         else 'Y'        
     end as council_spi_valid_format,
     ifnull ( ( select num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) , 0 ) as num_council_props,
