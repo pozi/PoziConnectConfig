@@ -42,22 +42,79 @@ select
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( L.plan_desc ) || L.plan_no
         else ifnull ( trim ( L.plan_desc ) || substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_number,
-    ifnull ( L.plan_desc , '' ) as plan_prefix,
+    ifnull ( replace ( L.plan_desc , 'CG' , '' ) , '' ) as plan_prefix,
     case
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
         else ifnull ( substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_numeral,
     ifnull ( L.lot , '' ) as lot_number,
     ifnull ( L.text3,'') as allotment,
-    ifnull ( L.parish_section , '' ) as sec,
+    ifnull ( replace ( L.parish_section , 'NO' , '' ) , '' ) as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
-    '' as parish_code,
-    '' as township_code,
+    case upper ( parish_desc )    
+        when 'BARAMBOGIE' then '2067'
+        when 'BONTHERAMB' then '2180'
+        when 'BOORHAMAN' then '2192'
+        when 'BUNGAMERO' then '2277'
+        when 'BYAWATHA' then '2316'
+        when 'CAMBATONG' then '2324'
+        when 'CARBOOR' then '2342'
+        when 'CARRARAGAR' then '2358'
+        when 'CHILTERNW' then '2382'
+        when 'DUERANE' then '2556'
+        when 'EDI' then '2577'
+        when 'ESTCOURT' then '2599'
+        when 'EVERTON' then '2610'
+        when 'GLENROWEN' then '2685'
+        when 'GRETA' then '2726'
+        when 'KILLAWARRA' then '2876'
+        when 'KOONIKA' then '2909'
+        when 'LACEBY' then '2953'
+        when 'LURG' then '3022'
+        when 'MATONG' then '3074'
+        when 'MATONGN' then '3075'
+        when 'MIRIMBAH' then '3121'
+        when 'MOYHU' then '3205'
+        when 'MURMUNGEE' then '3227'
+        when 'MYRRHEE' then '3248'
+        when 'OXLEY' then '3359'
+        when 'PEECHELBA' then '3381'
+        when 'TAMINICK' then '3537'
+        when 'TARRAWINGE' then '3560'
+        when 'TOOMBULLUP' then '3623'
+        when 'TOOMBULLUN' then '3624'
+        when 'WABONGA' then '3693'
+        when 'WABONGAS' then '3694'
+        when 'WALLAGOOT' then '3705'
+        when 'WANGARATTN' then '3725'
+        when 'WANGARATTS' then '3726'
+        when 'WHITFIELD' then '3807'
+        when 'WHITFIELDS' then '3808'
+        when 'WHOROULY' then '3810'
+        when 'WINTERIGA' then '3842'
+        else ''        
+    end as parish_code,
+    case    
+        when upper ( L.text1 ) = 'CTS' then '5170'
+        when upper ( L.text1 ) = 'EDTS' then '5267'
+        when upper ( L.text1 ) = 'ETS' then '5272'
+        when upper ( L.text1 ) = 'EVTS' then '5289'
+        when upper ( L.text1 ) = 'GTS' then '5327'
+        when upper ( L.text1 ) = 'GRTS' then '5357'
+        when upper ( L.text1 ) = 'GWTS' then '5358'
+        when upper ( L.text1 ) = 'JTS' then '5397'
+        when upper ( L.text1 ) = 'OTS' then '5622'
+        when upper ( L.text1 ) = 'PTS' then '5628'
+        when upper ( L.text1 ) = 'STS' then '5727'
+        when upper ( L.text1 ) = 'WTS' then '5829'
+        when upper ( L.text1 ) = 'WHOTS' then '5856'        
+        else ''        
+    end as township_code,
     '368' as lga_code
 from
-    techone_nucLand L
+    techone_nucland L
     join techone_nucassociation A on L.land_no = A.key2 and
         L.status in ( 'C' , 'F')
     join techone_nucproperty P on A.key1 = p.Property_no
