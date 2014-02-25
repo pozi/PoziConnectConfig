@@ -33,7 +33,7 @@ select
     end as propnum,
     cast ( L.land_no as varchar ) as crefno,
     '' as summary,
-    case L.status
+    case P.status
         when 'F' then 'P'
         else ''
     end as status,
