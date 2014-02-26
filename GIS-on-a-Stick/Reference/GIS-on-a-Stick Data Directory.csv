@@ -74,23 +74,23 @@ VMPLAN,Planning scheme codelist - Vicmap Planning,VMPLAN_PLAN_CODELIST,PLAN_CODE
 VMPLAN,Planning scheme Urban Growth Area - Vicmap Planning,VMPLAN_PLAN_UGA,PLAN_UGA,ANZVI0803002914 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002914&publicId=guest&extractionProviderId=1
 VMPROP,,,ANNOTATION_TEXT,,
 VMPROP,,,CAD_AREA_BDY,,
-VMPROP,,VMPROP_S_PROPERTY_MP,CENTROID,ANZVI0803003299,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003299&publicId=guest&extractionProviderId=1
+VMPROP,Property Map Polygons - Vicmap Property Simplified 1,VMPROP_S_PROPERTY_MP,CENTROID,ANZVI0803003299,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003299&publicId=guest&extractionProviderId=1
 VMPROP,,,EASEMENT,,
 VMPROP,,,PARCEL_CAD_AREA_BDY,,
 VMPROP,,,PARCEL_MP,,
-VMPROP,,,PARCEL_PROPERTY,ANZVI0803003237,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003237&publicId=guest&extractionProviderId=1
+VMPROP,Parcel Property Aspatial Table - Vicmap Property,VMPROP_PARCEL_PROPERTY,PARCEL_PROPERTY,ANZVI0803003237,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003237&publicId=guest&extractionProviderId=1
 VMPROP,,,PROPERTY_CAD_AREA_BDY,,
 VMPROP,,,PROPERTY_MP,,
 VMPROP,Road Casement Polygon - Vicmap Property,VMPROP_ROAD_CASEMENT_POLYGON,ROAD_CASEMENT_POLYGON,ANZVI0803004668,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803004668&publicId=guest&extractionProviderId=1
-VMTRANS,,TR_AIR_INFRA_AREA_POLYGON,TR_AIR_INFRA_AREA_POLYGON,ANZVI0803002870,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002870&publicId=guest&extractionProviderId=1
-VMTRANS,,,TR_AIR_INFRA_POINT,ANZVI0803002612,
-VMTRANS,Airport Infrastructure - Vicmap Transport (TR_AIRPORT_INFRASTRUCTURE/),,TR_AIRPORT_INFRASTRUCTURE,ANZVI0803002446,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002446&publicId=guest&extractionProviderId=1
-VMTRANS,Rail Network - Vicmap Transport,,TR_RAIL,ANZVI0803002442,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002442&publicId=guest&extractionProviderId=1
-VMTRANS,,,TR_RAIL_INFRASTRUCTURE,,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002444&publicId=guest&extractionProviderId=1
-VMTRANS,,,TR_ROAD,ANZVI0803002457,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002457&publicId=guest&extractionProviderId=1
-VMTRANS,,,TR_ROAD_INFRASTRUCTURE,ANZVI0803002612,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002612&publicId=guest&extractionProviderId=1
+VMTRANS,Airport Area Polygon-Vicmap Transport ,TR_AIR_INFRA_AREA_POLYGON,TR_AIR_INFRA_AREA_POLYGON,ANZVI0803002870,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002870&publicId=guest&extractionProviderId=1
+VMTRANS,Airport Infrastructure Point - Vicmap Transport,TR_AIR_INFRA_POINT,TR_AIR_INFRA_POINT,ANZVI0803002612,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002612&publicId=guest&extractionProviderId=1
+VMTRANS,Airport Infrastructure - Vicmap Transport (TR_AIRPORT_INFRASTRUCTURE/),TR_AIRPORT_INFRASTRUCTURE,TR_AIRPORT_INFRASTRUCTURE,ANZVI0803002446,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002446&publicId=guest&extractionProviderId=1
+VMTRANS,Rail Network - Vicmap Transport,TR_RAIL,TR_RAIL,ANZVI0803002442,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002442&publicId=guest&extractionProviderId=1
+VMTRANS,Road Infrastructure -Vicmap Transport ,TR_ROAD_INFRASTRUCTURE,TR_ROAD_INFRASTRUCTURE,ANZVI0803002444,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002444&publicId=guest&extractionProviderId=1
+VMTRANS,Road Network - Vicmap Transport,TR_ROAD,TR_ROAD,ANZVI0803002595,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002457&publicId=guest&extractionProviderId=1
+VMTRANS,,,TR_AIRPORT_INFRASTRUCTURE_POINT,ANZVI0803002612,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002612&publicId=guest&extractionProviderId=1
 VMTRANS,Aspatial Table - Road Locality Table - Vicmap Transport,TR_ROAD_LOCALITY,TR_ROAD_LOCALITY,ANZVI0803003244 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003244&publicId=guest&extractionProviderId=1
-VMTRANS,,,TR_ROAD_LOCALITY_SECTION,ANZVI0803003245,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003245&publicId=guest&extractionProviderId=1
+VMTRANS,Aspatial Table - Road Locality Section Table - Vicmap Transport,TR_ROAD_LOCALITY_SECTION,TR_ROAD_LOCALITY_SECTION,ANZVI0803003245,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003245&publicId=guest&extractionProviderId=1
 VMVEG,,,PLANTATION,,
 VMVEG,,,TREE_DENSITY,,
 PTV,PTV Train Stations,RAIL_STATIONS_VMT,RAE_932_RAIL_STATIONS_VMT,ANZVI0803000053,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803000053&publicId=guest&extractionProviderId=1
