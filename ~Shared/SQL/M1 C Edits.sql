@@ -80,5 +80,4 @@ where
     ( vp.plan_number <> '' or    
       vp.propnum = cp.propnum )
 group by vp.spi
-order by vp.plan_number, vp.lot_number
 )
