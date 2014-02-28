@@ -1,9 +1,9 @@
 select
-    spi as council_spi,
-    simple_spi as council_simple_spi,
+    spi as council_parcel_desc,
+    crefno as council_crefno,
+    propnum as council_propnum,
     summary as council_summary,
     status as council_status,
-    crefno as council_crefno,
     case
         when spi like '\%' then 'N'
         when length ( spi ) < 5 then 'N'        
@@ -19,13 +19,12 @@ select
         when plan_prefix = 'RP' and not ( cast ( plan_numeral as integer ) <= 19926 ) then 'N'        
         when plan_prefix = 'SP' and not ( 19927 <= cast ( plan_numeral as integer ) <= 40000 ) then 'N'        
         else 'Y'        
-    end as council_spi_valid_format,
+    end as council_valid_parcel_desc,
     ifnull ( ( select num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) , 0 ) as num_council_props,
-    propnum as council_propnum,
-    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as spi_match_in_vicmap,
-    ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi ) , 0 ) as spi_match_in_council,
-    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi ) , 0 ) as spi_partial_match_in_vicmap,
-    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alternative_spi_match_in_vicmap,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as parcel_desc_match_in_vicmap,
+    ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi ) , 0 ) as parcel_desc_match_in_council,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi ) , 0 ) as parcel_desc_partial_match_in_vicmap,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alternative_parcel_desc_match_in_vicmap,
     ifnull ( ( select num_props from PC_Vicmap_Parcel_Property_Count vppc where vppc.spi = cp.spi ) , 0 ) as num_vicmap_props,
     ifnull ( ( select crefno from PC_Vicmap_Parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
     case ( select num_props from PC_Vicmap_Parcel_Property_Count vppc where vppc.spi = cp.spi )
