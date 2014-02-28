@@ -30,7 +30,10 @@ select
     cast ( A.key1 as varchar ) as propnum,
     '' as crefno,
     '' as summary,
-    '' as status,
+    case P.status
+        when 'F' then 'P'
+        else ''
+    end as status,
     ifnull ( upper ( part_lot ) , '' ) as part,
     case
         when substr ( trim ( ifnull ( L.plan_no , '' ) ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( ifnull ( L.plan_desc , '' ) ) || ifnull ( L.plan_no , '' )
@@ -61,5 +64,5 @@ where
     A.date_ended is null and
     L.plan_desc in ( 'TP' , 'LP' , 'PS' , 'PC' , 'CP' , 'SP' , 'CS' , 'RP' , 'CG' )
     and t.key1 is null and  
-    P.status in ( 'C' , 'c' )
+    P.status in ( 'C' , 'F' , 'c' , 'f' )
 )
