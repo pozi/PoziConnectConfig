@@ -28,7 +28,10 @@ from (
 
 select
     cast ( P.property_no as varchar ) as propnum,
-    '' as status,
+    case P.status
+        when 'F' then 'P'
+        else ''
+    end as status,
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
@@ -184,7 +187,7 @@ from
     join techone_nucstreet S on S.street_no = A.street_no
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
-    P.status in ( 'C' , 'c' ) 
+    P.status in ( 'C' , 'F' , 'c' , 'f' )
 ) 
 )
 )
