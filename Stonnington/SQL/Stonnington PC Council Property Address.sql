@@ -81,6 +81,7 @@ select
     case    
         when upper ( S.street_name ) like 'A''BECKETT%' then 'ABECKETT'
         when upper ( S.street_name ) like 'CHADSTONE S%' then 'DANDENONG'
+        when S.street_name like 'MOUNT PLEASANT%' then 'MT PLEASANT'
         when S.street_name like 'THE AVENUE' then 'THE AVENUE'        
         when S.street_name like 'THE GRANGE' then 'THE GRANGE'        
         when S.street_name like 'THE BOULEVARD' then 'THE BOULEVARD'
