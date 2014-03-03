@@ -34,8 +34,8 @@ VMADMIN,Country Fire Authority (CFA) Total Fire Ban Districts - Vicmap Admin,VMA
 VMADMIN,Department of Environment and Primary Industries Regional Boundaries - Vicmap Admin,VMADMIN_DEPI_REGION,DEPI_REGION,ANZVI0803005054,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803005054&publicId=guest&extractionProviderId=1
 VMADMIN,Local Government Area Boundaries (Road) (polygon) - Vicmap Admin (VMADMIN_AD_LGA_AREA_POLYGON/),,LGA_POLYGON,ANZVI0803002507,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002507&publicId=guest&extractionProviderId=1
 VMADMIN,Locality Boundaries (Property) (polygon) - Vicmap Admin,VMADMIN_LOCALITY_POLYGON,LOCALITY_POLYGON,ANZVI0803003027,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003027&publicId=guest&extractionProviderId=1
-VMADMIN,,,PARISH_POLYGON,ANZVI0803003025,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003025&publicId=guest&extractionProviderId=1
-VMADMIN,,,POSTCODE_POLYGON,ANZVI0803002905,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002905&publicId=guest&extractionProviderId=1
+VMADMIN,Postcode Boundaries (polygon) - Vicmap Admin,VMADMIN_POSTCODE_POLYGON,PARISH_POLYGON,ANZVI0803003025,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003025&publicId=guest&extractionProviderId=1
+VMADMIN,Local Government Area Boundaries (Property) (polygon) - Vicmap Admin,VMADMIN_LGA_POLYGON,POSTCODE_POLYGON,ANZVI0803002905,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002905&publicId=guest&extractionProviderId=1
 VMADMIN,Victorian Lower House Electoral Boundaries 2001 - Vicmap Admin (VMADMIN_STATE_ASSEMBLY_2001/STASS01),VMADMIN_STATE_ASSEMBLY_2001,STATE_ASSEMBLY_2001,ANZVI0803002630,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002630&publicId=guest&extractionProviderId=1
 VMADMIN,Victorian Upper House Electoral Boundaries 2005 - Vicmap Admin (VMADMIN_STATE_COUNCIL_2005/STCNCL05),VMADMIN_STATE_COUNCIL_2005,STATE_COUNCIL_2005,ANZVI0803003063,http://www.giconnections.vic.gov.au/content/vicgdd/record/ANZVI0803003063.htm
 VMADMIN,Township Boundaries (polygon) - Vicmap Admin,VMADMIN_TOWNSHIP_POLYGON,TOWNSHIP_POLYGON,ANZVI0803002717,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002717&publicId=guest&extractionProviderId=1
@@ -55,16 +55,16 @@ VMFEAT,FOI - Index Extent - Vicmap Features of Interest,VMFEAT_FOI_INDEX_EXTENT,
 VMFEAT,,,FOI_LINE,,
 VMFEAT,,,FOI_POINT,,
 VMFEAT,,,FOI_POLYGON,,
-VMFEAT,,,GEO_AREA_HYDRO_LABEL,ANZVI0803003293,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003293&publicId=guest&extractionProviderId=1
+VMFEAT,Hydrographic Labels - Vicmap Features of Interest,GEO_AREA_HYDRO_LABEL,GEO_AREA_HYDRO_LABEL,ANZVI0803003293,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003293&publicId=guest&extractionProviderId=1
 VMFEAT,Relief Labels - Vicmap Features of Interest,GEO_AREA_RELIEF_LABEL,GEO_AREA_RELIEF_LABEL,ANZVI0803003308,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003308&publicId=guest&extractionProviderId=1
-VMFEAT,,,GEO_POINT_RELIEF_LABEL,,
+VMFEAT,Relief Labels (Point) - Vicmap Features of Interest,GEO_POINT_RELIEF_LABEL,GEO_POINT_RELIEF_LABEL,ANZVI0803003562,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003562&publicId=guest&extractionProviderId=1
 VMFEAT,,,GNR,,
 VMFEAT,,,LOCALITY_POINT,,
 VMFEAT,,,PL_PLACE_AREA_POLYGON,ANZVI0803002538,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002538&publicId=guest&extractionProviderId=1
 VMHYDRO,,,HY_WATER_AREA_POLYGON,,
-VMHYDRO,,,HY_WATER_POINT,,
-VMHYDRO,,,HY_WATER_STRUCT_AREA_POLYGON,,
-VMHYDRO,,,HY_WATER_STRUCT_LINE,ANZVI0803002496,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002496&publicId=guest&extractionProviderId=1
+VMHYDRO,,,HY_WATER_POINT,ANZVI0803002489,http://services.land.vic.gov.au/SpatialDatamart/dataSearchViewMetadata.html?anzlicId=ANZVI0803002489&extractionProviderId=1
+VMHYDRO,Water Structure Area (polygon) Vicmap Hydro,HY_WATER_STRUCT_AREA_POLYGON,HY_WATER_STRUCT_AREA_POLYGON,ANZVI0803002498,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002498&publicId=guest&extractionProviderId=1
+VMHYDRO,Vicmap Hydro,VICMAP_HYDRO,HY_WATER_STRUCT_LINE,ANZVI0803002496,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002496&publicId=guest&extractionProviderId=1
 VMHYDRO,"Water Structure Point 1:25,000 - Vicmap Hydro",HY_WATER_STRUCT_POINT,HY_WATER_STRUCT_POINT,ANZVI0803002497,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002497&publicId=guest&extractionProviderId=1
 VMHYDRO,"Watercourse Network 1:25,000 - Vicmap Hydro",HY_WATERCOURSE ,HY_WATERCOURSE ,ANZVI0803002490 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002490&publicId=guest&extractionProviderId=1 
 VMPLAN,Planning scheme zones - Vicmap Planning ,VMPLAN_PLAN_ZONE ,PLAN_ZONE,ANZVI0803002909 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002909&publicId=guest&extractionProviderId=1
