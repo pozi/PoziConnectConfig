@@ -72,15 +72,13 @@ VMPLAN,Planning scheme overlay - Vicmap Planning,VMPLAN_PLAN_OVERLAY,PLAN_OVERLA
 VMPLAN,Planning scheme Urban Growth Boundary - Vicmap Planning ,VMPLAN_PLAN_UGB,PLAN_UGB,ANZVI0803002912 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002912&publicId=guest&extractionProviderId=1
 VMPLAN,Planning scheme codelist - Vicmap Planning,VMPLAN_PLAN_CODELIST,PLAN_CODELIST,ANZVI0803002913 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002913&publicId=guest&extractionProviderId=1
 VMPLAN,Planning scheme Urban Growth Area - Vicmap Planning,VMPLAN_PLAN_UGA,PLAN_UGA,ANZVI0803002914 ,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002914&publicId=guest&extractionProviderId=1
-VMPROP,,,ANNOTATION_TEXT,,
-VMPROP,,,CAD_AREA_BDY,,
-VMPROP,Property Map Polygons - Vicmap Property Simplified 1,VMPROP_S_PROPERTY_MP,CENTROID,ANZVI0803003299,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003299&publicId=guest&extractionProviderId=1
-VMPROP,,,EASEMENT,,
-VMPROP,,,PARCEL_CAD_AREA_BDY,,
-VMPROP,,,PARCEL_MP,,
+VMPROP,Annotation Text - Vicmap Property,VMPROP_ANNOTATION_TEXT,ANNOTATION_TEXT,ANZVI0803002902,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002902&publicId=guest&extractionProviderId=1
+VMPROP,Cadastral Area Boundary - Vicmap Property,VMPROP_CAD_AREA_BDY,CAD_AREA_BDY,ANZVI0803002896,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002896&publicId=guest&extractionProviderId=1
+VMPROP,Easement - Vicmap Property,VMPROP_EASEMENT,EASEMENT,ANZVI0803005175,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803005175&publicId=guest&extractionProviderId=1
+VMPROP,Parcel Cadastral Area Boundary Aspatial Table - Vicmap Property,VMPROP_PARCEL_CAD_AREA_BDY,PARCEL_CAD_AREA_BDY,ANZVI0803003236,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003236&publicId=guest&extractionProviderId=1
+VMPROP,Property Map Polygons - Vicmap Property Simplified 1,VMPROP_S_PROPERTY_MP,PARCEL_MP,ANZVI0803003299,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003299&publicId=guest&extractionProviderId=1
 VMPROP,Parcel Property Aspatial Table - Vicmap Property,VMPROP_PARCEL_PROPERTY,PARCEL_PROPERTY,ANZVI0803003237,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803003237&publicId=guest&extractionProviderId=1
-VMPROP,,,PROPERTY_CAD_AREA_BDY,,
-VMPROP,,,PROPERTY_MP,,
+,,,,,
 VMPROP,Road Casement Polygon - Vicmap Property,VMPROP_ROAD_CASEMENT_POLYGON,ROAD_CASEMENT_POLYGON,ANZVI0803004668,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803004668&publicId=guest&extractionProviderId=1
 VMTRANS,Airport Area Polygon-Vicmap Transport ,TR_AIR_INFRA_AREA_POLYGON,TR_AIR_INFRA_AREA_POLYGON,ANZVI0803002870,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002870&publicId=guest&extractionProviderId=1
 VMTRANS,Airport Infrastructure Point - Vicmap Transport,TR_AIR_INFRA_POINT,TR_AIR_INFRA_POINT,ANZVI0803002612,http://services.land.vic.gov.au/catalogue/metadata?anzlicId=ANZVI0803002612&publicId=guest&extractionProviderId=1
