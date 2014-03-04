@@ -23,31 +23,31 @@
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
-    <legend updateDrawingOrder="true" activeLayer="vmptv_rae_1202_train_corr_centl20140304150712147">
+    <legend updateDrawingOrder="true" activeLayer="ptv_rae_1202_train_corr_centl20140304150712147">
         <legendgroup open="true" checked="Qt::Checked" name="Public Transport">
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Train Coridoor Central " showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmptv_rae_1202_train_corr_centl20140304150712147" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="ptv_rae_1202_train_corr_centl20140304150712147" visible="1"/>
                 </filegroup>
             </legendlayer>
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Bus Stops" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmptv_bus_stops20140304153218993" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="ptv_bus_stops20140304153218993" visible="1"/>
                 </filegroup>
             </legendlayer>
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Bus Routes" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmptv_rae_909_reg_bus_routes_vm20140304150712562" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="ptv_rae_909_reg_bus_routes_vm20140304150712562" visible="1"/>
                 </filegroup>
             </legendlayer>
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Rail Sation Platform" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmptv_rae_1229_rail_stat_platform20140304150712380" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="ptv_rae_1229_rail_stat_platform20140304150712380" visible="1"/>
                 </filegroup>
             </legendlayer>
             <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Train Track Central" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="vmptv_rae_1211_train_track_centl20140304150712232" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="ptv_rae_1211_train_track_centl20140304150712232" visible="1"/>
                 </filegroup>
             </legendlayer>
         </legendgroup>
@@ -8081,8 +8081,8 @@
             <attributeactions/>
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
-            <id>vmptv_bus_stops20140304153218993</id>
-            <datasource>dbname='./Victoria.sqlite' table="vmptv_bus_stops" (GEOMETRY) sql=</datasource>
+            <id>ptv_bus_stops20140304153218993</id>
+            <datasource>dbname='./Victoria.sqlite' table="ptv_bus_stops" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -8160,8 +8160,8 @@
             <attributeactions/>
         </maplayer>
         <maplayer minimumScale="-4.65661e-10" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
-            <id>vmptv_rae_1202_train_corr_centl20140304150712147</id>
-            <datasource>dbname='./Victoria.sqlite' table="vmptv_rae_1202_train_corr_centl" (GEOMETRY) sql=</datasource>
+            <id>ptv_rae_1202_train_corr_centl20140304150712147</id>
+            <datasource>dbname='./Victoria.sqlite' table="ptv_rae_1202_train_corr_centl" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -8365,8 +8365,8 @@
             <attributeactions/>
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
-            <id>vmptv_rae_1211_train_track_centl20140304150712232</id>
-            <datasource>dbname='./Victoria.sqlite' table="vmptv_rae_1211_train_track_centl" (GEOMETRY) sql=</datasource>
+            <id>ptv_rae_1211_train_track_centl20140304150712232</id>
+            <datasource>dbname='./Victoria.sqlite' table="ptv_rae_1211_train_track_centl" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -8444,8 +8444,8 @@
             <attributeactions/>
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
-            <id>vmptv_rae_1229_rail_stat_platform20140304150712380</id>
-            <datasource>dbname='./Victoria.sqlite' table="vmptv_rae_1229_rail_stat_platform" (GEOMETRY) sql=</datasource>
+            <id>ptv_rae_1229_rail_stat_platform20140304150712380</id>
+            <datasource>dbname='./Victoria.sqlite' table="ptv_rae_1229_rail_stat_platform" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
@@ -8520,8 +8520,8 @@
             <attributeactions/>
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
-            <id>vmptv_rae_909_reg_bus_routes_vm20140304150712562</id>
-            <datasource>dbname='./Victoria.sqlite' table="vmptv_rae_909_reg_bus_routes_vm" (GEOMETRY) sql=</datasource>
+            <id>ptv_rae_909_reg_bus_routes_vm20140304150712562</id>
+            <datasource>dbname='./Victoria.sqlite' table="ptv_rae_909_reg_bus_routes_vm" (GEOMETRY) sql=</datasource>
             <title></title>
             <abstract></abstract>
             <keywordList>
