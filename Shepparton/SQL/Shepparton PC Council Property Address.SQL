@@ -13,6 +13,20 @@ select
 from (
 
 select
+    *,
+    blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
+        case when ( blg_unit_id_2 <> '' or blg_unit_suffix_2 <> '' ) then '-' else '' end ||
+        blg_unit_prefix_2 || blg_unit_id_2 || blg_unit_suffix_2 ||
+        case when ( blg_unit_id_1 <> '' or blg_unit_suffix_1 <> '' ) then '/' else '' end ||
+        house_prefix_1 || house_number_1 || house_suffix_1 ||
+        case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
+        house_prefix_2 || house_number_2 || house_suffix_2 as num_address,
+    ltrim ( road_name ||
+        rtrim ( ' ' || road_type ) ||
+        rtrim ( ' ' || road_suffix ) ) as road_name_combined
+from (
+
+select
     cast ( lpaprop.tpklpaprop as varchar ) as propnum,
     case lpaprop.status
         when 'C' then 'A'
@@ -39,7 +53,7 @@ select
     '' as blg_unit_prefix_1,
     case
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
-        else cast ( lpaaddr.strunitnum as varchar )
+        else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
     end as blg_unit_id_1,
     case
         when lpaaddr.strunitsfx = '0' or lpaaddr.strunitsfx is null then ''
@@ -48,7 +62,7 @@ select
     '' as blg_unit_prefix_2,
     case
         when lpaaddr.endunitnum = 0 or lpaaddr.endunitnum is null then ''
-        else cast ( lpaaddr.endunitnum as varchar )
+        else cast ( cast ( lpaaddr.endunitnum as integer ) as varchar )
     end as blg_unit_id_2,
     case
         when lpaaddr.endunitsfx = '0' or lpaaddr.endunitsfx is null then ''
@@ -62,18 +76,18 @@ select
     '' as floor_prefix_1,
     case
         when lpaaddr.strlvlnum = 0 then ''
-        else cast ( lpaaddr.strlvlnum as varchar )
+        else cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
     end as floor_no_1,
     '' as floor_suffix_1,
     '' as floor_prefix_2,
     case
         when lpaaddr.endlvlnum = 0 then ''
-        else cast ( lpaaddr.endlvlnum as varchar )
+        else cast ( cast ( lpaaddr.endlvlnum as integer ) as varchar )
     end as floor_no_2,
     '' as floor_suffix_2,
     case
         when lpapnam.propname is null then ''
-        else upper ( cast ( lpapnam.propname as varchar ) )
+        else upper ( lpapnam.propname )
     end as building_name,
     '' as complex_name,
     case
@@ -85,7 +99,7 @@ select
     '' as house_prefix_1,
     case
         when lpaaddr.strhousnum = 0 or lpaaddr.strhousnum is null then ''
-        else cast ( lpaaddr.strhousnum as varchar )
+        else cast ( cast ( lpaaddr.strhousnum as integer ) as varchar )
     end as house_number_1,
     case
         when lpaaddr.strhoussfx = '0' or lpaaddr.strhoussfx is null then ''
@@ -94,13 +108,13 @@ select
     '' as house_prefix_2,
     case
         when lpaaddr.endhousnum = 0 or lpaaddr.endhousnum is null then ''
-        else cast ( lpaaddr.endhousnum as varchar )
+        else cast ( cast ( lpaaddr.endhousnum as integer ) as varchar )
     end as house_number_2,
     case
         when lpaaddr.endhoussfx = '0' or lpaaddr.endhoussfx is null then ''
         else cast ( lpaaddr.endhoussfx as varchar )
     end as house_suffix_2,
-    cast ( upper ( cnacomp.descr ) as varchar ) as road_name, 
+    upper ( cnacomp.descr ) as road_name, 
     case
         when
             cnaqual.descr like '% NORTH' or
@@ -117,7 +131,7 @@ select
         else ''
     end as road_suffix, 
     upper ( lpasubr.suburbname ) as locality_name, 
-    cast ( lpaprtp.abbrev as varchar ) as property_type,
+    lpaprtp.abbrev as property_type,
     '' as postcode,
     '' as access_type,
     '' as easting,
