@@ -32,7 +32,7 @@ select
         when 'C' then 'A'
         when 'A' then 'P'
     end as status,
-    cast ( lpaprop.tfklpaprop as varchar ) as base_propnum,
+    '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
