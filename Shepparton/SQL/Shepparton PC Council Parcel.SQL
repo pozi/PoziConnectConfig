@@ -52,8 +52,39 @@ select distinct
     '' as block,
     '' as portion,
     '' as subdivision,
-    ifnull ( cnacomp.descrsrch , '' ) as parish_code,
-    '' as township_code,
+    case
+        when lpaparc.fmtparcel like '%Parish of Arcadia' then '2022'
+        when lpaparc.fmtparcel like '%Parish of Caniambo' then '2328'
+        when lpaparc.fmtparcel like '%Parish of Congupna' then '2423'
+        when lpaparc.fmtparcel like '%Parish of Coomboona' then '2434'
+        when lpaparc.fmtparcel like '%Parish of Currawa' then '2475'
+        when lpaparc.fmtparcel like '%Parish of Dookie' then '2535'
+        when lpaparc.fmtparcel like '%Parish of Dargalong' then '2487'
+        when lpaparc.fmtparcel like '%Parish of Gowangardie' then '2714'
+        when lpaparc.fmtparcel like '%Parish of Girgarre East' then '2661'
+        when lpaparc.fmtparcel like '%Parish of Karramomus' then '2845'
+        when lpaparc.fmtparcel like '%Parish of Katandra' then '2850'
+        when lpaparc.fmtparcel like '%Parish of Kialla' then '2872'
+        when lpaparc.fmtparcel like '%Parish of Kyabram East' then '2949'
+        when lpaparc.fmtparcel like '%Parish of Molka' then '3144'
+        when lpaparc.fmtparcel like '%Parish of Mooroopna' then '3177'
+        when lpaparc.fmtparcel like '%Parish of Mooroopna West' then '3178'
+        when lpaparc.fmtparcel like '%Parish of Murchison' then '3222'
+        when lpaparc.fmtparcel like '%Parish of Murchison N%th' then '3223'
+        when lpaparc.fmtparcel like '%Parish of Noorilim' then '3320'
+        when lpaparc.fmtparcel like '%Parish of Pine Lodge' then '3396'
+        when lpaparc.fmtparcel like '%Parish of Shepparton' then '3486'
+        when lpaparc.fmtparcel like '%Parish of Tallygaroopna' then '3533'
+        when lpaparc.fmtparcel like '%Parish of Tamleugh' then '3538'
+        when lpaparc.fmtparcel like '%Parish of Toolamba' then '3612'
+        when lpaparc.fmtparcel like '%Parish of Toolamba West' then '3613'
+        when lpaparc.fmtparcel like '%Parish of Undera' then '3681'
+        else ''
+    end as parish_code,
+    case
+        when lpaparc.fmtparcel like '%Town of Murchison' then '5561'
+        else ''
+    end as township_code,
     '328' as lga_code
 from
     pathway_lpaprop as lpaprop left join
