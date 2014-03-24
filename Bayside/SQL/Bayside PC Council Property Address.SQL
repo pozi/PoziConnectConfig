@@ -60,7 +60,7 @@ select distinct
     '' as house_prefix_2,
     ifnull ( auprstad.hou_end , '' ) as house_number_2,
     upper ( ifnull ( auprstad.end_alp , '' ) ) as house_suffix_2,
-    upper ( trim ( auprstad.str_nme ) ) as road_name,
+    replace ( upper ( trim ( auprstad.str_nme ) ) , 'MC ' , 'MC' ) as road_name,
     case
         when trim ( auprstad.str_typ ) in ( 'APP' ) then 'APPROACH'
         when trim ( auprstad.str_typ ) in ( 'AV' , 'AVE' ) then 'AVENUE'
