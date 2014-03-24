@@ -27,28 +27,13 @@ select
 from
 (
 select
-    case
-        when auprparc.ass_num in ( 310227 , 199380 , 310227 , 594440 , 594457 , 594465 , 594473 , 594481 , 594499 , 594507 , 594515 , 594523 , 594531 ) then 'NCPR'   
-        else cast ( auprparc.ass_num as varchar )
-    end as propnum,
-    case auprparc.pcl_flg    
-        when 'R' then 'A'        
-        when 'P' then 'P'        
+    cast ( auprparc.ass_num as varchar ) as propnum,
+    case auprparc.pcl_flg
+        when 'R' then 'A'
+        when 'P' then 'P'
     end as status,
-    cast ( auprparc.pcl_num as varchar ) as crefno,
-    case
-        when auprparc.ttl_cde in ( 1 , 5 , 51 , 99 ) then
-            case
-                when trim ( auprparc.ttl_no1 ) is null then 
-                    case
-                        when trim ( auprparc.ttl_no2 ) is null then '' 
-                        else 'P'
-                    end
-                else ''
-            end    
-        when auprparc.ttl_cde in ( 11 , 12 ) then 'P'
-        else ''
-    end as part,
+    '' as crefno,
+    '' part,
     case auprparc.ttl_cde
         when 1 then 'PS'
         when 2 then 'PC'
@@ -61,10 +46,10 @@ select
         when 52 then 'PC'
         else ''
     end ||
-        case    
+        case
             when null then ''
             when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
-            when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 )        
+            when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 )
             else ''
         end as plan_number,
     case auprparc.ttl_cde
@@ -79,23 +64,23 @@ select
         when 52 then 'PC'
         else ''
     end as plan_prefix,
-    case    
+    case
         when null then ''
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
-        when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 )        
+        when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 )
         else ''
     end as plan_numeral,
     case
         when auprparc.ttl_cde in ( 3 , 4 , 6 , 8 , 16 , 18 ) then ifnull ( trim ( auprparc.ttl_no1 ) , '' )
         when auprparc.ttl_cde in ( 1, 5 , 51 ) then ifnull ( trim ( auprparc.ttl_no1 ) , ifnull ( trim ( auprparc.ttl_no2 ) , '' ) )
         else ''
-    end as lot_number,    
+    end as lot_number,
     case
         when auprparc.ttl_cde in ( 9 , 10 , 11 , 12 ) then ifnull ( trim ( auprparc.ttl_no1 ) , '' )
         else ''
     end as allotment,
     case
-        when trim ( auprparc.ttl_no4 ) = 'NONE' then '' 
+        when trim ( auprparc.ttl_no4 ) = 'NONE' then ''
         when auprparc.ttl_cde in ( 9 , 10 , 11 ) then ifnull ( trim ( auprparc.ttl_no4 ) , '' )
         else ''
     end as sec,

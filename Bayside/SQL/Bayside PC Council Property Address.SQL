@@ -60,17 +60,7 @@ select distinct
     '' as house_prefix_2,
     ifnull ( auprstad.hou_end , '' ) as house_number_2,
     upper ( ifnull ( auprstad.end_alp , '' ) ) as house_suffix_2,
-    case
-        when upper ( substr ( trim ( auprstad.str_nme ) , -13 ) ) in  ( ' AVENUE NORTH' , ' AVENUE SOUTH' ) 
-            then upper ( substr ( trim ( auprstad.str_nme ) , 1 , length ( trim ( auprstad.str_nme ) ) - 13 ) )
-        when upper ( substr ( trim ( auprstad.str_nme ) , -12 ) ) in  ( ' AVENUE EAST' , ' AVENUE WEST' ) 
-            then upper ( substr ( trim ( auprstad.str_nme ) , 1 , length ( trim ( auprstad.str_nme ) ) - 12 ) )
-        when upper ( substr ( trim ( auprstad.str_nme ) , -11 ) ) in  ( ' ROAD NORTH' , ' ROAD SOUTH' , ' LANE NORTH' , ' LANE SOUTH' ) 
-            then upper ( substr ( trim ( auprstad.str_nme ) , 1 , length ( trim ( auprstad.str_nme ) ) - 11 ) )
-        when upper ( substr ( trim ( auprstad.str_nme ) , -10 ) ) in  ( ' LANE EAST' , ' LANE WEST' , ' ROAD EAST' , ' ROAD WEST' ) 
-            then upper ( substr ( trim ( auprstad.str_nme ) , 1 , length ( trim ( auprstad.str_nme ) ) - 10 ) )
-        else upper ( trim ( auprstad.str_nme ) )
-    end as road_name,
+    upper ( trim ( auprstad.str_nme ) ) as road_name,
     case
         when trim ( auprstad.str_typ ) in ( 'APP' ) then 'APPROACH'
         when trim ( auprstad.str_typ ) in ( 'AV' , 'AVE' ) then 'AVENUE'
@@ -83,6 +73,7 @@ select distinct
         when trim ( auprstad.str_typ ) in ( 'CH' ) then 'CHASE'
         when trim ( auprstad.str_typ ) in ( 'CIR' ) then 'CIRCLE'
         when trim ( auprstad.str_typ ) in ( 'CL' ) then 'CLOSE'
+        when trim ( auprstad.str_typ ) in ( 'CNC' ) then 'CONCOURSE'
         when trim ( auprstad.str_typ ) in ( 'CNR' ) then 'CORNER'
         when trim ( auprstad.str_typ ) in ( 'COU' ) then 'COURSE'
         when trim ( auprstad.str_typ ) in ( 'COVE' , 'COV' ) then 'COVE'
@@ -135,7 +126,7 @@ select distinct
         when trim ( auprstad.str_typ ) in ( 'RTT' ) then 'RETREAT'
         when trim ( auprstad.str_typ ) in ( 'RUN' ) then 'RUN'
         when trim ( auprstad.str_typ ) in ( 'SQ' ) then 'SQUARE'
-        when trim ( auprstad.str_typ ) in ( 'ST' ) then 'STREET'
+        when trim ( auprstad.str_typ ) in ( 'ST' , 'SS' , 'SN' ) then 'STREET'
         when trim ( auprstad.str_typ ) in ( 'TCE' ) then 'TERRACE'
         when trim ( auprstad.str_typ ) in ( 'TR' , 'TRK' ) then 'TRACK'
         when trim ( auprstad.str_typ ) in ( 'TRL' ) then 'TRAIL'
@@ -158,10 +149,10 @@ select distinct
         else upper ( ifnull ( auprstad.str_typ , '' ) )
     end as road_type,
     case
-        when trim ( auprstad.str_typ ) = '' and upper ( trim ( auprstad.str_nme ) ) LIKE '% NORTH' then 'N'
-        when trim ( auprstad.str_typ ) = '' and upper ( trim ( auprstad.str_nme ) ) LIKE '% SOUTH' then 'S'
-        when trim ( auprstad.str_typ ) = '' and upper ( trim ( auprstad.str_nme ) ) LIKE '% EAST' then 'E'
-        when trim ( auprstad.str_typ ) = '' and upper ( trim ( auprstad.str_nme ) ) LIKE '% WEST' then 'W'
+		when trim ( auprstad.str_typ ) = 'SN' then 'N'
+		when trim ( auprstad.str_typ ) = 'SS' then 'S'
+		when trim ( auprstad.str_typ ) = 'SE' then 'E'
+		when trim ( auprstad.str_typ ) = 'SW' then 'W'
         else ''
     end as road_suffix,
     upper ( trim ( auprstad.sbr_nme ) ) as locality_name,
@@ -172,7 +163,7 @@ select distinct
     '' as datum_proj,
     '' as outside_property,
     '306' as lga_code,
-    cast ( auprparc.pcl_num as varchar ) as crefno
+    '' as crefno
 from 
     authority_auprparc auprparc inner join
     authority_auprstad auprstad ON auprparc.pcl_num = auprstad.pcl_num left outer join                                 
