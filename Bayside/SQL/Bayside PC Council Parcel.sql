@@ -121,7 +121,8 @@ select
 from
     authority_auprparc as auprparc
 where
-    auprparc.pcl_flg in ( 'R' , 'P' )
+    auprparc.pcl_flg in ( 'R' , 'P' ) and
+    auprparc.ass_num not in ( '' , '0' )
 order by
     ass_num
 )
