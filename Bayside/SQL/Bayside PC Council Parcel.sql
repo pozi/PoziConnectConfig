@@ -33,7 +33,10 @@ select
         when 'P' then 'P'
     end as status,
     '' as crefno,
-    '' part,
+    case
+        when auprparc.ttl_no1 like '%PT%' then 'P'
+        else ''
+    end as part,
     case
         when auprparc.fmt_ttl like '%CP%' then 'CP'
         when auprparc.fmt_ttl like '%LP%' then 'LP'
@@ -67,8 +70,7 @@ select
         else ''
     end as plan_numeral,
     case
-        when auprparc.ttl_cde in ( 3 , 4 , 6 , 8 , 16 , 18 ) then ifnull ( trim ( auprparc.ttl_no1 ) , '' )
-        when auprparc.ttl_cde in ( 1, 5 , 51 ) then ifnull ( trim ( auprparc.ttl_no1 ) , ifnull ( trim ( auprparc.ttl_no2 ) , '' ) )
+        when auprparc.ttl_cde <> 11 then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
         else ''
     end as lot_number,
     case
