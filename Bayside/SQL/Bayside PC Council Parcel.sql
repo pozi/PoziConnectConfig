@@ -83,10 +83,7 @@ select
     end as sec,
     '' as block,
     '' as portion,
-    case
-        when ( auprparc.ttl_cde = 16 ) then trim ( auprparc.ttl_in5 )
-        else ''
-    end as subdivision,
+    '' as subdivision,
     case
         when auprparc.ttl_cde = 11 then ifnull ( trim ( replace ( auprparc.ttl_no5 , 'NUA' , '' ) ) , '' )
         else ''
