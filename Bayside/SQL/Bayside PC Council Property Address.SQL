@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -37,7 +37,7 @@ select distinct
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    '' as blg_unit_type,   
+    '' as blg_unit_type,
     '' as blg_unit_prefix_1,
     ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) as blg_unit_id_1,
     ifnull ( auprstad.unt_alp , '' ) as blg_unit_suffix_1,
@@ -58,7 +58,10 @@ select distinct
     ifnull ( auprstad.hou_num , '' ) as house_number_1,
     upper ( ifnull ( auprstad.hou_alp , '' ) ) as house_suffix_1,
     '' as house_prefix_2,
-    ifnull ( auprstad.hou_end , '' ) as house_number_2,
+    case
+        when auprstad.hou_num = auprstad.hou_end and ifnull ( auprstad.end_alp , '' ) = '' then ''
+        else ifnull ( auprstad.hou_end , '' )
+    end as house_number_2,
     upper ( ifnull ( auprstad.end_alp , '' ) ) as house_suffix_2,
     replace ( upper ( trim ( auprstad.str_nme ) ) , 'MC ' , 'MC' ) as road_name,
     case
@@ -139,7 +142,7 @@ select distinct
         when trim ( auprstad.str_typ ) in ( 'WKWY' ) then 'WALKWAY'
         when trim ( auprstad.str_typ ) in ( 'WA' , 'WTRS' ) then 'WATERS'
         when trim ( auprstad.str_typ ) in ( 'WYN' , 'WYND' ) then 'WYND'
-        when trim ( auprstad.str_typ ) in ( '.' ) then ''        
+        when trim ( auprstad.str_typ ) in ( '.' ) then ''
         when upper ( substr ( trim ( auprstad.str_nme ) , -13 ) ) in  ( ' AVENUE NORTH' , ' AVENUE SOUTH' ) then 'AVENUE'
         when upper ( substr ( trim ( auprstad.str_nme ) , -12 ) ) in  ( ' AVENUE EAST' , ' AVENUE WEST' ) then 'AVENUE'
         when upper ( substr ( trim ( auprstad.str_nme ) , -11 ) ) in  ( ' LANE NORTH' , ' LANE SOUTH' )  then 'LANE'
@@ -165,9 +168,9 @@ select distinct
     '306' as lga_code,
     '' as crefno,
     '' as summary
-from 
+from
     authority_auprparc auprparc inner join
-    authority_auprstad auprstad ON auprparc.pcl_num = auprstad.pcl_num left outer join                                 
+    authority_auprstad auprstad ON auprparc.pcl_num = auprstad.pcl_num left outer join
     authority_ausrsubr ausrsubr ON auprstad.sbr_nme = ausrsubr.sbr_nme
 where
     auprparc.pcl_flg in ( 'R' , 'U' , 'P' ) and
