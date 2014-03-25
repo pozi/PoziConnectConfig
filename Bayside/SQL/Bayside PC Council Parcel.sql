@@ -34,16 +34,14 @@ select
     end as status,
     '' as crefno,
     '' part,
-    case auprparc.ttl_cde
-        when 1 then 'PS'
-        when 2 then 'PC'
-        when 3 then 'RP'
-        when 4 then 'SP'
-        when 5 then 'LP'
-        when 8 then 'CP'
-        when 18 then 'TP'
-        when 51 then 'PS'
-        when 52 then 'PC'
+    case
+        when auprparc.fmt_ttl like '%CP%' then 'CP'
+        when auprparc.fmt_ttl like '%LP%' then 'LP'
+        when auprparc.fmt_ttl like '%PC%' then 'PC'
+        when auprparc.fmt_ttl like '%PS%' then 'PS'
+        when auprparc.fmt_ttl like '%RP%' then 'RP'
+        when auprparc.fmt_ttl like '%SP%' then 'SP'
+        when auprparc.fmt_ttl like '%TP%' then 'TP'
         else ''
     end ||
         case
@@ -52,16 +50,14 @@ select
             when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 )
             else ''
         end as plan_number,
-    case auprparc.ttl_cde
-        when 1 then 'PS'
-        when 2 then 'PC'
-        when 3 then 'RP'
-        when 4 then 'SP'
-        when 5 then 'LP'
-        when 8 then 'CP'
-        when 18 then 'TP'
-        when 51 then 'PS'
-        when 52 then 'PC'
+    case
+        when auprparc.fmt_ttl like '%CP%' then 'CP'
+        when auprparc.fmt_ttl like '%LP%' then 'LP'
+        when auprparc.fmt_ttl like '%PC%' then 'PC'
+        when auprparc.fmt_ttl like '%PS%' then 'PS'
+        when auprparc.fmt_ttl like '%RP%' then 'RP'
+        when auprparc.fmt_ttl like '%SP%' then 'SP'
+        when auprparc.fmt_ttl like '%TP%' then 'TP'
         else ''
     end as plan_prefix,
     case
