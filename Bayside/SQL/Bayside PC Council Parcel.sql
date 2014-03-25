@@ -45,7 +45,7 @@ select
         else ''
     end ||
         case
-            when null then ''
+            when auprparc.fmt_ttl like '%PP%' then ''
             when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
             when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 )
             else ''
@@ -61,7 +61,7 @@ select
         else ''
     end as plan_prefix,
     case
-        when null then ''
+        when auprparc.fmt_ttl like '%PP%' then ''
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 )
         else ''
@@ -86,30 +86,15 @@ select
         when ( auprparc.ttl_cde = 16 ) then trim ( auprparc.ttl_in5 )
         else ''
     end as subdivision,
-    case auprparc.udn_cd5
-        when 1  then '2311'
-        when 2  then '2516'
-        when 3  then '2528'
-        when 4  then '2761'
-        when 5  then '2927'
-        when 6  then '3061'
-        when 7  then '3164'
-        when 8  then '3431'
-        when 9  then '3948'
-        when 10 then '3797'
-        when 12 then '2265'
-        when 13 then '2404'
-        when 14 then '3095'
-        when 15 then '3201'
-        when 16 then '3375'
-        when 17 then '3552'
-        when 18 then '3651'
+    case
+        when auprparc.fmt_ttl like '%PP%NUA%' then ''
+        when auprparc.fmt_ttl like '%PP%' then trim ( substr ( auprparc.fmt_ttl , -5 , 5 ) )
         else ''
     end as parish_code,
-    case auprparc.udn_cd5
-        when 1 then '5781'
-        when 3 then '5515'
-        when 9 then '5791'
+    case
+        when auprparc.fmt_ttl like '%PP%3416B' then '3416B'
+        when auprparc.fmt_ttl like '%PP%3416C' then '3416C'
+        when auprparc.fmt_ttl like '%PP%3416D' then '3416D'
         else ''
     end as township_code,
     fmt_ttl as summary,
