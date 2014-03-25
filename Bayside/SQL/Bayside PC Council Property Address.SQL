@@ -103,7 +103,7 @@ select distinct
         when trim ( auprstad.str_typ ) in ( 'HWY' ) then 'HIGHWAY'
         when trim ( auprstad.str_typ ) in ( 'IS' ) then 'ISLAND'
         when trim ( auprstad.str_typ ) in ( 'JNC' ) then 'JUNCTION'
-        when trim ( auprstad.str_typ ) in ( 'LA' , 'LN' , 'LANE' ) then 'LANE'
+        when trim ( auprstad.str_typ ) in ( 'LA' , 'LN' , 'LNE' , 'LANE' ) then 'LANE'
         when trim ( auprstad.str_typ ) in ( 'LK' , 'LNK' , 'LINK' ) then 'LINK'
         when trim ( auprstad.str_typ ) in ( 'LOOP' , 'LP' ) then 'LOOP'
         when trim ( auprstad.str_typ ) in ( 'MALL' ) then 'MALL'
