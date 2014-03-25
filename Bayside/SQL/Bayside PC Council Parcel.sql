@@ -70,10 +70,12 @@ select
         else ''
     end as plan_numeral,
     case
+        when auprparc.ttl_no1 = '0' then ''
         when auprparc.ttl_cde <> 11 then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
         else ''
     end as lot_number,
     case
+        when auprparc.ttl_no1 = '0' then ''
         when auprparc.ttl_cde = 11 then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
         else ''
     end as allotment,
