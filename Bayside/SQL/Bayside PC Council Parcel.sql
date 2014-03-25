@@ -72,12 +72,11 @@ select
         else ''
     end as lot_number,
     case
-        when auprparc.ttl_cde in ( 9 , 10 , 11 , 12 ) then ifnull ( trim ( auprparc.ttl_no1 ) , '' )
+        when auprparc.ttl_cde = 11 then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
         else ''
     end as allotment,
     case
-        when trim ( auprparc.ttl_no4 ) = 'NONE' then ''
-        when auprparc.ttl_cde in ( 9 , 10 , 11 ) then ifnull ( trim ( auprparc.ttl_no4 ) , '' )
+        when auprparc.ttl_cde = 11 then ifnull ( trim ( auprparc.ttl_no2 ) , '' )
         else ''
     end as sec,
     '' as block,
