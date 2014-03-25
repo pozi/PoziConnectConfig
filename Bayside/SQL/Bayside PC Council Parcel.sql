@@ -88,14 +88,13 @@ select
         else ''
     end as subdivision,
     case
-        when auprparc.fmt_ttl like '%PP%NUA%' then ''
-        when auprparc.fmt_ttl like '%PP%' then trim ( substr ( auprparc.fmt_ttl , -5 , 5 ) )
+        when auprparc.ttl_cde = 11 then ifnull ( trim ( replace ( auprparc.ttl_no5 , 'NUA' , '' ) ) , '' )
         else ''
     end as parish_code,
     case
-        when auprparc.fmt_ttl like '%PP%3416B' then '3416B'
-        when auprparc.fmt_ttl like '%PP%3416C' then '3416C'
-        when auprparc.fmt_ttl like '%PP%3416D' then '3416D'
+        when auprparc.ttl_no5 = '3416B' then '3416B'
+        when auprparc.ttl_no5 = '3416C' then '3416C'
+        when auprparc.ttl_no5 = '3416D' then '3416D'
         else ''
     end as township_code,
     fmt_ttl as summary,
