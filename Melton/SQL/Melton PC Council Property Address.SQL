@@ -175,7 +175,8 @@ select distinct
     '' as datum_proj,
     '' as outside_property,
     '344' as lga_code,
-    cast ( auprparc.pcl_num as varchar ) as crefno
+    cast ( auprparc.pcl_num as varchar ) as crefno,
+    '' as summary
 from 
     authority_auprparc auprparc inner join
     authority_auprstad auprstad ON auprparc.pcl_num = auprstad.pcl_num left outer join                                 

@@ -81,7 +81,8 @@ select distinct
     '' as outside_property,
     '311' as lga_code,
     '' as crefno,
-    summary as summary
+    summary as summary,
+    '' as summary
 from (
     select
         Parcel.Address_Id as Address_Id,

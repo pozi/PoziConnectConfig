@@ -118,7 +118,8 @@ select distinct
     '' as datum_proj,
     '' as outside_property,
     '355' as lga_code,
-    cast ( auprparc.pcl_num as varchar ) as crefno
+    cast ( auprparc.pcl_num as varchar ) as crefno,
+    '' as summary
 from
     authority_auprparc as auprparc ,
     authority_auprstad as auprstad

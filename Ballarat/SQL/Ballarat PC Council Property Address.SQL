@@ -134,7 +134,8 @@ select distinct
     '' as datum_proj,
     '' as outside_property,
     '302' as lga_code,
-    '' as crefno
+    '' as crefno,
+    '' as summary
 from
     pathway_lpaprop as lpaprop left join 
     pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join 
