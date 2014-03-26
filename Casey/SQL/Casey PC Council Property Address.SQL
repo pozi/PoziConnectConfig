@@ -191,7 +191,7 @@ select
     '' as outside_property,
     '312' as lga_code,
     '' as crefno,
-    A.formatted_address as summary
+    ifnull ( A.property_name || ', ' , '' ) || A.formatted_address as summary
 from
     techone_nucproperty P
     join techone_nucaddress A on A.property_no = P.property_no
