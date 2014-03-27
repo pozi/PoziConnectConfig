@@ -57,7 +57,10 @@ select distinct
         when upper ( lpaaddr.unitprefix ) like '%TOWER%' then 'TWR'
         else ''
     end as blg_unit_type,   
-    '' as blg_unit_prefix_1,
+    case
+        when length ( lpaaddr.unitprefix ) = 1 then lpaaddr.unitprefix
+        else ''
+    end as blg_unit_prefix_1,
     case
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
         else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
