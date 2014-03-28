@@ -47,6 +47,7 @@ select
     '' as blg_unit_prefix_1,
     case
         when A.unit_no = 0 then ''
+        when A.unit_no is not null then A.unit_no
         when substr ( A.property_name , 1, 2 ) in ( 'K1' , 'K2' , 'K3' , 'K4' , 'K5' , 'K6' , 'K7' , 'K8' , 'K9' ) then
             case
                 when substr ( A.property_name , 3 , 1 ) in ( ':' , ' ' ) then substr ( A.property_name , 2 , 1 )
@@ -83,7 +84,7 @@ select
                 when substr ( A.property_name , 11 , 1 ) in ( ':' , ' ' ) then substr ( A.property_name , 6 , 5 )
                 else ''
             end
-        else ifnull ( A.unit_no , '' )
+        else ''
     end as blg_unit_id_1,
     upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
