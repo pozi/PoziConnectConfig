@@ -61,7 +61,12 @@ select
     vp.plan_number as plan_number,
     vp.lot_number as lot_number,
     cp.crefno as crefno,
-    'parcel ' || vp.spi || ': replacing crefno ' ||
+    'parcel ' || vp.spi ||
+        case vp.status
+            when 'P' then ' (proposed): '
+            else ': '
+        end ||
+        'replacing crefno ' ||
         case vp.crefno
             when '' then '(blank)'
             else vp.crefno
