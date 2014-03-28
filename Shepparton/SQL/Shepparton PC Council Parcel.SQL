@@ -46,7 +46,10 @@ select distinct
         when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 )
         else ''        
     end as plan_numeral,
-    ifnull ( lpaparc.parcelnum , '' ) as lot_number,
+    case
+        when lpaparc.parcelcode = 'RES' then ifnull ( 'RES' || lpaparc.parcelnum , '' )
+        else ifnull ( lpaparc.parcelnum , '' )
+    end as lot_number,
     ifnull ( lpaparc.parcelnum , '' ) as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     '' as block,
