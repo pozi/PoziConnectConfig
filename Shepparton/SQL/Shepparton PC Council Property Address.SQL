@@ -134,7 +134,6 @@ select
         else ''
     end as road_suffix, 
     upper ( lpasubr.suburbname ) as locality_name, 
-    lpaprtp.abbrev as property_type,
     '' as postcode,
     '' as access_type,
     '' as easting,
