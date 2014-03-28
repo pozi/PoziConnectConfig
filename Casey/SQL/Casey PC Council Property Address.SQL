@@ -112,7 +112,10 @@ select
     end as floor_no_2,
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
     '' as building_name,
-    '' as complex_name,
+    case
+        when upper (S.street_name) = 'WESTFIELD F/GATE' then 'WESTFIELD FOUNTAIN GATE SHOPPING CENTRE'
+        else ''
+    end as complex_name,
     '' as house_prefix_1,
     case
         when A.house_no = 0 then ''
