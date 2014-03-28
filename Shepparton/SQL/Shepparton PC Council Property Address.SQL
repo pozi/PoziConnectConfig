@@ -33,7 +33,10 @@ select
         when 'A' then 'P'
     end as status,
     '' as base_propnum,
-    '' as is_primary,
+    case lpaaddr.addrtype
+        when 'P' then 'Y'
+        when 'A' then 'N'
+    end as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
@@ -154,7 +157,7 @@ from
 where
     lpaprop.status <> 'H' and 
     lpaprop.tfklpacncl = 12 and
-    lpaaddr.addrtype = 'P' and
+    lpaaddr.addrtype in ( 'P' , 'A' ) and
     lpaprtp.abbrev <> 'OTH'
 )
 )
