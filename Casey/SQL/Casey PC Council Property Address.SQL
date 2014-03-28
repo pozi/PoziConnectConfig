@@ -86,7 +86,10 @@ select
             end
         else ''
     end as blg_unit_id_1,
-    upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
+    case    
+        when A.unit_no is not null then upper ( ifnull ( A.unit_no_suffix , '' ) )
+        else ''
+    end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
         when A.unit_no_to = 0 then ''
