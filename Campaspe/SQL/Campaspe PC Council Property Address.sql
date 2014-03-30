@@ -1,4 +1,32 @@
 select
+    *,
+    ltrim ( num_road_address ||
+        rtrim ( ' ' || locality_name ) ) as ezi_address
+from (
+
+select
+    *,
+    ltrim ( road_name_combined ||
+        rtrim ( ' ' || locality_name ) ) as road_locality,
+    ltrim ( num_address ||
+        rtrim ( ' ' || road_name_combined ) ) as num_road_address
+from (
+
+select
+    *,
+    blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
+        case when ( blg_unit_id_2 <> '' or blg_unit_suffix_2 <> '' ) then '-' else '' end ||
+        blg_unit_prefix_2 || blg_unit_id_2 || blg_unit_suffix_2 ||
+        case when ( blg_unit_id_1 <> '' or blg_unit_suffix_1 <> '' ) then '/' else '' end ||
+        house_prefix_1 || house_number_1 || house_suffix_1 ||
+        case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
+        house_prefix_2 || house_number_2 || house_suffix_2 as num_address,
+    ltrim ( road_name ||
+        rtrim ( ' ' || road_type ) ||
+        rtrim ( ' ' || road_suffix ) ) as road_name_combined
+from (
+
+select
     cast ( cast ( a.ASS_INTERNAL_ID as integer ) as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
@@ -66,11 +94,11 @@ select
         when ASS_HOUSE_NO_PREFIX in ( 'OFF' , '(OFF)' ) then 'OFF'
         when ASS_HOUSE_NO_PREFIX in ( 'ABOVE' , 'REAR' , 'UPPER' , 'UPSTAIRS' ) then ASS_HOUSE_NO_PREFIX
         when ASS_HOUSE_NO_SUFFIX in ( 'OFF' , '(OFF)' ) then 'OFF'
-        when ASS_HOUSE_NO_SUFFIX in ( 'ABOVE' , 'REAR' , 'UPPER' , 'UPSTAIRS' ) then ASS_HOUSE_NO_PREFIX
+        when ASS_HOUSE_NO_SUFFIX in ( 'ABOVE' , 'REAR' , 'UPPER' , 'UPSTAIRS' ) then ASS_HOUSE_NO_SUFFIX
         else ''
     end as location_descriptor,
     '' as house_prefix_1,
-    cast ( cast ( ASS_HOUSE_NUMBER as integer ) as varchar ) as house_number_1,
+    ifnull ( cast ( cast ( ASS_HOUSE_NUMBER as integer ) as varchar ) , '' ) as house_number_1,
     case
         when ASS_HOUSE_NO_SUFFIX like '-%' then ''
         else ifnull ( ASS_HOUSE_NO_SUFFIX , '' )
@@ -83,30 +111,38 @@ select
     end as house_number_2,
     '' as house_suffix_2,
     case
-        when s.DESCRIPTION like '% ALLEY%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' ALLEY', 1, 1) - 1 )
-        when s.DESCRIPTION like '% AVENUE%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' AVENUE', 1, 1) - 1 )
-        when s.DESCRIPTION like '% CIRCUIT%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' CIRCUIT', 1, 1) - 1 )
-        when s.DESCRIPTION like '% CLOSE%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' CLOSE', 1, 1) - 1 )
-        when s.DESCRIPTION like '% CRESCENT%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' CRESCENT', 1, 1) - 1 )
-        when s.DESCRIPTION like '% COURT%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' COURT', 1, 1) - 1 )
-        when s.DESCRIPTION like '% DRIVE%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' DRIVE', 1, 1) - 1 )
-        when s.DESCRIPTION like '% ESPLANADE%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' ESPLANADE', 1, 1) - 1 )
-        when s.DESCRIPTION like '% GROVE%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' GROVE', 1, 1) - 1 )
-        when s.DESCRIPTION like '% HWY%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' HWY', 1, 1) - 1 )
-        when s.DESCRIPTION like '% HIGHWAY%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' HIGHWAY', 1, 1) - 1 )
-        when s.DESCRIPTION like '% LANE%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' LANE', 1, 1) - 1 )
-        when s.DESCRIPTION like '% PARADE%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' PARADE', 1, 1) - 1 )
-        when s.DESCRIPTION like '% PLACE%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' PLACE', 1, 1) - 1 )
-        when s.DESCRIPTION like '% ROAD%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' ROAD', 1, 1) - 1 )
-        when s.DESCRIPTION like '% STREET%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' STREET', 1, 1) - 1 )
-        when s.DESCRIPTION like '% TRACK%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' TRACK', 1, 1) - 1 )
-        when s.DESCRIPTION like '% TERRACE%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' TERRACE', 1, 1) - 1 )
-        when s.DESCRIPTION like '% WALK%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' WALK', 1, 1) - 1 )
-        when s.DESCRIPTION like '% WAY%' then substr ( s.DESCRIPTION , 1 , INSTR(s.DESCRIPTION,' WAY', 1, 1) - 1 )
+        when s.DESCRIPTION like '% ROAD NORTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 11 )
+        when s.DESCRIPTION like '% ROAD SOUTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 11 )
+        when s.DESCRIPTION like '% ROAD EAST' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 10 )
+        when s.DESCRIPTION like '% ROAD WEST' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 10 )
+        when s.DESCRIPTION like '% ALLEY%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 6 )
+        when s.DESCRIPTION like '% AVENUE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 7 )
+        when s.DESCRIPTION like '% BOULEVARD%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 10 )
+        when s.DESCRIPTION like '% CIRCUIT%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 8 )
+        when s.DESCRIPTION like '% CLOSE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 6 )
+        when s.DESCRIPTION like '% CRESCENT%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 8 )
+        when s.DESCRIPTION like '% COURT%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 6 )
+        when s.DESCRIPTION like '% DRIVE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 6 )
+        when s.DESCRIPTION like '% ESPLANADE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 10 )
+        when s.DESCRIPTION like '% GROVE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 6 )
+        when s.DESCRIPTION like '% HWY%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 4 )
+        when s.DESCRIPTION like '% HIGHWAY%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 8 )
+        when s.DESCRIPTION like '% LANE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 5 )
+        when s.DESCRIPTION like '% PARADE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 7 )
+        when s.DESCRIPTION like '% PLACE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 6 )
+        when s.DESCRIPTION like '% RD%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 3 )
+        when s.DESCRIPTION like '% ROAD%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 5 )
+        when s.DESCRIPTION like '% STREET%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 7 )
+        when s.DESCRIPTION like '% TERRACE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 8 )
+        when s.DESCRIPTION like '% TRACK%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 6 )
+        when s.DESCRIPTION like '% WALK%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 5 )
+        when s.DESCRIPTION like '% WAY%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 4 )
         else s.DESCRIPTION
     end as road_name,
     case
+        when s.DESCRIPTION like '% ALLEY%' then 'ALLEY'
         when s.DESCRIPTION like '% AVENUE%' then 'AVENUE'
+        when s.DESCRIPTION like '% BOULEVARD%' then 'BOULEVARD'
         when s.DESCRIPTION like '% CIRCUIT%' then 'CIRCUIT'
         when s.DESCRIPTION like '% CLOSE%' then 'CLOSE'
         when s.DESCRIPTION like '% CRESCENT%' then 'CRESCENT'
@@ -119,11 +155,11 @@ select
         when s.DESCRIPTION like '% LANE%' then 'LANE'
         when s.DESCRIPTION like '% PARADE%' then 'PARADE'
         when s.DESCRIPTION like '% PLACE%' then 'PLACE'
+        when s.DESCRIPTION like '% RD%' then 'ROAD'
         when s.DESCRIPTION like '% ROAD%' then 'ROAD'
         when s.DESCRIPTION like '% STREET%' then 'STREET'
-        when s.DESCRIPTION like '% PARADE%' then 'PARADE'
         when s.DESCRIPTION like '% TERRACE%' then 'TERRACE'
-        when s.DESCRIPTION like '% TRACK%' then 'TRACE'
+        when s.DESCRIPTION like '% TRACK%' then 'TRACK'
         when s.DESCRIPTION like '% WALK%' then 'WALK'
         when s.DESCRIPTION like '% WAY%' then 'WAY'
         else ''
@@ -135,8 +171,8 @@ select
         when s.DESCRIPTION like '% WEST' then 'W'
         else ''
     end as road_suffix,
-    '' as locality_name,
-    '' as postcode,
+    a.ASS_CITY as locality_name,
+    a.ASS_PCODE as postcode,
     '' as access_type,
     '' as easting,
     '' as northing,
@@ -153,3 +189,6 @@ where
     a.ASS_STREET_ID = s.STREET_ID and
     p.ASS_INTERNAL_ID = a.ASS_INTERNAL_ID and
     p.DELETE_FLAG is null
+)
+)
+)
