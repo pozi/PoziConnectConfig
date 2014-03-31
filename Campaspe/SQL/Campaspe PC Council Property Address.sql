@@ -110,7 +110,8 @@ select
         else ''
     end as house_number_2,
     '' as house_suffix_2,
-    case
+    trim ( case
+        when s.DESCRIPTION like '% GROVE ROAD' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 5 )
         when s.DESCRIPTION like '% ROAD NORTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 11 )
         when s.DESCRIPTION like '% ROAD SOUTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 11 )
         when s.DESCRIPTION like '% ROAD EAST' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 10 )
@@ -120,7 +121,7 @@ select
         when s.DESCRIPTION like '% BOULEVARD%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 10 )
         when s.DESCRIPTION like '% CIRCUIT%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 8 )
         when s.DESCRIPTION like '% CLOSE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 6 )
-        when s.DESCRIPTION like '% CRESCENT%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 8 )
+        when s.DESCRIPTION like '% CRESCENT%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 9 )
         when s.DESCRIPTION like '% COURT%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 6 )
         when s.DESCRIPTION like '% DRIVE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 6 )
         when s.DESCRIPTION like '% ESPLANADE%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 10 )
@@ -138,30 +139,30 @@ select
         when s.DESCRIPTION like '% WALK%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 5 )
         when s.DESCRIPTION like '% WAY%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 4 )
         else s.DESCRIPTION
-    end as road_name,
+    end ) as road_name,
     case
-        when s.DESCRIPTION like '% ALLEY%' then 'ALLEY'
-        when s.DESCRIPTION like '% AVENUE%' then 'AVENUE'
-        when s.DESCRIPTION like '% BOULEVARD%' then 'BOULEVARD'
-        when s.DESCRIPTION like '% CIRCUIT%' then 'CIRCUIT'
-        when s.DESCRIPTION like '% CLOSE%' then 'CLOSE'
-        when s.DESCRIPTION like '% CRESCENT%' then 'CRESCENT'
-        when s.DESCRIPTION like '% COURT%' then 'COURT'
-        when s.DESCRIPTION like '% DRIVE%' then 'DRIVE'
-        when s.DESCRIPTION like '% ESPLANADE%' then 'ESPLANADE'
-        when s.DESCRIPTION like '% GROVE%' then 'GROVE'
-        when s.DESCRIPTION like '% HWY%' then 'HIGHWAY'
-        when s.DESCRIPTION like '% HIGHWAY%' then 'HIGHWAY'
-        when s.DESCRIPTION like '% LANE%' then 'LANE'
-        when s.DESCRIPTION like '% PARADE%' then 'PARADE'
-        when s.DESCRIPTION like '% PLACE%' then 'PLACE'
+        when s.DESCRIPTION like '% ALLEY' then 'ALLEY'
+        when s.DESCRIPTION like '% AVENUE' then 'AVENUE'
+        when s.DESCRIPTION like '% BOULEVARD' then 'BOULEVARD'
+        when s.DESCRIPTION like '% CIRCUIT' then 'CIRCUIT'
+        when s.DESCRIPTION like '% CLOSE' then 'CLOSE'
+        when s.DESCRIPTION like '% CRESCENT' then 'CRESCENT'
+        when s.DESCRIPTION like '% COURT' then 'COURT'
+        when s.DESCRIPTION like '% DRIVE' then 'DRIVE'
+        when s.DESCRIPTION like '% ESPLANADE' then 'ESPLANADE'
+        when s.DESCRIPTION like '% GROVE' then 'GROVE'
+        when s.DESCRIPTION like '% HWY' then 'HIGHWAY'
+        when s.DESCRIPTION like '% HIGHWAY' then 'HIGHWAY'
+        when s.DESCRIPTION like '% LANE' then 'LANE'
+        when s.DESCRIPTION like '% PARADE' then 'PARADE'
+        when s.DESCRIPTION like '% PLACE' then 'PLACE'
         when s.DESCRIPTION like '% RD%' then 'ROAD'
         when s.DESCRIPTION like '% ROAD%' then 'ROAD'
-        when s.DESCRIPTION like '% STREET%' then 'STREET'
-        when s.DESCRIPTION like '% TERRACE%' then 'TERRACE'
-        when s.DESCRIPTION like '% TRACK%' then 'TRACK'
-        when s.DESCRIPTION like '% WALK%' then 'WALK'
-        when s.DESCRIPTION like '% WAY%' then 'WAY'
+        when s.DESCRIPTION like '% STREET' then 'STREET'
+        when s.DESCRIPTION like '% TERRACE' then 'TERRACE'
+        when s.DESCRIPTION like '% TRACK' then 'TRACK'
+        when s.DESCRIPTION like '% WALK' then 'WALK'
+        when s.DESCRIPTION like '% WAY' then 'WAY'
         else ''
     end as road_type,
     case
