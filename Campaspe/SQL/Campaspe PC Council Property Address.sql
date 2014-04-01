@@ -111,6 +111,7 @@ select
     end as house_number_2,
     '' as house_suffix_2,
     replace ( trim ( case
+        when s.DESCRIPTION =  'THE AVENUE' then 'THE AVENUE'
         when s.DESCRIPTION like '% ROAD NTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 9 )
         when s.DESCRIPTION like '% ROAD NORTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 11 )
         when s.DESCRIPTION like '% ROAD SOUTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 11 )
@@ -141,6 +142,7 @@ select
         else s.DESCRIPTION
     end ) , '''' , '' ) as road_name,
     case
+        when s.DESCRIPTION =  'THE AVENUE' then ''
         when s.DESCRIPTION like '% ALLEY' then 'ALLEY'
         when s.DESCRIPTION like '% AVENUE' then 'AVENUE'
         when s.DESCRIPTION like '% BOULEVARD' then 'BOULEVARD'
