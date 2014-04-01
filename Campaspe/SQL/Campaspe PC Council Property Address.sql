@@ -112,6 +112,7 @@ select
     '' as house_suffix_2,
     replace ( trim ( case
         when s.DESCRIPTION like '% GROVE ROAD' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 5 )
+        when s.DESCRIPTION like '% ROAD NTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 9 )
         when s.DESCRIPTION like '% ROAD NORTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 11 )
         when s.DESCRIPTION like '% ROAD SOUTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 11 )
         when s.DESCRIPTION like '% ROAD EAST' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 10 )
@@ -166,7 +167,7 @@ select
         else ''
     end as road_type,
     case
-        when s.DESCRIPTION like '% NORTH' then 'N'
+        when s.DESCRIPTION like '% NORTH' or s.DESCRIPTION like '% NTH' then 'N'
         when s.DESCRIPTION like '% SOUTH' then 'S'
         when s.DESCRIPTION like '% EAST' then 'E'
         when s.DESCRIPTION like '% WEST' then 'W'
