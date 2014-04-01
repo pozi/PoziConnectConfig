@@ -110,7 +110,7 @@ select
         else ''
     end as house_number_2,
     '' as house_suffix_2,
-    trim ( case
+    replace ( trim ( case
         when s.DESCRIPTION like '% GROVE ROAD' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 5 )
         when s.DESCRIPTION like '% ROAD NORTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 11 )
         when s.DESCRIPTION like '% ROAD SOUTH' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 11 )
@@ -139,7 +139,7 @@ select
         when s.DESCRIPTION like '% WALK%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 5 )
         when s.DESCRIPTION like '% WAY%' then substr ( s.DESCRIPTION , 1 , length ( s.DESCRIPTION ) - 4 )
         else s.DESCRIPTION
-    end ) as road_name,
+    end ) , '''' , '' ) as road_name,
     case
         when s.DESCRIPTION like '% ALLEY' then 'ALLEY'
         when s.DESCRIPTION like '% AVENUE' then 'AVENUE'
