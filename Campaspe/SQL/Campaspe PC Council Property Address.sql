@@ -35,48 +35,58 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
+        when a.ASS_HOUSE_NO_PREFIX like 'APT%' then 'APT'
+        when a.ASS_HOUSE_NO_PREFIX like 'FCTY%' then 'FCTY'
         when a.ASS_HOUSE_NO_PREFIX like 'FACTORY%' then 'FCTY'
         when a.ASS_HOUSE_NO_PREFIX like 'FLAT%' then 'FLAT'
         when a.ASS_HOUSE_NO_PREFIX like 'HALL%' then 'HALL'
+        when a.ASS_HOUSE_NO_PREFIX like 'OFFC%' then 'OFFC'
         when a.ASS_HOUSE_NO_PREFIX like 'OFFICE%' then 'OFFC'
         when a.ASS_HOUSE_NO_PREFIX like 'SHED%' then 'SHED'
         when a.ASS_HOUSE_NO_PREFIX like 'SHOP%' then 'SHOP'
         when a.ASS_HOUSE_NO_PREFIX like 'SILO%' then 'SILO'
         when a.ASS_HOUSE_NO_PREFIX like 'SUITE%' then 'SE'
+        when a.ASS_HOUSE_NO_PREFIX like 'TNHS%' then 'TNHS'
         when a.ASS_HOUSE_NO_PREFIX like 'UNIT%' then 'UNIT'
         else ''
     end as blg_unit_type,
-    '' as blg_unit_prefix_1,
+    case
+        when upper(substr(a.ASS_HOUSE_NO_PREFIX, 1)) between 'A' and 'Z' and upper(substr(a.ASS_HOUSE_NO_PREFIX, -1)) between 'A' and 'Z' then upper ( a.ASS_HOUSE_NO_PREFIX )
+        else ''
+    end as blg_unit_prefix_1,
     case
         when a.ASS_HOUSE_NO_PREFIX in ( 'ABOVE' , 'OFF' , '(OFF)' , 'REAR' , 'UPPER' , 'UPSTAIRS' ) then ''
+        when a.ASS_HOUSE_NO_PREFIX like 'APT%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 4))
+        when a.ASS_HOUSE_NO_PREFIX like 'FCTY%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5))
         when a.ASS_HOUSE_NO_PREFIX like 'FACTORY%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 8))
         when a.ASS_HOUSE_NO_PREFIX like 'FLAT%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5))
         when a.ASS_HOUSE_NO_PREFIX like 'HALL%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5))
+        when a.ASS_HOUSE_NO_PREFIX like 'OFFC%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5))
         when a.ASS_HOUSE_NO_PREFIX like 'OFFICE%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 7))
         when a.ASS_HOUSE_NO_PREFIX like 'SHED%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5))
         when a.ASS_HOUSE_NO_PREFIX like 'SHOP%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5))
         when a.ASS_HOUSE_NO_PREFIX like 'SILO%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5))
         when a.ASS_HOUSE_NO_PREFIX like 'SUITE%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 6))
+        when a.ASS_HOUSE_NO_PREFIX like 'TNHS%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5))
         when a.ASS_HOUSE_NO_PREFIX like 'UNIT%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5))
+        when upper(substr(a.ASS_HOUSE_NO_PREFIX, 1)) between 'A' and 'Z' then ''
         when upper(substr(a.ASS_HOUSE_NO_PREFIX, -1)) between 'A' and 'Z' then substr(a.ASS_HOUSE_NO_PREFIX,1,length(a.ASS_HOUSE_NO_PREFIX)-1)
-        when a.ASS_HOUSE_NO_PREFIX like '%-%' then 'XXXX'
-        when a.ASS_HOUSE_NO_PREFIX like '%&%' then 'XXXX'
+        when substr ( a.ASS_HOUSE_NO_PREFIX , 2 , 1 ) in ( '-' , '&' ) then substr ( a.ASS_HOUSE_NO_PREFIX , 1 , 1 )
         else ifnull ( a.ASS_HOUSE_NO_PREFIX , '' )
     end as blg_unit_id_1,
     case
         when a.ASS_HOUSE_NO_PREFIX in ( 'ABOVE' , 'OFF' , '(OFF)' , 'REAR' , 'UPPER' , 'UPSTAIRS' ) then ''
-        when upper(substr(a.ASS_HOUSE_NO_PREFIX, -1)) between 'A' and 'Z' then upper(substr(a.ASS_HOUSE_NO_PREFIX, -1))
+        when upper(substr(a.ASS_HOUSE_NO_PREFIX, 1)) not between 'A' and 'Z' and upper(substr(a.ASS_HOUSE_NO_PREFIX, -1)) between 'A' and 'Z' then upper(substr(a.ASS_HOUSE_NO_PREFIX, -1))
         else ''
     end as blg_unit_suffix_1,
      '' as blg_unit_prefix_2,
     case
-        when a.ASS_HOUSE_NO_PREFIX like '%-%' then 'XXXX'
-        when a.ASS_HOUSE_NO_PREFIX like '%&%' then 'XXXX'
+        when substr ( a.ASS_HOUSE_NO_PREFIX , 2 , 1 ) in ( '-' , '&' ) then substr ( a.ASS_HOUSE_NO_PREFIX , 3 , 99 )
         else ''
     end as blg_unit_id_2,
     '' as blg_unit_suffix_2,
     case
-        when a.ASS_HOUSE_NO_PREFIX like 'GROUND%' then 'GND'
+        when a.ASS_HOUSE_NO_PREFIX like 'GROUND%' then 'G'
         else ''
     end as floor_type,
     '' as floor_prefix_1,
