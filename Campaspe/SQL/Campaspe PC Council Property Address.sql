@@ -35,7 +35,7 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
-        when a.ASS_HOUSE_NO_PREFIX like 'FACTORY%' then 'FACT'
+        when a.ASS_HOUSE_NO_PREFIX like 'FACTORY%' then 'FCTY'
         when a.ASS_HOUSE_NO_PREFIX like 'FLAT%' then 'FLAT'
         when a.ASS_HOUSE_NO_PREFIX like 'HALL%' then 'HALL'
         when a.ASS_HOUSE_NO_PREFIX like 'OFFICE%' then 'OFFC'
