@@ -44,6 +44,8 @@ select
     address.add_class as address_class,
     address.accesstype as access_type,
     address.out_prop as outside_property,
+    ifnull ( address.road_name , '' ) || rtrim ( ' ' || ifnull ( address.road_type , '' ) ) || rtrim ( ' ' || ifnull ( address.rd_suf , '' ) ) as road_name_combined,
+    ifnull ( address.road_name , '' ) || rtrim ( ' ' || ifnull ( address.road_type , '' ) ) || rtrim ( ' ' || ifnull ( address.rd_suf , '' ) ) || rtrim ( ' ' || locality ) as road_locality,
     property.geometry as geometry
 from
     vmprop_property_mp property,   
