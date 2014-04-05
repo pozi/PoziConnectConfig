@@ -92,9 +92,9 @@ select
     '' as complex_name,
     case
         when a.ASS_HOUSE_NO_PREFIX in ( 'OFF' , '(OFF)' ) then 'OFF'
-        when a.ASS_HOUSE_NO_PREFIX in ( 'ABOVE' , 'REAR' , 'UPPER' , 'UPSTAIRS' ) then a.ASS_HOUSE_NO_PREFIX
+        when a.ASS_HOUSE_NO_PREFIX in ( 'ABOVE' , 'REAR' ) then a.ASS_HOUSE_NO_PREFIX
         when a.ASS_HOUSE_NO_SUFFIX in ( 'OFF' , '(OFF)' ) then 'OFF'
-        when a.ASS_HOUSE_NO_SUFFIX in ( 'ABOVE' , 'REAR' , 'UPPER' , 'UPSTAIRS' ) then a.ASS_HOUSE_NO_SUFFIX
+        when a.ASS_HOUSE_NO_SUFFIX in ( 'ABOVE' , 'REAR' ) then a.ASS_HOUSE_NO_SUFFIX
         else ''
     end as location_descriptor,
     '' as house_prefix_1,
@@ -105,8 +105,8 @@ select
     end as house_suffix_1,
     '' as house_prefix_2,
     case
-        when a.ASS_HOUSE_NO_SUFFIX like '-%' then substr ( a.ASS_HOUSE_NO_SUFFIX , 2 , 99 )
-        when a.ASS_HOUSE_NO_SUFFIX like '&%' then substr ( a.ASS_HOUSE_NO_SUFFIX , 2 , 99 )
+        when replace ( a.ASS_HOUSE_NO_SUFFIX , ' ' , '' ) like '-%' then substr ( replace ( a.ASS_HOUSE_NO_SUFFIX , ' ' , '' ) , 2 , 99 )
+        when replace ( a.ASS_HOUSE_NO_SUFFIX , ' ' , '' ) like '&%' then substr ( replace ( a.ASS_HOUSE_NO_SUFFIX , ' ' , '' ) , 2 , 99 )
         else ''
     end as house_number_2,
     '' as house_suffix_2,
