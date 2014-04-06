@@ -22,16 +22,17 @@ select
         when township_code not in ( '' , '9999' ) and ( cast ( township_code as integer ) < 5000 or cast ( township_code as integer ) > 5999 ) then 'Invalid: township number not in valid range'
         else ''
     end as council_parcel_desc_validity,
-    ifnull ( ( select num_props from PC_Council_Parcel_Property_Count cppc where cppc.spi = cp.spi ) , 0 ) as num_council_props,
-    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as parcel_desc_match_in_vicmap,
+    ifnull ( ( select num_props from pc_council_parcel_property_count cppc where cppc.spi = cp.spi ) , 0 ) as num_council_props,
+    ifnull ( ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) , 0 ) as num_vicmap_props,
     ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi ) , 0 ) as parcel_desc_match_in_council,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as parcel_desc_match_in_vicmap,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi ) , 0 ) as parcel_desc_partial_match_in_vicmap,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alternative_parcel_desc_match_in_vicmap,
-    ifnull ( ( select num_props from PC_Vicmap_Parcel_Property_Count vppc where vppc.spi = cp.spi ) , 0 ) as num_vicmap_props,
-    ifnull ( ( select crefno from PC_Vicmap_Parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
-    case ( select num_props from PC_Vicmap_Parcel_Property_Count vppc where vppc.spi = cp.spi )
+    ifnull ( ( select spi from pc_vicmap_parcel vp where vp.spi <> cp.spi and vp.propnum = cp.propnum and vp.crefno = cp.crefno and ( vp.crefno <> '' or vp.spi in ( select spi from pc_vicmap_parcel_property_parcel_count vpppc where num_parcels_in_prop = 1 ) ) ) , '' ) as suggested_parcel_desc,
+    ifnull ( ( select crefno from pc_vicmap_parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
+    case ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi )
         when 0 then '(none)'
-        when 1 then ( select propnum from PC_Vicmap_Parcel vp where vp.spi = cp.spi )
+        when 1 then ( select propnum from pc_vicmap_parcel vp where vp.spi = cp.spi )
         else '(multiple)'
     end as vicmap_propnum,
     ifnull ( ( select edit_code from M1 where m1.spi = cp.spi limit 1 ) , '' ) as current_m1
