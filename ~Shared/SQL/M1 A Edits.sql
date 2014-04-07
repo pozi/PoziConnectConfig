@@ -37,10 +37,10 @@ select
     '' as house_suffix_2,
     '' as access_type,
     '' as new_road,
-    '' as road_name,
-    '' as road_type,
-    '' as road_suffix,
-    '' as locality_name,
+    ( select road_name from pc_vicmap_property_address vpa where vpa.property_pfi = cpx.property_pfi limit 1 ) as road_name,
+    ( select road_type from pc_vicmap_property_address vpa where vpa.property_pfi = cpx.property_pfi limit 1 ) as road_type,
+    ( select road_suffix from pc_vicmap_property_address vpa where vpa.property_pfi = cpx.property_pfi limit 1 ) as road_suffix,
+    ( select locality_name from pc_vicmap_property_address vpa where vpa.property_pfi = cpx.property_pfi limit 1 ) as locality_name,
     '' as distance_related_flag,
     '' as is_primary,
     '' as easting,
@@ -76,4 +76,4 @@ where
     cp.spi in ( select vp.spi from pc_vicmap_parcel vp where vp.propnum in ( select propnum from pc_council_parcel ) ) and
     cp.propnum not in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) and
     cp.plan_number <> ''
-)
+) as cpx

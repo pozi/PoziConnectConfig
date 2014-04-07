@@ -37,10 +37,10 @@ select
     '' as house_suffix_2,
     '' as access_type,
     '' as new_road,
-    '' as road_name,
-    '' as road_type,
-    '' as road_suffix,
-    '' as locality_name,
+    road_name,
+    road_type,
+    road_suffix,
+    locality_name,
     '' as distance_related_flag,
     '' as is_primary,
     '' as easting,
@@ -71,10 +71,14 @@ select
     end as lot_number,
     '' as propnum,
     '' as base_propnum,
+    ( select road_name from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi limit 1 ) as road_name,
+    ( select road_type from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi limit 1 ) as road_type,
+    ( select road_suffix from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi limit 1 ) as road_suffix,
+    ( select locality_name from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi limit 1 ) as locality_name,
     case
         when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then 'multi-parcel property'        
         else 'parcel ' || vp.spi        
-    end || ': removing propnum ' || vp.propnum || ' and associated address' as comments
+    end || ': removing propnum ' || vp.propnum as comments
 from
     pc_vicmap_parcel vp
 where
