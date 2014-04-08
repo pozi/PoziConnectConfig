@@ -35,6 +35,7 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
+        when a.ASS_HOUSE_NO_PREFIX like 'NEW%' then 'UNIT'
         when a.ASS_HOUSE_NO_PREFIX like 'APT%' then 'APT'
         when a.ASS_HOUSE_NO_PREFIX like 'FCTY%' then 'FCTY'
         when a.ASS_HOUSE_NO_PREFIX like 'FACTORY%' then 'FCTY'
@@ -53,6 +54,7 @@ select
     '' blg_unit_prefix_1,
     case
         when a.ASS_HOUSE_NO_PREFIX in ( 'ABOVE' , 'FLAT' , 'OFF' , 'REAR' , 'UNIT' , 'UPPER' , 'UPSTAIRS' ) then ''
+        when a.ASS_HOUSE_NO_PREFIX like 'NEW%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 4))
         when a.ASS_HOUSE_NO_PREFIX like 'APT%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 4))
         when a.ASS_HOUSE_NO_PREFIX like 'FCTY%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5))
         when a.ASS_HOUSE_NO_PREFIX like 'FACTORY%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 8))
@@ -72,6 +74,7 @@ select
         else ifnull ( a.ASS_HOUSE_NO_PREFIX , '' )
     end as blg_unit_id_1,
     case
+        when a.ASS_HOUSE_NO_PREFIX like 'NEW%' then 'N'
         when a.ASS_HOUSE_NO_PREFIX in ( 'ABOVE' , 'OFF' , '(OFF)' , 'REAR' , 'UPPER' , 'UPSTAIRS' ) then ''
         when upper(substr(a.ASS_HOUSE_NO_PREFIX, 1)) not between 'A' and 'Z' and upper(substr(a.ASS_HOUSE_NO_PREFIX, -1)) between 'A' and 'Z' then upper(substr(a.ASS_HOUSE_NO_PREFIX, -1))
         else ''
