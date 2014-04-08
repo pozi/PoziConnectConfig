@@ -66,7 +66,7 @@ where
     ( propnum in ( select propnum from pc_vicmap_property_address ) or
       propnum in ( select propnum from m1_p_edits ) or
       propnum in ( select propnum from m1_a_edits ) ) and
-    not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' )
+    not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' ) , '' )
 group by propnum
 
 union

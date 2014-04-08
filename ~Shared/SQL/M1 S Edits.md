@@ -68,7 +68,7 @@ Include only properties that 1) already exist in Vicmap; 2) will appear in a P e
 Exclude properties where the only difference between the Council and Vicmap address is a hyphen or an apostrophe.
 
 ```sql
-not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' )
+not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' ) , '' )
 ```
 
 Generate only one record per property.
