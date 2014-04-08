@@ -35,7 +35,8 @@ select
         when 1 then ( select propnum from pc_vicmap_parcel vp where vp.spi = cp.spi )
         else '(multiple)'
     end as vicmap_propnum,
-    ifnull ( ( select edit_code from M1 where m1.spi = cp.spi limit 1 ) , '' ) as current_m1,
+    ifnull ( ( select edit_code from M1 where m1.spi = cp.spi limit 1 ) , '' ) as current_m1_edit_code,
+    ifnull ( ( select comments from M1 where m1.spi = cp.spi limit 1 ) , '' ) as current_m1_comments,
     cp.*
 from PC_Council_Parcel cp
 where spi <> ''
