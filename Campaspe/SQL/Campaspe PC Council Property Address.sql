@@ -101,8 +101,8 @@ select
     '' as building_name,
     '' as complex_name,
     case
-        when upper ( a.ASS_HOUSE_NO_PREFIX ) in ( 'ABOVE' , 'OFF' , 'REAR' ) then a.ASS_HOUSE_NO_PREFIX
-        when upper ( a.ASS_HOUSE_NO_SUFFIX ) in ( 'ABOVE' , 'OFF' , 'REAR' ) then a.ASS_HOUSE_NO_SUFFIX
+        when upper ( a.ASS_HOUSE_NO_PREFIX ) in ( 'ABOVE' , 'OFF' , 'REAR' ) then upper ( a.ASS_HOUSE_NO_PREFIX )
+        when upper ( a.ASS_HOUSE_NO_SUFFIX ) in ( 'ABOVE' , 'OFF' , 'REAR' ) then upper ( a.ASS_HOUSE_NO_SUFFIX )
         else ''
     end as location_descriptor,
     '' as house_prefix_1,
