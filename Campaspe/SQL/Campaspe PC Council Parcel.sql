@@ -40,7 +40,7 @@ select
     cast ( cast ( P.ASS_INTERNAL_ID as integer ) as varchar ) as propnum,
     '' as status,
     '' as crefno,
-    ifnull ( L.SPI_REF , '' ) as summary,
+    ifnull ( upper ( L.SPI_REF ) , '' ) as summary,
     ifnull ( upper ( L.PART_PARCEL ) , '' ) as part,
     case
         when substr ( L.PLAN_REF , 1 , 2 ) = '00' then substr ( L.PLAN_REF , 3 , 99 )
