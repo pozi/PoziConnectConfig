@@ -10,7 +10,8 @@ select
         when plan_numeral like '0%' then 'Invalid: plan number contains leading zero'
         when plan_numeral <> '' and substr ( plan_numeral , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then 'Invalid: plan number contains suffix letter'
         when lot_number like '%&%' or lot_number like '% %' or lot_number like '%-%' then 'Invalid: lot number contains invalid character'
-        when not ( spi like 'CP%' or spi like '%\CS%' or spi like '%\LP%' or spi like 'PC%' or spi like '%\PP%' or spi like '%\PS%' or spi like '%\RP%' or spi like '%\SP%' or spi like '%TP%' ) then 'Invalid: plan number format not recognised'
+        when plan_prefix in ( 'CS' , 'LP' , 'PS' , 'RP' , 'SP' ) and lot_number = '' then 'Invalid: lot number missing for ' || plan_prefix
+        when plan_prefix in ( 'CP' , 'PC' ) and lot_number <> '' then 'Invalid: lot number not valid for ' || plan_prefix
         when plan_prefix = 'CP' and not ( ( 100000 <= cast ( plan_numeral as integer ) <= 109999 ) or ( 150000 <= plan_numeral <= 199999 ) ) then 'Invalid: plan number not in CP valid range'
         when plan_prefix = 'CS' and not ( 1000 <= cast ( plan_numeral as integer ) <= 10000 ) then 'Invalid: plan number not in CS valid range'
         when plan_prefix = 'LP' and not ( ( 1 <= cast ( plan_numeral as integer ) <= 99999 ) or ( 110000 <= cast ( plan_numeral as integer ) <= 149999 ) or ( 200000 <= cast ( plan_numeral as integer ) <= 299999 ) ) then 'Invalid: plan number not in LP valid range'
