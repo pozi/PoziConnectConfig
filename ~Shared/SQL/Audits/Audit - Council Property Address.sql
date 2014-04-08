@@ -57,6 +57,7 @@ select
         else 'N'
     end as locality_match_in_vicmap,
     ifnull ( ( select edit_code from m1 where m1.propnum = cpa.propnum limit 1 ) , '' ) as current_m1_edit_code,
-    ifnull ( ( select comments from m1 where m1.propnum = cpa.propnum limit 1 ) , '' ) as current_m1_comments
+    ifnull ( ( select comments from m1 where m1.propnum = cpa.propnum limit 1 ) , '' ) as current_m1_comments,
+    cpa.*
 from pc_council_property_address cpa
 order by address_validity desc
