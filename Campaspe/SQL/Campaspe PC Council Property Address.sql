@@ -50,12 +50,9 @@ select
         when a.ASS_HOUSE_NO_PREFIX like 'UNIT%' then 'UNIT'
         else ''
     end as blg_unit_type,
+    '' blg_unit_prefix_1,
     case
-        when upper(substr(a.ASS_HOUSE_NO_PREFIX, 1)) between 'A' and 'Z' and upper(substr(a.ASS_HOUSE_NO_PREFIX, -1)) between 'A' and 'Z' then upper ( a.ASS_HOUSE_NO_PREFIX )
-        else ''
-    end as blg_unit_prefix_1,
-    case
-        when a.ASS_HOUSE_NO_PREFIX in ( 'ABOVE' , 'OFF' , '(OFF)' , 'REAR' , 'UPPER' , 'UPSTAIRS' ) then ''
+        when a.ASS_HOUSE_NO_PREFIX in ( 'ABOVE' , 'FLAT' , 'OFF' , 'REAR' , 'UNIT' , 'UPPER' , 'UPSTAIRS' ) then ''
         when a.ASS_HOUSE_NO_PREFIX like 'APT%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 4))
         when a.ASS_HOUSE_NO_PREFIX like 'FCTY%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5))
         when a.ASS_HOUSE_NO_PREFIX like 'FACTORY%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 8))
