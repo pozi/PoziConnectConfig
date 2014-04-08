@@ -107,7 +107,7 @@ select
     '' as house_prefix_1,
     ifnull ( cast ( cast ( a.ASS_HOUSE_NUMBER as integer ) as varchar ) , '' ) as house_number_1,
     case
-        when a.ASS_HOUSE_NO_SUFFIX like '-%' then ''
+        when length ( a.ASS_HOUSE_NO_SUFFIX ) > 1 then ''
         else ifnull ( a.ASS_HOUSE_NO_SUFFIX , '' )
     end as house_suffix_1,
     '' as house_prefix_2,
