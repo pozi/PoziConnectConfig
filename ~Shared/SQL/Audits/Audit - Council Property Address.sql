@@ -38,6 +38,7 @@ select
         else ''
     end as address_validity,
     ifnull ( ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cpa.propnum ) , 0 ) as num_parcels_in_council,
+    ifnull ( ( select count(*) from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , 0 ) as property_in_vicmap,
     ifnull ( ( select vppc.num_parcels from pc_vicmap_property_parcel_count vppc where vppc.propnum = cpa.propnum ) , 0 ) as num_parcels_in_vicmap,
     ifnull ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) , '' ) as vicmap_address,
     ifnull ( ( select vpa.locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) , '' ) as vicmap_locality,
