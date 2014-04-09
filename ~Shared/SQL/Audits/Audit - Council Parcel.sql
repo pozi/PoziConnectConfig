@@ -29,7 +29,17 @@ select
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as parcel_desc_match_in_vicmap,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi and vp.spi <> cp.spi) , 0 ) as parcel_desc_partial_match_in_vicmap,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alternative_parcel_desc_match_in_vicmap,
-    ifnull ( ( select spi from pc_vicmap_parcel vp where vp.spi <> cp.spi and vp.propnum = cp.propnum and ( vp.crefno = cp.crefno or vp.spi in ( select spi from pc_vicmap_parcel_property_parcel_count vpppc where num_parcels_in_prop = 1 ) ) ) , '' ) as suggested_parcel_desc,
+    case
+        when cp.spi not in ( select spi from pc_vicmap_parcel ) then
+            case
+                when cp.simple_spi in ( select simple_spi from pc_vicmap_parcel ) then ( select spi from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi )
+                when cp.crefno <> '' and cp.crefno in ( select crefno from pc_vicmap_parcel ) then ( select spi from pc_vicmap_parcel vp where vp.crefno = cp.crefno )
+                when ( select num_parcels from pc_vicmap_property_parcel_count vpppc where vpppc.propnum = cp.propnum ) = 1 then ( select spi from pc_vicmap_parcel vp where vp.propnum = cp.propnum )
+                else ''
+            end
+        else ''
+    end as suggested_parcel_desc_beta,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.propnum = cp.propnum ) , 0 ) as propnum_in_vicmap,
     ifnull ( ( select crefno from pc_vicmap_parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
     case ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi )
         when 0 then '(none)'
