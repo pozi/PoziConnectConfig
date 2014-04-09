@@ -47,7 +47,7 @@ select
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
         else ifnull ( substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_numeral,
-    ifnull ( L.lot , '' ) as lot_number,
+    ifnull ( replace ( L.lot , ' ' , '' ) , '' ) as lot_number,
     ifnull ( L.text3,'') as allotment,
     ifnull ( replace ( L.parish_section , 'NO' , '' ) , '' ) as sec,
     '' as block,
