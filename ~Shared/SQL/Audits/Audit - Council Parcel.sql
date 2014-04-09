@@ -5,8 +5,7 @@ select
     summary as council_summary,
     status as council_status,
     case
-        when plan_numeral like '0%' then 'Invalid: plan number contains leading zero (' || plan_number || ')'
-        when plan_numeral <> '' and substr ( plan_numeral , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then 'Invalid: plan number contains suffix letter (' || plan_number || ')'
+        when plan_numeral <> '' and substr ( plan_numeral , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then 'Invalid: plan number contains invalid character (' || plan_number || ')'
         when lot_number like '%&%' or lot_number like '% %' or lot_number like '%-%' then 'Invalid: lot number contains invalid character (' || lot_number || ')'
         when plan_prefix in ( 'CS' , 'LP' , 'PS' , 'RP' , 'SP' ) and lot_number = '' then 'Invalid: lot number missing for ' || plan_prefix
         when plan_prefix in ( 'CP' , 'PC' ) and lot_number <> '' then 'Invalid: lot number not valid for ' || plan_prefix
@@ -19,6 +18,7 @@ select
         when plan_prefix = 'SP' and not ( 19927 <= cast ( plan_numeral as integer ) <= 40000 ) then 'Invalid: plan number not in valid range for SP (' || plan_number || ')'
         when parish_code <> '' and ( cast ( parish_code as integer ) < 2000 or cast ( parish_code as integer ) > 3999 ) then 'Invalid: parish number not in valid range (' || parish_code || ')'
         when township_code not in ( '' , '9999' ) and ( cast ( township_code as integer ) < 5000 or cast ( township_code as integer ) > 5999 ) then 'Invalid: township number not in valid range (' || township_code || ')'
+        when plan_numeral like '0%' then 'Invalid: plan number contains leading zero (' || plan_number || ')'
         when spi like '\PP%' then 'Invalid: allotment missing for crown description'
         when spi like '\%' or length ( spi ) < 5 then 'Invalid: plan number format not recognised'
         else ''
