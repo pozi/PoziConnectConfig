@@ -5,8 +5,6 @@ select
     summary as council_summary,
     status as council_status,
     case
-        when spi like '\%' then 'Invalid: plan number format not recognised'
-        when length ( spi ) < 5 then 'Invalid: plan number format not recognised'
         when plan_numeral like '0%' then 'Invalid: plan number contains leading zero'
         when plan_numeral <> '' and substr ( plan_numeral , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then 'Invalid: plan number contains suffix letter'
         when lot_number like '%&%' or lot_number like '% %' or lot_number like '%-%' then 'Invalid: lot number contains invalid character'
@@ -21,6 +19,8 @@ select
         when plan_prefix = 'SP' and not ( 19927 <= cast ( plan_numeral as integer ) <= 40000 ) then 'Invalid: plan number not in valid range for SP'
         when parish_code <> '' and ( cast ( parish_code as integer ) < 2000 or cast ( parish_code as integer ) > 3999 ) then 'Invalid: parish number not in valid range'
         when township_code not in ( '' , '9999' ) and ( cast ( township_code as integer ) < 5000 or cast ( township_code as integer ) > 5999 ) then 'Invalid: township number not in valid range'
+        when spi like '\PP%' then 'Invalid: allotment missing for crown description'
+        when spi like '\%' or length ( spi ) < 5 then 'Invalid: plan number format not recognised'
         else ''
     end as council_parcel_desc_validity,
     ifnull ( ( select num_props from pc_council_parcel_property_count cppc where cppc.spi = cp.spi ) , 0 ) as num_council_props,
