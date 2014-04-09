@@ -5,20 +5,20 @@ select
     summary as council_summary,
     status as council_status,
     case
-        when plan_numeral like '0%' then 'Invalid: plan number contains leading zero'
-        when plan_numeral <> '' and substr ( plan_numeral , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then 'Invalid: plan number contains suffix letter'
-        when lot_number like '%&%' or lot_number like '% %' or lot_number like '%-%' then 'Invalid: lot number contains invalid character'
+        when plan_numeral like '0%' then 'Invalid: plan number contains leading zero (' || plan_number || ')'
+        when plan_numeral <> '' and substr ( plan_numeral , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then 'Invalid: plan number contains suffix letter (' || plan_number || ')'
+        when lot_number like '%&%' or lot_number like '% %' or lot_number like '%-%' then 'Invalid: lot number contains invalid character (' || lot_number || ')'
         when plan_prefix in ( 'CS' , 'LP' , 'PS' , 'RP' , 'SP' ) and lot_number = '' then 'Invalid: lot number missing for ' || plan_prefix
         when plan_prefix in ( 'CP' , 'PC' ) and lot_number <> '' then 'Invalid: lot number not valid for ' || plan_prefix
-        when plan_prefix = 'CP' and not ( ( 100000 <= cast ( plan_numeral as integer ) <= 109999 ) or ( 150000 <= plan_numeral <= 199999 ) ) then 'Invalid: plan number not in valid range for CP'
-        when plan_prefix = 'CS' and not ( 1000 <= cast ( plan_numeral as integer ) <= 10000 ) then 'Invalid: plan number not in valid range for CS'
-        when plan_prefix = 'LP' and not ( ( 1 <= cast ( plan_numeral as integer ) <= 99999 ) or ( 110000 <= cast ( plan_numeral as integer ) <= 149999 ) or ( 200000 <= cast ( plan_numeral as integer ) <= 299999 ) ) then 'Invalid: plan number not in valid range for LP'
-        when plan_prefix = 'PC' and not ( ( 350001 <= cast ( plan_numeral as integer ) <= 400000 ) or ( 450001 <= cast ( plan_numeral as integer ) <= 500000 ) or ( 550001 <= cast ( plan_numeral as integer ) <= 600000 ) or ( 600001 <= cast ( plan_numeral as integer ) <= 650000 ) ) then 'Invalid: plan number not in valid range for PC'
-        when plan_prefix = 'PS' and not ( ( 300001 <= cast ( plan_numeral as integer ) <= 350000 ) or ( 400001 <= cast ( plan_numeral as integer ) <= 450000 ) or ( 500001 <= cast ( plan_numeral as integer ) <= 550000 ) or ( 600001 <= cast ( plan_numeral as integer ) <= 650000 ) ) then 'Invalid: plan number not in valid range for PS'
-        when plan_prefix = 'RP' and not ( cast ( plan_numeral as integer ) <= 19926 ) then 'Invalid: plan number not in valid range for RP'
-        when plan_prefix = 'SP' and not ( 19927 <= cast ( plan_numeral as integer ) <= 40000 ) then 'Invalid: plan number not in valid range for SP'
-        when parish_code <> '' and ( cast ( parish_code as integer ) < 2000 or cast ( parish_code as integer ) > 3999 ) then 'Invalid: parish number not in valid range'
-        when township_code not in ( '' , '9999' ) and ( cast ( township_code as integer ) < 5000 or cast ( township_code as integer ) > 5999 ) then 'Invalid: township number not in valid range'
+        when plan_prefix = 'CP' and not ( ( 100000 <= cast ( plan_numeral as integer ) <= 109999 ) or ( 150000 <= plan_numeral <= 199999 ) ) then 'Invalid: plan number not in valid range for CP (' || plan_number || ')'
+        when plan_prefix = 'CS' and not ( 1000 <= cast ( plan_numeral as integer ) <= 10000 ) then 'Invalid: plan number not in valid range for CS (' || plan_number || ')'
+        when plan_prefix = 'LP' and not ( ( 1 <= cast ( plan_numeral as integer ) <= 99999 ) or ( 110000 <= cast ( plan_numeral as integer ) <= 149999 ) or ( 200000 <= cast ( plan_numeral as integer ) <= 299999 ) ) then 'Invalid: plan number not in valid range for LP (' || plan_number || ')'
+        when plan_prefix = 'PC' and not ( ( 350001 <= cast ( plan_numeral as integer ) <= 400000 ) or ( 450001 <= cast ( plan_numeral as integer ) <= 500000 ) or ( 550001 <= cast ( plan_numeral as integer ) <= 600000 ) or ( 600001 <= cast ( plan_numeral as integer ) <= 650000 ) ) then 'Invalid: plan number not in valid range for PC (' || plan_number || ')'
+        when plan_prefix = 'PS' and not ( ( 300001 <= cast ( plan_numeral as integer ) <= 350000 ) or ( 400001 <= cast ( plan_numeral as integer ) <= 450000 ) or ( 500001 <= cast ( plan_numeral as integer ) <= 550000 ) or ( 600001 <= cast ( plan_numeral as integer ) <= 650000 ) ) then 'Invalid: plan number not in valid range for PS (' || plan_number || ')'
+        when plan_prefix = 'RP' and not ( cast ( plan_numeral as integer ) <= 19926 ) then 'Invalid: plan number not in valid range for RP (' || plan_number || ')'
+        when plan_prefix = 'SP' and not ( 19927 <= cast ( plan_numeral as integer ) <= 40000 ) then 'Invalid: plan number not in valid range for SP (' || plan_number || ')'
+        when parish_code <> '' and ( cast ( parish_code as integer ) < 2000 or cast ( parish_code as integer ) > 3999 ) then 'Invalid: parish number not in valid range (' || parish_code || ')'
+        when township_code not in ( '' , '9999' ) and ( cast ( township_code as integer ) < 5000 or cast ( township_code as integer ) > 5999 ) then 'Invalid: township number not in valid range (' || township_code || ')'
         when spi like '\PP%' then 'Invalid: allotment missing for crown description'
         when spi like '\%' or length ( spi ) < 5 then 'Invalid: plan number format not recognised'
         else ''
@@ -28,7 +28,7 @@ select
     ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi ) , 0 ) as parcel_desc_match_in_council,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as parcel_desc_match_in_vicmap,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi and vp.spi <> cp.spi) , 0 ) as parcel_desc_partial_match_in_vicmap,
-    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alternative_parcel_desc_match_in_vicmap,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alt_parcel_desc_match_in_vicmap,
     case
         when cp.spi not in ( select spi from pc_vicmap_parcel ) then
             case
