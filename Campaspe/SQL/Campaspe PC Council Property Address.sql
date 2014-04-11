@@ -74,7 +74,6 @@ select
         else ifnull ( a.ASS_HOUSE_NO_PREFIX , '' )
     end as blg_unit_id_1,
     case
-        when a.ASS_HOUSE_NO_PREFIX like 'NEW%' then 'N'
         when a.ASS_HOUSE_NO_PREFIX in ( 'ABOVE' , 'OFF' , '(OFF)' , 'REAR' , 'UPPER' , 'UPSTAIRS' ) then ''
         when upper(substr(a.ASS_HOUSE_NO_PREFIX, 1)) not between 'A' and 'Z' and upper(substr(a.ASS_HOUSE_NO_PREFIX, -1)) between 'A' and 'Z' then upper(substr(a.ASS_HOUSE_NO_PREFIX, -1))
         else ''
