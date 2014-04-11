@@ -53,6 +53,8 @@ select
     end as blg_unit_type,
     '' blg_unit_prefix_1,
     case
+        when a.ASS_HOUSE_NO_PREFIX like 'SHOP_&%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 5 , 1 ))
+        when a.ASS_HOUSE_NO_PREFIX like 'SHOP__&%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 6 , 1 ))
         when a.ASS_HOUSE_NO_PREFIX in ( 'ABOVE' , 'FLAT' , 'OFF' , 'REAR' , 'UNIT' , 'UPPER' , 'UPSTAIRS' ) then ''
         when a.ASS_HOUSE_NO_PREFIX like 'NEW%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 4))
         when a.ASS_HOUSE_NO_PREFIX like 'APT%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 4))
@@ -80,6 +82,8 @@ select
     end as blg_unit_suffix_1,
      '' as blg_unit_prefix_2,
     case
+        when a.ASS_HOUSE_NO_PREFIX like 'SHOP_&%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 7 , 1 ))
+        when a.ASS_HOUSE_NO_PREFIX like 'SHOP__&%' then ltrim(substr(a.ASS_HOUSE_NO_PREFIX, 8 , 1 ))
         when substr ( a.ASS_HOUSE_NO_PREFIX , 2 , 1 ) in ( '-' , '&' ) then substr ( a.ASS_HOUSE_NO_PREFIX , 3 , 99 )
         else ''
     end as blg_unit_id_2,
