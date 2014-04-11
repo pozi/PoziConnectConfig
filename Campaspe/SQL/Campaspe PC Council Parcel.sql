@@ -43,13 +43,19 @@ select
     ifnull ( upper ( L.SPI_REF ) , '' ) as summary,
     ifnull ( upper ( L.PART_PARCEL ) , '' ) as part,
     case
-        when substr ( L.PLAN_REF , 1 , 2 ) = '00' then substr ( L.PLAN_REF , 3 , 99 )
-        when substr ( L.PLAN_REF , 1 , 1 ) = '0' then substr ( L.PLAN_REF , 2 , 99 )
+        when substr ( L.PLAN_REF , 1 , 4 ) = '0000' then ifnull ( trim ( L.PLAN_TYPE_CODE) , '' ) || substr ( L.PLAN_REF , 5 , 99 )
+        when substr ( L.PLAN_REF , 1 , 3 ) = '000' then ifnull ( trim ( L.PLAN_TYPE_CODE) , '' ) || substr ( L.PLAN_REF , 4 , 99 )
+        when substr ( L.PLAN_REF , 1 , 2 ) = '00' then ifnull ( trim ( L.PLAN_TYPE_CODE) , '' ) || substr ( L.PLAN_REF , 3 , 99 )
+        when substr ( L.PLAN_REF , 1 , 1 ) = '0' then ifnull ( trim ( L.PLAN_TYPE_CODE) , '' ) || substr ( L.PLAN_REF , 2 , 99 )
         when substr ( trim ( L.PLAN_REF ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then ifnull ( trim ( L.PLAN_TYPE_CODE ) , '' ) || L.PLAN_REF
         else ifnull ( trim ( L.PLAN_TYPE_CODE) || substr ( trim ( L.PLAN_REF ) , 1 , length ( trim ( L.PLAN_REF ) ) - 1 ) , '' )
     end as plan_number,
     ifnull ( L.PLAN_TYPE_CODE , '' ) as plan_prefix,
     case
+        when substr ( L.PLAN_REF , 1 , 4 ) = '0000' then substr ( L.PLAN_REF , 5 , 99 )
+        when substr ( L.PLAN_REF , 1 , 3 ) = '000' then substr ( L.PLAN_REF , 4 , 99 )
+        when substr ( L.PLAN_REF , 1 , 2 ) = '00' then substr ( L.PLAN_REF , 3 , 99 )
+        when substr ( L.PLAN_REF , 1 , 1 ) = '0' then substr ( L.PLAN_REF , 2 , 99 )
         when substr ( trim ( L.PLAN_REF ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then ifnull ( L.PLAN_REF , '' )
         else ifnull ( substr ( trim ( L.PLAN_REF ) , 1 , length ( trim ( L.PLAN_REF ) ) - 1 ) , '' )
     end as plan_numeral,
