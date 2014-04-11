@@ -80,7 +80,8 @@ select
 from
     fujitsu_pr_parcel L
     join fujitsu_pr_parcel_xref A on L.PARCEL_ID = A.PARCEL_ID
-    join fujitsu_pr_assessment P on A.ASS_INTERNAL_ID = P.ASS_INTERNAL_ID
+    join fujitsu_pr_assessment P on A.ASS_INTERNAL_ID = P.ASS_INTERNAL_ID and
+    P.DELETE_FLAG is null
 where
     ifnull ( L.FORMER_TITLE , '' ) <> 'Y'
 )
