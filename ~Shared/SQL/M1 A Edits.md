@@ -72,6 +72,12 @@ Exclude any parcels where the `propnum` value is already the same in Vicmap.
 cp.propnum not in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi )
 ```
 
+Include only parcels from Vicmap that are already correctly matched.
+
+```sql
+cp.spi in ( select vp.spi from pc_vicmap_parcel vp where vp.spi in ( select cpy.spi from pc_council_parcel cpy where cpy.spi = vp.spi and cpy.propnum = vp.propnum ) )
+```
+
 ## Old
 
 This section shows the previous logic and SQL used to solve the A edits.
