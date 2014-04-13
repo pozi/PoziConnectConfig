@@ -39,7 +39,10 @@ select
             end
         else ''
     end as suggested_parcel_desc_beta,
-    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.propnum = cp.propnum ) , 0 ) as propnum_in_vicmap,
+    case
+        when cp.propnum in ( select vp.propnum from pc_vicmap_parcel vp ) then 'Y'
+        else 'N'
+    end as propnum_in_vicmap,
     ifnull ( ( select crefno from pc_vicmap_parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
     case ifnull ( ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) , 0 )
         when 0 then '(none)'
