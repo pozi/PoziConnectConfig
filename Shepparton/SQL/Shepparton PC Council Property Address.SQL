@@ -88,10 +88,7 @@ select
         else cast ( cast ( lpaaddr.endlvlnum as integer ) as varchar )
     end as floor_no_2,
     '' as floor_suffix_2,
-    case
-        when lpapnam.propname is null then ''
-        else upper ( lpapnam.propname )
-    end as building_name,
+    '' as building_name,
     '' as complex_name,
     case
         when rtrim ( lpaaddr.prefix ) = 'REAR' then 'REAR'
@@ -150,14 +147,11 @@ from
     pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join 
     pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join 
     pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join 
-    pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join 
-    pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
-    pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop 
+    pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr
 where
     lpaprop.status <> 'H' and 
     lpaprop.tfklpacncl = 12 and
-    lpaaddr.addrtype in ( 'P' , 'A' ) and
-    lpaprtp.abbrev <> 'OTH'
+    lpaaddr.addrtype in ( 'P' , 'A' )
 )
 )
 )
