@@ -24,7 +24,9 @@ select
         else ''
     end as council_parcel_desc_validity,
     ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi ) , 0 ) as parcel_desc_match_in_council,
+    ifnull ( ( select group_concat ( propnum ) from pc_council_parcel x where x.spi = cp.spi ) , '' ) as matching_council_propnums,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as parcel_desc_match_in_vicmap,
+    ifnull ( ( select group_concat ( propnum ) from pc_vicmap_parcel vpx where vpx.spi = cp.spi ) , '' ) as matching_vicmap_propnums,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi and vp.spi <> cp.spi) , 0 ) as parcel_desc_partial_match_in_vicmap,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alt_parcel_desc_match_in_vicmap,
     case
@@ -42,11 +44,6 @@ select
         else 'N'
     end as propnum_in_vicmap,
     ifnull ( ( select crefno from pc_vicmap_parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
-    case ifnull ( ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) , 0 )
-        when 0 then '(none)'
-        when 1 then ( select propnum from pc_vicmap_parcel vp where vp.spi = cp.spi )
-        else '(multiple)'
-    end as vicmap_propnum,
     ifnull ( ( select edit_code from M1 where m1.spi = cp.spi limit 1 ) , '' ) as current_m1_edit_code,
     ifnull ( ( select comments from M1 where m1.spi = cp.spi limit 1 ) , '' ) as current_m1_comments,
     cp.*
