@@ -38,13 +38,25 @@ select
         else ''
     end as part,
     case
-        when auprparc.fmt_ttl like '%CP%' then 'CP'
-        when auprparc.fmt_ttl like '%LP%' then 'LP'
-        when auprparc.fmt_ttl like '%PC%' then 'PC'
-        when auprparc.fmt_ttl like '%PS%' then 'PS'
-        when auprparc.fmt_ttl like '%RP%' then 'RP'
-        when auprparc.fmt_ttl like '%SP%' then 'SP'
-        when auprparc.fmt_ttl like '%TP%' then 'TP'
+        when auprparc.ttl_cde = 2 then 'RP'
+        when auprparc.ttl_cde = 3 then 'PS'
+        when auprparc.ttl_cde = 4 then 'CP'
+        when auprparc.ttl_cde = 6 then 'LP'
+        when auprparc.ttl_cde = 7 then 'CS'
+        when auprparc.ttl_cde = 8 then 'TP'
+        when auprparc.ttl_cde = 9 then 'SP'
+        when auprparc.ttl_cde = 10 then 'CP'
+        when auprparc.ttl_cde = 1 then
+            case
+                when auprparc.fmt_ttl like '%CP%' then 'CP'
+                when auprparc.fmt_ttl like '%LP%' then 'LP'
+                when auprparc.fmt_ttl like '%PC%' then 'PC'
+                when auprparc.fmt_ttl like '%PS%' then 'PS'
+                when auprparc.fmt_ttl like '%RP%' then 'RP'
+                when auprparc.fmt_ttl like '%SP%' then 'SP'
+                when auprparc.fmt_ttl like '%TP%' then 'TP'
+                else ''
+            end
         else ''
     end ||
         case
@@ -54,13 +66,25 @@ select
             else ''
         end as plan_number,
     case
-        when auprparc.fmt_ttl like '%CP%' then 'CP'
-        when auprparc.fmt_ttl like '%LP%' then 'LP'
-        when auprparc.fmt_ttl like '%PC%' then 'PC'
-        when auprparc.fmt_ttl like '%PS%' then 'PS'
-        when auprparc.fmt_ttl like '%RP%' then 'RP'
-        when auprparc.fmt_ttl like '%SP%' then 'SP'
-        when auprparc.fmt_ttl like '%TP%' then 'TP'
+        when auprparc.ttl_cde = 2 then 'RP'
+        when auprparc.ttl_cde = 3 then 'PS'
+        when auprparc.ttl_cde = 4 then 'CP'
+        when auprparc.ttl_cde = 6 then 'LP'
+        when auprparc.ttl_cde = 7 then 'CS'
+        when auprparc.ttl_cde = 8 then 'TP'
+        when auprparc.ttl_cde = 9 then 'SP'
+        when auprparc.ttl_cde = 10 then 'CP'
+        when auprparc.ttl_cde = 1 then
+            case
+                when auprparc.fmt_ttl like '%CP%' then 'CP'
+                when auprparc.fmt_ttl like '%LP%' then 'LP'
+                when auprparc.fmt_ttl like '%PC%' then 'PC'
+                when auprparc.fmt_ttl like '%PS%' then 'PS'
+                when auprparc.fmt_ttl like '%RP%' then 'RP'
+                when auprparc.fmt_ttl like '%SP%' then 'SP'
+                when auprparc.fmt_ttl like '%TP%' then 'TP'
+                else ''
+            end
         else ''
     end as plan_prefix,
     case
