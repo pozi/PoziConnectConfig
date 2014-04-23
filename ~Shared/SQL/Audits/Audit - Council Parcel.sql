@@ -23,8 +23,6 @@ select
         when spi like '\%' or length ( spi ) < 5 then 'Invalid: plan number format not recognised'
         else ''
     end as council_parcel_desc_validity,
-    ifnull ( ( select num_props from pc_council_parcel_property_count cppc where cppc.spi = cp.spi ) , 0 ) as num_council_props,
-    ifnull ( ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) , 0 ) as num_vicmap_props,
     ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi ) , 0 ) as parcel_desc_match_in_council,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as parcel_desc_match_in_vicmap,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi and vp.spi <> cp.spi) , 0 ) as parcel_desc_partial_match_in_vicmap,
