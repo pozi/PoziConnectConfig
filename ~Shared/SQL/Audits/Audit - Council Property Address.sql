@@ -48,7 +48,7 @@ select
         else 'N'
     end as address_match_in_vicmap,
     case
-        when road_name_combined in ( select distinct road_name_combined from pc_vicmap_property_address ) then 'Y'
+        when road_name_combined in ( select distinct vpa.road_name_combined from pc_vicmap_property_address vpa ) then 'Y'
         else 'N'
     end as road_name_in_vicmap,
     case
