@@ -38,8 +38,10 @@ select
         else ''
     end as address_validity,
     ifnull ( ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cpa.propnum ) , 0 ) as num_parcels_in_council,
+    ifnull ( ( select group_concat ( spi ) from pc_council_parcel cp where cp.propnum = cpa.propnum ) , '' ) as council_parcels,
     ifnull ( ( select count(*) from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , 0 ) as property_in_vicmap,
     ifnull ( ( select vppc.num_parcels from pc_vicmap_property_parcel_count vppc where vppc.propnum = cpa.propnum ) , 0 ) as num_parcels_in_vicmap,
+    ifnull ( ( select group_concat ( spi ) from pc_vicmap_parcel vp where vp.propnum = cpa.propnum ) , '' ) as vicmap_parcels,
     ifnull ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) , '' ) as vicmap_address,
     ifnull ( ( select vpa.locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) , '' ) as vicmap_locality,
     case
