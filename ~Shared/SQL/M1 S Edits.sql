@@ -129,6 +129,7 @@ from
 where
     cpa.propnum not in ( '' , 'NCPR' ) and
     cpa.propnum = cp.propnum and
+    vp.spi <> '' and
     cp.spi = vp.spi and
     vp.property_pfi = vpa.property_pfi and
     vp.status = 'P' and
