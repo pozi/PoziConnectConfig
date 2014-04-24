@@ -112,6 +112,7 @@ select distinct
         when trim ( auprstad.str_typ ) in ( 'OTLK' ) then 'OUTLOOK'
         when trim ( auprstad.str_typ ) in ( 'PASS' ) then 'PASS'
         when trim ( auprstad.str_typ ) in ( 'PDE' ) then 'PARADE'
+        when trim ( auprstad.str_typ ) in ( 'PK' ) then 'PARK'
         when trim ( auprstad.str_typ ) in ( 'PKY' , 'PKWY' ) then 'PARKWAY'
         when trim ( auprstad.str_typ ) in ( 'PL' ) then 'PLACE'
         when trim ( auprstad.str_typ ) in ( 'PNT' ) then 'POINT'
