@@ -47,13 +47,28 @@ select
         else ifnull (substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_numeral,
     ifnull ( L.lot , '' ) as lot_number,
-    ifnull ( L.text3 , '' ) as allotment,
-    ifnull ( L.section_for_lot , '' ) as sec,
+    case
+        when ifnull ( L.plan_desc , '' ) = '' then ifnull ( L.parish_portion , '' )
+        else ''
+    end as allotment,
+    case
+        when ifnull ( L.plan_desc , '' ) = '' then ifnull ( L.parish_section , '' )
+        else ''
+    end as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
-    '' as parish_code,
-    '' as township_code,
+    case upper ( L.parish_desc )
+        when 'DAN' then '2483'
+        when 'EUM' then '2603'
+        when 'LYND' then '3025'
+        when 'MORD' then '3186'
+        else ''
+    end as parish_code,
+    case upper ( L.parish_desc )
+        when 'TOWN' then '5221'
+        else ''
+    end as township_code,
     '326' as lga_code
 from
     techone_nucland L
