@@ -34,7 +34,10 @@ select
         when cast ( Assessment.Assess_Number as varchar ) glob '*.???' then cast ( Assessment.Assess_Number as varchar ) || '0'
         when cast ( Assessment.Assess_Number as varchar ) glob '*.????' then cast ( Assessment.Assess_Number as varchar )
     end as propnum,
-    '' as status,
+    case Assessment.Assessment_Status
+        when '25' then 'P'
+        else ''
+    end as status,
     cast ( Title.Title_Id as varchar ) as crefno,
     Title.Title_Legal_Description as summary,
     case when Title_Is_Part_of_Lot = 1 or Title.Title_Crown_Allotment like '% PT' then 'P' else '' end as part,

@@ -33,14 +33,17 @@ select distinct
         when cast ( Assessment.Assess_Number as varchar ) glob '*.???' then cast ( Assessment.Assess_Number as varchar ) || '0'
         when cast ( Assessment.Assess_Number as varchar ) glob '*.????' then cast ( Assessment.Assess_Number as varchar )
     end as propnum,
-    '' as status,
+    case Assessment.Assessment_Status
+        when '25' then 'P'
+        else ''
+    end as status,
     '' as base_propnum,
     case
         when
             Assessment.Property_Name_Address_Locality not like
-                '%' ||            
+                '%' ||
                 cast ( ifnull ( Address.Addr_Building_Unit_Number_1 , '' ) as varchar ) ||
-                '%' ||            
+                '%' ||
                 cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) ||
                 '%'
             and
