@@ -100,11 +100,8 @@ select
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
     case
-        when S.street_name in ( 'THE CRESCENT' , 'THE GLADE' , 'THE GROVE' , 'THE MEWS' , 'THE PANORAMA' , 'THE STRAND' ) then S.street_name
-        when S.street_name like 'THE GRANGE' then 'THE GRANGE'
-        when S.street_name like 'THE BOULEVARD' then 'THE BOULEVARD'
-        when upper ( S.street_name ) = 'THE RIALTO' then 'THE RIALTO'
-        when upper ( S.street_name ) = 'THE RIALTO WEST' then 'THE RIALTO WEST'
+        when upper ( S.street_name ) = 'THE WATER COURSE' then 'THE WATER'
+        when upper ( S.street_name ) like 'THE %' then upper ( S.street_name )
         when upper ( substr ( S.street_name , -4 ) ) in ( ' END' , ' ROW' , ' RUN', ' KEY', ' WAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
         when upper ( substr ( S.street_name , -5 ) ) in ( ' BEND', ' BRAE', ' COVE' , ' EDGE' , ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' RISE', ' ROAD', ' VIEW', ' WALK', ' WYND', ' RIALTO WEST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
         when upper ( substr ( S.street_name , -6 ) ) in ( ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 6 ) )
@@ -121,7 +118,8 @@ select
         else upper ( S.street_name )
     end as road_name,
     case
-        when S.street_name in ( 'THE CRESCENT' , 'THE GLADE' , 'THE GROVE' , 'THE MEWS' , 'THE PANORAMA' , 'THE STRAND' ) then ''
+        when upper ( S.street_name ) = 'THE WATER COURSE' then 'COURSE'
+        when upper ( S.street_name ) like 'THE %' then ''
         when S.street_name like '% ROAD%' then 'ROAD'
         when S.street_name like '% ACCESS%' then 'ACCESS'
         when S.street_name like '% ARCADE%' then 'ARCADE'
