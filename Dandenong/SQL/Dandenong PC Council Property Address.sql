@@ -39,28 +39,28 @@ select
     '' as hsa_unit_id,
     '' as location_descriptor,
     case
-	    when upper ( A.unit_desc ) = 'ATM' then 'ATM'
-	    when upper ( A.unit_desc ) = 'APARTMENT' then 'APT'
-	    when upper ( A.unit_desc ) = 'BUILDING' then 'BLDG'
-	    when upper ( A.unit_desc ) = 'CAR SPACE' then 'CARS'
-	    when upper ( A.unit_desc ) = 'FACTORY' then 'FCTY'
-	    when upper ( A.unit_desc ) = 'KIOSK' then 'KSK'
-	    when upper ( A.unit_desc ) = 'OFFICE' then 'OFFC'
-	    when upper ( A.unit_desc ) = 'RESERVE' then 'RESV'
-	    when upper ( A.unit_desc ) = 'ROOM' then 'ROOM'
-	    when upper ( A.unit_desc ) = 'SHOP' then 'SHOP'
-	    when upper ( A.unit_desc ) = 'SIGN' then 'SIGN'
-	    when upper ( A.unit_desc ) = 'SUITE' then 'SE'
-	    when upper ( A.unit_desc ) = 'TOWER' then 'TWR'
-	    when upper ( A.unit_desc ) = 'UNIT' then 'UNIT'
-	    when upper ( A.unit_desc ) = 'WAREHOUSE' then 'WHSE'
-	    when upper ( A.unit_desc ) = 'WHSE' then 'WHSE'
+        when upper ( A.unit_desc ) = 'ATM' then 'ATM'
+        when upper ( A.unit_desc ) = 'APARTMENT' then 'APT'
+        when upper ( A.unit_desc ) = 'BUILDING' then 'BLDG'
+        when upper ( A.unit_desc ) = 'CAR SPACE' then 'CARS'
+        when upper ( A.unit_desc ) = 'FACTORY' then 'FCTY'
+        when upper ( A.unit_desc ) = 'KIOSK' then 'KSK'
+        when upper ( A.unit_desc ) = 'OFFICE' then 'OFFC'
+        when upper ( A.unit_desc ) = 'RESERVE' then 'RESV'
+        when upper ( A.unit_desc ) = 'ROOM' then 'ROOM'
+        when upper ( A.unit_desc ) = 'SHOP' then 'SHOP'
+        when upper ( A.unit_desc ) = 'SIGN' then 'SIGN'
+        when upper ( A.unit_desc ) = 'SUITE' then 'SE'
+        when upper ( A.unit_desc ) = 'TOWER' then 'TWR'
+        when upper ( A.unit_desc ) = 'UNIT' then 'UNIT'
+        when upper ( A.unit_desc ) = 'WAREHOUSE' then 'WHSE'
+        when upper ( A.unit_desc ) = 'WHSE' then 'WHSE'
         else ''
-	end as blg_unit_type,
+    end as blg_unit_type,
     case
-	    when length ( A.unit_desc ) = 1 then upper ( A.unit_desc )
+        when length ( A.unit_desc ) = 1 then upper ( A.unit_desc )
         else ''
-	END as blg_unit_prefix_1,
+    END as blg_unit_prefix_1,
     case
         when A.unit_no = '0' then replace ( A.unit_no , '0' , '' )
         else ifnull ( A.unit_no , '' )
