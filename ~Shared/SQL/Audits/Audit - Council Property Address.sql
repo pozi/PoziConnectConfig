@@ -18,6 +18,7 @@ select
         when blg_unit_id_2 <> '' and cast ( blg_unit_id_2 as integer ) not between 1 and 99999 then 'Invalid: blg_unit_id_1 (' || blg_unit_id_1 || ')'
         when length ( blg_unit_suffix_2 ) > 2 then 'Invalid: blg_unit_suffix_2 (' || blg_unit_suffix_2 || ')'
         when floor_type not in ('','B','FL','G','L','LB','LG','LL','M','OD','P','PD','PF','RT','SB','UG') then 'Invalid: floor_type (' || floor_type || ')'
+        when floor_type = '' and floor_no_1 <> '' then 'Invalid: floor_type value required'
         when length ( floor_prefix_1 ) > 2 then 'Invalid: floor_prefix_1 (' || floor_prefix_1 || ')'
         when floor_no_1 <> '' and cast ( floor_no_1 as integer ) not between 1 and 99 then 'Invalid: blg_unit_id_1 (' || blg_unit_id_1 || ')'
         when length ( floor_suffix_1 ) > 2 then 'Invalid: floor_suffix_1 (' || floor_suffix_1 || ')'
