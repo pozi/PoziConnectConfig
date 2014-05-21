@@ -37,7 +37,11 @@ select
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    '' as location_descriptor,
+    case
+        when A.property_name like '%FRONT%' then 'FRONT'
+        when A.property_name like '%REAR%' then 'REAR'
+        else ''
+    end as location_descriptor,
     case
         when upper ( A.unit_desc ) = 'ATM' then 'ATM'
         when upper ( A.unit_desc ) = 'APARTMENT' then 'APT'
@@ -72,11 +76,24 @@ select
         else ifnull ( A.unit_no_to , '' )
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
-    upper ( ifnull ( A.floor_desc , '' ) ) as floor_type,
+    case
+        when upper ( A.floor_desc ) in ( 'FL' , 'FLOOR' ) then 'FL'
+        when upper ( A.floor_desc ) in ( 'L' , 'LVL' , 'LEVEL' ) then 'L'
+        when A.property_name like '%ground floor%' then 'G'
+        when A.property_name like '%floor%' then 'FL'
+        when A.property_name like '%level%' then 'L'
+        else ''
+    end as floor_type,
     '' as floor_prefix_1,
     case
-        when A.floor_no = '0' then replace ( A.floor_no , '0' , '' )
-        else ifnull ( A.floor_no , '' )
+        when A.floor_no is not null and A.floor_no <> '0' then A.floor_no
+        when A.property_name like '%level 1%' or A.property_name like '%first%floor%' or A.property_name like '%1st%floor%' then '1'
+        when A.property_name like '%level 2%' or A.property_name like '%second%floor%' or A.property_name like '%2nd%floor%' then '2'
+        when A.property_name like '%level 3%' or A.property_name like '%third%floor%' or A.property_name like '%3rd%floor%' then '3'
+        when A.property_name like '%level 4%' or A.property_name like '%fourth%floor%' or A.property_name like '%4th%floor%' then '4'
+        when A.property_name like '%level 5%' or A.property_name like '%fifth%floor%' or A.property_name like '%5th%floor%' then '4'
+        when A.property_name like '%level 6%' or A.property_name like '%sixth%floor%' or A.property_name like '%6th%floor%' then '4'
+        else ''
     end as floor_no_1,
     upper ( ifnull ( A.floor_suffix , '' ) ) as floor_suffix_1,
     '' as floor_prefix_2,
@@ -85,7 +102,11 @@ select
         else ifnull ( A.floor_no_to , '' )
     end as floor_no_2,
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
-    '' as building_name,
+    case
+        when A.property_name like '%communication%tower%' then upper ( A.property_name )
+        when A.property_name like '%reserve%' then upper ( A.property_name )
+        else ''
+    end as building_name,
     '' as complex_name,
     '' as house_prefix_1,
     case
