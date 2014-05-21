@@ -45,7 +45,7 @@ select
         when rtrim ( lpaaddr.prefix ) = 'CAR PARK' then 'CP'
         when rtrim ( lpaaddr.prefix ) = 'FACTORY' then 'FY'
         when rtrim ( lpaaddr.prefix ) = 'KIOSK' then 'KSK'
-        when rtrim ( lpaaddr.prefix ) = 'OFFICE' then 'OFF'
+        when rtrim ( lpaaddr.prefix ) = 'OFFICE' then 'OFFC'
         when rtrim ( lpaaddr.prefix ) = 'SHOP' then 'SHOP'
         when rtrim ( lpaaddr.prefix ) = 'SUITE' then 'SE'
         when rtrim ( lpaaddr.prefix ) = 'UNIT' then 'U'

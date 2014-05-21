@@ -47,7 +47,7 @@ select
         when trim ( lpaaddr.prefix) = 'CAR PARK' then 'CP'
         when trim ( lpaaddr.prefix) = 'FACTORY' then 'FY'
         when trim ( lpaaddr.prefix) = 'KIOSK' then 'KSK'
-        when trim ( lpaaddr.prefix) = 'OFFICE' then 'OFF'
+        when trim ( lpaaddr.prefix) = 'OFFICE' then 'OFFC'
         when trim ( lpaaddr.prefix) = 'SHOP' then 'SHOP'
         when trim ( lpaaddr.prefix) = 'SUITE' then 'SE'
         when trim ( lpaaddr.prefix) = 'UNIT' then 'U'
