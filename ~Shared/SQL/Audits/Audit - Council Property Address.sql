@@ -10,6 +10,7 @@ select
         when distance_related_flag not in ('','Y','N') then 'Invalid: distance_related_flag (' || distance_related_flag || ')'
         when location_descriptor not in ('','ABOVE','ADJACENT','BELOW','BETWEEN','CORNER','EAST','FRONT','NORTH','OFF','OPPOSITE','PART','REAR','ROOFTOP','SOUTH','WEST') then 'Invalid: location_descriptor (' || location_descriptor || ')'
         when blg_unit_type not in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then 'Invalid: blg_unit_type (' || blg_unit_type || ')'
+        when blg_unit_type <> '' and blg_unit_id_1 = '' then 'Invalid: blg_unit_id_1 required'
         when hsa_flag not in ('','Y','N') then 'Invalid: hsa_flag (' || hsa_flag || ')'
         when length ( blg_unit_prefix_1 ) > 2 then 'Invalid: blg_unit_prefix_1 (' || blg_unit_prefix_1 || ')'
         when blg_unit_id_1 <> '' and cast ( blg_unit_id_1 as integer ) not between 1 and 99999 then 'Invalid: blg_unit_id_1 (' || blg_unit_id_1 || ')'
