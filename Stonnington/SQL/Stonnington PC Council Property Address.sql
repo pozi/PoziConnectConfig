@@ -37,30 +37,47 @@ select
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    '' as location_descriptor,
-    '' as blg_unit_type,
-    '' as blg_unit_prefix_1,
     case
-        when A.unit_no ='0' then replace ( A.unit_no , '0' , '' )
+        when upper ( A.unit_desc ) in ( 'FRONT' , 'REAR' ) then upper ( A.unit_desc )
+        else ''
+    end as location_descriptor,
+    case
+        when upper ( A.unit_desc ) in ( 'ATM' , 'APT' , 'FLAT' , 'LOT' , 'ROOM' , 'SHOP' , 'SITE' , 'UNIT' ) then upper ( A.unit_desc )
+        when upper ( A.unit_desc ) = 'CAR LOT' then 'CARS'
+        when upper ( A.unit_desc ) = 'FACTORY' then 'FCTY'
+        when upper ( A.unit_desc ) = 'GARAGE' then 'GRGE'
+        when upper ( A.unit_desc ) = 'KIOSK' then 'KSK'
+        when upper ( A.unit_desc ) = 'OFFICE' then 'OFFC'
+        when upper ( A.unit_desc ) = 'SHOPS' then 'SHOP'
+        when upper ( A.unit_desc ) = 'STALL' then 'STLL'
+        when upper ( A.unit_desc ) = 'SUITE' then 'SE'
+        else ''
+    end as blg_unit_type,
+    case
+        when length ( A.unit_desc ) <= 2 then upper ( A.unit_desc )
+        else ''
+    end as blg_unit_prefix_1,
+    case
+        when A.unit_no = '0' then replace ( A.unit_no , '0' , '' )
         else ifnull ( A.unit_no , '' )
     end as blg_unit_id_1,
     upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
-        when A.unit_no_to ='0' then replace ( A.unit_no_to , '0' , '' )
+        when A.unit_no_to = '0' then replace ( A.unit_no_to , '0' , '' )
         else ifnull ( A.unit_no_to , '' )
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
     upper ( ifnull ( A.floor_desc , '' ) ) as floor_type,
     '' as floor_prefix_1,
     case
-        when A.floor_no ='0' then replace ( A.floor_no , '0' , '' )
+        when A.floor_no = '0' then replace ( A.floor_no , '0' , '' )
         else ifnull ( A.floor_no , '' )
     end as floor_no_1,
     upper ( ifnull ( A.floor_suffix , '' ) ) as floor_suffix_1,
     '' as floor_prefix_2,
     case
-        when A.floor_no_to ='0' then replace ( A.floor_no_to , '0' , '' )
+        when A.floor_no_to = '0' then replace ( A.floor_no_to , '0' , '' )
         else ifnull ( A.floor_no_to , '' )
     end as floor_no_2,
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
