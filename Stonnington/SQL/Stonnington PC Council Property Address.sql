@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -95,12 +95,12 @@ select
         else ifnull ( A.house_no_to , '' )
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
-    case    
+    case
         when upper ( S.street_name ) like 'A''BECKETT%' then 'ABECKETT'
         when upper ( S.street_name ) like 'CHADSTONE S%' then 'DANDENONG'
         when S.street_name like 'MOUNT PLEASANT%' then 'MT PLEASANT'
-        when S.street_name like 'THE AVENUE' then 'THE AVENUE'        
-        when S.street_name like 'THE GRANGE' then 'THE GRANGE'        
+        when S.street_name like 'THE AVENUE' then 'THE AVENUE'
+        when S.street_name like 'THE GRANGE' then 'THE GRANGE'
         when S.street_name like 'THE BOULEVARD' then 'THE BOULEVARD'
         when upper ( S.street_name ) = 'THE RIALTO' then 'THE RIALTO'
         when upper ( S.street_name ) = 'THE RIALTO WEST' then 'THE RIALTO WEST'
@@ -121,8 +121,8 @@ select
     end as road_name,
     case
         when upper (S.street_name like 'CHADSTONE S%') then 'ROAD'
-        when S.street_name like 'THE AVENUE' then ''        
-        when S.street_name like 'THE GRANGE' then ''        
+        when S.street_name like 'THE AVENUE' then ''
+        when S.street_name like 'THE GRANGE' then ''
         when S.street_name like 'THE BOULEVARD' then ''
         when S.street_name like '% ROAD%' then 'ROAD'
         when S.street_name like '% ACCESS%' then 'ACCESS'
@@ -209,6 +209,6 @@ from
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
     P.status in ( 'C' , 'F' , 'c' , 'f' )
-) 
+)
 )
 )
