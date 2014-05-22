@@ -68,7 +68,14 @@ select
         else ifnull ( A.unit_no_to , '' )
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
-    upper ( ifnull ( A.floor_desc , '' ) ) as floor_type,
+    case upper ( A.floor_desc )
+        when 'FLOOR' then 'FL'
+        when 'GROUND' then 'G'
+        when 'LEVEL' then 'L'
+        when 'MEZANINE' then 'M'
+        when 'ROOF' then 'RT'
+        else ''
+    end as floor_type,
     '' as floor_prefix_1,
     case
         when A.floor_no = '0' then replace ( A.floor_no , '0' , '' )
