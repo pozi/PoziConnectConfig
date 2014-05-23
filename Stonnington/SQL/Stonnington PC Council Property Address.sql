@@ -32,7 +32,22 @@ select
         when 'F' then 'P'
         else ''
     end as status,
-    '' as base_propnum,
+    ifnull (
+        (
+        select
+            npx1.property_no
+        from
+            techone_nucproperty npx
+            inner join techone_nucassociation nax on npx.property_no = nax.key2
+            inner join techone_nucproperty npx1 on nax.key1 = npx1.property_no
+        where
+            npx.property_no = P.property_no and
+            nax.date_ended is null and
+            nax.association_type = 'ChildProp' and
+            npx1.status in ('C','F')    
+        limit 1
+        ) , ''
+    ) as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
