@@ -7,7 +7,7 @@ select
     '' as spi,
     '' as plan_number,
     '' as lot_number,
-    '' as base_propnum,
+    base_propnum,
     propnum,
     '' as crefno,
     hsa_flag,

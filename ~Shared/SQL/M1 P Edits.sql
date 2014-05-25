@@ -58,7 +58,7 @@ select
     vp.plan_number as plan_number,
     vp.lot_number as lot_number,
     cp.propnum as propnum,
-    '' as base_propnum,
+    ifnull ( ( select cpa.base_propnum from pc_council_property_address cpa where cpa.propnum = cp.propnum limit 1 ) , '' ) as base_propnum,
     'parcel ' || vp.spi ||
         case vp.status
             when 'P' then ' (proposed): '
