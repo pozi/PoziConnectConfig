@@ -48,7 +48,8 @@ select
     '' as datum_proj,
     '' as outside_property,
     'P' as edit_code,
-    comments as comments
+    comments as comments,
+    geometry as geometry
 from (
 
 select
@@ -70,7 +71,8 @@ select
             else vp.propnum
         end ||
         ' with ' || 
-        cp.propnum as comments
+        cp.propnum as comments,
+    centroid ( vp.geometry ) as geometry
 from
     pc_vicmap_parcel vp,
     pc_council_parcel cp

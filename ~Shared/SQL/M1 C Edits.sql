@@ -48,7 +48,8 @@ select
     '' as datum_proj,
     '' as outside_property,
     'C' as edit_code,
-    comments as comments
+    comments as comments,
+    geometry as geometry
 from (
 
 select
@@ -71,7 +72,8 @@ select
             when '' then '(blank)'
             else vp.crefno
         end ||
-        ' with ' || cp.crefno as comments
+        ' with ' || cp.crefno as comments,
+    centroid ( vp.geometry ) as geometry
 from
     pc_vicmap_parcel vp,
     pc_council_parcel cp

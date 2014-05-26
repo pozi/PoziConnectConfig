@@ -46,7 +46,8 @@ select
     ifnull ( ( select crefno from pc_vicmap_parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
     ifnull ( ( select edit_code from M1 where m1.spi = cp.spi limit 1 ) , '' ) as current_m1_edit_code,
     ifnull ( ( select comments from M1 where m1.spi = cp.spi limit 1 ) , '' ) as current_m1_comments,
-    cp.*
+    cp.*,
+    ( select vp.geometry from pc_vicmap_parcel vp where vp.spi = cp.spi limit 1 ) as geometry
 from PC_Council_Parcel cp
 where spi <> ''
 order by council_parcel_desc_validity desc, ( case plan_number when '' then 'zzz' else plan_number end ) , parish_code, township_code, sec, lot_number, allotment

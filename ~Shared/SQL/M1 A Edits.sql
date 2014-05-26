@@ -48,7 +48,8 @@ select
     datum_proj,
     outside_property,
     'A' as edit_code,
-    comments as comments
+    comments as comments,
+    geometry as geometry
 from (
 
 select distinct
@@ -64,7 +65,8 @@ select distinct
         case ( select vp.multi_assessment from pc_vicmap_parcel vp where vp.spi = cp.spi )
             when 'Y' then ' to existing multi-assessment (' || ( select vppc.num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) || ') property'
             else ' as new multi-assessment to property ' || ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi )
-        end as comments
+        end as comments,
+    centroid ( ( select vp.geometry from pc_vicmap_parcel vp where vp.spi = cp.spi limit 1 ) ) as geometry
 from
     pc_council_parcel cp,
     pc_council_property_address cpa

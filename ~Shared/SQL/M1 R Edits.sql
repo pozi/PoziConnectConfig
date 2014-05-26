@@ -48,7 +48,8 @@ select distinct
     '' as datum_proj,
     '' as outside_property,
     'R' as edit_code,
-    comments as comments
+    comments as comments,
+    geometry as geometry
 from (
 
 select
@@ -62,7 +63,8 @@ select
         propnum ||
         ' from multi-assessment (' ||
         ( select vppc.num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = vp.spi ) ||
-        ') property' as comments
+        ') property' as comments,
+    centroid ( vp.geometry ) as geometry
 from
     pc_vicmap_parcel vp
 where

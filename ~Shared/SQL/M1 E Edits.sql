@@ -48,7 +48,8 @@ select
     '' as datum_proj,
     '' as outside_property,
     'E' as edit_code,
-    comments as comments
+    comments as comments,
+    geometry as geometry
 from (
 
 select
@@ -78,7 +79,8 @@ select
     case
         when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then 'multi-parcel property'        
         else 'parcel ' || vp.spi        
-    end || ': removing propnum ' || vp.propnum as comments
+    end || ': removing propnum ' || vp.propnum as comments,
+    centroid ( vp.geometry ) as geometry
 from
     pc_vicmap_parcel vp
 where

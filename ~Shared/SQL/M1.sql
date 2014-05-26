@@ -48,7 +48,8 @@ select
     datum_proj,
     outside_property,
     edit_code,
-    comments
+    comments,
+    geometry
 from
 (
 select * from m1_r_edits

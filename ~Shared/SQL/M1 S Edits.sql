@@ -55,7 +55,8 @@ select
     case
         when propnum in ( select vpa.propnum from pc_vicmap_property_address vpa ) then 'replacing address ' || ( select vpa.ezi_address from pc_vicmap_property_address vpa where cpa.propnum = vpa.propnum and vpa.is_primary <> 'N' limit 1) || ' with '
         else 'assigning new address '
-    end || cpa.ezi_address as comments
+    end || cpa.ezi_address as comments,
+    centroid ( ( select vpa.geometry from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) ) as geometry
 from
     pc_council_property_address cpa
 where
@@ -120,7 +121,8 @@ select
     '' as datum_proj,
     '' as outside_property,
     'S' as edit_code,
-    'parcel ' || cp.spi || ' (proposed): replacing address ' || vpa.ezi_address || ' with ' || cpa.ezi_address as comments
+    'parcel ' || cp.spi || ' (proposed): replacing address ' || vpa.ezi_address || ' with ' || cpa.ezi_address as comments,
+    centroid ( vp.geometry ) as geometry
 from
     pc_council_property_address cpa,
     pc_council_parcel cp,
