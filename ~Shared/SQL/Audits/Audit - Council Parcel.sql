@@ -1,9 +1,9 @@
 select
-    spi as council_parcel_desc,
-    crefno as council_crefno,
-    propnum as council_propnum,
-    summary as council_summary,
-    status as council_status,
+    spi as spi,
+    crefno as crefno,
+    propnum as propnum,
+    summary as summary,
+    status as status,
     case
         when plan_number like '%&%' or plan_number like '% %' or plan_number like '%-%' or ( plan_numeral <> '' and substr ( plan_numeral , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) ) then 'Invalid: plan number contains invalid character (' || plan_number || ')'
         when lot_number like '%&%' or lot_number like '% %' or lot_number like '%-%' then 'Invalid: lot number contains invalid character (' || lot_number || ')'
@@ -22,13 +22,13 @@ select
         when spi like '\PP%' then 'Invalid: allotment missing for crown description'
         when spi like '\%' or length ( spi ) < 5 then 'Invalid: plan number format not recognised'
         else ''
-    end as council_parcel_desc_validity,
-    ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi ) , 0 ) as parcel_desc_match_in_council,
-    ifnull ( ( select group_concat ( propnum ) from pc_council_parcel x where x.spi = cp.spi ) , '' ) as matching_council_propnums,
-    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as parcel_desc_match_in_vicmap,
-    ifnull ( ( select group_concat ( propnum ) from pc_vicmap_parcel vpx where vpx.spi = cp.spi ) , '' ) as matching_vicmap_propnums,
-    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi and vp.spi <> cp.spi) , 0 ) as parcel_desc_partial_match_in_vicmap,
-    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alt_parcel_desc_match_in_vicmap,
+    end as spi_validity,
+    ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi ) , 0 ) as spi_in_council,
+    ifnull ( ( select group_concat ( propnum ) from pc_council_parcel x where x.spi = cp.spi ) , '' ) as council_propnums,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as spi_in_vicmap,
+    ifnull ( ( select group_concat ( propnum ) from pc_vicmap_parcel vpx where vpx.spi = cp.spi ) , '' ) as vicmap_propnums,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi and vp.spi <> cp.spi) , 0 ) as partial_spi_in_vicmap,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alt_spi_in_vicmap,
     case
         when cp.spi not in ( select spi from pc_vicmap_parcel ) then
             case
@@ -38,17 +38,17 @@ select
                 else ''
             end
         else ''
-    end as suggested_parcel_desc_beta,
+    end as suggested_spi,
     case
         when cp.propnum in ( select vp.propnum from pc_vicmap_parcel vp ) then 'Y'
         else 'N'
     end as propnum_in_vicmap,
     ifnull ( ( select crefno from pc_vicmap_parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
-    ifnull ( ( select edit_code from M1 where m1.spi = cp.spi limit 1 ) , '' ) as current_m1_edit_code,
-    ifnull ( ( select comments from M1 where m1.spi = cp.spi limit 1 ) , '' ) as current_m1_comments,
+    ifnull ( ( select edit_code from M1 where m1.spi = cp.spi limit 1 ) , '' ) as m1_edit_code,
+    ifnull ( ( select comments from M1 where m1.spi = cp.spi limit 1 ) , '' ) as m1_comments,
     cp.*,
     ( select vp.geometry from pc_vicmap_parcel vp where vp.spi = cp.spi limit 1 ) as geometry
 from PC_Council_Parcel cp
 where spi <> ''
-order by council_parcel_desc_validity desc, ( case plan_number when '' then 'zzz' else plan_number end ) , parish_code, township_code, sec, lot_number, allotment
+order by spi_validity desc, ( case plan_number when '' then 'zzz' else plan_number end ) , parish_code, township_code, sec, lot_number, allotment
 
