@@ -60,7 +60,7 @@ select
         else 'parcel ' || spi
     end ||
         ': removing propnum ' ||
-        propnum ||
+        case propnum when '' then '(blank)' else propnum end ||
         ' from multi-assessment (' ||
         ( select vppc.num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = vp.spi ) ||
         ') property' as comments,
