@@ -42,13 +42,13 @@ select
     '' as hsa_unit_id,
     case
         when rtrim ( lpaaddr.prefix ) = 'ATM' then 'ATM'
-        when rtrim ( lpaaddr.prefix ) = 'CAR PARK' then 'CP'
-        when rtrim ( lpaaddr.prefix ) = 'FACTORY' then 'FY'
+        when rtrim ( lpaaddr.prefix ) = 'CAR PARK' then 'CARP'
+        when rtrim ( lpaaddr.prefix ) = 'FACTORY' then 'FCTY'
         when rtrim ( lpaaddr.prefix ) = 'KIOSK' then 'KSK'
         when rtrim ( lpaaddr.prefix ) = 'OFFICE' then 'OFFC'
         when rtrim ( lpaaddr.prefix ) = 'SHOP' then 'SHOP'
         when rtrim ( lpaaddr.prefix ) = 'SUITE' then 'SE'
-        when rtrim ( lpaaddr.prefix ) = 'UNIT' then 'U'
+        when rtrim ( lpaaddr.prefix ) = 'UNIT' then 'UNIT'
         when rtrim ( lpaaddr.prefix ) = 'L' then 'LOT'
         when rtrim ( lpaaddr.prefix ) = 'ROOM' then 'ROOM'
         else ''
