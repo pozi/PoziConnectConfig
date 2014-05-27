@@ -39,10 +39,8 @@ select
             end
         else ''
     end as suggested_spi,
-    case
-        when cp.propnum in ( select vp.propnum from pc_vicmap_parcel vp ) then 'Y'
-        else 'N'
-    end as propnum_in_vicmap,
+    ifnull ( ( select count(*) from pc_council_parcel cpx where cpx.propnum = cp.propnum ) , 0 ) as propnum_in_council,
+    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.propnum = cp.propnum ) , 0 ) as propnum_in_vicmap,
     ifnull ( ( select crefno from pc_vicmap_parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
     ifnull ( ( select edit_code from M1 where m1.spi = cp.spi limit 1 ) , '' ) as m1_edit_code,
     ifnull ( ( select comments from M1 where m1.spi = cp.spi limit 1 ) , '' ) as m1_comments,
