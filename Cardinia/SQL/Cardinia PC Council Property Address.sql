@@ -34,7 +34,13 @@ select distinct
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    upper ( ifnull ( Address.Building_Unit_Abbreviation , '' ) ) as blg_unit_type,
+    case upper ( Address.Building_Unit_Abbreviation )
+        when 'FY' then 'FCTY'
+        when 'OFF' then 'OFFC'
+        when 'U' then 'UNIT'
+        when 'WE' then 'WHSE'
+        else upper ( ifnull ( Address.Building_Unit_Abbreviation , '' ) )
+    end as blg_unit_type,
     upper ( ifnull ( Address.Addr_Building_Unit_Prefix_1 , '' ) ) as blg_unit_prefix_1,
     cast ( ifnull ( Address.Addr_Building_Unit_Number_1 , '' ) as varchar ) as blg_unit_id_1,
     upper ( ifnull ( Address.Addr_Building_Unit_Suffix_1 , '' ) ) as blg_unit_suffix_1,
