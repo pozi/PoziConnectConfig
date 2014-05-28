@@ -1,9 +1,9 @@
 select
-    propnum as council_propnum,
-    status as council_status,
-    num_road_address as council_address,
-    locality_name as council_locality,
-    summary as council_summary,
+    propnum as propnum,
+    status as status,
+    num_road_address as address,
+    locality_name as locality,
+    summary as summary,
     case
         when status not in ('','A','P') then 'Invalid: status (' || status || ')'
         when is_primary not in ('','Y','N') then 'Invalid: is_primary (' || is_primary || ')'
@@ -39,9 +39,9 @@ select
         when outside_property not in ('','Y','N') then 'Invalid: outside_property (' || outside_property || ')'
         else ''
     end as address_validity,
-    ifnull ( ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cpa.propnum ) , 0 ) as num_parcels_in_council,
+    ifnull ( ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cpa.propnum ) , 0 ) as parcels_in_council,
     ifnull ( ( select group_concat ( spi ) from pc_council_parcel cp where cp.propnum = cpa.propnum ) , '' ) as council_parcels,
-    ifnull ( ( select vppc.num_parcels from pc_vicmap_property_parcel_count vppc where vppc.propnum = cpa.propnum ) , 0 ) as num_parcels_in_vicmap,
+    ifnull ( ( select vppc.num_parcels from pc_vicmap_property_parcel_count vppc where vppc.propnum = cpa.propnum ) , 0 ) as parcels_in_vicmap,
     ifnull ( ( select group_concat ( spi ) from pc_vicmap_parcel vp where vp.propnum = cpa.propnum ) , '' ) as vicmap_parcels,
     ifnull ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) , '' ) as vicmap_address,
     ifnull ( ( select vpa.locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) , '' ) as vicmap_locality,
