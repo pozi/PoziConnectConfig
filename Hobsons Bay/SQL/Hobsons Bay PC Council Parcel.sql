@@ -32,8 +32,8 @@ select
     cast ( Title.Title_Id as varchar ) as crefno,
     Title.Title_Legal_Description as summary,
     case when Title_Is_Part_of_Lot = 1 then 'P' else '' end as part,
-    ifnull ( Plan_Type.Plan_Type_Code || Title.Title_Plan_Number , '' ) as plan_number,
-    ifnull ( Plan_Type.Plan_Type_Code , '' ) as plan_prefix,
+    ifnull ( replace ( Plan_Type.Plan_Type_Code , 'XX' , '' ) || Title.Title_Plan_Number , '' ) as plan_number,
+    ifnull ( replace ( Plan_Type.Plan_Type_Code , 'XX' , '' ) , '' ) as plan_prefix,
     ifnull ( Title.Title_Plan_Number ,'' ) as plan_numeral,
     ifnull ( Title_Lot , '' ) as lot_number,
     ifnull ( Title.Title_Crown_Allotment , '' ) as allotment,
@@ -55,6 +55,7 @@ from
 where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status not in ( '9' , '22' ) and    
-    Assessment.Assess_Number is not null
+    Assessment.Assess_Number is not null and
+    length ( cast ( cast ( Assessment.Assess_Number as integer ) as varchar ) ) <= 10
 order by propnum, crefno
 )
