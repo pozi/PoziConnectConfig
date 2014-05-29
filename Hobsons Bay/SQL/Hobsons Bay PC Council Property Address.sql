@@ -115,7 +115,8 @@ from
 where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status not in ( '9' , '22' ) and    
-    Assessment.Assess_Number is not null
+    Assessment.Assess_Number is not null and
+    length ( cast ( cast ( Assessment.Assess_Number as integer ) as varchar ) ) <= 10
 )
 )
 )
