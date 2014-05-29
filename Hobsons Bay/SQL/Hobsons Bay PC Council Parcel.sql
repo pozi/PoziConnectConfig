@@ -42,7 +42,7 @@ select
     ifnull ( Title.Title_Portion , '' ) as portion,
     ifnull ( Title.Title_Subdivision , '' ) as subdivision,
     ifnull ( Parish.Parish_Code , '' ) as parish_code,
-    ifnull ( Township.Township_Code , '' ) as township_code,
+    '' as township_code,
     '331' as lga_code
 from
     propertygov_parcel as Parcel inner join
