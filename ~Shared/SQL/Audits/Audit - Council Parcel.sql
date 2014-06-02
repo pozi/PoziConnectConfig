@@ -41,7 +41,7 @@ select
         else ''
     end as suggested_spi,
     ifnull ( ( select num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cp.propnum ) , 0 ) as propnum_in_council,
-    ifnull ( ( select num_parcels from pc_vicmap_property_parcel_count vppc where vppc.propnum = '' || cp.propnum ) , 0 ) as propnum_in_vicmap,
+    ifnull ( ( select num_parcels from pc_vicmap_property_parcel_count vppc where vppc.propnum = cp.propnum ) , 0 ) as propnum_in_vicmap,
     ifnull ( ( select crefno from pc_vicmap_parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
     ifnull ( ( select edit_code from M1 where m1.spi = cp.spi limit 1 ) , '' ) as m1_edit_code,
     ifnull ( ( select comments from M1 where m1.spi = cp.spi limit 1 ) , '' ) as m1_comments,
