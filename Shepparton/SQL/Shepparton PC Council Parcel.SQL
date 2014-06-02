@@ -27,7 +27,7 @@ select
 from
 (
 select distinct
-    lpaprop.tpklpaprop as propnum,
+    cast ( lpaprop.tpklpaprop as varchar ) as propnum,
     case lpaparc.status
         when 'C' then 'A'
         when 'A' then 'P'

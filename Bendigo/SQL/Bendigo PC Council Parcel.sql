@@ -27,7 +27,7 @@ select
 from
 (
 select distinct
-    lpaprop.tpklpaprop as propnum,
+    cast ( lpaprop.tpklpaprop as varchar ) as propnum,
     '' as status,
     cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
