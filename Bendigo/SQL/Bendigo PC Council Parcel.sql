@@ -97,6 +97,7 @@ select distinct
         when 'Woodstock' then '3875'
         when 'Yallook' then '3936'
         when 'Yarraberb' then '3961'
+        when 'at Bendigo' then '3473A'
         when 'at Eaglehawk' then '3473B'
         else ''
     end as parish_code,
