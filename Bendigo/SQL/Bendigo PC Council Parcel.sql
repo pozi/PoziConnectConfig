@@ -97,8 +97,6 @@ select distinct
         when 'Woodstock' then '3875'
         when 'Yallook' then '3936'
         when 'Yarraberb' then '3961'
-        when 'at Bendigo' then '3473A'
-        when 'at Eaglehawk' then '3473B'
         else ''
     end as parish_code,
     case lpadesc.descr
@@ -125,6 +123,8 @@ select distinct
         when 'Sebastian Township' then '5706'
         when 'Strath Township' then '5740'
         when 'White Hills Township' then '5854'
+        when 'at Bendigo' then '3473A'
+        when 'at Eaglehawk' then '3473B'
         else ''
     end as township_code,
     '325' as lga_code
