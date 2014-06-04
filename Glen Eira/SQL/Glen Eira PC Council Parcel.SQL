@@ -61,17 +61,17 @@ select distinct
     '' as township_code,
     '322' as lga_code
 from
-   pathway_lpaprop as lpaprop left outer join
-   pathway_lpaprti as lpaprti on lpaprop.tpklpaprop = lpaprti.tfklpaprop left outer join
-   pathway_lpatipa as lpatipa on lpaprti.tfklpatitl = lpatipa.tfklpatitl left outer join
-   pathway_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc left outer join
-   pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left outer join
-   pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left outer join
-   pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm  
+    pathway_lpaprop as lpaprop left outer join
+    pathway_lpaprti as lpaprti on lpaprop.tpklpaprop = lpaprti.tfklpaprop left outer join
+    pathway_lpatipa as lpatipa on lpaprti.tfklpatitl = lpatipa.tfklpatitl left outer join
+    pathway_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc left outer join
+    pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left outer join
+    pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left outer join
+    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm
 where
-   lpaparc.status <> 'H' and   
-   lraassm.applicatn = 'R' and
-   lpaprop.tfklpacncl = 13 and
-   lparole.fklparolta = 'LRA' and
-   lparole.fklparoltn = 0
+    lpaparc.status <> 'H' and
+    lraassm.applicatn = 'R' and
+    lpaprop.tfklpacncl = 13 and
+    lparole.fklparolta = 'LRA' and
+    lparole.fklparoltn = 0
 )
