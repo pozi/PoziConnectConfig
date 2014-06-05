@@ -142,10 +142,10 @@ from
     pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc left join
     pathway_lpadesc as lpadesc on lpadepa.tfklpadesc = lpadesc.tpklpadesc
 where
-   lpaprop.status <> 'H' and
-   lpaparc.status <> 'H' and
-   lpatipa.status <> 'H' and
-   lpaprti.status <> 'H' and
-   lpatitl.status <> 'H' and   
+    lpaprop.status <> 'H' and
+    lpaparc.status <> 'H' and
+    lpatipa.status <> 'H' and
+    lpaprti.status <> 'H' and
+    lpatitl.status <> 'H' and   
     ifnull ( lpaparc.plancode , '' ) in ( '' , 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' )
 )
