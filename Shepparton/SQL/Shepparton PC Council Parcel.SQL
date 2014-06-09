@@ -102,9 +102,9 @@ from
     pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left join
     pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc
 where
-   lpaprop.status = 'C' and
-   lpaparc.status = 'C' and
-   lpatipa.status = 'C' and
-   lpaprti.status = 'C' and
-   lpatitl.status = 'C'
+    lpaprop.status = 'C' and
+    lpaparc.status = 'C' and
+    lpatipa.status = 'C' and
+    lpaprti.status = 'C' and
+    lpatitl.status = 'C'
 )
