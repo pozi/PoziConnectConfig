@@ -39,7 +39,12 @@ select
     '' as hsa_unit_id,
     '' as location_descriptor,
     case
-        when A.unit_no is not null and A.unit_no <> 0 then upper ( ifnull ( A.unit_desc , '' ) )
+        when A.unit_no is not null and A.unit_no <> 0 then
+            case upper ( A.unit_desc )
+                when 'FACTORY' then 'FCTY'
+                when 'OFFICE' then 'OFFC'
+                else ifnull ( upper ( A.unit_desc ) , '' )
+            end
         when substr ( A.property_name , 1, 2 ) in ( 'K1' , 'K2' , 'K3' , 'K4' , 'K5' , 'K6' , 'K7' , 'K8' , 'K9' ) or substr ( A.property_name , 2, 3 ) in ( '-K1' , '-K2' , '-K3' , '-K4' , '-K5' , '-K6' , '-K7' , '-K8' , '-K9' ) then 'KSK'
         when substr ( A.property_name , 1, 4 ) in ( 'ATM1' , 'ATM2' , 'ATM3' , 'ATM4' , 'ATM5' , 'ATM6' , 'ATM7' , 'ATM8' , 'ATM9' ) or substr ( A.property_name , 2, 5 ) in ( '-ATM1' , '-ATM2' , '-ATM3' , '-ATM4' , '-ATM5' , '-ATM6' , '-ATM7' , '-ATM8' , '-ATM9' ) then 'ATM'
         else ''
