@@ -52,6 +52,7 @@ select
     end as plan_prefix,
     Parcel.PlanNo as plan_numeral,
     case
+        when Parcel.Lot = 'CROWN LAND' then ''
         when Parcel.Lot glob '?(*' then substr ( Parcel.Lot , 1 , 1 )
         when Parcel.Lot glob '??(*' then substr ( Parcel.Lot , 1 , 2 )
         else Parcel.Lot
