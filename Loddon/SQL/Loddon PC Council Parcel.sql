@@ -184,7 +184,7 @@ select
         when 'WEHLA' then '5846'
         else ''
     end as township_code,
-    '367' as lga_code
+    '338' as lga_code
 from
     lynx_vwlandparcel Parcel
 where
