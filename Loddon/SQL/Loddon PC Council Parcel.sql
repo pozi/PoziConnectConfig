@@ -29,18 +29,9 @@ from
 select
     cast ( Parcel.PropertyNumber as varchar ) as propnum,
     '' as status,
-    cast ( Parcel.LandParcelNumber as varchar ) as crefno,    
+    '' as crefno,
     '' as summary,
     '' as part,
-    case Parcel.Type    
-        when 'Lodged Plan' then 'LP' || Parcel.PlanNo
-        when 'Title Plan' then 'TP' || Parcel.PlanNo
-        when 'Plan of Subdivision' then 'PS' || Parcel.PlanNo
-        when 'Consolidation Plan' then 'PC' || Parcel.PlanNo
-        when 'Strata Plan' then 'RP' || Parcel.PlanNo
-        when 'Stratum Plan' then 'SP' || Parcel.PlanNo
-        else ''
-    end as plan_number,
     case Parcel.Type    
         when 'Lodged Plan' then 'LP'
         when 'Title Plan' then 'TP'
@@ -49,14 +40,30 @@ select
         when 'Strata Plan' then 'RP'
         when 'Stratum Plan' then 'SP'
         else ''
+    end || Parcel.PlanNo as plan_number,
+    case Parcel.Type
+        when 'Lodged Plan' then 'LP'
+        when 'Title Plan' then 'TP'
+        when 'Plan of Subdivision' then 'PS'
+        when 'Consolidation Plan' then 'PC'
+        when 'Strata Plan' then 'RP'
+        when 'Stratum Plan' then 'SP'
+        else ''
     end as plan_prefix,
-    Parcel.PlanNo as plan_numeral,
+    case
+        when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
+        when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
+        else ''
+    end as plan_numeral,
     case
         when Parcel.Lot glob '?(*' then substr ( Parcel.Lot , 1 , 1 )
         when Parcel.Lot glob '??(*' then substr ( Parcel.Lot , 1 , 2 )
         else Parcel.Lot
     end as lot_number,
-    Parcel.CrownAllotment as allotment,
+    case
+        when Parcel.PlanNo <> '' then ''
+        else Parcel.CrownAllotment
+    end as allotment,
     case
         when Parcel.Section in ( 'NO' , 'NO SEC' ) then ''
         else Parcel.Section
@@ -189,6 +196,7 @@ from
     lynx_vwlandparcel Parcel
 where
     Parcel.Status = 'Active' and
-    Parcel.Ended is null
+    Parcel.Ended is null and
+    Parcel.TypeID in ( 750 , 751 , 755 , 756 , 757 , 758 , 759 )
 )
 

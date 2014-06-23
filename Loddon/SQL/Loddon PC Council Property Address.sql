@@ -75,7 +75,7 @@ select
         when substr ( Property.StreetNoTo , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
         else ifnull ( upper ( substr ( Property.StreetNoTo , -1 , 1 ) ) , '' )
     end as house_suffix_2,
-    replace ( upper ( Street.Name ) , '/' , '-' ) as road_name,
+    replace ( replace ( upper ( Street.Name ) , '/' , '-' ) , '''' , '' ) as road_name,
     case
         when StreetType.Type like 'Road %' then 'ROAD'
         when StreetType.Type like 'Street %' then 'STREET'
