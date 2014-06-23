@@ -40,7 +40,10 @@ select
     end as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    '' as location_descriptor,
+    case upper ( A.floor_desc )
+        when 'REAR' then 'REAR'
+        else ''
+    end as location_descriptor,
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
     ifnull ( A.unit_no , '' ) as blg_unit_id_1,
@@ -48,7 +51,12 @@ select
     '' as blg_unit_prefix_2,
     ifnull ( A.unit_no_to , '' ) as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
-    upper ( ifnull ( A.floor_desc , '' ) ) as floor_type,
+    case upper ( A.floor_desc )
+        when 'FLOOR' then 'FL'
+        when 'GROUND' then 'G'
+        when 'LEVEL' then 'L'
+        else ''
+    end as floor_type,
     '' as floor_prefix_1,
     ifnull ( A.floor_no , '' ) as floor_no_1,
     upper ( ifnull ( A.floor_suffix , '' ) ) as floor_suffix_1,
@@ -182,7 +190,10 @@ select
     end as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    '' as location_descriptor,
+    case upper ( A.floor_desc )
+        when 'REAR' then 'REAR'
+        else ''
+    end as location_descriptor,
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
     ifnull ( A.unit_no , '' ) as blg_unit_id_1,
@@ -190,7 +201,12 @@ select
     '' as blg_unit_prefix_2,
     ifnull ( A.unit_no_to , '' ) as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
-    upper ( ifnull ( A.floor_desc , '' ) ) as floor_type,
+    case upper ( A.floor_desc )
+        when 'FLOOR' then 'FL'
+        when 'GROUND' then 'G'
+        when 'LEVEL' then 'L'
+        else ''
+    end as floor_type,
     '' as floor_prefix_1,
     ifnull ( A.floor_no , '' ) as floor_no_1,
     upper ( ifnull ( A.floor_suffix , '' ) ) as floor_suffix_1,
