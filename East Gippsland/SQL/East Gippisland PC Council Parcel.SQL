@@ -30,22 +30,8 @@ from
 select
     cast ( lpaprop.tpklpaprop as varchar ) as propnum,
     '' as status,
---    cast ( lpaprac.tpklpaprop as varchar ) as crefno,
+    '' as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
-
---   cast (lpatitl.tpklpatitl as varchar ) as TITLEREF,
---   cast (lpaparc.parcelcode as varchar ) as PARCELCODE,
---   case
---      when trim(lpaparc.parcelcode) = 'L' THEN 
---          cast(lpaparc.parcelnum as varchar(8)) 
---      else cast(lpacrwn.crownallot as varchar ) + '~' + cast(lpasect.parcelsect as varchar(2)) 
---   end as PARCEL,
---   case
---      when trim(lpaparc.parcelcode) = 'L' THEN 
---          cast(lpaparc.plancode as varchar(2)) + cast(lpaparc.plannum as varchar(8))
---      else ''
---   end as PLAN,
-
     ifnull ( lpaparc.plancode , '' ) ||
         case
             when substr ( lpaparc.plannum , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then lpaparc.plannum
@@ -247,7 +233,6 @@ from
    pathway_lpatitl as lpatitl on lpaprti.tfklpatitl = lpatitl.tpklpatitl left join 
    pathway_lpatipa as lpatipa on lpatitl.tpklpatitl = lpatipa.tfklpatitl left join 
    pathway_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc left join 
-   pathway_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpatipa.tfklpaparc left join 
    pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left join 
    pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc left join
    pathway_lpadesc as lpadesc on lpadepa.tfklpadesc = lpadesc.tpklpadesc 
