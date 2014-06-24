@@ -35,7 +35,7 @@ select
     ifnull (
         (
         select
-            npx1.property_no
+            cast ( npx1.property_no as varchar )
         from
             techone_nucproperty npx
             inner join techone_nucassociation nax on npx.property_no = nax.key2
