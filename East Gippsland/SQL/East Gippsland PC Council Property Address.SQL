@@ -1,15 +1,15 @@
 select
     *,
     ltrim ( num_road_address ||
-        trim ( ' ' || locality_name ) ) as ezi_address
+        rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
     *,
     ltrim ( road_name_combined ||
-        trim ( ' ' || locality_name ) ) as road_locality,
+        rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
-        trim ( ' ' || road_name_combined ) ) as num_road_address
+        rtrim ( ' ' || road_name_combined ) ) as num_road_address
 from (
 
 select
@@ -22,20 +22,12 @@ select
         case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
         house_prefix_2 || house_number_2 || house_suffix_2 as num_address,
     ltrim ( road_name ||
-        trim ( ' ' || road_type ) ||
-        trim ( ' ' || road_suffix ) ) as road_name_combined
+        rtrim ( ' ' || road_type ) ||
+        rtrim ( ' ' || road_suffix ) ) as road_name_combined
 from (
 
 select
-    cast (
-        (select lraassm.assmnumber
-        from pathway_lparole as lparole
-        left outer join pathway_lraassm as lraassm
-        on lparole.tfkappl = lraassm.tpklraassm
-        where lparole.fklparolta = 'LRA'
-        and lparole.fklparoltn = 0
-        and lraassm.applicatn = 'R'
-        and lpaprop.tpklpaprop = lparole.tfklocl ) as varchar ) as propnum,
+    cast ( cast ( lraassm.assmnumber as integer ) as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
     '' as is_primary,
@@ -43,16 +35,16 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
-        when trim ( lpaaddr.prefix) = 'ATM' then 'ATM'
-        when trim ( lpaaddr.prefix) = 'CAR PARK' then 'CP'
-        when trim ( lpaaddr.prefix) = 'FACTORY' then 'FY'
-        when trim ( lpaaddr.prefix) = 'KIOSK' then 'KSK'
-        when trim ( lpaaddr.prefix) = 'OFFICE' then 'OFFC'
-        when trim ( lpaaddr.prefix) = 'SHOP' then 'SHOP'
-        when trim ( lpaaddr.prefix) = 'SUITE' then 'SE'
-        when trim ( lpaaddr.prefix) = 'UNIT' then 'U'
-        when trim ( lpaaddr.prefix) = 'L' then 'LOT'
-        when trim ( lpaaddr.prefix) = 'ROOM' then 'ROOM'
+        when trim ( lpaaddr.prefix ) = 'ATM' then 'ATM'
+        when trim ( lpaaddr.prefix ) = 'CAR PARK' then 'CP'
+        when trim ( lpaaddr.prefix ) = 'FACTORY' then 'FY'
+        when trim ( lpaaddr.prefix ) = 'KIOSK' then 'KSK'
+        when trim ( lpaaddr.prefix ) = 'OFFICE' then 'OFFC'
+        when trim ( lpaaddr.prefix ) = 'SHOP' then 'SHOP'
+        when trim ( lpaaddr.prefix ) = 'SUITE' then 'SE'
+        when trim ( lpaaddr.prefix ) = 'UNIT' then 'U'
+        when trim ( lpaaddr.prefix ) = 'L' then 'LOT'
+        when trim ( lpaaddr.prefix ) = 'ROOM' then 'ROOM'
         else ''
     end as blg_unit_type,
     '' as blg_unit_prefix_1,
@@ -93,9 +85,9 @@ select
     ifnull ( upper ( lpapnam.propname ) , '' ) as building_name,
     '' as complex_name,
     case
-        when trim ( lpaaddr.prefix) = 'OFF' then 'OFF'
-        when trim ( lpaaddr.prefix) = 'CENTRE' then 'CENTRE'
-        when trim ( lpaaddr.lvlprefix) = 'UPSTAIRS' then 'UPSTAIRS'
+        when trim ( lpaaddr.prefix ) = 'OFF' then 'OFF'
+        when trim ( lpaaddr.prefix ) = 'CENTRE' then 'CENTRE'
+        when trim ( lpaaddr.lvlprefix ) = 'UPSTAIRS' then 'UPSTAIRS'
         else ''
     end as location_descriptor,
     '' as house_prefix_1,
@@ -132,7 +124,7 @@ select
         when cnaqual.descr like '% WEST' then 'W'
         else ''
     end as road_suffix,
-    upper ( lpasubr.suburbname ) as locality_name, 
+    upper ( lpasubr.suburbname ) as locality_name,
     '' as postcode,
     '' as access_type,
     '' as easting,
@@ -151,11 +143,16 @@ from
     pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join
     pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
+    pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
+    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm left join
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
     lpaprop.status <> 'H' and
     lpaaddr.addrtype = 'P' and
-    lpaprtp.abbrev <> 'BASE'
+    lpaprtp.abbrev <> 'BASE' and
+    lparole.fklparolta = 'LRA' and
+    lparole.fklparoltn = 0 and
+    lraassm.applicatn = 'R'
 )
 )
 )
