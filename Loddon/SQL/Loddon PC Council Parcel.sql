@@ -66,11 +66,14 @@ select
         else ''
     end as allotment,
     case
-        when Parcel.Section in ( 'NO' , 'NO SEC' ) then ''
+        when upper ( Parcel.Section ) in ( 'NO' , 'NO SEC' , 'NO SECTION' ) then ''
         else Parcel.Section
     end as sec,
-    case when Lot like '%(BLK%)' then substr ( Lot , length ( Lot ) - 1 , 1 ) else '' end as block,
-    ifnull ( Parcel.CrownPortion , '' ) as portion,
+    '' as block,
+    case
+        when Parcel.Type = 'Crown Description' then Parcel.CrownPortion
+        else ''
+    end as portion,
     '' as subdivision,
     case upper ( Parcel.Parish )
         when 'BARRAKEE' then '2081'
