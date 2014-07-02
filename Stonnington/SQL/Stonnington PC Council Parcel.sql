@@ -6,7 +6,7 @@ select
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
         when plan_number <> '' then lot_number || '\' || plan_number
         when ( parish_code <> '' or township_code <> '' ) then
-            allotment ||
+            allotment || portion ||
             case when sec <> '' then '~' || sec else '' end ||
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
@@ -18,7 +18,7 @@ select
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_numeral
         when plan_numeral <> '' then lot_number || '\' || plan_numeral
         when ( parish_code <> '' or township_code <> '' ) then
-            allotment ||
+            allotment || portion ||
             case when sec <> '' then '~' || sec else '' end ||
             '\' ||
             case when township_code <> '' then township_code else parish_code end
