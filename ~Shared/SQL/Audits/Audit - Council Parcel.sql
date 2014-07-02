@@ -27,7 +27,7 @@ select
     ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi ) , 0 ) as spi_in_council,
     ifnull ( ( select group_concat ( propnum ) from pc_council_parcel x where x.spi = cp.spi and length ( spi ) >= 5 ) , '' ) as council_propnums,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi ) , 0 ) as spi_in_vicmap,
-    ifnull ( ( select group_concat ( propnum ) from pc_vicmap_parcel vpx where vpx.spi = cp.spi ) , '' ) as vicmap_propnums,
+    ifnull ( ( select group_concat ( propnum ) from pc_vicmap_parcel vpx where vpx.spi = cp.spi and length ( spi ) >= 5 ) , '' ) as vicmap_propnums,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi and vp.spi <> cp.spi) , 0 ) as partial_spi_in_vicmap,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi ) , 0 ) as alt_spi_in_vicmap,
     case
