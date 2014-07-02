@@ -6,7 +6,7 @@ select
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
         when plan_number <> '' then lot_number || '\' || plan_number
         when ( parish_code <> '' or township_code <> '' ) then
-            allotment ||
+            allotment || portion ||
             case when sec <> '' then '~' || sec else '' end ||
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
@@ -18,7 +18,7 @@ select
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_numeral
         when plan_numeral <> '' then lot_number || '\' || plan_numeral
         when ( parish_code <> '' or township_code <> '' ) then
-            allotment ||
+            allotment || portion ||
             case when sec <> '' then '~' || sec else '' end ||
             '\' ||
             case when township_code <> '' then township_code else parish_code end
@@ -32,15 +32,16 @@ select
     '' as crefno,
     '' as summary,
     '' as part,
-    case Parcel.Type    
-        when 'Lodged Plan' then 'LP'
-        when 'Title Plan' then 'TP'
-        when 'Plan of Subdivision' then 'PS'
-        when 'Consolidation Plan' then 'PC'
-        when 'Strata Plan' then 'RP'
-        when 'Stratum Plan' then 'SP'
-        else ''
-    end || Parcel.PlanNo as plan_number,
+    ifnull (
+        case Parcel.Type    
+            when 'Lodged Plan' then 'LP'
+            when 'Title Plan' then 'TP'
+            when 'Plan of Subdivision' then 'PS'
+            when 'Consolidation Plan' then 'PC'
+            when 'Strata Plan' then 'RP'
+            when 'Stratum Plan' then 'SP'
+        end
+        || Parcel.PlanNo , '' ) as plan_number,
     case Parcel.Type
         when 'Lodged Plan' then 'LP'
         when 'Title Plan' then 'TP'
@@ -51,25 +52,25 @@ select
         else ''
     end as plan_prefix,
     case
+        when Parcel.Type = 'Crown Description' then ''
         when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
         when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
         else ''
     end as plan_numeral,
     case
-        when Parcel.Lot glob '?(*' then substr ( Parcel.Lot , 1 , 1 )
-        when Parcel.Lot glob '??(*' then substr ( Parcel.Lot , 1 , 2 )
+        when Parcel.Type = 'Crown Description' then ''
         else Parcel.Lot
     end as lot_number,
     case
-        when Parcel.PlanNo <> '' then ''
-        else Parcel.CrownAllotment
+        when Parcel.Type = 'Crown Description' then Parcel.CrownAllotment
+        else ''
     end as allotment,
     case
         when Parcel.Section in ( 'NO' , 'NO SEC' ) then ''
         else Parcel.Section
     end as sec,
     case when Lot like '%(BLK%)' then substr ( Lot , length ( Lot ) - 1 , 1 ) else '' end as block,
-    '' as portion,
+    ifnull ( Parcel.CrownPortion , '' ) as portion,
     '' as subdivision,
     case upper ( Parcel.Parish )
         when 'BARRAKEE' then '2081'
