@@ -26,7 +26,7 @@ select
         when township_code not in ( '' , '9999' ) and not ( substr ( township_code , 1 , 1 ) in ('2','3') and substr ( township_code , -1 ) in ('A','B','C','D','E','F','G','H','I','J','K') ) and ( cast ( township_code as integer ) < 5000 or cast ( township_code as integer ) > 5999 ) then 'Invalid: township number not in valid range (' || township_code || ')'
         when plan_numeral like '0%' then 'Invalid: plan number contains leading zero (' || plan_number || ')'
         when spi like '\PP%' then 'Invalid: allotment missing for crown description'
-        when spi like '\%' or length ( spi ) < 5 then 'Invalid: plan number format not recognised'
+        when spi like '\%' or length ( spi ) < 5 then 'Invalid: parcel description not recognised'
         else ''
     end as spi_validity,
     ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi ) , 0 ) as spi_in_council,
