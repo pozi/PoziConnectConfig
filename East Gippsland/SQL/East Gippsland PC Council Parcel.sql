@@ -49,6 +49,7 @@ select
         else ifnull ( replace ( lpaparc.parcelnum , ' ' , '' ) , '' )
     end as lot_number,
     case
+        when lpaparc.plancode in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then ''
         when ifnull ( lpaparc.parcelnum , '' ) <> '' then replace ( lpaparc.parcelnum , ' ' , '' )
         when upper ( lpaparc.fmtparcel ) glob 'CA PART ? *' then substr ( lpaparc.fmtparcel , 9 , 1 )
         when upper ( lpaparc.fmtparcel ) glob 'CA PART ?? *' then substr ( lpaparc.fmtparcel , 9 , 2 )
