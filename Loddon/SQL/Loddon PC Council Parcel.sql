@@ -32,16 +32,20 @@ select
     '' as crefno,
     '' as summary,
     '' as part,
-    ifnull (
-        case Parcel.Type    
-            when 'Lodged Plan' then 'LP'
-            when 'Title Plan' then 'TP'
-            when 'Plan of Subdivision' then 'PS'
-            when 'Consolidation Plan' then 'PC'
-            when 'Strata Plan' then 'RP'
-            when 'Stratum Plan' then 'SP'
-        end
-        || Parcel.PlanNo , '' ) as plan_number,
+    case Parcel.Type    
+        when 'Lodged Plan' then 'LP'
+        when 'Title Plan' then 'TP'
+        when 'Plan of Subdivision' then 'PS'
+        when 'Consolidation Plan' then 'PC'
+        when 'Strata Plan' then 'RP'
+        when 'Stratum Plan' then 'SP'
+        else ''
+    end || case
+            when Parcel.Type = 'Crown Description' then ''
+            when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
+            when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
+            else ''
+        end as plan_number,
     case Parcel.Type
         when 'Lodged Plan' then 'LP'
         when 'Title Plan' then 'TP'
