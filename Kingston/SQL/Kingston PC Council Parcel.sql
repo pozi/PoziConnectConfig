@@ -32,7 +32,7 @@ select distinct
         when 'C' then 'A'
         when 'A' then 'P'
     end as status,
-    cast ( lpaparc.tpklpaparc as varchar ) as crefno,
+    '' as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     case lpaparc.plancode
         when 'PP' then ''
