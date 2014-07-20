@@ -78,8 +78,8 @@ select
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
         else ''
     end as plan_numeral,
-    case when auprparc.ttl_cde <> 9 then ifnull ( trim ( replace ( upper ( ttl_no1 ) , 'PT.' , '' ) ) , '' ) else '' end as lot_number,
-    case when auprparc.ttl_cde = 9 then ifnull ( trim ( replace ( upper ( ttl_no1 ) , 'PT.' , '' ) ) , '' ) else '' end as allotment,
+    case when auprparc.ttl_cde <> 9 then ifnull ( replace ( replace ( replace ( upper ( ttl_no1 ) , '.' , '' ) , 'PT' , '' ) , ' ' , '' ) , '' ) else '' end as lot_number,
+    case when auprparc.ttl_cde = 9 then ifnull ( replace ( replace ( replace ( upper ( ttl_no1 ) , '.' , '' ) , 'PT' , '' ) ) , '' ) else '' end as allotment,
     ifnull ( ttl_no3 , '' ) as sec,
     '' as block,
     '' as portion,
