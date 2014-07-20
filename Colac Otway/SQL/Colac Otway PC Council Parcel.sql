@@ -79,7 +79,7 @@ select
         else ''
     end as plan_numeral,
     case when auprparc.ttl_cde <> 9 then ifnull ( replace ( replace ( replace ( upper ( ttl_no1 ) , '.' , '' ) , 'PT' , '' ) , ' ' , '' ) , '' ) else '' end as lot_number,
-    case when auprparc.ttl_cde = 9 then ifnull ( replace ( replace ( replace ( upper ( ttl_no1 ) , '.' , '' ) , 'PT' , '' ) ) , '' ) else '' end as allotment,
+    case when auprparc.ttl_cde = 9 then ifnull ( replace ( replace ( replace ( upper ( ttl_no1 ) , '.' , '' ) , 'PT' , '' ) , ' ' , '' ) , '' ) else '' end as allotment,
     ifnull ( ttl_no3 , '' ) as sec,
     '' as block,
     '' as portion,
