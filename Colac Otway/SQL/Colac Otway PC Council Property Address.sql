@@ -60,7 +60,13 @@ select distinct
     '' as house_prefix_2,
     ifnull ( cast ( auprstad.hou_end as varchar ) , '' ) as house_number_2,
     ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
-    upper ( auprstad.str_nme ) as road_name,
+    case upper ( auprstad.str_nme )
+        when 'BEECH FOREST L/HILL' then 'BEECH FOREST-LAVERS HILL'
+        when 'GRAHAM & MCDONALDS' then 'GRAHAM AND MCDONALDS'
+        when 'PENNYROYAL W/LIEL' then 'PENNYROYAL-WYMBOOLIEL'
+        when 'WALL/SKINNERS' then 'WALL-SKINNERS'
+        else upper ( auprstad.str_nme )
+    end as road_name,
     case
         when upper ( auprstad.str_typ ) = 'ACC' then 'ACCESS'
         when upper ( auprstad.str_typ ) = 'AVE' then 'AVENUE'
