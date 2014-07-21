@@ -62,6 +62,7 @@ select distinct
     ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
     case upper ( auprstad.str_nme )
         when 'BEECH FOREST L/HILL' then 'BEECH FOREST-LAVERS HILL'
+        when 'FOREST STREET SOUTH' then 'FOREST'
         when 'GRAHAM & MCDONALDS' then 'GRAHAM AND MCDONALDS'
         when 'PENNYROYAL W/LIEL' then 'PENNYROYAL-WYMBOOLIEL'
         when 'WALL/SKINNERS' then 'WALL-SKINNERS'
@@ -90,6 +91,7 @@ select distinct
         when upper ( auprstad.str_typ ) = 'TR' then 'TRACK'
         when upper ( auprstad.str_typ ) = 'WK' then 'WALK'
         when upper ( auprstad.str_typ ) = 'WY' then 'WAY'
+        when upper ( auprstad.str_nme ) = 'FOREST STREET SOUTH' then 'STREET'
         else ''
     end as road_type,
     case
@@ -98,6 +100,7 @@ select distinct
         when upper ( auprstad.str_typ ) in ( 'RD E' , 'ST E' ) then 'E'
         when upper ( auprstad.str_typ ) in ( 'RD W' , 'ST W' ) then 'W'
         when upper ( auprstad.str_typ ) in ( 'RD X' , 'ST X' ) then 'EX'
+        when upper ( auprstad.str_nme ) = 'FOREST STREET SOUTH' then 'S'
         else ''
     end as road_suffix,
     upper ( auprstad.sbr_nme ) as locality_name,
