@@ -12,6 +12,7 @@ select
         when block like '%&%' or block like '% %' or block like '%-%' then 'Invalid: block contains invalid character (' || block || ')'
         when portion like '%&%' or portion like '% %' or portion like '%-%' then 'Invalid: portion contains invalid character (' || portion || ')'
         when subdivision like '%&%' or subdivision like '% %' or subdivision like '%-%' then 'Invalid: subdivision contains invalid character (' || subdivision || ')'
+        when plan_prefix not in ( '' , 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then 'Invalid: plan prefix (' || plan_prefix || ')'
         when plan_prefix = '' and plan_numeral <> '' then 'Invalid: plan prefix missing for plan ' || plan_number
         when plan_prefix in ( 'CS' , 'LP' , 'PS' , 'RP' , 'SP' ) and lot_number = '' then 'Invalid: lot number missing for ' || plan_prefix
         when plan_prefix in ( 'CP' , 'PC' ) and lot_number <> '' then 'Invalid: lot number not valid for ' || plan_prefix
