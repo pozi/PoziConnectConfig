@@ -84,7 +84,7 @@ select
     '' as block,
     '' as portion,
     '' as subdivision,
-    case when auprparc.ttl_cde = 9 then ifnull ( auprparc.ttl_no4 , '' ) else '' end as parish_code,
+    case when auprparc.ttl_cde = 9 then ifnull ( auprparc.udn_cd1 , '' ) else '' end as parish_code,
     '' as township_code,
     fmt_ttl as summary,
     '314' as lga_code
