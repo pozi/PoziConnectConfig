@@ -64,6 +64,7 @@ select distinct
         when 'BEECH FOREST L/HILL' then 'BEECH FOREST-LAVERS HILL'
         when 'FOREST STREET SOUTH' then 'FOREST'
         when 'GRAHAM & MCDONALDS' then 'GRAHAM AND MCDONALDS'
+        when 'IRREWILLIPE-PIRRON-YALLOC' then 'IRREWILLIPE-PIRRON-YALLOCK'
         when 'PENNYROYAL W/LIEL' then 'PENNYROYAL-WYMBOOLIEL'
         when 'WALL/SKINNERS' then 'WALL-SKINNERS'
         else upper ( auprstad.str_nme )
