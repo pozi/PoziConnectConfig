@@ -72,7 +72,7 @@ select
             when '' then '(blank)'
             else vp.crefno
         end ||
-        ' with ' || cp.crefno as comments,
+        ' with ' || cp.crefno || ' (propnum ' || cp.propnum || ')' as comments,
     centroid ( vp.geometry ) as geometry
 from
     pc_vicmap_parcel vp,
