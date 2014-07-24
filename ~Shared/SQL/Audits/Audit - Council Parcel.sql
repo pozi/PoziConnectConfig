@@ -31,9 +31,9 @@ select
         else ''
     end as spi_validity,
     ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi and length ( cp.spi ) >= 5 ) , '' ) as spi_in_council,
-    ifnull ( ( select group_concat ( propnum ) from pc_council_parcel x where x.spi = cp.spi and length ( cp.spi ) >= 5 ) , '' ) as council_propnums,
+    substr ( ifnull ( ( select group_concat ( propnum ) from pc_council_parcel x where x.spi = cp.spi and length ( cp.spi ) >= 5 ) , '' ) , 1 , 99 ) as council_propnums,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi and length ( cp.spi ) >= 5 ) , 0 ) as spi_in_vicmap,
-    ifnull ( ( select group_concat ( propnum ) from pc_vicmap_parcel vpx where vpx.spi = cp.spi and length ( cp.spi ) >= 5 ) , 0 ) as vicmap_propnums,
+    substr ( ifnull ( ( select group_concat ( propnum ) from pc_vicmap_parcel vpx where vpx.spi = cp.spi and length ( cp.spi ) >= 5 ) , 0 ) , 1 , 99 ) as vicmap_propnums,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi and vp.spi <> cp.spi and length ( cp.spi ) >= 5 ) , 0 ) as partial_spi_in_vicmap,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi and length ( cp.spi ) >= 5 ) , 0 ) as alt_spi_in_vicmap,
     case
@@ -51,7 +51,6 @@ select
     ifnull ( ( select crefno from pc_vicmap_parcel vp where vp.spi = cp.spi ) , '' ) as vicmap_crefno,
     ifnull ( ( select edit_code from M1 where m1.spi = cp.spi  and length ( cp.spi ) >= 5 limit 1 ) , '' ) as m1_edit_code,
     ifnull ( ( select comments from M1 where m1.spi = cp.spi  and length ( cp.spi ) >= 5 limit 1 ) , '' ) as m1_comments,
-    cp.*,
     ( select vp.geometry from pc_vicmap_parcel vp where vp.spi = cp.spi limit 1 ) as geometry
 from PC_Council_Parcel cp
 
