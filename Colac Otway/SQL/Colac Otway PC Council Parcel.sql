@@ -82,7 +82,7 @@ select
     case when auprparc.ttl_cde = 9 then ifnull ( replace ( replace ( replace ( upper ( ttl_no1 ) , '.' , '' ) , 'PT' , '' ) , ' ' , '' ) , '' ) else '' end as allotment,
     ifnull ( ttl_no3 , '' ) as sec,
     '' as block,
-    '' as portion,
+    case when length ( auprparc.ttl_no4 ) < 4 and auprparc.ttl_no4 <> '\' then auprparc.ttl_no4 end as portion,
     '' as subdivision,
     case when auprparc.ttl_cde = 9 then ifnull ( auprparc.udn_cd1 , '' ) else '' end as parish_code,
     '' as township_code,
