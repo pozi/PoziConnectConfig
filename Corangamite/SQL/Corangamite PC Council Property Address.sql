@@ -1,4 +1,32 @@
 select
+    *,
+    ltrim ( num_road_address ||
+        rtrim ( ' ' || locality_name ) ) as ezi_address
+from (
+
+select
+    *,
+    ltrim ( road_name_combined ||
+        rtrim ( ' ' || locality_name ) ) as road_locality,
+    ltrim ( num_address ||
+        rtrim ( ' ' || road_name_combined ) ) as num_road_address
+from (
+
+select
+    *,
+    blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
+        case when ( blg_unit_id_2 <> '' or blg_unit_suffix_2 <> '' ) then '-' else '' end ||
+        blg_unit_prefix_2 || blg_unit_id_2 || blg_unit_suffix_2 ||
+        case when ( blg_unit_id_1 <> '' or blg_unit_suffix_1 <> '' ) then '/' else '' end ||
+        house_prefix_1 || house_number_1 || house_suffix_1 ||
+        case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
+        house_prefix_2 || house_number_2 || house_suffix_2 as num_address,
+    ltrim ( road_name ||
+        rtrim ( ' ' || road_type ) ||
+        rtrim ( ' ' || road_suffix ) ) as road_name_combined
+from (
+
+select
     cast ( P.property_no as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
@@ -43,6 +71,7 @@ select
         else ifnull ( A.house_no , '' )
     end as house_number_1,
     upper ( ifnull ( A.house_no_suffix , '' ) ) as house_suffix_1,
+    '' as house_prefix_2,
     case
         when A.house_no_to = '0' then ''
         else ifnull ( A.house_no_to , '' )
@@ -109,8 +138,8 @@ select
         when S.street_name like '% WEST' then 'W'
         else ''
     end as road_suffix,
-    L.locality_name as "locality",
-    L.postcode as "postcode",
+    L.locality_name as locality_name,
+    L.postcode as postcode,
     '' as access_type,
     '' as easting,
     '' as northing,
@@ -126,3 +155,6 @@ from
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
     P.status not in ( 'P' , 'x' )
+)
+)
+)
