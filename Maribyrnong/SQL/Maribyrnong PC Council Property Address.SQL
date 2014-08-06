@@ -153,10 +153,10 @@ select distinct
         else upper ( ifnull ( auprstad.str_typ , '' ) )
     end as road_type,
     case
-        when trim ( auprstad.str_typ ) = 'SN' then 'N'
-        when trim ( auprstad.str_typ ) = 'SS' then 'S'
-        when trim ( auprstad.str_typ ) = 'SE' then 'E'
-        when trim ( auprstad.str_typ ) = 'SW' then 'W'
+        when auprstad.str_nme like '% N' then 'N'
+        when auprstad.str_nme like '% S' then 'S'
+        when auprstad.str_nme like '% E' then 'E'
+        when auprstad.str_nme like '% W' then 'W'
         else ''
     end as road_suffix,
     upper ( trim ( auprstad.sbr_nme ) ) as locality_name,
