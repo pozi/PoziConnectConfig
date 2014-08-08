@@ -1,4 +1,4 @@
-select
+select distinct
     lga_code,
     '' as new_sub,
     property_pfi,
@@ -52,7 +52,7 @@ select
     geometry as geometry
 from (
 
-select distinct
+select
     ( select vp.property_pfi from pc_vicmap_parcel vp where vp.spi = cp.spi limit 1 ) as property_pfi,
     cpa.*,
     '' as new_road,
