@@ -42,7 +42,7 @@ select
     ifnull ( Title.Title_Portion , '' ) as portion,
     ifnull ( Title.Title_Subdivision , '' ) as subdivision,
     ifnull ( Parish.Parish_Code , '' ) as parish_code,
-    '' as township_code,
+    ifnull ( Township.Township_Code , '' ) as township_code,
     '311' as lga_code
 from
     propertygov_parcel as Parcel inner join
@@ -51,7 +51,8 @@ from
     propertygov_assessment_parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
     propertygov_assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id left outer join
     propertygov_plan_type as Plan_Type on Title.Plan_Type = Plan_Type.Plan_Type left outer join
-    propertygov_parish as Parish on Title.Parish_Id = Parish.Parish_Id
+    propertygov_parish as Parish on Title.Parish_Id = Parish.Parish_Id left join 
+    propertygov_township as Township on Title.Township_Id = Township.Township_Id
 where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status not in ( '9' , '22' ) and    
