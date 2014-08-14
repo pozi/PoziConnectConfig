@@ -52,8 +52,14 @@ select distinct
     '' as block,
     '' as portion,
     '' as subdivision,
-    ifnull ( cnacomp.descrsrch , '' ) as parish_code,
-    '' as township_code,
+    case
+        when lpaparc.plancode = 'PP' and substr (lpaparc.plannum , 1 , 1 ) in ( '2', '3', '4')  then lpaparc.plannum
+        else ''
+    end as parish_code,
+    case
+        when lpaparc.plancode = 'PP' and substr (lpaparc.plannum , 1 , 1 ) in ( '5' ) then lpaparc.plannum
+        else ''
+    end as township_code,
     '342' as lga_code
 from
     pathway_lpaprop as lpaprop left join
