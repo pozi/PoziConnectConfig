@@ -27,7 +27,7 @@ select
 from
 (
 select
-    cast ( A.key1 as varchar ) as propnum,
+    cast ( P.property_no as varchar ) as propnum,
     cast ( L.land_no as varchar ) as crefno,
     '' as summary,
     case P.status
@@ -36,24 +36,31 @@ select
     end as status,
     ifnull ( upper ( part_lot ) , '' ) as part,
     case
+        when upper (l.plan_desc) = 'SEC' then ''
         when substr ( L.plan_no , 1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then ''
         when substr ( trim ( ifnull ( L.plan_no , '' ) ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( ifnull ( L.plan_desc , '' ) ) || ifnull ( L.plan_no , '' )
         else trim ( ifnull ( L.plan_desc , '' ) ) || substr ( trim ( ifnull ( L.plan_no , '' ) ) , 1 , length ( trim ( ifnull ( L.plan_no , '' ) ) ) - 1 )
     end as plan_number,
-    ifnull ( L.plan_desc , '' ) as plan_prefix,
     case
+        when upper (l.plan_desc) = 'SEC' then ''
+        else ifnull ( L.plan_desc , '' ) 
+    end as plan_prefix,
+    case
+        when upper (l.plan_desc) = 'SEC' then ''
         when substr ( L.plan_no , 1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then ''
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
         else ifnull (substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_numeral,
-    upper ( replace ( ifnull ( L.lot , '' ) , ' ' , '' ) ) as lot_number,
     case
-        when ifnull ( L.plan_desc , '' ) = '' then ifnull ( L.parish_portion , '' )
+        when l.parish_desc <> '' then ''
+        else upper ( replace ( ifnull ( L.lot , '' ) , ' ' , '' ) ) 
+    end as lot_number,
+    case
+        when l.parish_desc <> '' then l.lot
         else ''
     end as allotment,
     case
-        when l.plan_desc = 'SEC' then l.parish_section = l.plan_no
-        when ifnull ( L.plan_desc , '' ) = '' then ifnull ( L.parish_section , '' )
+        when l.plan_desc = 'SEC' then ifnull ( l.plan_no ,'' )
         else ''
     end as sec,
     '' as block,
@@ -65,8 +72,9 @@ select
         when 'WARRA' then '3753'
         else ''
     end as parish_code,
-    case upper ( L.parish_desc )
-        when 'TEMPLE' then '5776'
+    case 
+        when P.OVERRIDE_LEGAL_DESCRIPTION like '%Town%' and upper ( L.parish_desc ) = 'TEMPLE' then '5776'
+        when P.OVERRIDE_LEGAL_DESCRIPTION like '%Town%' and upper ( L.parish_desc ) = 'WARRA' then '5837'
         else ''
     end as township_code,
     '340' as lga_code
