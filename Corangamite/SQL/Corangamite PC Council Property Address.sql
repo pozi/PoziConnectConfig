@@ -151,7 +151,7 @@ select
     '' as outside_property,
     '315' as lga_code,
     '' as crefno,
-    '' as summary
+    A.formatted_address as summary
 from
     techone_nucproperty P
     join techone_nucaddress A on A.property_no = P.property_no
