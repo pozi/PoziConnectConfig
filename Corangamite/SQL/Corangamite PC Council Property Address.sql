@@ -35,11 +35,13 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
-        when A.floor_desc = 'DS' then 'DOWNSTAIRS'
-        when A.floor_desc = 'US' then 'UPSTAIRS'
+        when upper ( A.unit_desc ) in ( 'ADJACENT' , 'CNR' , 'CORNER' , 'REAR' ) then replace ( upper ( A.unit_desc ) , 'CNR' , 'CORNER' )
         else ''
     end as location_descriptor,
-    upper ( ifnull ( A.unit_desc , '' ) ) as blg_unit_type,
+    case
+        when upper ( A.unit_desc ) in ( 'ADJACENT' , 'CNR' , 'CORNER' , 'REAR' ) then ''
+        else upper ( ifnull ( A.unit_desc , '' ) )
+    end as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
         when A.unit_no = '0' then ''
