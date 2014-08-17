@@ -5,6 +5,8 @@ select
     summary as summary,
     status as status,
     case
+        when status not in ( '' , 'A' , 'P' ) then 'Invalid: status (' || status || ')'
+        when part not in ( '' , 'N' , 'P' ) then 'Invalid: part (' || part || ')'
         when plan_number like '%&%' or plan_number like '% %' or plan_number like '%-%' or ( plan_numeral <> '' and substr ( plan_numeral , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) ) then 'Invalid: plan number contains invalid character (' || plan_number || ')'
         when lot_number like '%&%' or lot_number like '% %' or lot_number like '%-%' then 'Invalid: lot number contains invalid character (' || lot_number || ')'
         when allotment like '%&%' or allotment like '% %' or allotment like '%-%' then 'Invalid: allotment contains invalid character (' || allotment || ')'
