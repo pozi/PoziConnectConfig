@@ -18,6 +18,7 @@ select
         when plan_prefix = '' and plan_numeral <> '' then 'Invalid: plan prefix missing for plan ' || plan_number
         when plan_prefix in ( 'CS' , 'LP' , 'PS' , 'RP' , 'SP' ) and lot_number = '' then 'Invalid: lot number missing for ' || plan_prefix
         when plan_prefix in ( 'CP' , 'PC' ) and lot_number <> '' then 'Invalid: lot number not valid for ' || plan_prefix
+        when plan_numeral like '0%' then 'Invalid: plan number contains leading zero (' || plan_number || ')'
         when plan_prefix = 'CP' and not ( ( 100000 <= cast ( plan_numeral as integer ) <= 109999 ) or ( 150000 <= plan_numeral <= 199999 ) ) then 'Invalid: plan number not in valid range for CP (' || plan_number || ')'
         when plan_prefix = 'CS' and not ( 1000 <= cast ( plan_numeral as integer ) <= 10000 ) then 'Invalid: plan number not in valid range for CS (' || plan_number || ')'
         when plan_prefix = 'LP' and not ( ( 1 <= cast ( plan_numeral as integer ) <= 99999 ) or ( 110000 <= cast ( plan_numeral as integer ) <= 149999 ) or ( 200000 <= cast ( plan_numeral as integer ) <= 299999 ) ) then 'Invalid: plan number not in valid range for LP (' || plan_number || ')'
@@ -27,7 +28,6 @@ select
         when plan_prefix = 'SP' and not ( 19927 <= cast ( plan_numeral as integer ) <= 40000 ) then 'Invalid: plan number not in valid range for SP (' || plan_number || ')'
         when parish_code <> '' and ( cast ( parish_code as integer ) < 2000 or cast ( parish_code as integer ) > 3999 ) then 'Invalid: parish number not in valid range (' || parish_code || ')'
         when township_code not in ( '' , '9999' ) and not ( substr ( township_code , 1 , 1 ) in ('2','3') and substr ( township_code , -1 ) in ('A','B','C','D','E','F','G','H','I','J','K') ) and ( cast ( township_code as integer ) < 5000 or cast ( township_code as integer ) > 5999 ) then 'Invalid: township number not in valid range (' || township_code || ')'
-        when plan_numeral like '0%' then 'Invalid: plan number contains leading zero (' || plan_number || ')'
         when spi like '\PP%' then 'Invalid: allotment missing for crown description'
         when spi like '\%' or length ( spi ) < 5 then 'Invalid: parcel description not recognised'
         else ''
