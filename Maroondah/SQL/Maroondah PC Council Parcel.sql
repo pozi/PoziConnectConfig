@@ -6,8 +6,13 @@ select
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
         when plan_number <> '' then lot_number || '\' || plan_number
         when ( parish_code <> '' or township_code <> '' ) then
-            allotment || portion ||
-            case when sec <> '' then '~' || sec else '' end ||
+            subdivision ||
+            case when subdivision <> '' and ( portion <> '' or allotment <> '' ) then '~' else '' end ||
+            portion ||
+            case when portion <> '' and allotment <> '' then '~' else '' end ||
+            allotment ||
+            case when sec <> '' then '~' else '' end ||
+            sec ||
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
@@ -18,8 +23,13 @@ select
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_numeral
         when plan_numeral <> '' then lot_number || '\' || plan_numeral
         when ( parish_code <> '' or township_code <> '' ) then
-            allotment || portion ||
-            case when sec <> '' then '~' || sec else '' end ||
+            subdivision ||
+            case when subdivision <> '' and ( portion <> '' or allotment <> '' ) then '~' else '' end ||
+            portion ||
+            case when portion <> '' and allotment <> '' then '~' else '' end ||
+            allotment ||
+            case when sec <> '' then '~' else '' end ||
+            sec ||
             '\' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
