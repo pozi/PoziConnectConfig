@@ -15,8 +15,8 @@ from (
 select
     *,
     blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
-        case when ( blg_unit_id_2 <> '' or blg_unit_suffix_2 <> '' ) then '-' else '' end ||
-        blg_unit_prefix_2 || blg_unit_id_2 || blg_unit_suffix_2 ||
+        case when ( cast( blg_unit_id_2 as varchar ) <> '' or blg_unit_suffix_2 <> '' ) then '-' else '' end ||
+        blg_unit_prefix_2 || cast ( blg_unit_id_2 as varchar ) || blg_unit_suffix_2 ||
         case when ( blg_unit_id_1 <> '' or blg_unit_suffix_1 <> '' ) then '/' else '' end ||
         house_prefix_1 || house_number_1 || house_suffix_1 ||
         case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
@@ -72,8 +72,8 @@ select
     upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
-        when A.unit_no_to = '0' then replace ( A.unit_no_to , '0' , '' )
-        else ifnull ( A.unit_no_to , '' )
+        when cast ( A.unit_no_to as varchar ) = '0' then replace ( cast ( A.unit_no_to as varchar ) , '0' , '' )
+        else ifnull ( cast ( A.unit_no_to as varchar ) , '' )
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
     case
@@ -131,7 +131,7 @@ select
         when upper ( substr ( S.street_name , -9 ) ) in ( ' CRESCENT', ' QUADRANT' , ' WATERWAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 9 ) )
         when upper ( substr ( S.street_name , -10 ) ) in ( ' BOULEVARD', ' ESPLANADE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 10 ) )
         when upper ( substr ( S.street_name , -11 ) ) in ( ' BOULEVARDE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 11 ) )
-        when upper ( substr ( S.street_name , -10 ) ) in ( ' ROAD EAST', ' ROAD WEST', ' WAY NORTH' , ' WAY SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 10 ) )
+        when upper ( substr ( S.street_name , -10 ) ) in ( ' ROAD EAST', ' ROAD WEST', ' WAY NORTH' , ' WAY SOUTH' , ' LANE EAST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 10 ) )
         when upper ( substr ( S.street_name , -11 ) ) in ( ' GROVE EAST' , ' GROVE WEST', ' LANE NORTH' , ' LANE SOUTH' , ' ROAD NORTH' , ' ROAD SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 11 ) )
         when upper ( substr ( S.street_name , -12 ) ) in ( ' CLOSE NORTH' , ' CLOSE SOUTH' , ' COURT NORTH' , ' COURT SOUTH' , ' DRIVE NORTH' , ' DRIVE SOUTH' , ' STREET EAST' , ' STREET WEST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 12 ) )
         when upper ( substr ( S.street_name , -13 ) ) in ( ' AVENUE NORTH' , ' AVENUE SOUTH' , ' STREET NORTH' , ' STREET SOUTH' , ' PARADE NORTH' , ' PARADE SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 13 ) )
@@ -219,14 +219,14 @@ select
     '' as outside_property,
     '340' as lga_code,
     '' as crefno,
-    '' as summary
+    a.formatted_address as summary
 from
     techone_nucproperty P
     join techone_nucaddress A on A.property_no = P.property_no
     join techone_nucstreet S on S.street_no = A.street_no
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
-    P.status in ( 'C' , 'F' )
+    P.status in ( 'C' , 'F' ) and upper ( A.Property_Name ) not like '%HEADER%'
 )
 )
 )

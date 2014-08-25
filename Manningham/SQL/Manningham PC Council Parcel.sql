@@ -34,7 +34,10 @@ select
         when 'F' then 'P'
         else ''
     end as status,
-    ifnull ( upper ( part_lot ) , '' ) as part,
+    case 
+        when ifnull ( upper ( part_lot ) , '' ) = 'Y' then 'P'
+        else  ifnull ( upper ( part_lot ) , '' )
+    end as part,
     case
         when upper (l.plan_desc) = 'SEC' then ''
         when substr ( L.plan_no , 1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then ''
