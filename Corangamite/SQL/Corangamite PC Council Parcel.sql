@@ -34,10 +34,7 @@ select
         when 'F' then 'P'
         else ''
     end as status,
-    case 
-        when ifnull ( upper ( part_lot ) , '' ) = 'Y' then 'P'
-        else  ifnull ( upper ( part_lot ) , '' )
-    end as part,
+    ifnull ( upper ( part_lot ) , '' ) as part,
     case
         when substr ( L.plan_no , 1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then ''
         when L.plan_desc = 'CrownDetl' then ''
