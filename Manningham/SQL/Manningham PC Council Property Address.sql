@@ -15,8 +15,8 @@ from (
 select
     *,
     blg_unit_prefix_1 || blg_unit_id_1 || blg_unit_suffix_1 ||
-        case when ( cast( blg_unit_id_2 as varchar ) <> '' or blg_unit_suffix_2 <> '' ) then '-' else '' end ||
-        blg_unit_prefix_2 || cast ( blg_unit_id_2 as varchar ) || blg_unit_suffix_2 ||
+        case when ( blg_unit_id_2 <> '' or blg_unit_suffix_2 <> '' ) then '-' else '' end ||
+        blg_unit_prefix_2 || blg_unit_id_2 || blg_unit_suffix_2 ||
         case when ( blg_unit_id_1 <> '' or blg_unit_suffix_1 <> '' ) then '/' else '' end ||
         house_prefix_1 || house_number_1 || house_suffix_1 ||
         case when ( house_number_2 <> '' or house_suffix_2 <> '' ) then '-' else '' end ||
