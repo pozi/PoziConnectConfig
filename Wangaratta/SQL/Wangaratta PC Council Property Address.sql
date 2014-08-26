@@ -34,10 +34,7 @@ select
     end as status,
     '' as base_propnum,
     'Y' as is_primary,
-    case P.text2
-        when 'Yes' then 'Y'
-        else ''
-    end as distance_related_flag,
+    case when A.address_ctr = RA.table_no then 'Y' else 'N' end as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
     case upper ( A.floor_desc )
@@ -161,7 +158,7 @@ select
     '' as easting,
     '' as northing,
     '' as datum_proj,
-    '' as outside_property,
+    case when RA.text2 = 'Yes' then 'Y' else 'N' end as outside_property,
     '368' as lga_code,
     '' as crefno,
     A.formatted_address as summary
@@ -170,6 +167,19 @@ from
     join techone_nucaddress A on A.property_no = P.property_no
     join techone_nucstreet S on S.street_no = A.street_no
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
+    left join (
+        select
+            attribute_ctr,
+            table_no,
+            attribute_desc,
+            attribute_type,
+            status,
+            text1,
+            text2 
+        from
+            techone_nucattribute
+        where
+            attribute_type = 'RuralAddr' and status in ( 'C' , 'F' ) ) as RA on A.address_ctr = RA.table_no
 where
     P.status in ( 'C' , 'F' , 'c' , 'f' ) and
     p.property_no not in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 )
@@ -184,10 +194,7 @@ select
     end as status,
     '' as base_propnum,
     'N' as is_primary,
-    case P.text2
-        when 'Yes' then 'Y'
-        else ''
-    end as distance_related_flag,
+    case when A.address_ctr = RA.table_no then 'Y' else 'N' end as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
     case upper ( A.floor_desc )
@@ -311,7 +318,7 @@ select
     '' as easting,
     '' as northing,
     '' as datum_proj,
-    '' as outside_property,
+    case when RA.text2 = 'Yes' then 'Y' else 'N' end as outside_property,
     '368' as lga_code,
     '' as crefno,
     A.formatted_address as summary
@@ -321,6 +328,19 @@ from
     join techone_nucaddress a on asc.key2 = a.address_ctr
     join techone_nucstreet S on S.street_no = A.street_no
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
+    left join (
+        select
+            attribute_ctr,
+            table_no,
+            attribute_desc,
+            attribute_type,
+            status,
+            text1,
+            text2 
+        from
+            techone_nucattribute
+        where
+            attribute_type = 'RuralAddr' and status in ( 'C' , 'F' ) ) as RA on A.address_ctr = RA.table_no
 where
     P.status in ( 'C' , 'F' , 'c' , 'f' ) and
     p.property_no not in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 ) and
