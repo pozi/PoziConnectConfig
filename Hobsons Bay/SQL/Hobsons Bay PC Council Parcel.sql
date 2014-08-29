@@ -45,7 +45,7 @@ select
     ifnull ( replace ( Plan_Type.Plan_Type_Code , 'XX' , '' ) || Title.Title_Plan_Number , '' ) as plan_number,
     ifnull ( replace ( Plan_Type.Plan_Type_Code , 'XX' , '' ) , '' ) as plan_prefix,
     ifnull ( Title.Title_Plan_Number ,'' ) as plan_numeral,
-    ifnull ( Title_Lot , '' ) as lot_number,
+    ifnull ( upper ( Title_Lot ) , '' ) as lot_number,
     ifnull ( Title.Title_Crown_Allotment , '' ) as allotment,
     case
         when Title.Title_Lot <> '' and Title.Title_Crown_Allotment <> '' then ''
