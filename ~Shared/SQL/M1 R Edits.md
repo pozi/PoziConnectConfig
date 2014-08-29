@@ -35,10 +35,17 @@ Exclude from retirement the last record in the multi-assessment. This will ensur
 ```sql
 property_pfi not in ( select max ( t.property_pfi ) from pc_vicmap_parcel t group by t.parcel_pfi )
 ```
-Retire only those properties that don't exist in Council.
+Retire only those properties that either don't exist in Council...
 
 ```sql
 propnum not in ( select cpa.propnum from pc_council_property_address cpa )
+```
+...or where the parcel's spi exists somewhere in Council and none of the Councils spis match any of the related Vicmap property's spis. (This may not be the best explanation of how this works, but it was tested at Hobsons Bay and resulted in 126 new, legitimate R edits.
+
+```sql
+vp.spi in ( select cp.spi from pc_council_parcel cp ) and
+vp.propnum not in ( select vpx.propnum from pc_vicmap_parcel vpx where vpx.spi in ( select cp.spi from pc_council_parcel cp where cp.propnum = vp.propnum ) )
+
 ```
 
 Eliminate duplicate records.
