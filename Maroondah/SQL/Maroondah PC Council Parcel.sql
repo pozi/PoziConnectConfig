@@ -56,9 +56,28 @@ select distinct
         when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 )
         else ''        
     end as plan_numeral,
-    ifnull ( lpaparc.parcelnum , '' ) as lot_number,
-    '' as allotment,
-    ifnull ( lpasect.parcelsect , '' ) as sec,
+    case
+        when lpaparc.plancode = 'PP' then ''
+        else ifnull ( lpaparc.parcelnum , '' ) 
+    end as lot_number,
+    case
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum not like '%~%' then  ifnull (lpaparc.parcelnum , '' )              
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum like '%~%' and substr (lpaparc.parcelnum,2,1) = '~' then substr (lpaparc.parcelnum,2,-9)    
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum like '%~%' and substr (lpaparc.parcelnum,3,1) = '~' then substr (lpaparc.parcelnum,3,-9)        
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum like '%~%' and substr (lpaparc.parcelnum,4,1) = '~' then substr (lpaparc.parcelnum,4,-9)        
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum like '%~%' and substr (lpaparc.parcelnum,5,1) = '~' then substr (lpaparc.parcelnum,5,-9)        
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum like '%~%' and substr (lpaparc.parcelnum,6,1) = '~' then substr (lpaparc.parcelnum,6,-9)
+        else '' 
+    end as allotment,    
+    case    
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum like '%~%' and substr (lpaparc.parcelnum,1,1) = '~' then substr (lpaparc.parcelnum,2,9) 
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum like '%~%' and substr (lpaparc.parcelnum,2,1) = '~' then substr (lpaparc.parcelnum,3,9)    
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum like '%~%' and substr (lpaparc.parcelnum,3,1) = '~' then substr (lpaparc.parcelnum,4,9)        
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum like '%~%' and substr (lpaparc.parcelnum,4,1) = '~' then substr (lpaparc.parcelnum,5,9)        
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum like '%~%' and substr (lpaparc.parcelnum,5,1) = '~' then substr (lpaparc.parcelnum,6,9)        
+        when lpaparc.plancode = 'PP' and lpaparc.parcelnum like '%~%' and substr (lpaparc.parcelnum,6,1) = '~' then substr (lpaparc.parcelnum,7,9)
+        else ''
+    end as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
