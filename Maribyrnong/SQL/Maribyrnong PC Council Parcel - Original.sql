@@ -38,82 +38,98 @@ from
 (
 select
     cast ( auprparc.ass_num as varchar ) as propnum,
-    case 
-        when auprparc.pcl_flg = 'R' then 'A'
-        when auprparc.pcl_flg = 'P' then 'P'
+    case auprparc.pcl_flg
+        when 'R' then 'A'
+        when 'P' then 'P'
     end as status,
-    auprparc.pcl_num as crefno,
-    case       
-        when auprparc.ttl_cde = 2 then 'P'
-        when auprparc.ttl_cde = 4 then 'p'
-        when auprparc.ttl_cde = 6 then 'P'        
-        when auprparc.ttl_cde = 8 then 'P'
+    '' as crefno,
+    case
+        when auprparc.ttl_no1 like '%PT%' then 'P'
         else ''
     end as part,
     case
-        when auprparc.ttl_cde = 13 then 'RP'
+        when auprparc.ttl_cde = 2 then 'RP'
         when auprparc.ttl_cde = 3 then 'PS'
-        when auprparc.ttl_cde = 11 then 'PC'
-        when auprparc.ttl_cde = 5 then 'LP'
-        when auprparc.ttl_cde = 16 then 'CS'
-        when auprparc.ttl_cde = 1 then 'TP'
-        when auprparc.ttl_cde = 15 then 'SP'
-        when auprparc.ttl_cde = 17 then 'CP'        
-        when auprparc.ttl_cde = 2 then 'TP'
-        when auprparc.ttl_cde = 4 then 'PS'
+        when auprparc.ttl_cde = 4 then 'CP'
         when auprparc.ttl_cde = 6 then 'LP'
-        when auprparc.ttl_cde = 12 then 'PC'
+        when auprparc.ttl_cde = 7 then 'CS'
+        when auprparc.ttl_cde = 8 then 'TP'
+        when auprparc.ttl_cde = 9 then 'SP'
+        when auprparc.ttl_cde = 10 then 'CP'
+        when auprparc.ttl_cde = 1 then
+            case
+                when auprparc.fmt_ttl like '%CP%' then 'CP'
+                when auprparc.fmt_ttl like '%LP%' then 'LP'
+                when auprparc.fmt_ttl like '%PC%' then 'PC'
+                when auprparc.fmt_ttl like '%PS%' then 'PS'
+                when auprparc.fmt_ttl like '%RP%' then 'RP'
+                when auprparc.fmt_ttl like '%SP%' then 'SP'
+                when auprparc.fmt_ttl like '%TP%' then 'TP'
+                else ''
+            end
         else ''
     end ||
         case
-            when auprparc.ttl_cde in ( '7' , '8') then ''
+            when auprparc.ttl_cde = 11 then ''
             when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
             when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
             else ''
         end as plan_number,
     case
-        when auprparc.ttl_cde = 13 then 'RP'
+        when auprparc.ttl_cde = 2 then 'RP'
         when auprparc.ttl_cde = 3 then 'PS'
-        when auprparc.ttl_cde = 11 then 'PC'
-        when auprparc.ttl_cde = 5 then 'LP'
-        when auprparc.ttl_cde = 16 then 'CS'
-        when auprparc.ttl_cde = 1 then 'TP'
-        when auprparc.ttl_cde = 15 then 'SP'
-        when auprparc.ttl_cde = 17 then 'CP'        
-        when auprparc.ttl_cde = 2 then 'TP'
-        when auprparc.ttl_cde = 4 then 'PS'
+        when auprparc.ttl_cde = 4 then 'CP'
         when auprparc.ttl_cde = 6 then 'LP'
-        when auprparc.ttl_cde = 12 then 'PC'
+        when auprparc.ttl_cde = 7 then 'CS'
+        when auprparc.ttl_cde = 8 then 'TP'
+        when auprparc.ttl_cde = 9 then 'SP'
+        when auprparc.ttl_cde = 10 then 'CP'
+        when auprparc.ttl_cde = 1 then
+            case
+                when auprparc.fmt_ttl like '%CP%' then 'CP'
+                when auprparc.fmt_ttl like '%LP%' then 'LP'
+                when auprparc.fmt_ttl like '%PC%' then 'PC'
+                when auprparc.fmt_ttl like '%PS%' then 'PS'
+                when auprparc.fmt_ttl like '%RP%' then 'RP'
+                when auprparc.fmt_ttl like '%SP%' then 'SP'
+                when auprparc.fmt_ttl like '%TP%' then 'TP'
+                else ''
+            end
         else ''
     end as plan_prefix,
     case
-        when auprparc.ttl_cde in ( '7' , '8') then ''
+        when auprparc.ttl_cde = 11 then ''
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
         else ''
     end as plan_numeral,
     case
         when auprparc.ttl_no1 = '0' then ''
-        when auprparc.ttl_cde <> 7 then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
+        when auprparc.ttl_cde <> 11 then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
         else ''
     end as lot_number,
     case
         when auprparc.ttl_no1 = '0' then ''
-        when auprparc.ttl_cde in ( '7' , '8') then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
+        when auprparc.ttl_cde = 11 then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
         else ''
     end as allotment,
     case
-        when auprparc.ttl_cde in ( '7' , '8') then ifnull ( trim ( auprparc.ttl_no3 ) , '' )
+        when auprparc.ttl_cde = 11 then ifnull ( trim ( auprparc.ttl_no2 ) , '' )
         else ''
     end as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
     case
-        when auprparc.ttl_cde in ( '7' , '8') then ifnull ( trim ( replace ( auprparc.ttl_no5 , 'NUA' , '' ) ) , '' )
+        when auprparc.ttl_cde = 11 then ifnull ( trim ( replace ( auprparc.ttl_no5 , 'NUA' , '' ) ) , '' )
         else ''
     end as parish_code,
-    '' as township_code,
+    case
+        when auprparc.ttl_no5 = '3416B' then '3416B'
+        when auprparc.ttl_no5 = '3416C' then '3416C'
+        when auprparc.ttl_no5 = '3416D' then '3416D'
+        else ''
+    end as township_code,
     fmt_ttl as summary,
     '341' as lga_code
 from
