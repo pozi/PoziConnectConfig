@@ -226,7 +226,7 @@ from
     join techone_nucstreet S on S.street_no = A.street_no
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
-    P.status in ( 'C' , 'F' ) and upper ( A.Property_Name ) not like '%HEADER%'
+    P.status in ( 'C' , 'F' ) and P.property_type_desc <> 'Header'
 )
 )
 )
