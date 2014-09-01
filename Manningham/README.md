@@ -30,7 +30,7 @@ x = ?
 
 Techone_nucProperty.property_type_desc
 
-Child = Sub multi Assesment
-Header	Base Multi Assessment
+Child =     Sub multi Assesment
+Header =	Base Multi Assessment
 
 
