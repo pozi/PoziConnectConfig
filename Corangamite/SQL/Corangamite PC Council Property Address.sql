@@ -34,12 +34,16 @@ select
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    case
-        when A.floor_desc = 'DS' then 'DOWNSTAIRS'
-        when A.floor_desc = 'US' then 'UPSTAIRS'
+    case upper ( A.unit_desc )
+        when 'ADJ' then 'ADJACENT'
+        when 'CNR' then 'CORNER'
+        when 'REAR' then 'REAR'
         else ''
     end as location_descriptor,
-    ifnull ( upper ( A.unit_desc ) , '' ) as blg_unit_type,
+    case
+        when upper ( A.unit_desc ) in ( 'ADJ' , 'CNR' , 'REAR' ) then ''
+        else ifnull ( upper ( A.unit_desc ) , '' )
+    end  as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
         when A.unit_no = '0' then ''
