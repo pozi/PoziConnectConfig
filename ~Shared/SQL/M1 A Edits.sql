@@ -63,8 +63,7 @@ select
         ': adding propnum ' ||
         cp.propnum || ' (' || cpa.ezi_address || ')' ||
         case ( select vp.multi_assessment from pc_vicmap_parcel vp where vp.spi = cp.spi )
-            when 'Y' then ' to existing multi-assessment (' || ( select vppc.num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) || ') property'
-            else ' as new multi-assessment to property ' || ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) || ' (' || ( select ezi_address from pc_council_property_address cpax where propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) || ')'
+            when 'Y' then ' to existing multi-assessment (' || ( select vppc.num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) || ') property (' || ( select vpa.road_locality from pc_vicmap_property_address vpa where vpa.propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) limit 1 ) || ')'            else ' as new multi-assessment to property ' || ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) || ' (' || ( select ezi_address from pc_council_property_address cpax where propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) || ')'
         end as comments,
     centroid ( ( select vp.geometry from pc_vicmap_parcel vp where vp.spi = cp.spi limit 1 ) ) as geometry
 from
