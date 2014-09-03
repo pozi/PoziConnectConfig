@@ -63,14 +63,19 @@ select
         ': adding propnum ' ||
         cp.propnum || ' (' || cpa.ezi_address || ')' ||
         case ( select vp.multi_assessment from pc_vicmap_parcel vp where vp.spi = cp.spi )
-            when 'Y' then ' to existing multi-assessment (' || ( select vppc.num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) || ') property (' || ( select vpa.road_locality from pc_vicmap_property_address vpa where vpa.propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) limit 1 ) || ')'            else ' as new multi-assessment to property ' || ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) || ' (' || ( select ezi_address from pc_council_property_address cpax where propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) || ')'
+            when 'Y' then ' to existing multi-assessment (' || ( select vppc.num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) || ') property (' || ( select vpa.road_locality from pc_vicmap_property_address vpa where vpa.propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) limit 1 ) || ')'
+            else ' as new multi-assessment to property ' || ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) || ' (' || ( select ezi_address from pc_council_property_address cpax where propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) || ')'
+        end ||
+        case
+            when cpa.locality_name not in ( select vpa.locality_name from pc_vicmap_property_address vpa where vpa.propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) then ' (**WARNING**: properties have different localities)'
+            else ''
         end as comments,
     centroid ( ( select vp.geometry from pc_vicmap_parcel vp where vp.spi = cp.spi limit 1 ) ) as geometry
 from
     pc_council_parcel cp,
     pc_council_property_address cpa
 where
-    cp.propnum = cpa.propnum and    
+    cp.propnum = cpa.propnum and
     cpa.is_primary <> 'N' and
     cp.propnum not in ( '' , 'NCPR' ) and
     cp.propnum in ( select propnum from pc_council_property_address ) and
