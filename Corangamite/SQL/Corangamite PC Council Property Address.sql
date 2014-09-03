@@ -39,7 +39,7 @@ select
         when A.floor_desc = 'US' then 'UPSTAIRS'
         else ''
     end as location_descriptor,
-    ifnull ( A.unit_desc , '' ) as blg_unit_type,
+    ifnull ( upper ( A.unit_desc ) , '' ) as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
         when A.unit_no = '0' then ''
