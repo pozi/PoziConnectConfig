@@ -54,9 +54,10 @@ from (
 
 select
     vp.lga_code as lga_code,
-    case    
-        when vp.plan_number = '' then vp.parcel_pfi        
-        else ''        
+    case
+        when vp.plan_number = '' then vp.parcel_pfi
+        when vp.spi in ( select spi from ( select vpx.spi, count(*) num_parcels from ( select distinct spi, parcel_pfi from pc_vicmap_parcel ) vpx group by vpx.spi ) where num_parcels > 1 ) then vp.parcel_pfi
+        else ''
     end as parcel_pfi,
     vp.spi as spi,
     vp.plan_number as plan_number,
@@ -83,8 +84,8 @@ where
     vp.crefno <> cp.crefno and
     cp.crefno <> '' and
     ( vp.crefno = '' or
-      vp.crefno not in ( select cpx.crefno from pc_council_parcel cpx where cpx.simple_spi = vp.simple_spi ) ) and 
-    ( vp.plan_number <> '' or    
+      vp.crefno not in ( select cpx.crefno from pc_council_parcel cpx where cpx.simple_spi = vp.simple_spi ) ) and
+    ( vp.plan_number <> '' or
       vp.propnum = cp.propnum )
 group by vp.spi
 )
