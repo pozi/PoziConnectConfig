@@ -36,10 +36,16 @@ Include only Vicmap parcels that have a valid parcel description.
 vp.spi <> ''
 ```
 
-Include only parcels that are associated to only one property. (Multi-assessment edits are handled by the 'A' and 'R' edits.) We will use our parcel count table here rather than the `multi_assessment` field because there are scenarios where Vicmap has multiple properties associated to a single property and are still not classed as multi-assessment. Eg 2\PS400861 at Stonnington.
+Include only parcels that are not multi-assessments. (Multi-assessment edits are handled by the 'A' and 'R' edits.)
 
 ```sql
-vp.spi in ( select vppc.spi from pc_vicmap_parcel_property_count vppc where vppc.num_props = 1 )
+vp.multi_assessment = 'N'
+```
+
+Include only parcels whose property status is the same as the parcel status. Sometimes a non-multi-assessment parcel has multiple properties because it is linked to both approved and proposed properties. This ensures that the match applies to only the property that reflects the current status of the parcel.
+
+```sql
+vp.status = vp.property_status
 ```
 
 Include only valid council property numbers.

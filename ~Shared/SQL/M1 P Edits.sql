@@ -54,7 +54,10 @@ from (
 
 select
     vp.lga_code as lga_code,
-    '' as property_pfi,
+    case
+        when vp.spi in ( select vppc.spi from pc_vicmap_parcel_property_count vppc where vppc.num_props > 1 ) then vp.property_pfi
+        else ''
+    end as property_pfi,
     vp.spi as spi,
     vp.plan_number as plan_number,
     vp.lot_number as lot_number,
@@ -64,13 +67,13 @@ select
         case vp.status
             when 'P' then ' (proposed): '
             else ': '
-        end ||        
-        'replacing propnum ' || 
+        end ||
+        'replacing propnum ' ||
         case vp.propnum
-            when '' then '(blank)'            
+            when '' then '(blank)'
             else vp.propnum
         end ||
-        ' with ' || 
+        ' with ' ||
         cp.propnum as comments,
     centroid ( vp.geometry ) as geometry
 from
@@ -78,7 +81,8 @@ from
     pc_council_parcel cp
 where
     vp.spi <> '' and
-    vp.spi in ( select vppc.spi from pc_vicmap_parcel_property_count vppc where vppc.num_props = 1 ) and
+    vp.multi_assessment = 'N' and
+    vp.status = vp.property_status and
     cp.propnum <> '' and
     cp.propnum in ( select propnum from pc_council_property_address ) and
     vp.spi = cp.spi and
@@ -88,7 +92,6 @@ where
       vp.propnum not in ( select pc_council_property_address.propnum from pc_council_property_address ) or
       ( select num_parcels from pc_vicmap_property_parcel_count where propnum = vp.propnum ) > 1 ) and
     not ( vp.status = 'P' and ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cp.propnum ) > 1 )
-
 group by vp.spi
 )
 order by plan_number, lot_number
