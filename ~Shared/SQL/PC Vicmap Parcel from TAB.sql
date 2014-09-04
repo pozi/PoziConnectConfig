@@ -35,6 +35,7 @@ select
     parcel.parcel_crefno as crefno,
     parcel.parcel_status as status,
     property.prop_pfi as property_pfi,
+    property.prop_status as property_status,
     property.prop_multi_assessment as multi_assessment,
     property.prop_propnum as propnum,
     parcel.parv_pfi as parcel_view_pfi,

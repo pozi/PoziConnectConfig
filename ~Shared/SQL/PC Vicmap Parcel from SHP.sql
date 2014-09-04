@@ -34,6 +34,7 @@ select
     ifnull ( parcel.pc_crefno , '' ) as crefno,
     parcel.pc_stat as status,
     property.prop_pfi as property_pfi,
+    property.pr_stat as property_status,
     property.pr_multass as multi_assessment,
     ifnull ( property.pr_propnum , '' ) as propnum,
     parcel.parv_pfi as parcel_view_pfi,
