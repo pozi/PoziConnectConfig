@@ -66,4 +66,3 @@ select
     ifnull ( ( select comments from m1 where m1.propnum = cpa.propnum limit 1 ) , '' ) as current_m1_comments,
     ( select vpa.geometry from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) as geometry
 from pc_council_property_address cpa
-order by address_validity desc
