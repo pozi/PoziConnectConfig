@@ -73,7 +73,7 @@ select
             when '' then '(blank)'
             else vp.crefno
         end ||
-        ' with ' || cp.crefno || ' (propnum ' || cp.propnum || ')' as comments,
+        ' with ' || cp.crefno || ' (propnum ' || cp.propnum || ifnull ( ', ' || ( select cpa.ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum limit 1 ) , '' ) || ')' as comments,
     centroid ( vp.geometry ) as geometry
 from
     pc_vicmap_parcel vp,
