@@ -51,7 +51,7 @@ select
         else ''
     end as part,
     case
-        when auprparc.ttl_cde = 13 then 'RP'
+        when auprparc.ttl_cde in ( 13 , 14 ) then 'RP'
         when auprparc.ttl_cde = 3 then 'PS'
         when auprparc.ttl_cde = 11 then 'PC'
         when auprparc.ttl_cde = 5 then 'LP'
@@ -72,7 +72,7 @@ select
             else ''
         end as plan_number,
     case
-        when auprparc.ttl_cde = 13 then 'RP'
+        when auprparc.ttl_cde in ( 13 , 14 ) then 'RP'
         when auprparc.ttl_cde = 3 then 'PS'
         when auprparc.ttl_cde = 11 then 'PC'
         when auprparc.ttl_cde = 5 then 'LP'
