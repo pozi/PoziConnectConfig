@@ -38,9 +38,18 @@ select distinct
     '' as hsa_flag,
     '' as hsa_unit_id,
     '' as blg_unit_type,
-    '' as blg_unit_prefix_1,
-    ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) as blg_unit_id_1,
-    ifnull ( auprstad.unt_alp , '' ) as blg_unit_suffix_1,
+    case 
+        when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then 'G'
+        else ''
+    end as blg_unit_prefix_1,
+    case
+    when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then replace ( auprstad.unt_alp , 'G' , '')
+    else ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' )
+    end as blg_unit_id_1,
+    case
+    when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then ''
+    else ifnull ( auprstad.unt_alp , '' ) 
+    end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     '' as blg_unit_id_2,
     '' as blg_unit_suffix_2,

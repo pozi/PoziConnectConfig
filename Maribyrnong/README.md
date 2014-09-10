@@ -1,3 +1,5 @@
+
+
 # Maribyrnong
 
 ## Authority Configuration
@@ -48,6 +50,15 @@ The boulevard
 
 The esplanade
 
+##### Units with a G prefix for Ground Floor
+
+units with a g prefix are stored in the unit suffix column along with the number, split out the field to get the numbers and the G into the correct fields. although i think they mean to use G as in floor. 
+
+it looks like they use G for the units are on the ground floor but don't describe other units and they don't always use the G in the unit Suffix field sometimes its in the floor prefix field. with only one recorded with 'G01\' in the floor field. there is no other floor data stored in there database. and apart from the 'G' no other unit prefix data. so i would assume the G isn't a unit prefix
+
+looking at existing data in vicmap the G is used sometimes in the unit prefix field and sometimes in the floor type field also with 2 instance of it in the floor suffix field.
+
+
 
 
 
@@ -62,13 +73,15 @@ code  count
 
 6 Townships (only recorded for less then 10 parcles in the section field)
 
-township_code	count(*)
-2478A	157
-2478B	7
-2478C	21
-2478D	4
-5106	43
-5502	26
+
+township_code | count(*)
+------------- | -------------
+2478A | 157
+2478B | 7
+2478C | 21
+2478D | 4
+5106 | 43
+5502 |26
 
 
 
@@ -94,7 +107,7 @@ authority_auprparc.ttl_cde
 15 = SP Strata Plan
 16 = CS Cluster Subdivision
 17 = CP Consolidated Plan
-50 = Road parcels?
+50 = Road parcels? all PS pending?
 99 = TBA ? perhaps pending
 
 
