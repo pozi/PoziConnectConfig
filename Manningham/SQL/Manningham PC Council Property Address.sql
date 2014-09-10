@@ -64,12 +64,15 @@ select
     case
         when length ( A.unit_desc ) = 1 then upper ( A.unit_desc )
         else ''
-    END as blg_unit_prefix_1,
+    end as blg_unit_prefix_1,
     case
         when A.unit_no = '0' then replace ( A.unit_no , '0' , '' )
         else ifnull ( A.unit_no , '' )
     end as blg_unit_id_1,
-    upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
+    case
+    when upper ( ifnull ( A.unit_no_suffix , '' ) ) = '&' then ''
+    else upper ( ifnull ( A.unit_no_suffix , '' ) ) 
+    end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
         when cast ( A.unit_no_to as varchar ) = '0' then replace ( cast ( A.unit_no_to as varchar ) , '0' , '' )
@@ -77,8 +80,11 @@ select
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
     case
-        when upper ( A.floor_desc ) in ( 'FL' , 'FLOOR' ) then 'FL'
-        when upper ( A.floor_desc ) in ( 'L' , 'LVL' , 'LEVEL' ) then 'L'
+        when upper ( A.floor_desc ) in ( 'FL' , 'FLOOR' , '1ST' , '2ND' ) then 'FL'
+        when upper ( A.floor_desc ) in ( 'L' , 'LVL' , 'LEVEL' , 'LEV' ) then 'L'
+        when upper ( A.floor_desc ) in ( 'G' , 'GRD' ) then 'G'
+        when upper ( A.floor_desc ) in ( 'LL' , 'LOWER' ) then 'LL'
+        when upper ( ifnull ( A.floor_desc , '' ) ) = '' and ifnull ( A.floor_no , '' ) <> '' then 'FL'
         when A.property_name like '%ground floor%' then 'G'
         when A.property_name like '%floor%' then 'FL'
         when A.property_name like '%level%' then 'L'
@@ -87,6 +93,8 @@ select
     '' as floor_prefix_1,
     case
         when A.floor_no is not null and A.floor_no <> '0' then A.floor_no
+        when upper ( A.floor_desc ) = '1ST' then '1'
+        when upper ( A.floor_desc ) = '2ND' then '2'
         when A.property_name like '%level 1%' or A.property_name like '%first%floor%' or A.property_name like '%1st%floor%' then '1'
         when A.property_name like '%level 2%' or A.property_name like '%second%floor%' or A.property_name like '%2nd%floor%' then '2'
         when A.property_name like '%level 3%' or A.property_name like '%third%floor%' or A.property_name like '%3rd%floor%' then '3'
