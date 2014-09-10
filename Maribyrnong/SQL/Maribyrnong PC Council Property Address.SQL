@@ -64,7 +64,8 @@ select distinct
     end as house_number_2,
     upper ( ifnull ( auprstad.end_alp , '' ) ) as house_suffix_2,
     case
-        when auprstad.str_nme like 'AUSTIN CRES%' then 'AUSTIN'
+        when upper ( auprstad.str_nme ) like 'AUSTIN CRES%' then 'AUSTIN'
+        when upper ( auprstad.str_nme ) like 'ORDNANCE RES%' then 'RESERVE'
         else upper ( auprstad.str_nme )
     end as road_name,
     case
@@ -89,6 +90,8 @@ select distinct
         when trim ( auprstad.str_typ ) in ( 'WALK' , 'WK' ) then 'WALK'
         when trim ( auprstad.str_typ ) in ( 'WAY' , 'WY' ) then 'WAY'
         when trim ( auprstad.str_typ ) in ( '' ) then ''
+        when upper ( auprstad.str_nme ) like 'AUSTIN CRES%' then 'CRESCENT'
+        when upper ( auprstad.str_nme ) like 'ORDNANCE RES%' then 'RESERVE'
     end as road_type,
     case
         when auprstad.str_nme like '% N' then 'N'
