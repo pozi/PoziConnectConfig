@@ -49,7 +49,7 @@ select
     end as part,
     case
         when auprparc.ttl_cde in ( 1 , 2 ) then 'TP'
-        when auprparc.ttl_cde in ( 3 , 4 ) then 'PS'
+        when auprparc.ttl_cde in ( 3 , 4 , 50 ) then 'PS'
         when auprparc.ttl_cde in ( 5 , 6 ) then 'LP'
         when auprparc.ttl_cde in ( 11 , 12 ) then 'PC'
         when auprparc.ttl_cde in ( 13 , 14 ) then 'RP'
@@ -66,7 +66,7 @@ select
         end as plan_number,
     case
         when auprparc.ttl_cde in ( 1 , 2 ) then 'TP'
-        when auprparc.ttl_cde in ( 3 , 4 ) then 'PS'
+        when auprparc.ttl_cde in ( 3 , 4 , 50 ) then 'PS'
         when auprparc.ttl_cde in ( 5 , 6 ) then 'LP'
         when auprparc.ttl_cde in ( 11 , 12 ) then 'PC'
         when auprparc.ttl_cde in ( 13 , 14 ) then 'RP'
@@ -76,30 +76,30 @@ select
         else ''
     end as plan_prefix,
     case
-        when auprparc.ttl_cde in ( 7 , 8 , 9 ) then ''
+        when auprparc.ttl_cde in ( 7 , 8 , 9 , 10 ) then ''
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
         else ''
     end as plan_numeral,
     case
         when auprparc.ttl_no1 = '0' then ''
-        when auprparc.ttl_cde <> 7 then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
+        when auprparc.ttl_cde not in ( 7 , 8 , 9 , 10 ) then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
         else ''
     end as lot_number,
     case
         when auprparc.ttl_no1 = '0' then ''
-        when auprparc.ttl_cde in ( 7 , 8 , 9 ) then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
+        when auprparc.ttl_cde in ( 7 , 8 , 9, 10 ) then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
         else ''
     end as allotment,
     case
-        when auprparc.ttl_cde in ( 7 , 8 , 9 ) then ifnull ( trim ( auprparc.ttl_no3 ) , '' )
+        when auprparc.ttl_cde in ( 7 , 8 , 9, 10 ) then ifnull ( trim ( auprparc.ttl_no3 ) , '' )
         else ''
     end as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
     case
-        when auprparc.ttl_cde in ( 7 , 8 , 9 ) then ifnull ( trim ( replace ( auprparc.ttl_no5 , 'NUA' , '' ) ) , '' )
+        when auprparc.ttl_cde in ( 7 , 8 , 9 , 10 ) then '2478'
         else ''
     end as parish_code,
     '' as township_code,

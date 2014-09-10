@@ -31,13 +31,45 @@ VW	12
 WK	115
 WY	448
 
+##### Street names that needed a workaround
+Ordinance Reserve missing street suffix
 
+Austin Crescent West and East have no street suffix
+
+Magnolia path no suffix
+
+O'Farrell Street
+
+The crescent
+
+The grand
+
+The boulevard
+
+The esplanade
 
 
 
 
 ### Parcel
 Copied from Bayside aswell
+
+
+1 Parish
+
+code  count
+2478  624
+
+6 Townships (only recorded for less then 10 parcles in the section field)
+
+township_code	count(*)
+2478A	157
+2478B	7
+2478C	21
+2478D	4
+5106	43
+5502	26
+
 
 
 

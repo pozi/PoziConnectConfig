@@ -65,7 +65,9 @@ select distinct
     upper ( ifnull ( auprstad.end_alp , '' ) ) as house_suffix_2,
     case
         when upper ( auprstad.str_nme ) like 'AUSTIN CRES%' then 'AUSTIN'
-        when upper ( auprstad.str_nme ) like 'ORDNANCE RES%' then 'RESERVE'
+        when upper ( auprstad.str_nme ) like 'ORDNANCE RES%' then 'ORDNANCE'
+        when upper ( auprstad.str_nme ) like 'MAGNOLIA PATH%' then 'MAGNOLIA'
+        when upper ( auprstad.str_nme ) like '%FARRELL%' then 'OFARRELL'
         else upper ( auprstad.str_nme )
     end as road_name,
     case
@@ -89,9 +91,10 @@ select distinct
         when trim ( auprstad.str_typ ) in ( 'VIEW' , 'VW' ) then 'VIEW'
         when trim ( auprstad.str_typ ) in ( 'WALK' , 'WK' ) then 'WALK'
         when trim ( auprstad.str_typ ) in ( 'WAY' , 'WY' ) then 'WAY'
-        when trim ( auprstad.str_typ ) in ( '' ) then ''
         when upper ( auprstad.str_nme ) like 'AUSTIN CRES%' then 'CRESCENT'
         when upper ( auprstad.str_nme ) like 'ORDNANCE RES%' then 'RESERVE'
+        when upper ( auprstad.str_nme ) like 'MAGNOLIA PATH%' then 'PATH'
+        when upper ( auprstad.str_nme ) like 'THE %' then ''
     end as road_type,
     case
         when auprstad.str_nme like '% N' then 'N'
