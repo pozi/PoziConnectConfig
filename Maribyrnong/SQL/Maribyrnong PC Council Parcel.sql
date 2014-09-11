@@ -42,7 +42,7 @@ select
         when auprparc.pcl_flg = 'R' then 'A'
         when auprparc.pcl_flg = 'P' then 'P'
     end as status,
-    auprparc.pcl_num as crefno,
+    '' as crefno,
     case
         when auprparc.ttl_cde in ( 2 , 4 , 6 , 8 , 12 , 14 ) then 'P'
         else ''
