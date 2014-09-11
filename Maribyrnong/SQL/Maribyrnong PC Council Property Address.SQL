@@ -43,7 +43,7 @@ select distinct
         else ''
     end as blg_unit_prefix_1,
     case
-        when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then replace ( auprstad.unt_alp , 'G' , '')
+        when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then replace ( replace ( auprstad.unt_alp , 'G0' , '') , 'G' , '' )
         else ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' )
     end as blg_unit_id_1,
     case
