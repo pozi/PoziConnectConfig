@@ -54,10 +54,7 @@ from (
 
 select
     vp.lga_code as lga_code,
-    case
-        when vp.spi in ( select vppc.spi from pc_vicmap_parcel_property_count vppc where vppc.num_props > 1 ) then vp.property_pfi
-        else ''
-    end as property_pfi,
+    '' as property_pfi,
     vp.spi as spi,
     vp.plan_number as plan_number,
     vp.lot_number as lot_number,
