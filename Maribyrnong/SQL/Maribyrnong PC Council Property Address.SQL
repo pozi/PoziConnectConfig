@@ -43,16 +43,16 @@ select distinct
         else ''
     end as blg_unit_prefix_1,
     case
-    when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then replace ( auprstad.unt_alp , 'G' , '')
-    else ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' )
+        when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then replace ( auprstad.unt_alp , 'G' , '')
+        else ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' )
     end as blg_unit_id_1,
     case
-    when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then ''
-    else ifnull ( auprstad.unt_alp , '' ) 
+        when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then ''
+        else ifnull ( auprstad.unt_alp , '' ) 
     end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
-    '' as blg_unit_id_2,
-    '' as blg_unit_suffix_2,
+    ifnull ( auprstad.unt_end , '' ) as blg_unit_id_2,
+    ifnull ( auprstad.end_alp , '' ) as blg_unit_suffix_2,
     '' as floor_type,
     ifnull ( auprstad.flo_pre , '' ) as floor_prefix_1,
     ifnull ( auprstad.flo_num , '' ) as floor_no_1,
