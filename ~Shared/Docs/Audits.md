@@ -65,17 +65,28 @@ Column|Description|Usage
 
 #### Unmatched parcels, with suggested parcel description fixes (critical, easy)
 
-Filter
+The most valuable records to target, as they will result in new matches and are likely to be easily solved.
 
 * `propnum_in_vicmap`: 0
+* `spi_in_vicmap`: 0
 * `suggested_spi`: NOT (Blank)
 
 #### Plan Prefix Anomalies
 
-Filter
+Likely to be easily solved by updating a plan prefix. See `suggested_spi` field for a hint of the correct plan prefix.
 
-* `partial_spi_in_vicmap`: 1
 * `spi_in_vicmap`: 0
+* `partial_spi_in_vicmap`: 1
+
+#### Gridlocked Records
+
+These are parcels that should be matched to Vicmap, but Pozi Connect cannot match them due to conflicting associations on the target  Vicmap parcel.
+
+It's possible these will clear up in subsequent M1s after Pozi Connect removes any redundant records. Alternatively, if these remain unresolved, they should be manually inspected to determine if changes in the council property system are required to break the deadlock.
+
+* `m1_edit_code`: (Blank)
+* `propnum_in_vicmap`: 0
+* `spi_in_vicmap`: NOT 0
 
 ## Property Address
 
