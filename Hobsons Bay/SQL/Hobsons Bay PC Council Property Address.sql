@@ -33,9 +33,9 @@ select distinct
     case
         when
             Assessment.Property_Name_Address_Locality not like
-                '%' ||            
+                '%' ||
                 cast ( ifnull ( Address.Addr_Building_Unit_Number_1 , '' ) as varchar ) ||
-                '%' ||            
+                '%' ||
                 cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) ||
                 '%'
             and
@@ -48,6 +48,9 @@ select distinct
                   Assessment.Property_Name_Address_Locality like '%7%' or
                   Assessment.Property_Name_Address_Locality like '%8%' or
                   Assessment.Property_Name_Address_Locality like '%9%' ) then 'N'
+        when
+            Assessment.Property_Name_Address_Locality like '%-' || cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) || ' %' and
+            Assessment.Property_Name_Address_Locality not like cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) || '-%' then 'N'
         else ''
     end as is_primary,
     '' as distance_related_flag,
