@@ -1,11 +1,11 @@
 select
-    *,
+    *,    
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,
+    *,    
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -26,56 +26,78 @@ select
         rtrim ( ' ' || road_suffix ) ) as road_name_combined
 from (
 
-select distinct
-    cast ( lpaprop.tpklpaprop as varchar ) as propnum,
+select
+    cast ( cast ( lpaprop.tpklpaprop as integer ) as varchar ) as propnum,
     case lpaprop.status
         when 'C' then 'A'
         when 'A' then 'P'
     end as status,
     '' as base_propnum,
     '' as is_primary,
-    case
-        when lpaprop.tpklpaprop in ( select tfklpaprop from pathway_lpaprgp where tfklpapgrp = 1751 ) then 'Y'
-        else ''
-    end as distance_related_flag,
+    '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
-        when lpaaddr.prefix is null then upper ( ifnull ( lpaaddr.unitprefix , '' ) )
-        else upper ( ifnull ( lpaaddr.unitprefix , '' ) )
+        when upper ( lpaaddr.unitprefix ) = 'APARTMENT' then 'APT'
+        when upper ( lpaaddr.unitprefix ) = 'FLAT' then 'FLAT'
+        when upper ( lpaaddr.unitprefix ) = 'SUITE' then 'SE'
+        when upper ( lpaaddr.unitprefix ) = 'UNIT' and lpaaddr.strunitnum <> 0 then 'UNIT'
+        else ''
     end as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
-        when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
-        else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
+        when upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'HALL' , 'HOUSE' , 'KIOSK' , 'OFFICE' , 'RESERVE' , 'SHED' , 'SHOP' , 'SIGN' , 'SUITE' , 'TOILET' ,  'TOWER' ) and lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
+        when upper ( lpaaddr.unitprefix ) in ( 'FLOOR' , 'LEVEL' ) and lpaaddr.strlvlnum = 0 then ''
+        when lpaaddr.strunitnum <> 0 then cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
+        else ''
     end as blg_unit_id_1,
-    ifnull ( lpaaddr.strunitsfx , '' ) as blg_unit_suffix_1,
+    case
+        when lpaaddr.strlvlsfx is not null and upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'HALL' , 'HOUSE' , 'KIOSK' , 'OFFICE' , 'RESERVE' , 'SHED' , 'SHOP' , 'SIGN' , 'SUITE' , 'TOILET' ,  'TOWER' ) then cast ( lpaaddr.strlvlsfx as varchar )
+        when upper ( lpaaddr.unitprefix ) not in ( 'FLOOR' , 'LEVEL' ) and lpaaddr.strunitsfx is not null then cast ( lpaaddr.strunitsfx as varchar )
+        else ''
+    end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
-        when lpaaddr.endunitnum = 0 or lpaaddr.endunitnum is null then ''
-        else cast ( cast ( lpaaddr.endunitnum as integer ) as varchar )
+        when lpaaddr.endunitnum = 0 then ''
+        else cast (lpaaddr.endunitnum as integer)
     end as blg_unit_id_2,
     case
-       when trim ( lpaaddr.endunitsfx ) = '0' or lpaaddr.endunitsfx is null then ''
-       else trim ( lpaaddr.endunitsfx )
+        when lpaaddr.endunitsfx = '0' or lpaaddr.endunitsfx is null then ''
+        else cast (lpaaddr.endunitsfx as varchar)
     end as blg_unit_suffix_2,
-    '' as floor_type,
+    case
+        when lpaaddr.unitprefix = 'Floor' and (lpaaddr.strunitnum <> 0 or lpaaddr.strunitsfx is not null) then 'FL'
+        when lpaaddr.unitprefix = 'Level' and (lpaaddr.strunitnum <> 0 or lpaaddr.strunitsfx is not null) then 'L'
+        when lpaaddr.lvlprefix = 'Floor' and (lpaaddr.strlvlnum <> 0 or lpaaddr.strlvlsfx is not null) then 'FL'
+        when lpaaddr.lvlprefix = 'Level' and (lpaaddr.strlvlnum <> 0 or lpaaddr.strlvlsfx is not null) then 'L'
+        else ''
+    end as floor_type,
     '' as floor_prefix_1,
     case
-        when upper ( lpaaddr.lvlprefix ) in ( 'FLOOR' , 'LEVEL' ) then trim ( lpaaddr.strlvlnum )
+        when lpaaddr.lvlprefix = 'Floor' and lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar)
+        when lpaaddr.lvlprefix = 'Level' and lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar)
+        when lpaaddr.unitprefix = 'Floor' and lpaaddr.strunitnum <> 0 then cast ( cast ( lpaaddr.strunitnum as integer ) as varchar)
+        when lpaaddr.unitprefix = 'Level' and lpaaddr.strunitnum <> 0 then cast ( cast ( lpaaddr.strunitnum as integer ) as varchar)
         else ''
     end as floor_no_1,
-    '' as floor_suffix_1,
-    '' as floor_prefix_2,
     case
-        when upper ( lpaaddr.lvlprefix ) in ( 'FLOOR' , 'LEVEL' ) and trim ( lpaaddr.endlvlnum ) <> '0' then trim ( lpaaddr.endlvlnum )
+        when lpaaddr.lvlprefix = 'Floor' and lpaaddr.strlvlsfx is not null then cast (lpaaddr.strlvlsfx as varchar)
+        when lpaaddr.lvlprefix = 'Level' and lpaaddr.strlvlsfx is not null then cast (lpaaddr.strlvlsfx as varchar)
+        when lpaaddr.unitprefix = 'Floor' and lpaaddr.strunitsfx is not null then cast (lpaaddr.strunitsfx as varchar)
+        when lpaaddr.unitprefix = 'Level' and lpaaddr.strunitsfx is not null then cast (lpaaddr.strunitsfx as varchar)
         else ''
-    end as floor_no_2,
+    end as floor_suffix_1,
+    '' as floor_prefix_2,
+    '' as floor_no_2,
     '' as floor_suffix_2,
-    ifnull ( upper ( lpapnam.propname ) , '' ) as building_name,
+    case    
+        when upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'FLOOR' , 'KIOSK' , 'LEVEL' , 'OFFICE' , 'REAR' , 'SHOP' , 'SIGN' , 'SUITE' ) then upper ( ifnull ( lpapnam.propname , '' ) )
+        when upper ( lpaaddr.prefix ) in ( 'ATM' , 'FLOOR' , 'KIOSK' , 'LEVEL' , 'OFFICE' , 'REAR' , 'SHOP' , 'SIGN' , 'SUITE' ) then upper ( ifnull ( lpapnam.propname , '' ) )
+        else upper ( ifnull ( lpapnam.propname , ifnull ( lpaaddr.prefix || ' ' , '' ) || ifnull ( lpaaddr.lvlprefix , '' ) ) )
+    end as building_name,
     '' as complex_name,
-    case
-        when cnacomp.descr like '% OFF' then 'OFF'
+    case    
+        when upper ( lpaaddr.prefix ) = 'REAR' then upper ( lpaaddr.prefix )
         else ''
     end as location_descriptor,
     '' as house_prefix_1,
@@ -91,51 +113,33 @@ select distinct
     end as house_number_2,
     ifnull ( lpaaddr.endhoussfx , '' ) as house_suffix_2,
     case
-        when cnacomp.descr like '% AVE OFF' then replace ( upper ( cnacomp.descr ) , ' AVE OFF' , '' )
-        when cnacomp.descr like '% CRES OFF' then replace ( upper ( cnacomp.descr ) , ' CRES OFF' , '' )
-        when cnacomp.descr like '% CT WEST OFF' then replace ( upper ( cnacomp.descr ) , ' CT WEST OFF' , '' )
-        when cnacomp.descr like '% CT OFF' then replace ( upper ( cnacomp.descr ) , ' CT OFF' , '' )
-        when cnacomp.descr like '% DR OFF' then replace ( upper ( cnacomp.descr ) , ' DR OFF' , '' )
-        when cnacomp.descr like '% LANE OFF' then replace ( upper ( cnacomp.descr ) , ' LANE OFF' , '' )
-        when cnacomp.descr like '% PL OFF' then replace ( upper ( cnacomp.descr ) , ' PL OFF' , '' )
-        when cnacomp.descr like '% RD OFF' then replace ( upper ( cnacomp.descr ) , ' RD OFF' , '' )
-        when cnacomp.descr like '% STREET OFF' then replace ( upper ( cnacomp.descr ) , ' STREET OFF' , '' )
-        when cnacomp.descr like '% ST OFF' then replace ( upper ( cnacomp.descr ) , ' ST OFF' , '' )
-        when cnacomp.descr like '% TRK OFF' then replace ( upper ( cnacomp.descr ) , ' TRK OFF' , '' )
-        else upper ( replace ( replace ( cnacomp.descr , '&' , 'AND' ) , '''' , '' ) )
-    end as road_name,
+        when upper ( cnacomp.descr ) = 'JAMES ROAD' then 'JAMES'        
+        when upper ( cnacomp.descr ) = 'MCPHEE STREET' then 'MCPHEE'
+        else upper ( replace ( replace ( cnacomp.descr , ' - ' , '-' ) , '''' , '' ) )
+    end as road_name, 
     case
-        when cnacomp.descr like '% AVE OFF' then 'AVENUE'
-        when cnacomp.descr like '% CRES OFF' then 'CRESCENT'
-        when cnacomp.descr like '% CT WEST OFF' then 'COURT'
-        when cnacomp.descr like '% CT OFF' then 'COURT'
-        when cnacomp.descr like '% DR OFF' then 'DRIVE'
-        when cnacomp.descr like '% LANE OFF' then 'LANE'
-        when cnacomp.descr like '% PL OFF' then 'PLACE'
-        when cnacomp.descr like '% RD OFF' then 'ROAD'
-        when cnacomp.descr like '% STREET OFF' then 'STREET'
-        when cnacomp.descr like '% ST OFF' then 'STREET'
-        when cnacomp.descr like '% TRK OFF' then 'TRACK'
-        when
-            cnaqual.descr like '% NORTH' or
-            cnaqual.descr like '% SOUTH' or
-            cnaqual.descr like '% EAST' or
-            cnaqual.descr like '% WEST' then upper ( trim ( substr ( cnaqual.descr , 1 , length ( cnaqual.descr ) - 5 ) ) )
-        else upper ( ifnull ( cnaqual.descr , '' ) )
+        when upper ( cnacomp.descr ) = 'JAMES ROAD' then 'ROAD'        
+        when upper ( cnacomp.descr ) = 'MCPHEE STREET' then 'STREET'
+        when upper ( ifnull( cnaqual.descr , '' ) ) like 'STREET %' then 'STREET'
+        when upper ( ifnull( cnaqual.descr , '' ) ) like 'ROAD %' then 'ROAD'
+        when upper ( ifnull( cnaqual.descr , '' ) ) like 'AVENUE %' then 'AVENUE'
+        when upper ( ifnull( cnaqual.descr , '' ) ) like 'COURT %' then 'COURT'
+        when upper ( ifnull( cnaqual.descr , '' ) ) like 'DRIVE %' then 'DRIVE' 
+        when upper ( ifnull( cnaqual.descr , '' ) ) like 'PLACE %' then 'PLACE'
+        when upper ( ifnull( cnaqual.descr , '' ) ) like 'PARADE %' then 'PARADE'
+        else upper ( ifnull( cnaqual.descr , '' ) )    
     end as road_type,
-    case
-        when cnacomp.descr like '% NORTH OFF' then 'N'
-        when cnacomp.descr like '% SOUTH OFF' then 'S'
-        when cnacomp.descr like '% EAST OFF' then 'E'
-        when cnacomp.descr like '% WEST OFF' then 'W'
-        when cnaqual.descr like '% NORTH' then 'N'
-        when cnaqual.descr like '% SOUTH' then 'S'
-        when cnaqual.descr like '% EAST' then 'E'
-        when cnaqual.descr like '% WEST' then 'W'
-        else ''
-    end as road_suffix,
-    upper ( lpasubr.suburbname ) as locality_name,
-    '' as postcode,
+    case    
+        when upper ( cnacomp.descr ) = 'JAMES ROAD' then 'N'        
+        when upper ( cnacomp.descr ) = 'MCPHEE STREET' then 'N'
+        when upper ( ifnull (cnaqual.descr , '' ) ) like '% EAST%' then 'E'    
+        when upper ( ifnull (cnaqual.descr , '' ) ) like '% WEST%' then 'W'    
+        when upper ( ifnull (cnaqual.descr , '' ) ) like '% NORTH%' then 'N'    
+        when upper ( ifnull (cnaqual.descr , '' ) ) like '% SOUTH%' then 'S'
+        else '' 
+    end as road_suffix, 
+    upper ( lpasubr.suburbname ) as locality_name, 
+    cnacomp_1.descr as postcode,
     '' as access_type,
     '' as easting,
     '' as northing,
@@ -146,19 +150,19 @@ select distinct
     '' as summary
 from
     pathway_lpaprop as lpaprop left join
-    pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
-    pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join
-    pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join
-    pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join
-    pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join
-    pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join
+    pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join 
+    pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join 
+    pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join 
+    pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join 
+    pathway_cnacomp as cnacomp_1 on lpaaddr.tfkcnacomp = cnacomp_1.tpkcnacomp left join 
+    pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join 
+    pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join 
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
-    lpaprop.status in ('A', 'C') and
-    lpaaddr.addrtype = 'P' and
-    lpaprtp.abbrev <> 'BASE' and
-    lpaprop.tfklpacncl = 12
+    lpaprop.status in ( 'A' , 'C' ) and 
+    lpaaddr.addrtype = 'P' and 
+    lpaprop.tfklpacncl = 13
 )
 )
 )

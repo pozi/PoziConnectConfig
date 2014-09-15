@@ -37,110 +37,110 @@ select
 from
 (
 select distinct
-    cast ( lpaprop.tpklpaprop as varchar ) as propnum,
+    cast ( cast ( lpaprop.tpklpaprop as integer ) as varchar ) as propnum,
     case lpaparc.status
         when 'C' then 'A'
         when 'A' then 'P'
     end as status,
-    '' as crefno,
+    cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
-    ifnull ( lpaparc.plancode , '' ) ||
-        case
-            when substr ( lpaparc.plannum , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then lpaparc.plannum
-            when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 )
-            else ''
-        end as plan_number,
+    case
+        when lpaparc.plannum is null then cast (null as varchar)
+        else cast ( trim (lpaparc.plancode ) ||
+            case
+                when substr ( trim ( lpaparc.plannum ) , -1 ) > '9' and substr ( trim ( lpaparc.plannum ) , 1 ) <> '0' then substr ( lpaparc.plannum , 1 , ( length ( trim ( plannum ) ) -1 ) )
+                when substr ( trim ( lpaparc.plannum ) , 2 ) = '00'  then substr ( lpaparc.plannum , 3 , 99 )
+                when substr ( trim ( lpaparc.plannum ) , 1 ) = '0'  then substr ( lpaparc.plannum , 2 , 99 )
+                else trim ( lpaparc.plannum )
+            end as varchar)
+    end as plan_number,
     ifnull ( lpaparc.plancode , '' ) as plan_prefix,
     case
-        when substr ( lpaparc.plannum , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then lpaparc.plannum
-        when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 )
-        else ''
+        when substr ( trim ( lpaparc.plannum ) , -1 ) > '9' and substr ( trim ( lpaparc.plannum ) , 1 ) <> '0' then substr ( lpaparc.plannum , 1 , ( length ( trim ( plannum ) ) -1 ) )
+        when substr ( trim ( lpaparc.plannum ) , 2 ) = '00'  then substr ( lpaparc.plannum , 3 , 99 )
+        when substr ( trim ( lpaparc.plannum ) , 1 ) = '0'  then substr ( lpaparc.plannum , 2 , 99 )
+        else trim ( lpaparc.plannum )
     end as plan_numeral,
-    case
-        when lpaparc.parcelcode in ( 'CA' , 'PTCA' , 'PORT' , 'PTPORT' ) then ''
-        when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
-        else ifnull ( lpaparc.parcelnum , '' )
-    end as lot_number,
-    case
-        when lpaparc.parcelcode = 'CA' and lpaparc.fmtparcel like 'CA%' then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'CA' , '' ) , 1, 10 ) )
-        when lpaparc.parcelcode = 'PTCA' and lpaparc.fmtparcel like 'PTCA%' then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'PTCA' , '' ) , 1, 10 ) )
-        when lpaparc.parcelcode = 'PORT' and lpaparc.fmtparcel like 'CP%' and substr ( lpaparc.fmtparcel , 4 , 1 ) not in ( 'P' , 'S' ) then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'CP' , '' ) , 1, 10 ) )
-        when lpaparc.parcelcode = 'PTPORT' and lpaparc.fmtparcel like 'PTCP%' then trim ( substr ( replace ( replace ( lpaparc.fmtparcel , ' ' , '     ' ) , 'PTCP' , '' ) , 1, 10 ) )
-        else ''
-    end as allotment,
+    ifnull ( lpaparc.parcelnum , '' ) as lot_number,
+    ifnull ( lpacrwn.crownallot , '' ) as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
-    case
-        when lpaparc.parcelcode not in ( 'CA' , 'PTCA' , 'PORT' , 'PTPORT' ) then ''
-        when lpaparc.fmtparcel like '%P/BAYNTON%' then '2094'
-        when lpaparc.fmtparcel like '%P/BLACKWOOD%' then '2160'
-        when lpaparc.fmtparcel like '%P/BULLENGAROOK%' then '2265'
-        when lpaparc.fmtparcel like '%P/BURKE%' then '2293'
-        when lpaparc.fmtparcel like '%P/BYLANDS%' then '2318'
-        when lpaparc.fmtparcel like '%P/CARLSRUHE%' then '2348'
-        when lpaparc.fmtparcel like '%P/CHINTIN%' then '2385'
-        when lpaparc.fmtparcel like '%P/COBAW%' then '2392'
-        when lpaparc.fmtparcel like '%P/COLIBAN%' then '2409'
-        when lpaparc.fmtparcel like '%P/COORNMILL%' then '2444'
-        when lpaparc.fmtparcel like '%P/DARRAWEIT GUIM%' then '2496'
-        when lpaparc.fmtparcel like '%P/EDGECOMBE%' then '2576'
-        when lpaparc.fmtparcel like '%P/GISBORNE%' then '2662'
-        when lpaparc.fmtparcel like '%P/GLENHOPE%' then '2675'
-        when lpaparc.fmtparcel like '%P/GOLDIE%' then '2694'
-        when lpaparc.fmtparcel like '%P/HAVELOCK%' then '2746'
-        when lpaparc.fmtparcel like '%P/KERRIE%' then '2865'
-        when lpaparc.fmtparcel like '%P/LANCEFIELD%' then '2962'
-        when lpaparc.fmtparcel like '%P/LANGLEY%' then '2970'
-        when lpaparc.fmtparcel like '%P/LAURISTON%' then '2979'
-        when lpaparc.fmtparcel like '%P/MACEDON%' then '3027'
-        when lpaparc.fmtparcel like '%P/MONEGEETTA%' then '3150'
-        when lpaparc.fmtparcel like '%P/NEWHAM%' then '3304'
-        when lpaparc.fmtparcel like '%P/ROCHFORD%' then '3455'
-        when lpaparc.fmtparcel like '%P/SPRINGFIELD%' then '3494'
-        when lpaparc.fmtparcel like '%P/TRENTHAM%' then '3649'
-        when lpaparc.fmtparcel like '%P/TYLDEN%' then '3673'
-        when lpaparc.fmtparcel like '%P/WOODEND%' then '3872'
+    case    
+        when lpadesc.descr = 'Allambee' then '2010'
+        when lpadesc.descr = 'Allambee East' then '2011'
+        when lpadesc.descr = 'Beek Beek' then '2100'
+        when lpadesc.descr = 'Doomburrim' then '2537'
+        when lpadesc.descr = 'Drumdlemara' then '2551'
+        when lpadesc.descr = 'Dumbalk' then '2559'
+        when lpadesc.descr = 'Gunyah Gunyah' then '2736'
+        when lpadesc.descr = 'Jeetho' then '2787'
+        when lpadesc.descr = 'Jeetho West' then '2788'
+        when lpadesc.descr = 'Jumbunna' then '2809'
+        when lpadesc.descr = 'Jumbunna East' then '2810'
+        when lpadesc.descr = 'Kirrak' then '2889'
+        when lpadesc.descr = 'Kongwak' then '2901'
+        when lpadesc.descr = 'Koorooman' then '2917'
+        when lpadesc.descr = 'Korumburra' then '2929'
+        when lpadesc.descr = 'Kulk' then '2938'
+        when lpadesc.descr = 'Lang Lang' then '2968'
+        when lpadesc.descr = 'Lang Lang East' then '2969'
+        when lpadesc.descr = 'Leongatha' then '2987'
+        when lpadesc.descr = 'Longwarry' then '3011'
+        when lpadesc.descr = 'Mardan' then '3059'
+        when lpadesc.descr = 'Meeniyan' then '3077'
+        when lpadesc.descr = 'Mirboo' then '3119'
+        when lpadesc.descr = 'Mirboo South' then '3120'
+        when lpadesc.descr = 'Narracan South' then '3273'
+        when lpadesc.descr = 'Nerrena' then '3300'
+        when lpadesc.descr = 'Poowong' then '3411'
+        when lpadesc.descr = 'Poowong East' then '3412'
+        when lpadesc.descr = 'Tallang' then '3528'
+        when lpadesc.descr = 'Tarwin' then '3563'
+        when lpadesc.descr = 'Tarwin Sth' then '3564'
+        when lpadesc.descr = 'Toora' then '3630'
+        when lpadesc.descr = 'Waratah' then '3736'
+        when lpadesc.descr = 'Waratah North' then '3737'
+        when lpadesc.descr = 'Warreen' then '3758'
+        when lpadesc.descr = 'Welshpool' then '3790'
+        when lpadesc.descr = 'Wonga Wonga' then '3862'
+        when lpadesc.descr = 'Wonga Wonga South' then '3863'
+        when lpadesc.descr = 'Woorarra' then '3885'
+        when lpadesc.descr = 'Yanakie' then '3945'
+        when lpadesc.descr = 'Yanakie South' then '3946'    
         else ''
-    end as parish_code,
-    case
-        when lpaparc.parcelcode not in ( 'CA' , 'PTCA' , 'PORT' , 'PTPORT' ) then ''
-        when lpaparc.fmtparcel like '%T/BARRINGO%' then '5049'
-        when lpaparc.fmtparcel like '%T/CARLSRUHE%' then '5155'
-        when lpaparc.fmtparcel like '%T/CHEROKEE%' then '5169'
-        when lpaparc.fmtparcel like '%T/DARRAWEIT GUIM%' then '5228'
-        when lpaparc.fmtparcel like '%T/GISBORNE%' then '5320'
-        when lpaparc.fmtparcel like '%T/KYNETON%' then '5439'
-        when lpaparc.fmtparcel like '%T/LANCEFIELD%' then '5450'
-        when lpaparc.fmtparcel like '%T/LAURISTON%' then '5454'
-        when lpaparc.fmtparcel like '%T/MACEDON%' then '5487'
-        when lpaparc.fmtparcel like '%T/MALMSBURY%' then '5495'
-        when lpaparc.fmtparcel like '%T/RIDDELL%' then '5675'
-        when lpaparc.fmtparcel like '%T/ROMSEY%' then '5681'
-        when lpaparc.fmtparcel like '%T/SPRING HILL%' then '5726'
-        when lpaparc.fmtparcel like '%T/TYLDEN%' then '5809'
-        when lpaparc.fmtparcel like '%T/WOODEND%' then '5874'
+    end as parish_code,    
+    case    
+        when lpadesc.descr = 'Bennison Township' then '5072'
+        when lpadesc.descr = 'Darlimurla Township' then '5224'
+        when lpadesc.descr = 'Foster Township' then '5296'
+        when lpadesc.descr = 'Hedley Township' then '5375'
+        when lpadesc.descr = 'Koonwarra Township' then '5429'
+        when lpadesc.descr = 'Korumburra Township' then '5434'
+        when lpadesc.descr = 'Leongatha Township' then '5460'
+        when lpadesc.descr = 'Meeniyan Township' then '5513'
+        when lpadesc.descr = 'Mirboo North Township' then '5537'
+        when lpadesc.descr = 'Poowong Township' then '5644'
+        when lpadesc.descr = 'Port Welshpool Township' then '5652'
+        when lpadesc.descr = 'Stony Creek Township' then '5734'
+        when lpadesc.descr = 'Tarwin Lower Township' then '5770'
+        when lpadesc.descr = 'Walkerville Township' then '5820'
+        when lpadesc.descr = 'Nyora Township' then '5613'       
         else ''
     end as township_code,
     '361' as lga_code
 from
-    pathway_lpaprop as lpaprop left join
-    pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
-    pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join
-    pathway_cnacomp as cnacomp on lpaaddr.tfkcnacomp = cnacomp.tpkcnacomp left join
-    pathway_lpaprti_mod as lpaprti_mod on lpaprop.tpklpaprop = lpaprti_mod.tfklpaprop left join
-    pathway_lpatitl as lpatitl on lpaprti_mod.tfklpatitl = lpatitl.tpklpatitl left join
-    pathway_lpatipa as lpatipa on lpatitl.tpklpatitl = lpatipa.tfklpatitl left join
-    pathway_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc left join
-    pathway_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpacrwn.tfklpaparc left join
-    pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left join
-    pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc
+    pathway_lpaprop as lpaprop left outer join
+    pathway_lpaprti as lpaprti on lpaprop.tpklpaprop = lpaprti.tfklpaprop left outer join
+    pathway_lpatipa as lpatipa on lpaprti.tfklpatitl = lpatipa.tfklpatitl left outer join
+    pathway_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc left outer join
+    pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left outer join    
+    pathway_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpacrwn.tfklpaparc left outer join    
+    pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc left outer join    
+    pathway_lpadesc as lpadesc on lpadepa.tfklpadesc = lpadesc.tpklpadesc
+
 where
-   lpaprop.status = 'C' and
-   lpaparc.status = 'C' and
-   lpatipa.status = 'C' and
-   lpaprti_mod.status = 'C' and
-   lpatitl.status = 'C' and
-   lpaparc.fmtparcel not like 'U/R Licence%'
+    lpaparc.status <> 'H' and
+    lpaprop.tfklpacncl = 13
 )

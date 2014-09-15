@@ -4,16 +4,35 @@ copied from Glen Erira
 
 ## Notes
 
-Import of lparole table from Pathway takes a long time (several minutes). The table contains 1.4M records.
 
-We now apply a filter during the import to reduce the time taken for the import:
+#### Parish / Townships
 
-```sql
-SELECT * FROM {Pathway_Table_Prefix}lparole WITH (NOLOCK) WHERE fklparolta = 'LRA' AND fklparoltn = 0
-```
+Parish / townships that dont have a match in vicmap ref.
 
-The imported table now contains only 67K records.
 
-If the Glen Eira queries are to be reused at other sites, the same import filter must be applied, or the queries must be modified to include the filter.
+    when lpadesc.descr = 'Tidal River' then '????'
+    when lpadesc.descr = 'Wilson Promontory' then '????
+    when lpadesc.descr = 'Loch Township' then '????
+    when lpadesc.descr = 'Bongurra Township' then '????
+    when lpadesc.descr = 'Kongwak Township' then '????
+    when lpadesc.descr = 'Bena Township' then '????
 
-Note: out of the four Pathway sites implemented as at Feb 2014, Glen Eira is the only one to use the lparole table.
+#### Parcel Desc 
+
+Crown Allotments and sections are stored in separate tables from all other parcel info in LPAPARC.
+
+* LPACRWN
+* LPASECT
+
+
+### Street Names
+
+Directional suffix is normally in street type for all other streets. these 2 streets do not have a correct street type and are not stored the same as other directional streets.
+
+* JAMES ROAD NORTH    
+* MCPHEE STREET NORTH
+
+### Units
+
+Building unit type has unit for all small unit like houses. not all have a unit number some have there own number on private roads (common property).
+
