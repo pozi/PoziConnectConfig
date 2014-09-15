@@ -60,7 +60,6 @@ Column|Description|Usage
 `m1_edit_code`|update pending for this parcel|filter on `(Blank)` to list records not already flagged for update in current M1
 `m1_comments`|comments for pending update
 
-
 ### Examples
 
 #### Unmatched parcels, with suggested parcel description fixes (critical, easy)
@@ -91,6 +90,30 @@ It's possible these will clear up in subsequent M1s after Pozi Connect removes a
 ## Property Address
 
 Audit file: `Audit - Council Property Address.csv`
+
+### Structure
+
+Column|Description|Usage
+:--|:--|:--
+`propnum`|council property number
+`status`|council property status
+`address`|combined council address constructed from council address attributes
+`locality`|council locality
+`summary`|council-maintained combined address (council reference only)
+`address_validity`|description of any detected instances of address not meeting Vicmap rules|filter on `NOT (Blank)` to list non-compliant addresses
+`parcels_in_council`|number of parcels in Council that share this propnum
+`council_parcels`|list of parcels in Council that share this propnum
+`parcels_in_vicmap`|number of parcels in Vicmap that match this propnum
+`vicmap_parcels`|list of parcels in Vicmap that match this propnum
+`vicmap_address`|address of property in Vicmap that matches this propnum
+`vicmap_locality`|locality of property in Vicmap that matches this propnum|filter on `N` to list wrong locality in Council
+`address_match_in_vicmap`|Council address matches Vicmap address (Y/N)
+`road_name_in_vicmap`|Council road name matches Vicmap road name (Y/N)
+`locality_match_in_vicmap`|Council locality matches Vicmap locality (Y/N)
+`current_m1_edit_code`|update pending for this parcel|filter on `(Blank)` to list records not already flagged for update in current M1
+`current_m1_comments`|comments for pending update
+
+### Examples
 
 #### Locality Anomalies
 
