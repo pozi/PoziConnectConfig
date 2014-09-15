@@ -52,6 +52,7 @@ select
     ifnull ( ( select crefno from pc_vicmap_parcel vp where vp.spi = cp.spi and length ( vp.spi ) >= 5 limit 1 ) , '' ) as vicmap_crefno,
     ifnull ( ( select edit_code from M1 where ( m1.spi = cp.spi and length ( cp.spi ) >= 5 ) or m1.propnum = cp.propnum limit 1 ) , '' ) as m1_edit_code,
     ifnull ( ( select comments from M1 where ( m1.spi = cp.spi and length ( cp.spi ) >= 5 ) or m1.propnum = cp.propnum limit 1 ) , '' ) as m1_comments,
+    cp.*,
     ( select vp.geometry from pc_vicmap_parcel vp where vp.spi = cp.spi limit 1 ) as geometry
-from PC_Council_Parcel cp
+from pc_council_parcel cp
 
