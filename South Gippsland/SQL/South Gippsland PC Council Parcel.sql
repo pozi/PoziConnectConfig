@@ -63,9 +63,13 @@ select distinct
     end as plan_numeral,
     case 
         when ifnull ( lpaparc.parcelnum , '' ) = '' and lpaparc.parcelcode = 'CM' then 'CM'
+        when ifnull ( lpaparc.parcelnum , '' ) <> '' and ifnull ( lpaparc.plannum , '' ) = '' then ''
         else ifnull ( lpaparc.parcelnum , '' )
     end as lot_number,
-    ifnull ( lpacrwn.crownallot , '' ) as allotment,
+    case 
+        when ifnull ( lpaparc.parcelnum , '' ) <> '' and ifnull ( lpaparc.plannum , '' ) = '' then ifnull ( lpaparc.parcelnum , '' )
+        else ifnull ( lpacrwn.crownallot , '' ) 
+    end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     '' as block,
     '' as portion,

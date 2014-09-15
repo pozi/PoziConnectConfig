@@ -25,6 +25,11 @@ Crown Allotments and sections are stored in separate tables from all other parce
 * LPASECT
 
 
+Common Property lot info is stored in lpaparc.parcelcode
+
+
+
+
 ### Street Names
 
 Directional suffix is normally in street type for all other streets. these 2 streets do not have a correct street type and are not stored the same as other directional streets.
@@ -44,17 +49,20 @@ Street address of OFF, CNR in bulding name feild to be moved to location desc fe
 
 Crown Portions fix
 
-Lot numbers with no plan number to be moved over to allotment field
-
-CM plancode in lpaparc table has CM for each CM but no lot number. make lot number = CM
-
-Remove plan type of AG from council parcels
+Remove plan type of AG from council parcels list
 
 
-remove crefno value from M1 (leave blank)
+### FIXED
+
+--- Lot numbers with no plan number to be moved over to allotment field
+
+-- CM plancode in lpaparc table has CM for each CM but no lot number. make lot number = CM
 
 
-Unit Suffix missing from address Building Unit Suffix 1
+-- remove crefno value from M1 (leave blank)
+
+
+-- Unit Suffix missing from address Building Unit Suffix 1
 
 
 
