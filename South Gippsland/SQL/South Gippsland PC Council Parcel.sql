@@ -61,7 +61,10 @@ select distinct
         when substr ( trim ( lpaparc.plannum ) , 1 ) = '0'  then substr ( lpaparc.plannum , 2 , 99 )
         else trim ( lpaparc.plannum )
     end as plan_numeral,
-    ifnull ( lpaparc.parcelnum , '' ) as lot_number,
+    case 
+        when ifnull ( lpaparc.parcelnum , '' ) = '' and lpaparc.parcelcode = 'CM' then 'CM'
+        else ifnull ( lpaparc.parcelnum , '' )
+    end as lot_number,
     ifnull ( lpacrwn.crownallot , '' ) as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     '' as block,
