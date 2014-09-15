@@ -80,7 +80,7 @@ select
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
     case
-        when upper ( A.floor_desc ) in ( 'FL' , 'FLOOR' , '1ST' , '2ND' ) then 'FL'
+        when upper ( A.floor_desc ) in ( 'FL' , 'FLOOR' , 'FLR' , '1ST' , '2ND' ) then 'FL'
         when upper ( A.floor_desc ) in ( 'L' , 'LVL' , 'LEVEL' , 'LEV' ) then 'L'
         when upper ( A.floor_desc ) in ( 'G' , 'GRD' ) then 'G'
         when upper ( A.floor_desc ) in ( 'LL' , 'LOWER' ) then 'LL'
