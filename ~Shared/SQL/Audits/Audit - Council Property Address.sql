@@ -49,11 +49,11 @@ select
     ifnull ( ( select vpa.locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) , '' ) as vicmap_locality,
     case
         when propnum not in ( select vpa.propnum from pc_vicmap_property_address vpa ) then ''
-        when num_road_address = ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) then 'Y'
+        when replace ( num_road_address , '''' , '' ) = ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) then 'Y'
         else 'N'
     end as address_match_in_vicmap,
     case
-        when road_name_combined in ( select distinct vpa.road_name_combined from pc_vicmap_property_address vpa ) then 'Y'
+        when replace ( road_name_combined , '''' , '' ) in ( select distinct vpa.road_name_combined from pc_vicmap_property_address vpa ) then 'Y'
         else 'N'
     end as road_name_in_vicmap,
     case
