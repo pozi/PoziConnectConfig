@@ -36,3 +36,32 @@ Directional suffix is normally in street type for all other streets. these 2 str
 
 Building unit type has unit for all small unit like houses. not all have a unit number some have there own number on private roads (common property).
 
+
+
+### to fix
+
+Street address of OFF, CNR in bulding name feild to be moved to location desc feild
+
+Crown Portions fix
+
+Lot numbers with no plan number to be moved over to allotment field
+
+CM plancode in lpaparc table has CM for each CM but no lot number. make lot number = CM
+
+Remove plan type of AG from council parcels
+
+
+remove crefno value from M1 (leave blank)
+
+
+Unit Suffix missing from address Building Unit Suffix 1
+
+
+
+
+
+
+
+
+
+
