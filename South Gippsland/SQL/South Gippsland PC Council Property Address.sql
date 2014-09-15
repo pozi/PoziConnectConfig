@@ -51,11 +51,7 @@ select
         when lpaaddr.strunitnum <> 0 then cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
         else ''
     end as blg_unit_id_1,
-    case
-        when lpaaddr.strlvlsfx is not null and upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'HALL' , 'HOUSE' , 'KIOSK' , 'OFFICE' , 'RESERVE' , 'SHED' , 'SHOP' , 'SIGN' , 'SUITE' , 'TOILET' ,  'TOWER' ) then cast ( lpaaddr.strlvlsfx as varchar )
-        when upper ( lpaaddr.unitprefix ) not in ( 'FLOOR' , 'LEVEL' ) and lpaaddr.strunitsfx is not null then cast ( lpaaddr.strunitsfx as varchar )
-        else ''
-    end as blg_unit_suffix_1,
+    ifnull ( lpaaddr.strunitsfx , '' ) as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
         when lpaaddr.endunitnum = 0 then ''
