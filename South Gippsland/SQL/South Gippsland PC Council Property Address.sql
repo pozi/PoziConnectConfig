@@ -86,13 +86,13 @@ select
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    upper ( ifnull ( lpapnam.propname , '' ) as building_name,
+    upper ( ifnull ( lpapnam.propname , '' ) ) as building_name,
     '' as complex_name,
     case    
         when upper ( lpaaddr.prefix ) = 'REAR OF' then 'REAR'
         when upper ( lpaaddr.prefix ) = 'CNR' then 'CORNER'
         when upper ( lpaaddr.prefix ) in ( 'ACCESS' , 'M' , 'SHOP' , 'UPSTAIRS' ) then ''
-        else ifnull ( lpaaddr.prefix , '' )
+        else upper ( ifnull ( lpaaddr.prefix , '' ) )
     end as location_descriptor,
     '' as house_prefix_1,
     case

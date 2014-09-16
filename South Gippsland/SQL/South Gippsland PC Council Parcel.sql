@@ -149,5 +149,6 @@ from
 
 where
     lpaparc.status <> 'H' and
-    lpaprop.tfklpacncl = 13
+    lpaprop.tfklpacncl = 13 and
+    lpaparc.plancode <> 'AG'
 )
