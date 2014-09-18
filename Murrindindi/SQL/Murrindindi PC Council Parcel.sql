@@ -73,7 +73,7 @@ select
         else ''
     end as plan_numeral,
     case
-        when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 ) then upper ( ifnull ( auprparc.ttl_no1 , '' ) )
+        when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 ) then replace ( upper ( ifnull ( auprparc.ttl_no1 , '' ) ) , ' ' , '' )
         else ''
     end as lot_number,
     case
