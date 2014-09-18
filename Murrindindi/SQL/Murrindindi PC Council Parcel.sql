@@ -52,28 +52,30 @@ select
     end as part,
     substr ( case
         when auprparc.ttl_cde = 1 then 'LP' || auprparc.ttl_no5
-        when auprparc.ttl_cde = 2 then 'PC' || auprparc.ttl_no5
+        when auprparc.ttl_cde = 2 then 'CP' || auprparc.ttl_no5
         when auprparc.ttl_cde = 5 then 'SP' || auprparc.ttl_no5
         when auprparc.ttl_cde = 7 then 'RP' || auprparc.ttl_no5
         when auprparc.ttl_cde = 12 then 'TP' || auprparc.ttl_no5
         when auprparc.ttl_cde = 13 then 'PS' || auprparc.ttl_no5
+        when auprparc.ttl_cde = 14 then 'PC' || auprparc.ttl_no5
         else ''
     end , 1 , 8 ) as plan_number,
     case
         when auprparc.ttl_cde = 1 then 'LP'
-        when auprparc.ttl_cde = 2 then 'PC'
+        when auprparc.ttl_cde = 2 then 'CP'
         when auprparc.ttl_cde = 5 then 'SP'
         when auprparc.ttl_cde = 7 then 'RP'
         when auprparc.ttl_cde = 12 then 'TP'
         when auprparc.ttl_cde = 13 then 'PS'
+        when auprparc.ttl_cde = 14 then 'PC'
         else ''
     end as plan_prefix,
     case
-        when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 ) then ifnull ( substr ( auprparc.ttl_no5 , 1 , 6 ) , '' )
+        when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 , 14 ) then ifnull ( substr ( auprparc.ttl_no5 , 1 , 6 ) , '' )
         else ''
     end as plan_numeral,
     case
-        when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 ) then replace ( upper ( ifnull ( auprparc.ttl_no1 , '' ) ) , ' ' , '' )
+        when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 , 14 ) then replace ( upper ( ifnull ( auprparc.ttl_no1 , '' ) ) , ' ' , '' )
         else ''
     end as lot_number,
     case
