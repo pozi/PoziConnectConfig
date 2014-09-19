@@ -53,6 +53,7 @@ select
     ifnull ( ( select edit_code from M1 where ( m1.spi = cp.spi and length ( cp.spi ) >= 5 ) or m1.propnum = cp.propnum limit 1 ) , '' ) as m1_edit_code,
     ifnull ( ( select comments from M1 where ( m1.spi = cp.spi and length ( cp.spi ) >= 5 ) or m1.propnum = cp.propnum limit 1 ) , '' ) as m1_comments,
     cp.*,
+	ifnull ( ( select ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum and cpa.is_primary <> 'N' limit 1 ) , '' ) as council_address,
     ( select vp.geometry from pc_vicmap_parcel vp where vp.spi = cp.spi limit 1 ) as geometry
 from pc_council_parcel cp
 
