@@ -1,0 +1,20 @@
+create view ABS_V_B01 as
+select B01.*,
+SA1.SA1_7DIGITCODE_2011,
+SA1.SA2_NAME_2011,
+SA1.SA3_NAME_2011,
+SA1.SA4_NAME_2011,
+SA1.GCCSA_Name_2011,
+SA1.GEOMETRY
+from ABS_Census_B01_VIC_SA1 as B01 join 
+ABS_SA1_2011_Victoria as SA1 on B01.region_id = SA1.SA1_7DIGITCODE_2011
+
+
+
+
+
+
+
+INSERT INTO views_geometry_columns
+VALUES ('ABS_V_B01', 'GEOMETRY', 'region_id', 'ABS_SA1_2011_VICTORIA', 'GEOMETRY');
+
