@@ -150,5 +150,5 @@ from
 where
     lpaparc.status <> 'H' and
     lpaprop.tfklpacncl = 13 and
-    lpaparc.plancode <> 'AG'
+    ifnull ( lpaparc.plancode , '' ) <> 'AG'
 )
