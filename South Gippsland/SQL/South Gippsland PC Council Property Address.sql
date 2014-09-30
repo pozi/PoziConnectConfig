@@ -27,7 +27,7 @@ select
 from (
 
 select
-    cast ( cast ( lpaprop.tpklpaprop as integer ) as varchar ) as propnum,
+    cast ( lpaprop.tpklpaprop as varchar ) as propnum,
     case lpaprop.status
         when 'C' then 'A'
         when 'A' then 'P'
