@@ -42,7 +42,7 @@ select distinct
         when 'C' then 'A'
         when 'A' then 'P'
     end as status,
-    '' as crefno,
+    cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     case
         when lpaparc.plannum is null then cast (null as varchar)
