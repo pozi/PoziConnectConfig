@@ -148,6 +148,7 @@ from
     pathway_lpadesc as lpadesc on lpadepa.tfklpadesc = lpadesc.tpklpadesc
 
 where
+    lpaprop.status <> 'H' and
     lpaparc.status <> 'H' and
     lpaprop.tfklpacncl = 13 and
     ifnull ( lpaparc.plancode , '' ) <> 'AG'
