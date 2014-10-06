@@ -153,5 +153,6 @@ where
     lpatipa.status <> 'H' and
     lpaparc.status <> 'H' and
     lpaprop.tfklpacncl = 13 and
-    ifnull ( lpaparc.plancode , '' ) <> 'AG'
+    ifnull ( lpaparc.plancode , '' ) <> 'AG' and
+    ifnull ( lpaparc.parcelcode , '' ) not in ( 'RDR' , 'VR' , 'E' )
 )
