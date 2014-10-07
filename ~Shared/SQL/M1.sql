@@ -63,5 +63,7 @@ union
 select * from m1_e_edits
 union
 select * from m1_s_edits
+union
+select * from m1_s_proposed_edits
 )
 order by edit_code, plan_number, lot_number
