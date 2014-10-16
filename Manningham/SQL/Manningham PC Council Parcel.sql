@@ -39,7 +39,7 @@ from
 select
     cast ( P.property_no as varchar ) as propnum,
     cast ( L.land_no as varchar ) as crefno,
-    P.override_legal_description as summary,
+    ifnull ( P.override_legal_description , '' ) as summary,
     case P.status
         when 'F' then 'P'
         else ''
@@ -97,6 +97,7 @@ from
     join techone_nucproperty P on A.key1 = P.property_no
 where
     A.association_type = 'PropLand' and
+    ( P.property_no < 550000 or P.property_no >= 700000 ) and
     L.plan_desc <> 'PA' and
     A.date_ended is null and
     P.status in ( 'C' , 'F' )
