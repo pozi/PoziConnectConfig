@@ -39,7 +39,7 @@ from
 select
     cast ( P.property_no as varchar ) as propnum,
     cast ( L.land_no as varchar ) as crefno,
-    '' as summary,
+    P.override_legal_description as summary,
     case P.status
         when 'F' then 'P'
         else ''
