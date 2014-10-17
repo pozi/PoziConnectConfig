@@ -75,6 +75,7 @@ where
       ( vp.spi in ( select cp.spi from pc_council_parcel cp ) and
         vp.propnum not in ( select vpx.propnum from pc_vicmap_parcel vpx where vpx.spi in ( select cp.spi from pc_council_parcel cp where cp.propnum = vp.propnum ) )
       )
-    )
+    ) and
+    propnum not in ( select propnum from pc_council_parcel cp where spi not in ( select x.spi from pc_vicmap_parcel x ) )
 group by property_pfi
 )
