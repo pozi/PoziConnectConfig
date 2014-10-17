@@ -32,12 +32,15 @@ select distinct
     '' as base_propnum,
     case
         when
-            Assessment.Property_Name_Address_Locality not like
-                '%' ||
-                cast ( ifnull ( Address.Addr_Building_Unit_Number_1 , '' ) as varchar ) ||
-                '%' ||
-                cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) ||
-                '%'
+            (
+                Assessment.Property_Name_Address_Locality not like
+                    '%' ||
+                    cast ( ifnull ( Address.Addr_Building_Unit_Number_1 , '' ) as varchar ) ||
+                    '%' ||
+                    cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) ||
+                    '%' or
+                ifnull ( Address.Addr_House_Number_1 , '' ) = ''
+            )			
             and
                 ( Assessment.Property_Name_Address_Locality like '%1%' or
                   Assessment.Property_Name_Address_Locality like '%2%' or
