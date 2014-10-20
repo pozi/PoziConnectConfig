@@ -15,3 +15,6 @@ ogr2ogr -f SQlite "C:\Users\hsenot\Tools\GIS-on-a-Stick\data\STERA.sqlite" "G:\D
 
 *
 ogr2ogr -f SQlite "C:\Users\hsenot\Tools\GIS-on-a-Stick\data\STERA.sqlite" "G:\Data\COL Data\01_Source_Data\source_data.gdb" BIOSITE100 -t_srs EPSG:4326 -nlt POINT -update
+
+*
+ogr2ogr -f SQlite "C:\Users\hsenot\Tools\GIS-on-a-Stick\data\STERA.sqlite" "G:\Data\COL Data\01_Source_Data\source_data.gdb" NV2005_EVCBCS -t_srs EPSG:4326 -nlt MULTIPOLYGON -update
