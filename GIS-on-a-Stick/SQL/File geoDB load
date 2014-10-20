@@ -1,0 +1,11 @@
+OGR commands to load file geodatabase tables into SQLite
+--------------------------------------------------------
+
+*
+ogr2ogr -f SQlite "C:\Users\hsenot\Tools\GIS-on-a-Stick\data\STERA.sqlite" "G:\Data\COL Data\02_Assets_as_Features\Economic.gdb" npi_chem_ex -t_srs EPSG:4326 -nlt POINT -update
+
+*
+ogr2ogr -f SQlite "C:\Users\hsenot\Tools\GIS-on-a-Stick\data\STERA.sqlite" "G:\Data\COL Data\02_Assets_as_Features\Economic.gdb" npi_pet_chem -t_srs EPSG:4326 -nlt POINT -update
+
+*
+ogr2ogr -f SQlite "C:\Users\hsenot\Tools\GIS-on-a-Stick\data\STERA.sqlite" "G:\Data\COL Data\02_Assets_as_Features\Economic.gdb" npi_paper_wd -t_srs EPSG:4326 -nlt POINT -update
