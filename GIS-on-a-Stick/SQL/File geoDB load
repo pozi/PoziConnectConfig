@@ -9,3 +9,9 @@ ogr2ogr -f SQlite "C:\Users\hsenot\Tools\GIS-on-a-Stick\data\STERA.sqlite" "G:\D
 
 *
 ogr2ogr -f SQlite "C:\Users\hsenot\Tools\GIS-on-a-Stick\data\STERA.sqlite" "G:\Data\COL Data\02_Assets_as_Features\Economic.gdb" npi_paper_wd -t_srs EPSG:4326 -nlt POINT -update
+
+*
+ogr2ogr -f SQlite "C:\Users\hsenot\Tools\GIS-on-a-Stick\data\STERA.sqlite" "G:\Data\COL Data\01_Source_Data\source_data.gdb" BIOSITE25 -t_srs EPSG:4326 -nlt MULTIPOLYGON -update
+
+*
+ogr2ogr -f SQlite "C:\Users\hsenot\Tools\GIS-on-a-Stick\data\STERA.sqlite" "G:\Data\COL Data\01_Source_Data\source_data.gdb" BIOSITE100 -t_srs EPSG:4326 -nlt POINT -update
