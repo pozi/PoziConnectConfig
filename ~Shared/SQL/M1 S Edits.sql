@@ -45,7 +45,10 @@ select distinct
     cpa.road_suffix as road_suffix,
     cpa.locality_name as locality_name,
     cpa.distance_related_flag as distance_related_flag,
-    '' as is_primary,
+    case cpa.is_primary
+        when 'Y' then 'Y'
+        else ''
+    end as is_primary,
     cast ( cpa.easting as varchar ) as easting,
     cast ( cpa.northing as varchar ) as northing,
     cpa.datum_proj as datum_proj,
@@ -67,4 +70,3 @@ where
     ( propnum in ( select propnum from pc_vicmap_property_address ) or
       propnum in ( select propnum from m1_p_edits ) ) and
     not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' ) , '' )
-
