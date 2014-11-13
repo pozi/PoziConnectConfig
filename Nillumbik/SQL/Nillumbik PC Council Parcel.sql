@@ -67,12 +67,28 @@ select distinct
     '' as block,
     '' as portion,
     '' as subdivision,
-    case lpaparc.plancode
-        when 'PP' then lpaparc.plannum
+    case
+        when lpaparc.fmtparcel like '%PSH BURGOYNE%' then '2292'
+        when lpaparc.fmtparcel like '%PSH BURGOYNE%' then '2292'
+        when lpaparc.fmtparcel like '%PSH GREENSBOROUGH%' then '2724'
+        when lpaparc.fmtparcel like '%PSH KEELBUNDORA%' then '2856'
+        when lpaparc.fmtparcel like '%PSH KINGLAKE%' then '2881'
+        when lpaparc.fmtparcel like '%PSH LINTON%' then '3000'
+        when lpaparc.fmtparcel like '%PSH MORANG%' then '3183'
+        when lpaparc.fmtparcel like '%PSH NILLUMBIK%' then '3310'
+        when lpaparc.fmtparcel like '%PSH QUEENSTOWN%' then '3437'
+        when lpaparc.fmtparcel like '%PSH SUTTON%' then '3513'
         else ''
     end as parish_code,
-    case lpaparc.plannum
-        when '3186A' then lpaparc.plannum
+    case
+        when lpaparc.fmtparcel like '%T/S WARRANDYTE NORTH%' then '5838'
+        when lpaparc.fmtparcel like '%T/S SUTTON%' then '3513'
+        when lpaparc.fmtparcel like '%T/S DIAMOND CREEK%' then '5242'
+        when lpaparc.fmtparcel like '%T/S ELTHAM%' then '5279'
+        when lpaparc.fmtparcel like '%T/S PANTON HILL%' then '5626'
+        when lpaparc.fmtparcel like '%T/S QUEENSTOWN%' then '5662'
+        when lpaparc.fmtparcel like '%T/S SMITHS GULLY%' then '5720'
+        when lpaparc.fmtparcel like '%T/S WARRANDYTE%' then '5837'
         else ''
     end as township_code,
     '356' as lga_code
