@@ -34,25 +34,7 @@ select
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    case upper ( trim ( lpaaddr.unitprefix ) )
-        when 'APARTMENT' then 'APT'
-        when 'ATM' then 'ATM'
-        when 'BILLBOARD' then ''
-        when 'BUILDING' then 'BLDG'
-        when 'CARPARK' then 'CARP' 
-        when 'FACTORY' then 'FCTY'
-        when 'FLAT' then 'FLAT'
-        when 'KIOSK' then 'KSK'
-        when 'OFFICE' then 'OFFC'
-        when 'PH TOWER' then 'TWR'
-        when 'RESERVE' then 'RESV'
-        when 'ROOM' then 'ROOM'
-        when 'ROW' then ''
-        when 'SHOP' then 'SHOP'
-        when 'SUITE' then 'SE'
-        when 'UNIT' then 'UNIT'
-        else ''
-    end as blg_unit_type,
+    upper ( ifnull ( lpaaddr.unitprefix , '' ) ) as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
@@ -71,14 +53,7 @@ select
         when lpaaddr.endunitsfx = '0' or lpaaddr.endunitsfx is null then ''
         else cast ( lpaaddr.endunitsfx as varchar )
     end as blg_unit_suffix_2,
-    case upper ( lpaaddr.lvlprefix )
-        when 'FLOOR' then 'FL'
-        when 'GRND FLOOR' then 'G'
-        when 'GROUND FLOOR' then 'G'
-        when 'LEVEL' then 'L'
-        when 'MEZZANINE' then 'M'
-        else ''
-    end as floor_type,
+    upper ( ifnull ( lpaaddr.lvlprefix , '' ) ) as floor_type,
     '' as floor_prefix_1,
     case
         when lpaaddr.strlvlnum = 0 then ''
@@ -93,12 +68,7 @@ select
     '' as floor_suffix_2,
     ifnull ( upper ( lpapnam.propname ) , '' ) as building_name,
     '' as complex_name,
-    case
-        when trim ( lpaaddr.prefix ) = 'FRONT' or trim ( lpaaddr.prefix ) like 'FRONT %' then 'FRONT'
-        when trim ( lpaaddr.prefix ) = 'REAR' or trim ( lpaaddr.prefix ) like 'REAR %' then 'REAR'
-        when trim ( lpaaddr.lvlprefix ) = 'UPSTAIRS' or trim ( lpaaddr.lvlprefix ) like 'UPSTAIRS %' then 'UPSTAIRS'
-        else ''
-    end as location_descriptor,
+    '' as location_descriptor,
     '' as house_prefix_1,
     case
         when lpaaddr.strhousnum = 0 or lpaaddr.strhousnum is null then ''

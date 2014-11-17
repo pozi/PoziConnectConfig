@@ -43,24 +43,27 @@ select distinct
         when 'A' then 'P'
     end as status,
     '' as crefno,
-    ifnull ( lpaparc.fmtparcel , '' ) as summary,
-    case lpaparc.plancode
-        when 'PP' then ''
-        else ifnull ( lpaparc.plancode , '' ) || ifnull ( lpaparc.plannum , '' )
+    ifnull ( lpaparc.plancode || ': ' , '' ) || ifnull ( trim ( lpaparc.fmtparcel ) , '' ) as summary,
+    case
+        when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then ''
+        else ifnull ( replace ( lpaparc.plancode , 'PT-' , '' ) , '' ) || ifnull ( lpaparc.plannum , '' )
     end as plan_number,
-    ifnull ( replace ( lpaparc.plancode , 'PP' , '' ) , '' ) as plan_prefix,
-    case lpaparc.plancode
-        when 'PP' then ''
+    case
+        when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then ''
+        else ifnull ( replace ( lpaparc.plancode , 'PT-' , '' ) , '' )
+    end as plan_prefix,
+    case
+        when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then ''
         else ifnull ( lpaparc.plannum , '' )
     end as plan_numeral,
     case
-        when lpaparc.parcelcode = 'CM' then 'CM' || ifnull ( lpaparc.parcelnum , '' )
+        when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then ''
+        when lpaparc.parcelcode = 'COMM' then 'CM' || ifnull ( lpaparc.parcelnum , '' )
         when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
-        when lpaparc.plancode = 'PP' then ''
         else ifnull ( lpaparc.parcelnum , '' )
     end as lot_number,
-    case lpaparc.plancode
-        when 'PP' then ifnull ( lpaparc.parcelnum , '' )
+    case
+        when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then ifnull ( lpaparc.parcelnum , '' )
         else ''
     end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
@@ -68,27 +71,37 @@ select distinct
     '' as portion,
     '' as subdivision,
     case
-        when lpaparc.fmtparcel like '%PSH BURGOYNE%' then '2292'
-        when lpaparc.fmtparcel like '%PSH BURGOYNE%' then '2292'
-        when lpaparc.fmtparcel like '%PSH GREENSBOROUGH%' then '2724'
-        when lpaparc.fmtparcel like '%PSH KEELBUNDORA%' then '2856'
-        when lpaparc.fmtparcel like '%PSH KINGLAKE%' then '2881'
-        when lpaparc.fmtparcel like '%PSH LINTON%' then '3000'
-        when lpaparc.fmtparcel like '%PSH MORANG%' then '3183'
-        when lpaparc.fmtparcel like '%PSH NILLUMBIK%' then '3310'
-        when lpaparc.fmtparcel like '%PSH QUEENSTOWN%' then '3437'
-        when lpaparc.fmtparcel like '%PSH SUTTON%' then '3513'
+        when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then
+            case
+                when substr ( plannum , 1 , 1 ) in ( '2' , '3' ) then plannum
+                when lpaparc.fmtparcel like '%PSH BURGOYNE%' then '2292'
+                when lpaparc.fmtparcel like '%PSH BURGOYNE%' then '2292'
+                when lpaparc.fmtparcel like '%PSH GREENSBOROUGH%' then '2724'
+                when lpaparc.fmtparcel like '%PSH KEELBUNDORA%' then '2856'
+                when lpaparc.fmtparcel like '%PSH KINGLAKE%' then '2881'
+                when lpaparc.fmtparcel like '%PSH LINTON%' then '3000'
+                when lpaparc.fmtparcel like '%PSH MORANG%' then '3183'
+                when lpaparc.fmtparcel like '%PSH NILLUMBIK%' then '3310'
+                when lpaparc.fmtparcel like '%PSH QUEENSTOWN%' then '3437'
+                when lpaparc.fmtparcel like '%PSH SUTTON%' then '3513'
+                else ''
+            end
         else ''
     end as parish_code,
     case
-        when lpaparc.fmtparcel like '%T/S WARRANDYTE NORTH%' then '5838'
-        when lpaparc.fmtparcel like '%T/S SUTTON%' then '3513'
-        when lpaparc.fmtparcel like '%T/S DIAMOND CREEK%' then '5242'
-        when lpaparc.fmtparcel like '%T/S ELTHAM%' then '5279'
-        when lpaparc.fmtparcel like '%T/S PANTON HILL%' then '5626'
-        when lpaparc.fmtparcel like '%T/S QUEENSTOWN%' then '5662'
-        when lpaparc.fmtparcel like '%T/S SMITHS GULLY%' then '5720'
-        when lpaparc.fmtparcel like '%T/S WARRANDYTE%' then '5837'
+        when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then
+            case
+                when substr ( plannum , 1 , 1 ) = '5' then plannum
+                when lpaparc.fmtparcel like '%T/S WARRANDYTE NORTH%' then '5838'
+                when lpaparc.fmtparcel like '%T/S SUTTON%' then '3513'
+                when lpaparc.fmtparcel like '%T/S DIAMOND CREEK%' then '5242'
+                when lpaparc.fmtparcel like '%T/S ELTHAM%' then '5279'
+                when lpaparc.fmtparcel like '%T/S PANTON HILL%' then '5626'
+                when lpaparc.fmtparcel like '%T/S QUEENSTOWN%' then '5662'
+                when lpaparc.fmtparcel like '%T/S SMITHS GULLY%' then '5720'
+                when lpaparc.fmtparcel like '%T/S WARRANDYTE%' then '5837'
+                else ''
+            end
         else ''
     end as township_code,
     '356' as lga_code
@@ -109,5 +122,6 @@ where
     lpaparc.status <> 'H' and
     lpatipa.status <> 'H' and
     lpaprti.status <> 'H' and
-    lpatitl.status <> 'H'
+    lpatitl.status <> 'H' and
+    lpaparc.fmtparcel <> 'Valuers Master Header'
 )
