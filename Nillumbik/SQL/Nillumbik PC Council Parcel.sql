@@ -59,6 +59,7 @@ select distinct
     case
         when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then ''
         when lpaparc.parcelcode = 'COMM' then 'CM' || ifnull ( lpaparc.parcelnum , '' )
+        when lpaparc.parcelcode = 'RD' then 'RD' || ifnull ( lpaparc.parcelnum , '' )
         when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
         else ifnull ( lpaparc.parcelnum , '' )
     end as lot_number,
