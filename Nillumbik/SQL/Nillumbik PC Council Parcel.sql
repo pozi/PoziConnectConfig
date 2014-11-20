@@ -63,7 +63,7 @@ select distinct
         else ifnull ( lpaparc.parcelnum , '' )
     end as lot_number,
     case
-        when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then ifnull ( lpaparc.parcelnum , '' )
+        when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then ifnull ( trim ( lpacrwn.crownallotr ) , '' )
         else ''
     end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
