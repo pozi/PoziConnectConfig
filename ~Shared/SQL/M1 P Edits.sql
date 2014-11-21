@@ -54,7 +54,9 @@ from (
 
 select
     vp.lga_code as lga_code,
-    '' as property_pfi,
+        when vp.spi in ( select spi from ( select vpx.spi, count(*) num_parcels from ( select distinct spi, property_pfi from pc_vicmap_parcel ) vpx group by vpx.spi ) where num_parcels > 1 ) then vp.property_pfi
+        else ''
+    end as property_pfi,
     vp.spi as spi,
     vp.plan_number as plan_number,
     vp.lot_number as lot_number,
