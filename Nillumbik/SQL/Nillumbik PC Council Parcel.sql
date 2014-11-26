@@ -69,7 +69,10 @@ select distinct
     end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     '' as block,
-    '' as portion,
+    case
+        when lpaparc.parcelcode = 'CP' then ifnull ( lpaparc.parcelnum , '' )
+        else ''
+    end as portion,
     '' as subdivision,
     case
         when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then
