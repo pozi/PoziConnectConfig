@@ -42,7 +42,7 @@ select distinct
         when 'C' then 'A'
         when 'A' then 'P'
     end as status,
-    '' as crefno,
+    cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     ifnull ( lpaparc.plancode || ': ' , '' ) || ifnull ( trim ( lpaparc.fmtparcel ) , '' ) as summary,
     case
         when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then ''
