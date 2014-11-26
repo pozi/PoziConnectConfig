@@ -75,7 +75,7 @@ The most valuable records to target, as they will result in new matches and are 
 Likely to be easily solved by updating a plan prefix. See `suggested_spi` field for a hint of the correct plan prefix.
 
 * `spi_in_vicmap`: 0
-* `partial_spi_in_vicmap`: 1
+* `partial_spi_in_vicmap`: NOT 0
 
 #### Gridlocked Records
 
