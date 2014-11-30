@@ -39,55 +39,55 @@ from
 select
     cast ( P.property_no as varchar ) as propnum,
     cast ( L.land_no as varchar ) as crefno,
-    ifnull ( P.override_legal_description , '' ) as summary,
+    ifnull ( substr ( P.override_legal_description , 1 , 99 ) , '' ) as summary,
     case P.status
         when 'F' then 'P'
         else ''
     end as status,
-    case 
-        when ifnull ( upper ( part_lot ) , '' ) = 'Y' then 'P'
-        else  ifnull ( upper ( part_lot ) , '' )
+    case
+        when ifnull ( part_lot , '' ) <> '' then 'P'
+        else ''
     end as part,
     case
-        when upper (l.plan_desc) = 'SEC' then ''
-        when substr ( L.plan_no , 1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then ''
+        when L.plan_desc in ( 'CA' , 'PTCA' ) then ''
         when substr ( trim ( ifnull ( L.plan_no , '' ) ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( ifnull ( L.plan_desc , '' ) ) || ifnull ( L.plan_no , '' )
         else trim ( ifnull ( L.plan_desc , '' ) ) || substr ( trim ( ifnull ( L.plan_no , '' ) ) , 1 , length ( trim ( ifnull ( L.plan_no , '' ) ) ) - 1 )
     end as plan_number,
     case
-        when upper (l.plan_desc) = 'SEC' then ''
+        when L.plan_desc in ( 'CA' , 'PTCA' ) then ''
         else ifnull ( L.plan_desc , '' ) 
     end as plan_prefix,
     case
-        when upper (l.plan_desc) = 'SEC' then ''
-        when substr ( L.plan_no , 1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then ''
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
-        else ifnull (substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
+        else ifnull ( substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_numeral,
     case
-        when l.parish_desc <> '' then ''
+        when L.plan_desc in ( 'CA' , 'PTCA' ) then ''
         else upper ( replace ( ifnull ( L.lot , '' ) , ' ' , '' ) ) 
     end as lot_number,
     case
-        when l.parish_desc <> '' then l.lot
+        when L.plan_desc in ( 'CA' , 'PTCA' ) then L.lot
+        when L.plan_desc is null and L.plan_no = '' then L.lot
         else ''
     end as allotment,
-    case
-        when l.plan_desc = 'SEC' then ifnull ( l.plan_no ,'' )
-        else ''
-    end as sec,
+    ifnull ( L.parish_section , '' ) as sec,
     '' as block,
-    '' as portion,
+    ifnull ( L.parish_portion , '' ) as portion,
     '' as subdivision,
-    case upper ( L.parish_desc )
-        when 'BULLEN' then '2264'
-        when 'NUDAWAD' then '3337'
-        when 'WARRA' then '3753'
+    case L.parish_desc
+        when 'MEE' then '3078'
+        when 'MEP' then '3087'
+        when 'PUR' then '3426'
+        when 'TAL' then '3530'
+        when 'WAN' then '3729'
+        when 'YAN' then '3950'
         else ''
     end as parish_code,
-    case 
-        when P.OVERRIDE_LEGAL_DESCRIPTION like '%Town%' and upper ( L.parish_desc ) = 'TEMPLE' then '5776'
-        when P.OVERRIDE_LEGAL_DESCRIPTION like '%Town%' and upper ( L.parish_desc ) = 'WARRA' then '5837'
+    case L.county_desc
+        when 'BUSH' then '5139'
+        when 'DENN' then '5235'
+        when 'WARR' then '5841'
+        when 'WOOD' then '5875'
         else ''
     end as township_code,
     '369' as lga_code
@@ -97,8 +97,6 @@ from
     join techone_nucproperty P on A.key1 = P.property_no
 where
     A.association_type = 'PropLand' and
-    ( P.property_no < 550000 or P.property_no >= 700000 ) and
-    L.plan_desc <> 'PA' and
     A.date_ended is null and
     P.status in ( 'C' , 'F' )
 )
