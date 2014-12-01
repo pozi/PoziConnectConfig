@@ -40,7 +40,7 @@ from
 select
     cast ( cast ( lraassm.assmnumber as integer ) as varchar ) as propnum,
     '' as status,
-    '' as crefno,
+    cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     ifnull ( lpaparc.plancode , '' ) ||
         case
@@ -285,7 +285,8 @@ select
         when 'TONGIO-WEST TOWNSHIP' then '5788'        
         else ''
     end as township_code,
-    '319' as lga_code
+    '319' as lga_code,
+    cast ( cast ( lraassm.assmnumber as integer ) as varchar ) as assnum
 from
     pathway_lpaprop as lpaprop left join
     pathway_lpaprti as lpaprti on lpaprop.tpklpaprop = lpaprti.tfklpaprop left join
