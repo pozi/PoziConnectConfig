@@ -80,8 +80,5 @@ from
     pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm
 where
     lpaparc.status <> 'H' and
-    lraassm.applicatn = 'R' and
-    lpaprop.tfklpacncl = 13 and
-    lparole.fklparolta = 'LRA' and
-    lparole.fklparoltn = 0
+    lpaprop.tfklpacncl = 13
 )
