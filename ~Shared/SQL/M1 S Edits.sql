@@ -12,7 +12,10 @@ select distinct
     '' as crefno,
     cpa.hsa_flag as hsa_flag,
     cpa.hsa_unit_id as hsa_unit_id,
-    cpa.blg_unit_type as blg_unit_type,
+    case
+        when cpa.blg_unit_id_1 = '' then ''
+        else cpa.blg_unit_type
+    end as blg_unit_type,
     cpa.blg_unit_prefix_1 as blg_unit_prefix_1,
     cpa.blg_unit_id_1 as blg_unit_id_1,
     cpa.blg_unit_suffix_1 as blg_unit_suffix_1,

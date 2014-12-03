@@ -12,7 +12,10 @@ select distinct
     '' as crefno,
     hsa_flag,
     hsa_unit_id,
-    blg_unit_type,
+    case
+        when blg_unit_id_1 = '' then ''
+        else blg_unit_type
+    end as blg_unit_type,
     blg_unit_prefix_1,
     blg_unit_id_1,
     blg_unit_suffix_1,
