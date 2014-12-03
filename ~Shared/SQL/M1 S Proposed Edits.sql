@@ -26,7 +26,10 @@ select
     cpa.floor_prefix_2 as floor_prefix_2,
     cpa.floor_no_2 as floor_no_2,
     cpa.floor_suffix_2 as floor_suffix_2,
-    cpa.building_name as building_name,
+    case
+        when cpa.house_number_1 = '' then ''
+        else cpa.building_name
+    end as building_name,
     cpa.complex_name as complex_name,
     cpa.location_descriptor as location_descriptor,
     cpa.house_prefix_1 as house_prefix_1,

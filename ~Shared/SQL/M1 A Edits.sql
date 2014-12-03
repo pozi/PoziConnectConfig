@@ -26,7 +26,10 @@ select distinct
     floor_prefix_2,
     floor_no_2,
     floor_suffix_2,
-    building_name,
+    case
+        when house_number_1 = '' then ''
+        else building_name
+    end as building_name,
     complex_name,
     location_descriptor,
     house_prefix_1,
