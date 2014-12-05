@@ -1,4 +1,4 @@
-select
+select distinct
     cpa.lga_code as lga_code,
     'Y' as new_sub,
     '' as property_pfi,
