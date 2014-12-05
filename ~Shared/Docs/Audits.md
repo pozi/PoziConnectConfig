@@ -56,7 +56,7 @@ Column|Description|Usage
 `suggested_spi`|Vicmap SPI that matches closely to Council parcel based on existing `crefno` or partial SPI match|filter on `NOT (Blank)` to list potential easy fixes for invalid parcel descriptions
 `propnum_in_council`|number of Council parcel records that share this `propnum`
 `propnum_in_vicmap`|number of Vicmap parcel records that matched to this `propnum`|**filter on `0` to list unmatched properties, ie, CRITICAL**
-`vicmap_crefno`|`crefno` value in Vicmap for this SPI
+`crefno_in_vicmap`|number of Vicmap parcel records that matched to this `crefno`|**filter on `0` to list unmatched parcels, ie, CRITICAL**
 `m1_edit_code`|update pending for this parcel|filter on `(Blank)` to list records not already flagged for update in current M1
 `m1_comments`|comments for pending update
 
