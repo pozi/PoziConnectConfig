@@ -38,9 +38,10 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
-        when a.formatted_address like 'above %' then 'ABOVE'
-        when a.formatted_address like 'below %' then 'BELOW'
-        when a.formatted_address like 'rear %' then 'REAR'
+        when a.formatted_address like 'ABOVE %' then 'ABOVE'
+        when a.formatted_address like 'BELOW %' then 'BELOW'
+        when a.formatted_address like 'REAR %' then 'REAR'
+        else ''
     end as location_descriptor,
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
@@ -82,15 +83,14 @@ select
         else ifnull ( A.house_no_to , '' )
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
-    replace ( case
+    replace ( replace ( case
         when upper ( S.street_name ) = 'THE HILL CT' then 'THE HILL'
-        when upper ( S.street_name ) = 'HOPKINS POINT RD' then 'HOPKINS PNT'
         when upper ( S.street_name ) like 'THE %' then upper ( S.street_name )
         when upper ( substr ( S.street_name , -3 ) ) in ( ' CL' , ' CT' , ' DR' , ' GR' , ' RD' , ' PL' , ' SQ' , ' ST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 3 ) )
         when upper ( substr ( S.street_name , -4 ) ) in ( ' AVE' , ' BVD' , ' HWY' , ' PDE' , ' TCE' , ' TRL' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
         when upper ( substr ( S.street_name , -5 ) ) in ( ' CRES' , ' LANE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
         else upper ( S.street_name )
-    end , '`' , '' ) as road_name,
+    end , '`' , '' ) , '''' , '' ) as road_name,
     case
         when upper ( S.street_name ) = 'THE HILL CT' then 'COURT'
         when upper ( S.street_name ) like 'THE %' then ''
