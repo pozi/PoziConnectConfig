@@ -34,17 +34,13 @@ select
     parcel_part as part,
     parcel.parcel_crefno as crefno,
     parcel.parcel_status as status,
-    property.prop_pfi as property_pfi,
-    property.prop_status as property_status,
-    property.prop_multi_assessment as multi_assessment,
-    property.prop_propnum as propnum,
+    ifnull ( prop_pfi , '' ) as property_pfi,
+    ifnull ( prop_status , '' ) as property_status,
+    ifnull ( prop_multi_assessment , '' ) as multi_assessment,
+    ifnull ( prop_propnum , '' ) as propnum,
     parcel.parv_pfi as parcel_view_pfi,
     parcel.geometry as geometry
 from
-    vmprop_parcel_mp parcel,
-    vmprop_parcel_property parcel_property,
-    vmprop_property_mp property
-where
-    parcel.parcel_pfi = parcel_property.parcel_pfi and    
-    parcel_property.property_pfi = property.prop_pfi and 
-    property.prop_property_type = 'O'
+    vmprop_parcel_mp parcel left join
+    ( select * from vmprop_parcel_property parcel_property join
+      vmprop_property_mp property on parcel_property.property_pfi = property.prop_pfi and property.prop_property_type = 'O' ) property_lut on parcel.parcel_pfi = property_lut.parcel_pfi

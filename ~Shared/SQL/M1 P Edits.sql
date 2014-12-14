@@ -73,7 +73,7 @@ select
             when '' then '(blank)'
             else vp.propnum
         end ||
-        ' (' || ( select ezi_address from pc_vicmap_property_address where property_pfi = vp.property_pfi and is_primary <> 'N' limit 1 ) || ') with ' ||
+        ifnull ( ' (' || ( select ezi_address from pc_vicmap_property_address where property_pfi = vp.property_pfi and is_primary <> 'N' limit 1 ) || ')'  , '' ) || ' with ' ||
         cp.propnum ||
         ifnull ( ' (' || ( select cpa.ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum and is_primary <> 'N' limit 1 ) , '' ) || ')' ||
     case
@@ -86,8 +86,8 @@ from
     pc_council_parcel cp
 where
     vp.spi <> '' and
-    vp.multi_assessment = 'N' and
-    vp.status = vp.property_status and
+    vp.multi_assessment <> 'Y' and
+    ( vp.status = vp.property_status or vp.property_status = '' ) and
     cp.propnum <> '' and
     cp.propnum in ( select propnum from pc_council_property_address ) and
     vp.spi = cp.spi and

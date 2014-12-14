@@ -39,13 +39,13 @@ vp.spi <> ''
 Include only parcels that are not multi-assessments. (Multi-assessment edits are handled by the 'A' and 'R' edits.)
 
 ```sql
-vp.multi_assessment = 'N'
+vp.multi_assessment <> 'Y'
 ```
 
-Include only parcels whose property status is the same as the parcel status. Sometimes a non-multi-assessment parcel has multiple properties because it is linked to both approved and proposed properties. This ensures that the match applies to only the property that reflects the current status of the parcel.
+Include only parcels whose property status is the same as the parcel status (or whose property status is null due to Vicmap not having a parcel-property join). Sometimes a non-multi-assessment parcel has multiple properties because it is linked to both approved and proposed properties. This ensures that the match applies to only the property that reflects the current status of the parcel.
 
 ```sql
-vp.status = vp.property_status
+vp.status = vp.property_status or vp.property_status = ''
 ```
 
 Include only valid council property numbers.
