@@ -30,7 +30,40 @@ select distinct
     cast ( cast ( Unique_Assessment.Assess_Number as integer ) as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
-    '' as is_primary,
+    case
+        when
+            (
+                summary not like
+                    '%' ||
+                    cast ( ifnull ( Address.Addr_Building_Unit_Number_1 , '' ) as varchar ) ||
+                    '%' ||
+                    cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) ||
+                    '%' or
+                ifnull ( Address.Addr_House_Number_1 , '' ) = ''
+            )			
+            and
+                ( summary like '%1%' or
+                  summary like '%2%' or
+                  summary like '%3%' or
+                  summary like '%4%' or
+                  summary like '%5%' or
+                  summary like '%6%' or
+                  summary like '%7%' or
+                  summary like '%8%' or
+                  summary like '%9%' ) then 'N'
+        when
+            summary like '%-' || cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) || ' %' and
+            summary not like cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) || '-%' then 'N'
+        when
+            summary like '%' ||
+            ifnull ( Address.Addr_Building_Unit_Number_1 || ifnull ( Address.Addr_Building_Unit_Suffix_1 , '' ) || ifnull ( '-' || Address.Addr_Building_Unit_Number_2  || ifnull ( Address.Addr_Building_Unit_Suffix_2 , '' ) , '' ) || '/' , '' ) ||
+            ifnull ( Address.Addr_House_Prefix_1 , '' ) || ifnull ( Address.Addr_House_Number_1 , '' ) || ifnull ( Address.Addr_House_Suffix_1 , '' ) ||
+            ifnull ( '-' || ifnull ( Address.Addr_House_Prefix_2 , '' ) || Address.Addr_House_Number_2 , '' ) || ifnull ( Address.Addr_House_Suffix_2 , '' ) || ' ' ||
+            ifnull ( Street.Street_Name , '' ) || '%' then 'Y'
+        when
+            Address.Addr_House_Number_1 is null and summary like Street.Street_Name || '%' then 'Y'    
+        else ''
+    end as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
@@ -87,8 +120,7 @@ select distinct
     '' as outside_property,
     '311' as lga_code,
     '' as crefno,
-    summary as summary,
-    '' as summary
+    summary as summary
 from (
     select
         Parcel.Address_Id as Address_Id,
