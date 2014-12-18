@@ -31,6 +31,7 @@ select distinct
     '' as status,
     '' as base_propnum,
     case
+        when Address.Addr_Is_Primary_Address = '0' then 'N'
         when
             (
                 summary not like
