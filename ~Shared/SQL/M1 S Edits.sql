@@ -44,7 +44,7 @@ select distinct
     cpa.house_suffix_2 as house_suffix_2,
     cpa.access_type as access_type,
     case
-        when cpa.propnum not in ( select vpa.propnum from pc_vicmap_property_address vpa ) and ( cpa.road_name || ' ' || cpa.road_type || ' ' || cpa.locality_name ) not in ( select vpa.road_name || ' ' || vpa.road_type || ' ' || vpa.locality_name from pc_vicmap_property_address vpa ) then 'Y'
+        when cpa.road_locality not in ( select road_locality from pc_vicmap_property_address ) then 'Y'
         else ''
     end as new_road,
     cpa.road_name as road_name,
@@ -62,10 +62,15 @@ select distinct
     cpa.outside_property as outside_property,
     'S' as edit_code,
     'property ' || propnum || ': ' ||
-    case
-        when propnum in ( select vpa.propnum from pc_vicmap_property_address vpa ) then 'replacing address ' || ( select vpa.ezi_address from pc_vicmap_property_address vpa where cpa.propnum = vpa.propnum and vpa.is_primary <> 'N' limit 1) || ' with '
-        else 'assigning new address '
-    end || cpa.ezi_address as comments,
+        case
+            when propnum in ( select vpa.propnum from pc_vicmap_property_address vpa ) then 'replacing address ' || ( select vpa.ezi_address from pc_vicmap_property_address vpa where cpa.propnum = vpa.propnum and vpa.is_primary <> 'N' limit 1 ) || ' with '
+            else 'assigning new address '
+        end ||
+        cpa.ezi_address ||
+        case
+            when cpa.road_locality not in ( select road_locality from pc_vicmap_property_address ) then ' (**WARNING**: new road name)'
+            else ''
+        end as comments,
     centroid ( ( select vpa.geometry from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and cpa.is_primary <> 'N' limit 1 ) ) as geometry
 from
     pc_council_property_address cpa
