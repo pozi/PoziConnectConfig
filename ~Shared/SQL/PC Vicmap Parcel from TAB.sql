@@ -38,6 +38,7 @@ select
     ifnull ( prop_status , '' ) as property_status,
     ifnull ( prop_multi_assessment , '' ) as multi_assessment,
     ifnull ( prop_propnum , '' ) as propnum,
+    ifnull ( propv_pfi , '' ) as property_view_pfi,
     parcel.parv_pfi as parcel_view_pfi,
     parcel.geometry as geometry
 from
