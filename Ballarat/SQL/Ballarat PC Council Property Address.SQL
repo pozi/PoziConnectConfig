@@ -117,7 +117,7 @@ select distinct
             cnaqual.descr like '% SOUTH' or
             cnaqual.descr like '% EAST' or
             cnaqual.descr like '% WEST' then upper ( trim ( substr ( cnaqual.descr , 1 , LENGTH ( cnaqual.descr ) - 5 ) ) )
-        else upper ( cnaqual.descr )
+        else upper ( ifnull ( cnaqual.descr , '' ) )
     end as road_type,
     case
         when upper ( cnaqual.descr ) like '% NORTH' then 'N'

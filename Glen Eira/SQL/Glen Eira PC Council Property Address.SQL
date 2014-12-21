@@ -125,7 +125,7 @@ select
     end as house_number_2,
     ifnull ( lpaaddr.endhoussfx , '' ) as house_suffix_2,
     upper ( replace ( replace ( cnacomp.descr , ' - ' , '-' ) , '''' , '' ) ) as road_name, 
-    upper ( cnaqual.descr ) as road_type,
+    ifnull ( upper ( cnaqual.descr ) , '' ) as road_type,
     '' as road_suffix, 
     lpasubr.suburbname as locality_name, 
     cnacomp_1.descr as postcode,

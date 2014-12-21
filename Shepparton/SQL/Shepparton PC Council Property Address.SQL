@@ -121,7 +121,7 @@ select
             cnaqual.descr like '% SOUTH' or
             cnaqual.descr like '% EAST' or
             cnaqual.descr like '% WEST' then upper ( trim ( substr ( cnaqual.descr , 1 , length ( cnaqual.descr ) - 5 ) ) )
-        else upper ( cnaqual.descr )
+        else upper ( ifnull ( cnaqual.descr , '' ) )
     end as road_type,
     case
         when cnaqual.descr like '% NORTH' then 'N'
@@ -129,8 +129,8 @@ select
         when cnaqual.descr like '% EAST' then 'E'
         when cnaqual.descr like '% WEST' then 'W'
         else ''
-    end as road_suffix, 
-    upper ( lpasubr.suburbname ) as locality_name, 
+    end as road_suffix,
+    upper ( lpasubr.suburbname ) as locality_name,
     '' as postcode,
     '' as access_type,
     '' as easting,
