@@ -108,8 +108,8 @@ Column|Description|Usage
 `vicmap_address`|address of property in Vicmap that matches this propnum
 `vicmap_locality`|locality of property in Vicmap that matches this propnum|filter on `N` to list wrong locality in Council
 `address_match_in_vicmap`|Council address matches Vicmap address (Y/N)
-`road_name_in_vicmap`|Council road name matches Vicmap road name (Y/N)
 `locality_match_in_vicmap`|Council locality matches Vicmap locality (Y/N)
+`road_locality_in_vicmap`|Council road name/locality combination exists in Vicmap (Y/N)
 `current_m1_edit_code`|update pending for this parcel|filter on `(Blank)` to list records not already flagged for update in current M1
 `current_m1_comments`|comments for pending update
 
