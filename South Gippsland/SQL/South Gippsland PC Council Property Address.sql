@@ -114,14 +114,14 @@ select
     case
         when upper ( cnacomp.descr ) = 'JAMES ROAD' then 'ROAD'        
         when upper ( cnacomp.descr ) = 'MCPHEE STREET' then 'STREET'
-        when upper ( ifnull( cnaqual.descr , '' ) ) like 'STREET %' then 'STREET'
-        when upper ( ifnull( cnaqual.descr , '' ) ) like 'ROAD %' then 'ROAD'
-        when upper ( ifnull( cnaqual.descr , '' ) ) like 'AVENUE %' then 'AVENUE'
-        when upper ( ifnull( cnaqual.descr , '' ) ) like 'COURT %' then 'COURT'
-        when upper ( ifnull( cnaqual.descr , '' ) ) like 'DRIVE %' then 'DRIVE' 
-        when upper ( ifnull( cnaqual.descr , '' ) ) like 'PLACE %' then 'PLACE'
-        when upper ( ifnull( cnaqual.descr , '' ) ) like 'PARADE %' then 'PARADE'
-        else upper ( ifnull( cnaqual.descr , '' ) )    
+        when upper ( cnaqual.descr ) like 'STREET %' then 'STREET'
+        when upper ( cnaqual.descr ) like 'ROAD %' then 'ROAD'
+        when upper ( cnaqual.descr ) like 'AVENUE %' then 'AVENUE'
+        when upper ( cnaqual.descr ) like 'COURT %' then 'COURT'
+        when upper ( cnaqual.descr ) like 'DRIVE %' then 'DRIVE' 
+        when upper ( cnaqual.descr ) like 'PLACE %' then 'PLACE'
+        when upper ( cnaqual.descr ) like 'PARADE %' then 'PARADE'
+        else upper ( ifnull ( cnaqual.descr , '' ) )    
     end as road_type,
     case    
         when upper ( cnacomp.descr ) = 'JAMES ROAD' then 'N'        
