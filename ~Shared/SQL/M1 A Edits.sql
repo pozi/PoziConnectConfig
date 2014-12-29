@@ -81,7 +81,7 @@ select
     centroid ( ( select vp.geometry from pc_vicmap_parcel vp where vp.spi = cp.spi limit 1 ) ) as geometry
 from
     pc_council_parcel cp left join
-    pc_council_property_address cpa on cp.propnum = cpa.propnum and cpa.is_primary <> 'N'
+    ( select * , min ( case is_primary when 'Y' then 1 when '' then 2 when 'N' then 3 end ) from pc_council_property_address group by propnum ) cpa on cp.propnum = cpa.propnum
 where
     cp.propnum not in ( '' , 'NCPR' ) and
     cp.propnum in ( select propnum from pc_council_property_address ) and
