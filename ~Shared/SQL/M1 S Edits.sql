@@ -68,6 +68,10 @@ select distinct
         end ||
         cpa.ezi_address ||
         case
+            when ( select locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) <> cpa.locality_name then ' (**WARNING**: different locality)'
+            else ''
+        end ||
+        case
             when cpa.road_locality not in ( select road_locality from pc_vicmap_property_address ) then ' (**WARNING**: new road name)'
             else ''
         end as comments,
