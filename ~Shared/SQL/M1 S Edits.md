@@ -36,16 +36,16 @@ Include only property address records where the address is not marked as non-pri
 ( is_primary <> 'N' or ( select cpc.num_records from pc_council_property_count cpc where cpc.propnum = cpa.propnum ) = 1 ) and
 ```
 
-Exclude records whose property number has a Council address that already matches the Vicmap address with the same property number:
+Include only records where:
 
-*Note: This replaces a similar condition for checking addresses. The new condition caters for systems such as Property.Gov where there can be multiple records per council property, each with different addresses If any one of them match the Vicmap address, it would not warrant an update.*
+1. none of the addresses for this property match the Vicmap address
+2. or whose building_name doesn't match the Vicmap building_name
+
+*Note: This complex query caters for systems such as Property.Gov where there can be multiple records per council property, each with different addresses If any one of them match the Vicmap address, it would not warrant an update.*
 
 ```sql
-propnum not in (
-    select propnum
-        from pc_council_property_address
-        where num_road_address in (
-            select num_road_address from pc_vicmap_property_address where propnum = cpa.propnum ) )
+( propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address where propnum = cpa.propnum ) ) or
+  building_name <> '' and building_name not in ( ifnull ( ( select building_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , '' ) ) ) ) and
 ```
 
 Exclude properties that will be retired.
