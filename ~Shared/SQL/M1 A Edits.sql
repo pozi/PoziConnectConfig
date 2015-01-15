@@ -31,6 +31,7 @@ select distinct
     floor_suffix_2,
     case
         when house_number_1 = '' then ''
+        when building_name in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then ''
         else building_name
     end as building_name,
     complex_name,
@@ -48,7 +49,10 @@ select distinct
     road_suffix,
     locality_name,
     distance_related_flag,
-    is_primary,
+    case is_primary
+        when 'Y' then 'Y'
+        else ''
+    end as is_primary,
     easting,
     northing,
     datum_proj,
