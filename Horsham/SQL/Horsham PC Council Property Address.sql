@@ -55,19 +55,22 @@ select distinct
     '' as complex_name,
     '' as location_descriptor,
     '' as house_prefix_1,
-    ifnull ( cast ( auprstad.hou_num as varchar ) , '' ) as house_number_1,
+    case
+        when auprstad.hou_num is null then ''
+        when auprstad.hou_num = 0 then ''
+        else cast ( auprstad.hou_num as varchar )
+    end as house_number_1,
     ifnull ( upper ( auprstad.hou_alp ) , '' ) as house_suffix_1,
     '' as house_prefix_2,
     ifnull ( cast ( auprstad.hou_end as varchar ) , '' ) as house_number_2,
     ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
     upper ( auprstad.str_nme ) as road_name,
-	case
-		when auprstad.str_typ in ( 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) THEN 'AVENUE'
-		when auprstad.str_typ in ( 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) THEN 'ROAD'
-		when auprstad.str_typ in ( 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) THEN 'STREET'
-		when upper ( aualrefs.dsc_no3 ) = 'GARDEN/S' THEN 'GARDENS'
+    case
+        when auprstad.str_typ in ( 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) THEN 'AVENUE'
+        when auprstad.str_typ in ( 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) THEN 'ROAD'
+        when auprstad.str_typ in ( 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) THEN 'STREET'
         else upper ( aualrefs.dsc_no3 )
-	end as road_type,
+    end as road_type,
     case
         when upper ( auprstad.str_typ ) in ( 'AVEN' , 'RDN' , 'STN' ) then 'N'
         when upper ( auprstad.str_typ ) in ( 'AVES' , 'RDS' , 'STS' ) then 'S'
@@ -91,9 +94,7 @@ from
     authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num left join
     authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ'
 where
-    auprparc.pcl_flg in ( 'R' , 'P' ) and
-    auprparc.ass_num <> 0 and
-    auprstad.seq_num = 0
+    auprparc.pcl_flg in ( 'R' , 'P' )
 )
 )
 )
