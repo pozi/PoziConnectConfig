@@ -49,7 +49,10 @@ select
     end as suggested_spi,
     ifnull ( ( select num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cp.propnum ) , 0 ) as propnum_in_council,
     ifnull ( ( select num_parcels from pc_vicmap_property_parcel_count vppc where vppc.propnum = cp.propnum ) , 0 ) as propnum_in_vicmap,
-    ifnull ( ( select count(*) from ( select distinct spi from pc_vicmap_parcel vp where vp.crefno = cp.crefno and vp.crefno <> '' ) ) , 0 ) as crefno_in_vicmap,
+    case cp.crefno
+        when '' then ''
+        else ifnull ( ( select count(*) from ( select distinct spi from pc_vicmap_parcel vp where vp.crefno = cp.crefno  ) ) , 0 )
+    end as crefno_in_vicmap,
     ifnull ( ( select edit_code from M1 where ( m1.spi = cp.spi and length ( cp.spi ) >= 5 ) or m1.propnum = cp.propnum limit 1 ) , '' ) as m1_edit_code,
     ifnull ( ( select comments from M1 where ( m1.spi = cp.spi and length ( cp.spi ) >= 5 ) or m1.propnum = cp.propnum limit 1 ) , '' ) as m1_comments,
     cp.*,
