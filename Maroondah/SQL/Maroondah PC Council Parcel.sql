@@ -44,17 +44,25 @@ select distinct
     end as status,
     '' as crefno,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
-    ifnull ( lpaparc.plancode , '' ) ||
+    case
+        when lpaparc.plancode = 'PP' then ''
+        else ifnull ( lpaparc.plancode , '' )
+    end ||
         case
+            when lpaparc.plancode = 'PP' then ''
             when substr ( lpaparc.plannum , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then lpaparc.plannum
             when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 ) 
             else ''
         end as plan_number,
-    ifnull ( lpaparc.plancode , '' ) as plan_prefix,
     case
+        when lpaparc.plancode = 'PP' then ''  
+        else ifnull ( lpaparc.plancode , '' )
+    end as plan_prefix,
+    case
+        when lpaparc.plancode = 'PP' then ''
         when substr ( lpaparc.plannum , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then lpaparc.plannum
         when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 )
-        else ''        
+        else ''
     end as plan_numeral,
     case
         when lpaparc.plancode = 'PP' then ''
