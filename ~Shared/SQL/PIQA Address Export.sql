@@ -39,3 +39,7 @@ select distinct
     ezi_address || ' ' || propnum as address_propnum_pr
 from
     pc_council_property_address
+where
+    is_primary <> 'N'
+order by
+    cast ( propnum as integer )
