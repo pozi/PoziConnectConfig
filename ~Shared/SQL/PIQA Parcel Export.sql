@@ -6,3 +6,5 @@ select distinct
     summary
 from
     pc_council_parcel
+order by
+    cast ( propnum as integer )
