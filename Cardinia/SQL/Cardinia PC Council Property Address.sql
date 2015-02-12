@@ -101,6 +101,9 @@ select distinct
     cast ( ifnull ( Address.Addr_House_Number_2 , '' ) as varchar ) as house_number_2,
     upper ( ifnull ( Address.Addr_House_Suffix_2 , '' ) ) as house_suffix_2, 
     case
+        when upper ( Street.Street_Name ) = 'NO 4 DRAIN' then 'NUMBER FOUR DRAIN'
+        when upper ( Street.Street_Name ) = 'NO 5 DRAIN' then 'NUMBER FIVE DRAIN'
+        when upper ( Street.Street_Name ) = 'NO 7 DRAIN' then 'NUMBER SEVEN DRAIN'
         when upper ( Street.Street_Name ) like 'OFF %' then substr ( upper ( Street.Street_Name ) , 5 )
         else upper ( ifnull ( replace ( Street.Street_Name , '`' , '' ) , '' ) )
     end as road_name,
