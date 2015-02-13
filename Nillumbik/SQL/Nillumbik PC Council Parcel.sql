@@ -68,7 +68,7 @@ select distinct
         else ''
     end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
-    '' as block,
+    ifnull ( lpapabl.block , '' ) as block,
     case
         when lpaparc.parcelcode = 'CP' then ifnull ( lpaparc.parcelnum , '' )
         else ''
@@ -121,6 +121,7 @@ from
     pathway_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc left join
     pathway_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpacrwn.tfklpaparc left join
     pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left join
+    pathway_lpapabl as lpapabl on lpaparc.tpklpaparc = lpapabl.tfklpaparc left join
     pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc left join
     pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
     pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm
