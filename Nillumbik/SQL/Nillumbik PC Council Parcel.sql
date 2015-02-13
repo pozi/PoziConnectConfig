@@ -121,7 +121,9 @@ from
     pathway_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc left join
     pathway_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpacrwn.tfklpaparc left join
     pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left join
-    pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc
+    pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc left join
+    pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
+    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm
 where
     lpaprop.status <> 'H' and
     lpaparc.status <> 'H' and
