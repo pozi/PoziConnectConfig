@@ -51,7 +51,7 @@ select distinct
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    ifnull ( upper ( auprparc.ttl_nme ) , '' ) as building_name,
+    '' as building_name,
     '' as complex_name,
     '' as location_descriptor,
     '' as house_prefix_1,
@@ -87,7 +87,7 @@ select distinct
     '' as datum_proj,
     '' as outside_property,
     '371' as lga_code,
-    cast ( auprparc.pcl_num as varchar ) as crefno,
+    '' as crefno,
     '' as summary
 from
     authority_auprparc auprparc join
