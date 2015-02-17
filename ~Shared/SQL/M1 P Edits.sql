@@ -81,10 +81,10 @@ select
             else ''
         end ||
         ifnull ( ' (' || ( select cpa.ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum and is_primary <> 'N' limit 1 ) , '' ) || ')' ||
-    case
-        when ( select locality_name from pc_vicmap_property_address where property_pfi = vp.property_pfi ) <> ( select locality_name from pc_council_property_address where propnum = cp.propnum ) then ' (**WARNING**: conflicting localities)'
-        else ''
-    end as comments,
+        case
+            when ( select locality_name from pc_vicmap_property_address where property_pfi = vp.property_pfi ) <> ( select locality_name from pc_council_property_address where propnum = cp.propnum ) then ' (**WARNING**: conflicting localities)'
+            else ''
+        end as comments,
     centroid ( vp.geometry ) as geometry
 from
     pc_vicmap_parcel vp,
