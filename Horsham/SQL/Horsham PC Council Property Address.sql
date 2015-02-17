@@ -91,10 +91,12 @@ select distinct
     '' as summary
 from
     authority_auprparc auprparc join
+    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num join
     authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num left join
     authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ'
 where
-    auprparc.pcl_flg in ( 'R' , 'P' )
+    auprparc.pcl_flg in ( 'R' , 'P' ) and    
+    aurtmast.rte_zne <> 'LS'
 )
 )
 )
