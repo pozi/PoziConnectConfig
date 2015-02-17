@@ -89,7 +89,7 @@ select
     end as lot_number,
     case when auprparc.ttl_cde = 9 then ifnull ( upper ( ttl_no1 ) , '' ) else '' end as allotment,
     ifnull ( ttl_no3 , '' ) as sec,
-    '' as block,
+    ifnull ( ttl_no4 , '' ) as block,
     '' as portion,
     '' as subdivision,
     ifnull ( auprparc.udn_cd1 , '' ) as parish_code,
