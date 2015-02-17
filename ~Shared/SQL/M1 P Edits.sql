@@ -76,6 +76,10 @@ select
         end ||
         ifnull ( ' (' || ( select ezi_address from pc_vicmap_property_address where property_pfi = vp.property_pfi and is_primary <> 'N' limit 1 ) || ')'  , '' ) || ' with ' ||
         cp.propnum ||
+        case cp.status
+            when 'P' then ' (proposed)'
+            else ''
+        end ||
         ifnull ( ' (' || ( select cpa.ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum and is_primary <> 'N' limit 1 ) , '' ) || ')' ||
     case
         when ( select locality_name from pc_vicmap_property_address where property_pfi = vp.property_pfi ) <> ( select locality_name from pc_council_property_address where propnum = cp.propnum ) then ' (**WARNING**: conflicting localities)'
