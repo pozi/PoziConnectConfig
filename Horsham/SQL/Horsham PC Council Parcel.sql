@@ -59,11 +59,12 @@ select
         when auprparc.ttl_cde = 9 then ''
         when auprparc.ttl_cde = 10 then 'PS'
     end ||
-        case
+        replace ( replace ( case
+            when auprparc.ttl_no5 like '%/%' then substr ( replace ( auprparc.ttl_no5 , 'P' , '' ) , 1 , 6 )
             when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
             when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
             else ''
-        end as plan_number,
+        end , 'p' , '' ) , 'P' , '' ) as plan_number,
     case
         when auprparc.ttl_cde = 1 then 'PS'
         when auprparc.ttl_cde = 2 then 'PC'
@@ -76,12 +77,13 @@ select
         when auprparc.ttl_cde = 9 then ''
         when auprparc.ttl_cde = 10 then 'PS'
     end as plan_prefix,
-    case
+    replace ( replace ( case
         when auprparc.ttl_cde = 9 then ''
+        when auprparc.ttl_no5 like '%/%' then substr ( replace ( auprparc.ttl_no5 , 'P' , '' ) , 1 , 6 )
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
         else ''
-    end as plan_numeral,
+    end , 'p' , '' ) , 'P' , '' ) as plan_numeral,
     case
         when auprparc.ttl_cde = 10 and ttl_no1 not like '%RES%' then 'RES' || ifnull ( upper ( ttl_no1 ) , '' )
         when auprparc.ttl_cde <> 9 then ifnull ( upper ( ttl_no1 ) , '' )
