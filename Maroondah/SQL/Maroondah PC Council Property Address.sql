@@ -156,7 +156,7 @@ from
 where
     lpaprop.status in ( 'A', 'C' ) and 
     lpaaddr.addrtype = 'P' and
-    lpaprtp.abbrev <> 'BASE' and
+    lpaprop.fmtowner is not null and
     lpaprop.tfklpacncl = 12
 )
 )
