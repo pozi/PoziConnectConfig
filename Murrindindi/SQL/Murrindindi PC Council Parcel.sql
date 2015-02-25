@@ -83,7 +83,7 @@ select
         else ''
     end as allotment,
     case
-        when auprparc.ttl_cde = 3 then ifnull ( auprparc.ttl_no4 , '' )
+        when auprparc.ttl_cde in ( 1 , 2 , 3 , 7 , 8 , 12 ) then ifnull ( auprparc.ttl_no4 , '' )
         when auprparc.ttl_cde = 6 then ifnull ( auprparc.ttl_no3 , '' )
         else ''
     end as sec,
