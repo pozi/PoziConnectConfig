@@ -16,6 +16,7 @@ select
     ifnull ( ( select crefno from pc_council_parcel cp where cp.spi = vp.spi and length ( cp.spi ) >= 5 ) , '' ) as council_crefno,
     ifnull ( ( select edit_code from M1 where m1.spi = vp.spi  and length ( vp.spi ) >= 5 limit 1 ) , '' ) as m1_edit_code,
     ifnull ( ( select comments from M1 where m1.spi = vp.spi  and length ( vp.spi ) >= 5 limit 1 ) , '' ) as m1_comments,
+    area ( st_transform ( geometry , 3111 ) ) as area_sqm,
     geometry as geometry
 from pc_vicmap_parcel vp
 group by parcel_pfi
