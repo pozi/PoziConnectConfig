@@ -14,8 +14,8 @@ select
     ifnull ( ( select num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = vp.propnum ) , 0 ) as propnum_in_council,
     ifnull ( ( select num_parcels from pc_vicmap_property_parcel_count vppc where vppc.propnum = vp.propnum ) , 0 ) as propnum_in_vicmap,
     ifnull ( ( select crefno from pc_council_parcel cp where cp.spi = vp.spi and length ( cp.spi ) >= 5 ) , '' ) as council_crefno,
-    ifnull ( ( select edit_code from M1 where m1.spi = vp.spi  and length ( vp.spi ) >= 5 limit 1 ) , '' ) as m1_edit_code,
-    ifnull ( ( select comments from M1 where m1.spi = vp.spi  and length ( vp.spi ) >= 5 limit 1 ) , '' ) as m1_comments,
+    ifnull ( ( select edit_code from M1 where m1.spi = vp.spi and length ( vp.spi ) >= 5 limit 1 ) , '' ) as m1_edit_code,
+    ifnull ( ( select comments from M1 where m1.spi = vp.spi and length ( vp.spi ) >= 5 limit 1 ) , '' ) as m1_comments,
     area ( st_transform ( geometry , 3111 ) ) as area_sqm,
     geometry as geometry
 from pc_vicmap_parcel vp
