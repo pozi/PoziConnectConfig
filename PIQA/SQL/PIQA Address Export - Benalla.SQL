@@ -109,15 +109,15 @@ FROM
         		CASE WHEN REGEXP_REPLACE(address1,'^(UNIT|SHOP|OFFICE).*','\1')<>'' THEN address3 ELSE address2 END as address2
 	       	from
 		(
-    		    	select  assess,
-    		    		RTRIM(LTRIM(UPPER(address1))) as address1,
-    		    		RTRIM(LTRIM(UPPER(address2))) as address2,    		    		
-    		    		RTRIM(LTRIM(UPPER(address3))) as address3
+    		    	select  ASSESS as assess,
+    		    		RTRIM(LTRIM(UPPER(Address__1))) as address1,
+    		    		RTRIM(LTRIM(UPPER(Address__2))) as address2,    		    		
+    		    		RTRIM(LTRIM(UPPER(Address__3))) as address3
     		    	from 	
-    		   	 	SynergySoft_Address_Extract
+    		   	 	SynergySoft
 			WHERE 
-				code NOT IN ( 'X' ) AND
-				type NOT IN ( 'Z' )
+				CURR_ASSESS NOT IN ( 'X' ) AND
+				Type NOT IN ( 'Z' )
 		)
         )
 )

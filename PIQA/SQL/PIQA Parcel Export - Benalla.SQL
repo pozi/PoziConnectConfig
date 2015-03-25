@@ -1,8 +1,8 @@
 SELECT 
     *
 FROM
-    SynergySoft_Parcel_Extract
+    SynergySoft
 WHERE 
-    code NOT IN ( 'X' ) AND
-    type NOT IN ( 'Z' )
+    CURR_ASSESS NOT IN ( 'X' ) AND
+    Type NOT IN ( 'Z' )
 
