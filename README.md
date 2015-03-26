@@ -6,6 +6,7 @@ This repository contains the configuration files used by Pozi Connect for many o
 
 #### Links
 
+* Pozi Connect [overview](http://www.groundtruth.com.au/pozi-connect/)
 * Pozi Connect [documentation](http://groundtruth.viewdocs.io/poziconnect)
 * Pozi Connect Config change history
   * [shared](https://github.com/groundtruth/PoziConnectConfig/commits/master/~Shared) (typically includes updates of general M1 configuration)
