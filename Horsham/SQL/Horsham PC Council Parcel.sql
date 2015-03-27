@@ -97,7 +97,8 @@ select
     ifnull ( auprparc.udn_cd1 , '' ) as parish_code,
     ifnull ( replace ( auprparc.udn_cd2 , '9999' , '' ) , '' ) as township_code,
     fmt_ttl as summary,
-    '332' as lga_code
+    '332' as lga_code,
+    cast ( auprparc.ass_num as varchar ) as assnum
 from
     authority_auprparc as auprparc join
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
