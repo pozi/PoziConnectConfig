@@ -42,7 +42,7 @@ select
         when 'R' then 'A'
         when 'P' then 'P'
     end as status,
-    '' as crefno,
+    cast ( auprparc.pcl_num as varchar ) as crefno,
     case
         when auprparc.ttl_no1 like '%PT%' then 'P'
         else ''
