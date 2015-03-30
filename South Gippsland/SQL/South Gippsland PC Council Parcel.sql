@@ -136,7 +136,11 @@ select distinct
         when lpadesc.descr = 'Nyora Township' then '5613'       
         else ''
     end as township_code,
-    '361' as lga_code
+    '361' as lga_code,
+    case
+        when lraassm.status = 'C' and lraassm.applicatn = 'R' then cast ( cast ( lraassm.assmnumber as integer ) as varchar )
+        else ''
+    end as assnum
 from
     pathway_lpaprop as lpaprop left outer join
     pathway_lpaprti as lpaprti on lpaprop.tpklpaprop = lpaprti.tfklpaprop left outer join
@@ -145,7 +149,9 @@ from
     pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left outer join    
     pathway_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpacrwn.tfklpaparc left outer join    
     pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc left outer join    
-    pathway_lpadesc as lpadesc on lpadepa.tfklpadesc = lpadesc.tpklpadesc
+    pathway_lpadesc as lpadesc on lpadepa.tfklpadesc = lpadesc.tpklpadesc left outer join
+    pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left outer join
+    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm
 
 where
     lpaprop.status <> 'H' and
