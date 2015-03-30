@@ -117,7 +117,8 @@ select distinct
         else cast ( auprparc.udn_cd3 as varchar )
     end as township_code,
     fmt_ttl as summary,
-    '366' as lga_code
+    '366' as lga_code,
+    cast ( auprparc.ass_num as varchar ) as assnum
 from
     authority_auprparc auprparc
 where
