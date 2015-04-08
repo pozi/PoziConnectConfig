@@ -147,7 +147,11 @@ select
         when 'YEA' then '3980'
         when 'YGK' then '3965'
         when 'YOU' then '3998'
-        else ''
+        else
+            case
+                when substr ( uda_cd1 , 1 , 3 ) = 'COO' then '2427'
+                else ''                
+            end
     end as parish_code,
     '' as township_code,
     fmt_ttl as summary,
