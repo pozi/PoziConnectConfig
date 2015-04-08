@@ -42,7 +42,7 @@ select
         when 'R' then 'A'
         when 'P' then 'P'
     end as status,
-    '' as crefno,
+    cast ( auprparc.pcl_num as varchar ) as crefno,
     case
         when auprparc.ttl_cde = 4 then 'P'
         when auprparc.ttl_cde = 6 then 'P'
