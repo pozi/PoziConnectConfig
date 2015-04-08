@@ -56,7 +56,7 @@ select
         when auprparc.ttl_cde = 6 then 'LP' || auprparc.ttl_no5
         when auprparc.ttl_cde = 7 then ''
         when auprparc.ttl_cde = 8 then ''
-        when auprparc.ttl_cde = 9 then 'CP'
+        when auprparc.ttl_cde = 9 then 'CP' || auprparc.ttl_no5
     end as plan_number,
     case
         when auprparc.ttl_cde = 1 then 'TP'
