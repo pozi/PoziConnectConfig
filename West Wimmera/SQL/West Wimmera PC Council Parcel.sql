@@ -160,5 +160,6 @@ from
     authority_auprparc as auprparc
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
-    auprparc.ttl_cde not in ( 99 , 999 )
+    auprparc.ttl_cde not in ( 99 , 999 ) and
+    auprparc.ass_num is not null
 )
