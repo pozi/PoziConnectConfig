@@ -63,7 +63,10 @@ select distinct
         when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
         else ifnull ( lpaparc.parcelnum , '' )
     end as lot_number,
-    ifnull ( trim ( replace ( replace ( lpacrwn.crownallotr , 'CA' , '' ) , 'PT' , '' ) ) , '' ) as allotment,
+    case
+        when lpaparc.plancode is not null then ''
+        else ifnull ( trim ( replace ( replace ( lpacrwn.crownallotr , 'CA' , '' ) , 'PT' , '' ) ) , '' )
+    end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     '' as block,
     case
@@ -110,6 +113,7 @@ select distinct
                 when 'TARRAWARRA' then '3558'
                 when 'TARRAWARRA NORTH' then '3559'
                 when 'TONIMBUK EAST' then '3609'
+                when 'TARRANGO' then '3632'
                 when 'TOORONGO' then '3632'
                 when 'WANDIN YALLOCK' then '3721'
                 when 'WARBURTON' then '3738'
