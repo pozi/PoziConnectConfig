@@ -124,9 +124,9 @@ from
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
-    lpaprop.status <> 'H' AND 
-    lpaprop.tfklpacncl = 12 AND
-    lpaaddr.addrtype = 'P' AND
+    lpaprop.status <> 'H' and
+    lpaprop.tfklpacncl = 12 and
+    lpaaddr.addrtype = 'P' and
     lpaprtp.abbrev <> 'OTH'
 )
 )
