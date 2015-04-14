@@ -44,66 +44,107 @@ select
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
     case
-        when auprparc.ttl_no1 like '%PT%' then 'P'
+        when auprparc.ttl_no2 is null and auprparc.ttl_no3 not null then 'P'
+        when auprparc.ttl_no1 like 'PT%' then 'P'
         else ''
     end as part,
     case
-        when auprparc.ttl_cde = 1 then 'PS'
+        when auprparc.ttl_cde = 1 then 'LP'
         when auprparc.ttl_cde = 2 then 'PC'
-        when auprparc.ttl_cde = 3 then 'LP'
-        when auprparc.ttl_cde = 4 then 'CP'
-        when auprparc.ttl_cde = 5 then 'CS'
-        when auprparc.ttl_cde = 6 then 'TP'
-        when auprparc.ttl_cde = 7 then 'RP'
-        when auprparc.ttl_cde = 8 then 'SP'
-        when auprparc.ttl_cde = 9 then ''
-        when auprparc.ttl_cde = 10 then 'PS'
+        when auprparc.ttl_cde = 4 then ''
+        when auprparc.ttl_cde = 5 then 'SP'
+        when auprparc.ttl_cde = 9 then 'TP'
     end ||
-        replace ( replace ( case
-            when auprparc.ttl_no5 like '%/%' then substr ( replace ( auprparc.ttl_no5 , 'P' , '' ) , 1 , 6 )
+        case
+            when auprparc.ttl_cde = 4 then ''
             when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
             when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
             else ''
-        end , 'p' , '' ) , 'P' , '' ) as plan_number,
+        end as plan_number,
     case
-        when auprparc.ttl_cde = 1 then 'PS'
+        when auprparc.ttl_cde = 1 then 'LP'
         when auprparc.ttl_cde = 2 then 'PC'
-        when auprparc.ttl_cde = 3 then 'LP'
-        when auprparc.ttl_cde = 4 then 'CP'
-        when auprparc.ttl_cde = 5 then 'CS'
-        when auprparc.ttl_cde = 6 then 'TP'
-        when auprparc.ttl_cde = 7 then 'RP'
-        when auprparc.ttl_cde = 8 then 'SP'
-        when auprparc.ttl_cde = 9 then ''
-        when auprparc.ttl_cde = 10 then 'PS'
+        when auprparc.ttl_cde = 4 then ''
+        when auprparc.ttl_cde = 5 then 'SP'
+        when auprparc.ttl_cde = 9 then 'TP'
     end as plan_prefix,
-    replace ( replace ( case
-        when auprparc.ttl_cde = 9 then ''
-        when auprparc.ttl_no5 like '%/%' then substr ( replace ( auprparc.ttl_no5 , 'P' , '' ) , 1 , 6 )
+    case
+        when auprparc.ttl_cde = 4 then ''
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
         when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
         else ''
-    end , 'p' , '' ) , 'P' , '' ) as plan_numeral,
+    end as plan_numeral,
     case
-        when auprparc.ttl_cde = 10 and ttl_no1 not like '%RES%' then 'RES' || ifnull ( upper ( ttl_no1 ) , '' )
-        when auprparc.ttl_cde <> 9 then ifnull ( upper ( ttl_no1 ) , '' )
+        when auprparc.ttl_cde <> 4 then replace ( replace ( ifnull ( upper ( ttl_no1 ) , '' ) , 'PT ' , '' ) , 'RES NO ' , 'RES' )
         else '' 
     end as lot_number,
-    case when auprparc.ttl_cde = 9 then ifnull ( upper ( ttl_no1 ) , '' ) else '' end as allotment,
-    ifnull ( ttl_no3 , '' ) as sec,
-    ifnull ( ttl_no4 , '' ) as block,
+    case
+        when auprparc.ttl_cde = 4 and ttl_no2 is not null and ttl_no3 is not null and cast ( cast ( ttl_no3 as integer ) as varchar ) <> ttl_no3 then upper ( ttl_no2 || ttl_no3 )
+        when auprparc.ttl_cde = 4 and ttl_no2 is not null then upper ( ttl_no2 )
+        when auprparc.ttl_cde = 4 and ttl_no3 is not null then upper ( ttl_no3 )
+        else ''
+    end as allotment,
+    ifnull ( ttl_no4 , '' ) as sec,
+    '' as block,
     '' as portion,
     '' as subdivision,
-    ifnull ( auprparc.udn_cd1 , '' ) as parish_code,
-    ifnull ( replace ( auprparc.udn_cd2 , '9999' , '' ) , '' ) as township_code,
+    case
+        when auprparc.ttl_cde = 4 then
+            case auprparc.uda_cd1
+                when 'AA' then '2006'
+                when 'BO' then '2037'
+                when '' then '2056'
+                when 'BT' then '2063'
+                when 'BK' then '2091'
+                when 'BE' then '2124'
+                when 'CA' then '2367'
+                when '' then '2383'
+                when 'CO' then '2460'
+                when 'DW' then '2481'
+                when 'DA' then '2524'
+                when 'GG' then '2648'
+                when 'HH' then '2758'
+                when 'JT' then '2793'
+                when 'JP' then '2807'
+                when 'KL' then '2853'
+                when 'KE' then '2860'
+                when 'KA' then '2874'
+                when 'KI' then '2883'
+                when 'KN' then '2943'
+                when 'LQ' then '3016'
+                when '' then '3105'
+                when '' then '3161'
+                when 'NE' then '3259'
+                when 'NI' then '3312'
+                when 'PR' then '3382'
+                when '' then '3387'
+                when 'PK' then '3395'
+                when '' then '3409'
+                when '' then '3419'
+                when 'PT' then '3422'
+                when 'TG' then '3554'
+                when 'TK' then '3556'
+                when 'TA' then '3656'
+                when 'TY' then '3669'
+                when 'WL' then '3755'
+                when 'WA' then '3770'
+                when 'WP' then '3796'
+                when 'WY' then '3827'
+                when 'WM' then '3838'
+                when 'WL' then '3849'
+                when 'WO' then '3884'
+                when 'WR' then '3898'
+                when 'YN' then '3944'
+                else ''
+            end
+        else ''
+    end as parish_code,
+    '' as township_code,
     fmt_ttl as summary,
-    '330' as lga_code,
-    cast ( auprparc.ass_num as varchar ) as assnum
+    '330' as lga_code
 from
-    authority_auprparc as auprparc join
-    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
+    authority_auprparc as auprparc
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
-    auprparc.ttl_cde not in ( 11 , 12 , 13 , 14 , 99 ) and    
-    aurtmast.rte_zne <> 'LS'
+    auprparc.ass_num is not null
 )
