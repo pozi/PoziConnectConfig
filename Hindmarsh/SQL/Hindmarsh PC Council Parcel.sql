@@ -93,12 +93,11 @@ select
             case auprparc.uda_cd1
                 when 'AA' then '2006'
                 when 'BO' then '2037'
-                when '' then '2056'
+                when 'BA' then '2056'
                 when 'BT' then '2063'
                 when 'BK' then '2091'
                 when 'BE' then '2124'
                 when 'CA' then '2367'
-                when '' then '2383'
                 when 'CO' then '2460'
                 when 'DW' then '2481'
                 when 'DA' then '2524'
@@ -112,35 +111,42 @@ select
                 when 'KI' then '2883'
                 when 'KN' then '2943'
                 when 'LQ' then '3016'
-                when '' then '3105'
-                when '' then '3161'
                 when 'NE' then '3259'
                 when 'NI' then '3312'
-                when 'PR' then '3382'
-                when '' then '3387'
+                when 'PC' then '3382'
+                when 'PE' then '3387'
                 when 'PK' then '3395'
-                when '' then '3409'
-                when '' then '3419'
+                when 'PR' then '3419'
                 when 'PT' then '3422'
                 when 'TG' then '3554'
                 when 'TK' then '3556'
                 when 'TA' then '3656'
                 when 'TY' then '3669'
-                when 'WL' then '3755'
+                when 'WR' then '3755'
                 when 'WA' then '3770'
                 when 'WP' then '3796'
                 when 'WY' then '3827'
-                when 'WM' then '3838'
+                when 'WI' then '3838'
                 when 'WL' then '3849'
                 when 'WO' then '3884'
-                when 'WR' then '3898'
+                when 'WM' then '3898'
                 when 'YN' then '3944'
                 else ''
             end
         else ''
     end as parish_code,
-    '' as township_code,
-    fmt_ttl as summary,
+    case
+        when auprparc.ttl_cde = 4 then
+            case auprparc.uda_cd1
+                when 'WP' then '5664'
+                else ''
+            end
+        else ''
+    end as township_code,
+    case
+        when auprparc.ttl_cde = 4 then auprparc.uda_cd1 || ': ' || fmt_ttl
+        else fmt_ttl
+    end as summary,
     '330' as lga_code
 from
     authority_auprparc as auprparc
