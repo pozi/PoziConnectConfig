@@ -27,7 +27,7 @@ select
 from (
 
 select
-    cast ( lpaprop.tpklpaprop as varchar ) as propnum,
+    cast ( cast ( lraassm.assmnumber as integer ) as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
     '' as is_primary,
@@ -87,7 +87,7 @@ select
         when lpaaddr.endhoussfx = '0' or lpaaddr.endhoussfx is null then ''
         else cast ( lpaaddr.endhoussfx as varchar )
     end as house_suffix_2,
-    upper ( cnacomp.descr ) as road_name, 
+    upper ( cnacomp.descr ) as road_name,
     case
         when
             cnaqual.descr like '% NORTH' or
@@ -110,7 +110,7 @@ select
     '' as northing,
     '' as datum_proj,
     '' as outside_property,
-    '356' as lga_code,
+    '336' as lga_code,
     '' as crefno,
     '' as summary
 from
@@ -122,12 +122,13 @@ from
     pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join
     pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
-    pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
+    pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop left join
+    pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
+    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm
 where
     lpaprop.status <> 'H' and
     lpaprop.tfklpacncl = 12 and
-    lpaaddr.addrtype = 'P' and
-    lpaprtp.abbrev <> 'OTH'
+    lpaaddr.addrtype = 'P'
 )
 )
 )
