@@ -37,22 +37,51 @@ select
 from
 (
 select distinct
-    '' as propnum,
+    assess as propnum,
     '' as status,
-    '' as crefno,
-    '' as part,
+    dola_pin as crefno,
+    case
+        when [pt_lot/ca] like 'P%T%' then 'P'
+        else ''
+    end as part,
     '' as summary,
-    '' as plan_number,
-    '' as plan_prefix,
-    '' as plan_numeral,
-    '' as lot_number,
-    '' as allotment,
-    '' as sec,
+    case
+        when plan_number = 'PP' then ''
+        else replace ( plan_number , ' ' , '' ) 
+    end as plan_number,
+    case
+        when plan_number = 'PP' then ''
+        else substr ( plan_number , 1 , 2 ) 
+    end as plan_prefix,
+    case
+        when plan_number = 'PP' then ''
+        else substr ( plan_number , 4 , 99 ) 
+    end as plan_numeral,
+    case
+        when plan_number = 'PP' then ''
+        else [lot/ca_no]
+    end as lot_number,
+    case
+        when plan_number = 'PP' then [lot/ca_no]
+        else ''
+    end as allotment,
+    [section] as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
-    '' as parish_code,
-    '' as township_code,
-    '' as lga_code,
-    '' as assnum
+    case
+        when plan_number = 'PP' and parish not like 'T/SHIP%' then parish
+        else ''
+    end as parish_code,
+    case
+        when plan_number = 'PP' and parish like 'T/SHIP%' then parish
+        else ''
+    end as township_code,
+    '381' as lga_code,
+    assess as assnum
+from
+    synergysoft
+where
+    curr_assess <> 'X' and
+    type not in ( 'D' , 'Z' )
 )
