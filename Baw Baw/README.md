@@ -2,7 +2,7 @@
 
 ## Property Address Query
 
-Copied from Warrnambool's Pozi Connect address query, adapted to suit.
+Copied from Corangamite's Pozi Connect address query, adapted to suit.
 
 ## Parcel Query
 

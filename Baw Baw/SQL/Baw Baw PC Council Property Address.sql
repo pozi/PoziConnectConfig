@@ -28,22 +28,22 @@ from (
 
 select
     cast ( P.property_no as varchar ) as propnum,
-    case P.status
-        when 'F' then 'P'
-        else ''
-    end as status,
+    '' as status,
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    case
-        when a.formatted_address like 'ABOVE %' then 'ABOVE'
-        when a.formatted_address like 'BELOW %' then 'BELOW'
-        when a.formatted_address like 'REAR %' then 'REAR'
+    case upper ( A.unit_desc )
+        when 'ADJ' then 'ADJACENT'
+        when 'CNR' then 'CORNER'
+        when 'REAR' then 'REAR'
         else ''
     end as location_descriptor,
-    '' as blg_unit_type,
+    case
+        when upper ( A.unit_desc ) in ( 'ADJ' , 'CNR' , 'REAR' ) then ''
+        else ifnull ( upper ( A.unit_desc ) , '' )
+    end  as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
         when A.unit_no = '0' then ''
@@ -83,36 +83,67 @@ select
         else ifnull ( A.house_no_to , '' )
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
-    replace ( replace ( case
-        when upper ( S.street_name ) = 'THE HILL CT' then 'THE HILL'
-        when upper ( S.street_name ) like 'THE %' then upper ( S.street_name )
-        when upper ( substr ( S.street_name , -3 ) ) in ( ' CL' , ' CT' , ' DR' , ' GR' , ' RD' , ' PL' , ' SQ' , ' ST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 3 ) )
-        when upper ( substr ( S.street_name , -4 ) ) in ( ' AVE' , ' BVD' , ' HWY' , ' PDE' , ' TCE' , ' TRL' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
-        when upper ( substr ( S.street_name , -5 ) ) in ( ' CRES' , ' LANE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
-        else upper ( S.street_name )
-    end , '`' , '' ) , '''' , '' ) as road_name,
     case
-        when upper ( S.street_name ) = 'THE HILL CT' then 'COURT'
-        when upper ( S.street_name ) like 'THE %' then ''
-        when S.street_name like '% AVE' then 'AVENUE'
-        when S.street_name like '% BVD%' then 'BOULEVARD'
-        when S.street_name like '% CL' then 'CLOSE'
-        when S.street_name like '% CRES' then 'CRESCENT'
-        when S.street_name like '% CT' then 'COURT'
-        when S.street_name like '% DR' then 'DRIVE'
-        when S.street_name like '% GR' then 'GROVE'
-        when S.street_name like '% HWY' then 'HIGHWAY'
-        when S.street_name like '% LANE' then 'LANE'
-        when S.street_name like '% PDE' then 'PARADE'
-        when S.street_name like '% PL' then 'PLACE'
-        when S.street_name like '% RD' then 'ROAD'
-        when S.street_name like '% ST%' then 'STREET'
-        when S.street_name like '% SQ' then 'SQUARE'
-        when S.street_name like '% TCE' then 'TERRACE'
-        when S.street_name like '% TRL%' then 'TRAIL'
+        when upper ( S.street_name ) = 'THE WATER COURSE' then 'THE WATER'
+        when upper ( S.street_name ) like 'THE %' then upper ( S.street_name )
+        when upper ( substr ( S.street_name , -4 ) ) in ( ' END' , ' ROW' , ' RUN', ' KEY', ' WAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
+        when upper ( substr ( S.street_name , -5 ) ) in ( ' BEND', ' BRAE', ' COVE' , ' EDGE' , ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' RISE', ' ROAD', ' VIEW', ' WALK', ' WYND', ' RIALTO WEST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
+        when upper ( substr ( S.street_name , -6 ) ) in ( ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 6 ) )
+        when upper ( substr ( S.street_name , -7 ) ) in ( ' ACCESS', ' ARCADE', ' AVENUE', ' CIRCLE', ' COURSE', ' DIVIDE', ' GRANGE', ' PARADE', ' SQUARE', ' STREET', ' WATERS' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 7 ) )
+        when upper ( substr ( S.street_name , -8 ) ) in ( ' CIRCUIT', ' CUTTING', ' FREEWAY', ' GARDENS', ' HIGHWAY', ' RETREAT', ' TERRACE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 8 ) )
+        when upper ( substr ( S.street_name , -9 ) ) in ( ' CRESCENT', ' QUADRANT' , ' WATERWAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 9 ) )
+        when upper ( substr ( S.street_name , -10 ) ) in ( ' BOULEVARD', ' ESPLANADE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 10 ) )
+        when upper ( substr ( S.street_name , -11 ) ) in ( ' BOULEVARDE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 11 ) )
+        when upper ( substr ( S.street_name , -10 ) ) in ( ' ROAD EAST', ' ROAD WEST', ' WAY NORTH' , ' WAY SOUTH' , ' LANE EAST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 10 ) )
+        when upper ( substr ( S.street_name , -11 ) ) in ( ' GROVE EAST' , ' GROVE WEST', ' LANE NORTH' , ' LANE SOUTH' , ' ROAD NORTH' , ' ROAD SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 11 ) )
+        when upper ( substr ( S.street_name , -12 ) ) in ( ' CLOSE NORTH' , ' CLOSE SOUTH' , ' COURT NORTH' , ' COURT SOUTH' , ' DRIVE NORTH' , ' DRIVE SOUTH' , ' STREET EAST' , ' STREET WEST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 12 ) )
+        when upper ( substr ( S.street_name , -13 ) ) in ( ' AVENUE NORTH' , ' AVENUE SOUTH' , ' STREET NORTH' , ' STREET SOUTH' , ' PARADE NORTH' , ' PARADE SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 13 ) )
+        when upper ( substr ( S.street_name , -14 ) ) in ( ' HIGHWAY NORTH' , ' HIGHWAY SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 14 ) )
+        else upper ( S.street_name )
+    end as road_name,
+    case
+        when S.street_name like 'THE %' then ''
+        when S.street_name like '% ARCADE%' then 'ARCADE'
+        when S.street_name like '% AVENUE%' then 'AVENUE'
+        when S.street_name like '% BOULEVARD%' then 'BOULEVARD'
+        when S.street_name like '% CIRCUIT%' then 'CIRCUIT'
+        when S.street_name like '% CLOSE%' then 'CLOSE'
+        when S.street_name like '% COURT%' then 'COURT'
+        when S.street_name like '% CRESCENT%' then 'CRESCENT'
+        when S.street_name like '% CUTTING%' then 'CUTTING'
+        when S.street_name like '% DRIVE%' then 'DRIVE'
+        when S.street_name like '% FREEWAY%' then 'FREEWAY'
+        when S.street_name like '% GROVE%' then 'GROVE'
+        when S.street_name like '% HIGHWAY%' then 'HIGHWAY'
+        when S.street_name like '% LANE%' then 'LANE'
+        when S.street_name like '% PARADE%' then 'PARADE'
+        when S.street_name like '% PLACE%' then 'PLACE'
+        when S.street_name like '% PLAZA%' then 'PLAZA'
+        when S.street_name like '% QUAY%' then 'QUAY'
+        when S.street_name like '% ROAD%' then 'ROAD'
+        when S.street_name like '% RD%' then 'ROAD'
+        when S.street_name like '% ROUND%' then 'ROUND'
+        when S.street_name like '% RUN%' then 'RUN'
+        when S.street_name like '% SQUARE%' then 'SQUARE'
+        when S.street_name like '% STREET%' then 'STREET'
+        when S.street_name like '% ST' then 'STREET'
+        when S.street_name like '% ST %' then 'STREET'
+        when S.street_name like '% TERRACE%' then 'TERRACE'
+        when S.street_name like '% TRACK%' then 'TRACK'
+        when S.street_name like '% VISTA%' then 'VISTA'
+        when S.street_name like '% WALK%' then 'WALK'
+        when S.street_name like '% WAY%' then 'WAY'
+        when S.street_name like '% ACCESS%' then 'ACCESS'
+        when S.street_name like '% RISE%' then 'RISE'
         else ''
     end as road_type,
-    '' as road_suffix,
+    case
+        when S.street_name like '% NORTH' then 'N'
+        when S.street_name like '% SOUTH' then 'S'
+        when S.street_name like '% EAST' then 'E'
+        when S.street_name like '% WEST' then 'W'
+        else ''
+    end as road_suffix,
     L.locality_name as locality_name,
     L.postcode as postcode,
     '' as access_type,
@@ -120,7 +151,7 @@ select
     '' as northing,
     '' as datum_proj,
     '' as outside_property,
-    '369' as lga_code,
+    '305' as lga_code,
     '' as crefno,
     a.formatted_address as summary
 from
@@ -129,7 +160,7 @@ from
     join techone_nucstreet S on S.street_no = A.street_no
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
-    P.status in ( 'C' , 'F' )
+    P.status not in ( 'P' , 'x' )
 )
 )
 )
