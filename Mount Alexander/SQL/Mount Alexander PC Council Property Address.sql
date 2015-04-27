@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -41,7 +41,7 @@ select distinct
                     cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) ||
                     '%' or
                 ifnull ( Address.Addr_House_Number_1 , '' ) = ''
-            )			
+            )
             and
                 ( Assessment.Property_Name_Address_Locality like '%1%' or
                   Assessment.Property_Name_Address_Locality like '%2%' or
@@ -62,7 +62,7 @@ select distinct
             ifnull ( '-' || ifnull ( Address.Addr_House_Prefix_2 , '' ) || Address.Addr_House_Number_2 , '' ) || ifnull ( Address.Addr_House_Suffix_2 , '' ) || ' ' ||
             ifnull ( Street.Street_Name , '' ) || '%' then 'Y'
         when
-            Address.Addr_House_Number_1 is null and Assessment.Property_Name_Address_Locality like Street.Street_Name || '%' then 'Y'    
+            Address.Addr_House_Number_1 is null and Assessment.Property_Name_Address_Locality like Street.Street_Name || '%' then 'Y'
         else ''
     end as is_primary,
     '' as distance_related_flag,
@@ -78,22 +78,22 @@ select distinct
     upper ( ifnull ( Address.Address_Floor_Type_Abbrev , '' ) ) as floor_type,
     upper ( ifnull ( Address.Addr_Floor_Prefix_1 , '' ) ) as floor_prefix_1,
     cast ( ifnull ( Address.Addr_Floor_Number_1 , '' ) as varchar ) as floor_no_1,
-    upper ( ifnull ( Address.Addr_Floor_Suffix_1 , '' ) ) as floor_suffix_1, 
+    upper ( ifnull ( Address.Addr_Floor_Suffix_1 , '' ) ) as floor_suffix_1,
     upper ( ifnull ( Address.Addr_Floor_Prefix_2 , '' ) ) as floor_prefix_2,
-    cast ( ifnull ( Address.Addr_Floor_Number_2 , '' ) as varchar ) as floor_no_2, 
+    cast ( ifnull ( Address.Addr_Floor_Number_2 , '' ) as varchar ) as floor_no_2,
     upper ( ifnull ( Address.Addr_Floor_Suffix_2 , '' ) ) as floor_suffix_2,
-    upper ( ifnull ( Assessment.Assess_Property_Name , '' ) ) as building_name, 
-    '' as complex_name, 
+    upper ( ifnull ( Assessment.Assess_Property_Name , '' ) ) as building_name,
+    '' as complex_name,
     case
         when upper ( Street.Street_Name ) like 'OFF %' then 'OFF'
         else ''
     end as location_descriptor,
     upper ( ifnull ( Address.Addr_House_Prefix_1 , '' ) ) as house_prefix_1,
-    cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) as house_number_1, 
+    cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) as house_number_1,
     upper ( ifnull ( Address.Addr_House_Suffix_1 , '' ) ) as house_suffix_1,
-    upper ( ifnull ( Address.Addr_House_Prefix_2 , '' ) ) as house_prefix_2, 
+    upper ( ifnull ( Address.Addr_House_Prefix_2 , '' ) ) as house_prefix_2,
     cast ( ifnull ( Address.Addr_House_Number_2 , '' ) as varchar ) as house_number_2,
-    upper ( ifnull ( Address.Addr_House_Suffix_2 , '' ) ) as house_suffix_2, 
+    upper ( ifnull ( Address.Addr_House_Suffix_2 , '' ) ) as house_suffix_2,
     case
         when upper ( Street.Street_Name ) like 'OFF %' then substr ( upper ( Street.Street_Name ) , 5 )
         else upper ( ifnull ( replace ( Street.Street_Name , '`' , '' ) , '' ) )
@@ -131,7 +131,7 @@ where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status <> '9' and
     Assessment.Assess_Number is not null and
-    Assessment.Assessment_Id not in ( '10978' , '10986'  )
+    Assessment.Assessment_Id not in ( 10978 , 10986 )
 )
 )
 )
