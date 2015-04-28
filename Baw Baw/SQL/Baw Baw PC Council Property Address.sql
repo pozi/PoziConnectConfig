@@ -75,12 +75,9 @@ select
         else ifnull ( A.house_no_to , '' )
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
-    case
+    replace ( case
         when upper ( S.street_name ) like 'THE %' then upper ( S.street_name )
         when upper ( S.street_name ) = 'FALLS ROAD EXTENSION' then 'FALLS'
-        when upper ( S.street_name ) = 'CLARKE & BARR ROAD' then 'CLARKE AND BARR'
-        when upper ( S.street_name ) = 'GARDNER & HOLMAN ROAD' then 'GARDNER AND HOLMAN'
-        when upper ( S.street_name ) = 'LYE & DIXON ROAD' then 'LYE AND DIXON'
         when upper ( S.street_name ) = 'O''KEEFE TRACK, CULLENS FLAT,' then 'O''KEEFE'
         when upper ( S.street_name ) = 'OLD COACH ROAD  HAPPY GO LUCKY' then 'OLD COACH'
         when upper ( S.street_name ) = 'MAIDENTOWN TRACK  MAIDENTOWN' then 'MAIDENTOWN'
@@ -92,14 +89,14 @@ select
         when upper ( substr ( S.street_name , -9 ) ) in ( ' CRESCENT', ' QUADRANT' , ' WATERWAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 9 ) )
         when upper ( substr ( S.street_name , -10 ) ) in ( ' BOULEVARD', ' ESPLANADE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 10 ) )
         when upper ( substr ( S.street_name , -11 ) ) in ( ' BOULEVARDE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 11 ) )
-        when upper ( substr ( S.street_name , -9 ) ) in ( ' ROAD STH', ' ROAD NTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 9 ) )
+        when upper ( substr ( S.street_name , -9 ) ) in ( ' ROAD STH', ' ROAD NTH' , ' WAY EAST'  , ' WAY WEST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 9 ) )
         when upper ( substr ( S.street_name , -10 ) ) in ( ' ROAD EAST', ' ROAD WEST', ' WAY NORTH' , ' WAY SOUTH' , ' LANE EAST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 10 ) )
         when upper ( substr ( S.street_name , -11 ) ) in ( ' GROVE EAST' , ' GROVE WEST', ' LANE NORTH' , ' LANE SOUTH' , ' ROAD NORTH' , ' ROAD SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 11 ) )
         when upper ( substr ( S.street_name , -12 ) ) in ( ' CLOSE NORTH' , ' CLOSE SOUTH' , ' COURT NORTH' , ' COURT SOUTH' , ' DRIVE NORTH' , ' DRIVE SOUTH' , ' STREET EAST' , ' STREET WEST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 12 ) )
         when upper ( substr ( S.street_name , -13 ) ) in ( ' AVENUE NORTH' , ' AVENUE SOUTH' , ' STREET NORTH' , ' STREET SOUTH' , ' PARADE NORTH' , ' PARADE SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 13 ) )
         when upper ( substr ( S.street_name , -14 ) ) in ( ' HIGHWAY NORTH' , ' HIGHWAY SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 14 ) )
         else upper ( S.street_name )
-    end as road_name,
+    end , '&' , 'AND' ) as road_name,
     case
         when upper ( S.street_name ) in ( 'MOE WILLOW GROVE ROAD' , 'WILLOW GROVE ROAD' ) then 'ROAD'
         when S.street_name like 'THE %' then ''
