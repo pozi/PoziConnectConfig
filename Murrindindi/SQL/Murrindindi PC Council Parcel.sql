@@ -153,7 +153,10 @@ select
             end
         else ''
     end as parish_code,
-    '' as township_code,
+    case
+        when auprparc.ttl_cde in ( 3 , 6 ) and auprparc.udn_cd2 > 5000 then cast ( auprparc.udn_cd2 as varchar )
+        else ''
+    end as township_code,
     fmt_ttl as summary,
     '355' as lga_code
 from
