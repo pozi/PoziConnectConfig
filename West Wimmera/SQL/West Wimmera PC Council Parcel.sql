@@ -43,6 +43,7 @@ select
         when 'P' then 'P'
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
+    ifnull ( auprparc.ttl_nme , '' ) as internal_spi,
     case
         when auprparc.ttl_cde = 4 then 'P'
         when auprparc.ttl_cde = 6 then 'P'
@@ -150,16 +151,35 @@ select
         else
             case
                 when substr ( uda_cd1 , 1 , 3 ) = 'COO' then '2427'
-                else ''                
+                else ''
             end
     end as parish_code,
-    '' as township_code,
+    case
+        when mem_txt like '%APSLEY TOWNSHIP%' or mem_txt like '%TOWNSHIP OF APSLEY%' then '5015'
+        when mem_txt like '%CHETWYND TOWNSHIP%' or mem_txt like '%TOWNSHIP OF CHETWYND%' then '5171'
+        when mem_txt like '%EDENHOPE TOWNSHIP%' or mem_txt like '%TOWNSHIP OF EDENHOPE%' then '5266'
+        when mem_txt like '%GOROKE TOWNSHIP%' or mem_txt like '%TOWNSHIP OF GOROKE%' then '5339'
+        when mem_txt like '%HARROW TOWNSHIP%' or mem_txt like '%TOWNSHIP OF HARROW%' then '5368'
+        when mem_txt like '%KANIVA TOWNSHIP%' or mem_txt like '%TOWNSHIP OF KANIVA%' then '5404'
+        when mem_txt like '%KONNEPRA TOWNSHIP%' or mem_txt like '%TOWNSHIP OF KONNEPRA%' then '5870'
+        when mem_txt like '%SERVICETON TOWNSHIP%' or mem_txt like '%TOWNSHIP OF SERVICETON%' then '5709'
+        when mem_txt like '%SOUTH LILLIMUR TOWNSHIP%' or mem_txt like '%TOWNSHIP OF SOUTH LILLIMUR%' then '5464'
+        when mem_txt like '%LILLIMUR TOWNSHIP%' or mem_txt like '%TOWNSHIP OF LILLIMUR%' then '5463'
+        else ''
+    end as township_code,
     fmt_ttl as summary,
+    ifnull ( mem_txt , '' ) as memo,
     '371' as lga_code
 from
-    authority_auprparc as auprparc
+    authority_auprparc as auprparc left join
+    authority_aumememo as aumememo on
+        auprparc.ass_num = aumememo.mdu_acc and
+        aumememo.mem_typ = 1 and
+        aumememo.seq_num = 1 and
+        aumememo.mem_txt is not null
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
     auprparc.ttl_cde not in ( 99 , 999 ) and
     auprparc.ass_num is not null
+group by auprparc.pcl_num
 )
