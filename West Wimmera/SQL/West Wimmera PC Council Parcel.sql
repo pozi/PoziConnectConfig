@@ -155,16 +155,16 @@ select
             end
     end as parish_code,
     case
-        when mem_txt like '%APSLEY TOWNSHIP%' or mem_txt like '%TOWNSHIP OF APSLEY%' then '5015'
-        when mem_txt like '%CHETWYND TOWNSHIP%' or mem_txt like '%TOWNSHIP OF CHETWYND%' then '5171'
-        when mem_txt like '%EDENHOPE TOWNSHIP%' or mem_txt like '%TOWNSHIP OF EDENHOPE%' then '5266'
-        when mem_txt like '%GOROKE TOWNSHIP%' or mem_txt like '%TOWNSHIP OF GOROKE%' then '5339'
-        when mem_txt like '%HARROW TOWNSHIP%' or mem_txt like '%TOWNSHIP OF HARROW%' then '5368'
-        when mem_txt like '%KANIVA TOWNSHIP%' or mem_txt like '%TOWNSHIP OF KANIVA%' then '5404'
-        when mem_txt like '%KONNEPRA TOWNSHIP%' or mem_txt like '%TOWNSHIP OF KONNEPRA%' then '5870'
-        when mem_txt like '%SERVICETON TOWNSHIP%' or mem_txt like '%TOWNSHIP OF SERVICETON%' then '5709'
-        when mem_txt like '%SOUTH LILLIMUR TOWNSHIP%' or mem_txt like '%TOWNSHIP OF SOUTH LILLIMUR%' then '5464'
-        when mem_txt like '%LILLIMUR TOWNSHIP%' or mem_txt like '%TOWNSHIP OF LILLIMUR%' then '5463'
+        when mem_txt like '%APSLEY%T%SHIP%' or mem_txt like '%T%SHIP%APSLEY%' then '5015'
+        when mem_txt like '%CHETWYND%T%SHIP%' or mem_txt like '%T%SHIP%CHETWYND%' then '5171'
+        when mem_txt like '%EDENHOPE%T%SHIP%' or mem_txt like '%T%SHIP%EDENHOPE%' then '5266'
+        when mem_txt like '%GOROKE%T%SHIP%' or mem_txt like '%T%SHIP%GOROKE%' then '5339'
+        when mem_txt like '%HARROW%T%SHIP%' or mem_txt like '%T%SHIP%HARROW%' then '5368'
+        when mem_txt like '%KANIVA%T%SHIP%' or mem_txt like '%T%SHIP%KANIVA%' then '5404'
+        when mem_txt like '%KONNEPRA%T%SHIP%' or mem_txt like '%T%SHIP%KONNEPRA%' then '5870'
+        when mem_txt like '%SERVICETON%T%SHIP%' or mem_txt like '%T%SHIP%SERVICETON%' then '5709'
+        when mem_txt like '%SOUTH%LILLIMUR%T%SHIP%' or mem_txt like '%T%SHIP%SOUTH LILLIMUR%' then '5464'
+        when mem_txt like '%LILLIMUR%T%SHIP%' or mem_txt like '%T%SHIP%LILLIMUR%' then '5463'
         else ''
     end as township_code,
     fmt_ttl as summary,
@@ -173,7 +173,7 @@ select
 from
     authority_auprparc as auprparc left join
     authority_aumememo as aumememo on
-        auprparc.ass_num = aumememo.mdu_acc and
+        auprparc.ass_num = cast ( aumememo.mdu_acc as integer ) and
         aumememo.mem_typ = 1 and
         aumememo.seq_num = 1 and
         aumememo.mem_txt is not null
