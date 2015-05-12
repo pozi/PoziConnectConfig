@@ -1,6 +1,11 @@
 select
     *,
     case
+        when internal_spi <> '' and internal_spi not like '% %' then 'internal_spi'
+        else 'attributes'
+    end as spi_mode,
+    case
+        when internal_spi <> '' and internal_spi not like '% %' then internal_spi
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
@@ -18,6 +23,7 @@ select
         else ''
     end as spi,
     case
+        when internal_spi <> '' and internal_spi not like '% %' then replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( internal_spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' )
         when plan_numeral <> '' and lot_number = '' then plan_numeral
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_numeral
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_numeral
