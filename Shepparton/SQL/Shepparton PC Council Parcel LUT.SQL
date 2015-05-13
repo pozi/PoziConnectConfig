@@ -5,6 +5,6 @@ select distinct
 from
     pathway_lpatitl as lpatitl
     left join
-    pathway_lpaparc as lpaparc on lpatitl.tpklpatitl = lpaparc.tpklpaparc    
+    pathway_lpaparc as lpaparc on lpatitl.tpklpatitl = lpaparc.tpklpaparc
 where
     lpaparc.tpklpaparc is not null
