@@ -8,7 +8,6 @@ select
         when status not in ('','A','P') then 'Invalid: status (' || status || ')'
         when is_primary not in ('','Y','N') then 'Invalid: is_primary (' || is_primary || ')'
         when distance_related_flag not in ('','Y','N') then 'Invalid: distance_related_flag (' || distance_related_flag || ')'
-        when building_name <> '' and house_number_1 = '' then 'Invalid: house_number_1 must be present for building_name (' || building_name || ')'
         when building_name in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then 'Invalid: building_name (' || building_name || ') cannot be a building unit type'
         when location_descriptor not in ('','ABOVE','ADJACENT','BELOW','BETWEEN','CORNER','EAST','FRONT','NORTH','OFF','OPPOSITE','PART','REAR','ROOFTOP','SOUTH','WEST') then 'Invalid: location_descriptor (' || location_descriptor || ')'
         when blg_unit_type <> '' and blg_unit_id_1 = '' then 'Invalid: blg_unit_type (' || blg_unit_type || ') when blg_unit_id_1 is not supplied'
@@ -42,6 +41,7 @@ select
         when road_suffix not in ('','N','S','E','W','CN','DV','EX','ML') then 'Invalid: road_suffix (' || road_suffix || ')'
         when access_type not in ('','L','W','I') then 'Invalid: access_type (' || access_type || ')'
         when outside_property not in ('','Y','N') then 'Invalid: outside_property (' || outside_property || ')'
+        when building_name <> '' and house_number_1 = '' then 'Invalid: house_number_1 must be present for building_name (' || building_name || ')'
         else ''
     end as address_validity,
     ifnull ( ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cpa.propnum ) , 0 ) as parcels_in_council,
