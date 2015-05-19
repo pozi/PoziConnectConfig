@@ -160,7 +160,7 @@ select
         when 'BETHANGA' then '5079'
         else ''
     end as township_code,
-    '367' as lga_code
+    '334' as lga_code
 from
     lynx_vwlandparcel Parcel
 where
