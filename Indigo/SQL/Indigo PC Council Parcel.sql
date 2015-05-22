@@ -39,41 +39,32 @@ from
 select
     cast ( Parcel.PropertyNumber as varchar ) as propnum,
     '' as status,
-    cast ( Parcel.LandParcelNumber as varchar ) as crefno,
-    '' as summary,
+    '' as crefno,
+    Property.Lot as summary,
     '' as part,
-    case Parcel.Type
-        when 'Lodged Plan' then 'LP' || Parcel.PlanNo
-        when 'Title Plan' then 'TP' || Parcel.PlanNo
-        when 'Plan of Subdivision' then 'PS' || Parcel.PlanNo
-        when 'Consolidation Plan' then 'PC' || Parcel.PlanNo
-        when 'Strata Plan' then 'RP' || Parcel.PlanNo
-        when 'Stratum Plan' then 'SP' || Parcel.PlanNo
+    case
+        when Parcel.TypeAbrev in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then Parcel.TypeAbrev ||
+            case
+                when Parcel.PlanNo = '' then ''
+                when substr ( Parcel.PlanNo , -1 , 1 ) in ( '0','1','2','3','4','5','6','7','8','9' ) then Parcel.PlanNo
+                else substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
+            end
         else ''
     end as plan_number,
-    case Parcel.Type
-        when 'Lodged Plan' then 'LP'
-        when 'Title Plan' then 'TP'
-        when 'Plan of Subdivision' then 'PS'
-        when 'Consolidation Plan' then 'PC'
-        when 'Strata Plan' then 'RP'
-        when 'Stratum Plan' then 'SP'
+    case
+        when Parcel.TypeAbrev in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then Parcel.TypeAbrev
         else ''
     end as plan_prefix,
-    Parcel.PlanNo as plan_numeral,
     case
-        when Parcel.Lot = 'CROWN LAND' then ''
-        when Parcel.Lot glob '?(*' then substr ( Parcel.Lot , 1 , 1 )
-        when Parcel.Lot glob '??(*' then substr ( Parcel.Lot , 1 , 2 )
-        else Parcel.Lot
-    end as lot_number,
+        when Parcel.PlanNo = '' then ''
+        when substr ( Parcel.PlanNo , -1 , 1 ) in ( '0','1','2','3','4','5','6','7','8','9' ) then Parcel.PlanNo
+        else substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
+    end as plan_numeral,
+    Parcel.Lot as lot_number,
     Parcel.CrownAllotment as allotment,
-    case
-        when Parcel.Section in ( 'NO' , 'NO SEC' ) then ''
-        else Parcel.Section
-    end as sec,
-    case when Lot like '%(BLK%)' then substr ( Lot , length ( Lot ) - 1 , 1 ) else '' end as block,
-    '' as portion,
+    Parcel.Section as sec,
+    '' as block,
+    Parcel.CrownPortion as portion,
     '' as subdivision,
     case upper ( Parcel.Parish )
         when 'BARAMBOGIE' then '2067'
@@ -137,7 +128,8 @@ select
     end as township_code,
     '334' as lga_code
 from
-    lynx_vwlandparcel Parcel
+    lynx_vwlandparcel Parcel join
+    lynx_propertys Property on Parcel.PropertyNumber = Property.Property
 where
     Parcel.Status = 'Active' and
     Parcel.Ended is null
