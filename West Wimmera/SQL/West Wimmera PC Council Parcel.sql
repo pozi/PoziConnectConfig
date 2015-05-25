@@ -156,7 +156,7 @@ select
         when 'YOU' then '3998'
         else
             case
-                when substr ( uda_cd1 , 1 , 3 ) = 'COO' then '2427'
+                when substr ( auprparc.uda_cd1 , 1 , 3 ) = 'COO' then '2427'
                 else ''
             end
     end as parish_code,
@@ -182,10 +182,12 @@ from
         auprparc.ass_num = aumememo.mdu_acc and
         aumememo.mem_typ = 1 and
         aumememo.seq_num = 1 and
-        aumememo.mem_txt is not null
+        aumememo.mem_txt is not null join
+    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
     auprparc.ttl_cde not in ( 99 , 999 ) and
-    auprparc.ass_num is not null
+    auprparc.ass_num is not null and
+    aurtmast.rte_cls <> 'CA'
 group by auprparc.pcl_num
 )
