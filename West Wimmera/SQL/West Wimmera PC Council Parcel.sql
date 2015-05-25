@@ -179,7 +179,7 @@ select
 from
     authority_auprparc as auprparc left join
     authority_aumememo as aumememo on
-        auprparc.ass_num = cast ( aumememo.mdu_acc as integer ) and
+        auprparc.ass_num = aumememo.mdu_acc and
         aumememo.mem_typ = 1 and
         aumememo.seq_num = 1 and
         aumememo.mem_txt is not null
