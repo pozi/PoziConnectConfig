@@ -64,6 +64,8 @@ select
         when auprparc.ttl_cde = 7 then ''
         when auprparc.ttl_cde = 8 then ''
         when auprparc.ttl_cde = 9 then 'CP' || auprparc.ttl_no5
+        when auprparc.ttl_cde = 11 then 'PC' || auprparc.ttl_no5
+        when auprparc.ttl_cde = 12 then 'SP' || auprparc.ttl_no5
     end as plan_number,
     case
         when auprparc.ttl_cde = 1 then 'TP'
@@ -74,6 +76,8 @@ select
         when auprparc.ttl_cde = 7 then ''
         when auprparc.ttl_cde = 8 then ''
         when auprparc.ttl_cde = 9 then 'CP'
+        when auprparc.ttl_cde = 11 then 'PC'
+        when auprparc.ttl_cde = 12 then 'SP'
     end as plan_prefix,
     case
         when auprparc.ttl_cde in ( 7 , 8 ) then ''
