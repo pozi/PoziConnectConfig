@@ -14,7 +14,6 @@ Notes:
 
 * in cases where the `auprparc.ttl_nme` field is not blank and doesn't contain spaces, this field is used as the spi value
 * for townships that share the same name as parish, there is no distinction; workaround is to search for '... Township' or 'Township of...' in memo field
-* `aumememo.mdu_acc` is a character field, so we need to import it as an integer and index it to speed up the parcel query (currently 2:30 min)
 * `auprparc.ttl_cde` doesn't cater for PC or SP
 
 #### Parcel QA
