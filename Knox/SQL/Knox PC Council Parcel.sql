@@ -52,6 +52,7 @@ select distinct
         when lpaparc.plancode is null or lpaparc.plancode = 'CA' then ''
         else ifnull ( lpaparc.plancode , '' ) ||
             case
+                when lpaparc.plannum like '%RESERVE%' then replace ( lpaparc.plannum , 'RESERVE' , '' )
                 when substr ( lpaparc.plannum , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then lpaparc.plannum
                 when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 )
             end
@@ -62,6 +63,7 @@ select distinct
     end as plan_prefix,
     case
         when lpaparc.plancode is null or lpaparc.plancode = 'CA' then ''
+        when lpaparc.plannum like '%RESERVE%' then replace ( lpaparc.plannum , 'RESERVE' , '' )
         when substr ( lpaparc.plannum , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then lpaparc.plannum
         when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 )
     end as plan_numeral,
