@@ -72,7 +72,7 @@ select distinct
             else ''
         end ||
         case
-            when replace ( cpa.road_locality , '-' , ' ' ) not in ( select replace ( cpa.road_locality , '-' , ' ' ) from pc_vicmap_property_address ) then ' (**WARNING**: new road name)'
+            when replace ( cpa.road_locality , '-' , ' ' ) not in ( select replace ( road_locality , '-' , ' ' ) from pc_vicmap_property_address ) then ' (**WARNING**: new road name)'
             else ''
         end as comments,
     centroid ( ( select vpa.geometry from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and cpa.is_primary <> 'N' limit 1 ) ) as geometry
