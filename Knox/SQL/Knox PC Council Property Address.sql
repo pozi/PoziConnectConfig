@@ -58,17 +58,24 @@ select
     end as hsa_unit_id,
     case
         when lpaadfm.tpklpaadfm = 46 then ''
-        when upper ( lpaaddr.unitprefix ) = 'ATM' then 'ATM'
-        when upper ( lpaaddr.unitprefix ) = 'KIOSK' then 'KSK'
-        when upper ( lpaaddr.unitprefix ) = 'OFF' then 'OFFC'
-        when upper ( lpaaddr.unitprefix ) = 'STE' or lpaaddr.unitprefix like 'SUITE%' then 'SE'
-        when upper ( lpaaddr.unitprefix ) = 'UNIT' then 'UNIT'
-        else ''
+        else case upper ( lpaaddr.unitprefix )
+            when 'ATM' then 'ATM'
+            when 'APARTMENT' then 'APT'
+            when 'HOSTEL' then 'HOST'
+            when 'KIOSK' then 'KSK'
+            when 'LOT' then 'LOT'
+            when 'OFF' then 'OFFC'
+            when 'SH' then 'SHOP'
+            when 'STE' then 'SE'
+            when 'SUITE' then 'SE'
+            when 'UNIT' then 'UNIT'
+            else ''
+        end
     end as blg_unit_type,
     case
         when lpaadfm.tpklpaadfm = 46 then ''
         when lpaaddr.unitprefix is null or lpaaddr.unitprefix = '0' then ''
-        when length ( lpaaddr.unitprefix ) <= 2 then lpaaddr.unitprefix
+        when length ( lpaaddr.unitprefix ) <= 2 and upper ( lpaaddr.unitprefix ) not in ( 'SH' ) then upper ( lpaaddr.unitprefix )
         else ''
     end as blg_unit_prefix_1,
     case
@@ -95,9 +102,8 @@ select
     case
         when lpaadfm.tpklpaadfm = 46 then ''
         when upper ( lpaaddr.lvlprefix ) in ( '1ST FLOOR' , '2ND FLOOR' , '3RD FLOOR' , '1' , '2' , '3' ) then 'FL'
-        when upper ( lpaaddr.lvlprefix ) in ( 'B' , 'FL' , 'G' , 'LG' ) then upper ( lpaaddr.lvlprefix )
         when upper ( lpaaddr.lvlprefix ) in ( 'GR' , 'GRD FLOOR' ) then 'G'
-        when lpaaddr.strlvlnum <> 0 then 'FL'
+        when lpaaddr.strlvlnum <> 0 then upper ( lpaaddr.lvlprefix )
         else ''
     end as floor_type,
     '' as floor_prefix_1,
@@ -182,7 +188,8 @@ from
 where
     lpaprop.status <> 'H' and
     lpaprop.tfklpacncl = 12 and
-    lpaaddr.addrtype = 'P'
+    lpaaddr.addrtype = 'P' and
+    lparole.fklparolta = 'LRA'
 )
 )
 )
