@@ -32,9 +32,32 @@ select
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
-    '' as hsa_flag,
-    '' as hsa_unit_id,
+    case lpaadfm.tpklpaadfm
+        when 46 then 'Y'
+        else ''
+    end as hsa_flag,
+    case lpaadfm.tpklpaadfm
+        when 46 then
+            ( case
+                when lpaaddr.lvlprefix is null or lpaaddr.lvlprefix = '' then ''
+                else trim ( lpaaddr.lvlprefix )
+              end ) ||
+                ( case
+                    when ( lpaaddr.strlvlnum ) = 0 then ''
+                    else cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar)
+                 end ) ||
+                ( case
+                    when ( lpaaddr.unitprefix ) is null or lpaaddr.unitprefix = '' then ''
+                    else trim ( lpaaddr.unitprefix )
+                 end ) ||
+                ( case
+                    when lpaaddr.strunitnum = 0 then ''
+                    else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
+                 end )
+        else ''
+    end as hsa_unit_id,
     case
+        when lpaadfm.tpklpaadfm = 46 then ''
         when upper ( lpaaddr.unitprefix ) = 'ATM' then 'ATM'
         when upper ( lpaaddr.unitprefix ) = 'KIOSK' then 'KSK'
         when upper ( lpaaddr.unitprefix ) = 'OFF' then 'OFFC'
@@ -43,27 +66,34 @@ select
         else ''
     end as blg_unit_type,
     case
+        when lpaadfm.tpklpaadfm = 46 then ''
+        when lpaaddr.unitprefix is null or lpaaddr.unitprefix = '0' then ''
         when length ( lpaaddr.unitprefix ) <= 2 then lpaaddr.unitprefix
         else ''
     end as blg_unit_prefix_1,
     case
+        when lpaadfm.tpklpaadfm = 46 then ''
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
         else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
     end as blg_unit_id_1,
     case
+        when lpaadfm.tpklpaadfm = 46 then ''
         when lpaaddr.strunitsfx = '0' or lpaaddr.strunitsfx is null then ''
         else cast ( lpaaddr.strunitsfx as varchar )
     end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
+        when lpaadfm.tpklpaadfm = 46 then ''
         when lpaaddr.endunitnum = 0 or lpaaddr.endunitnum is null then ''
         else cast ( cast ( lpaaddr.endunitnum as integer ) as varchar )
     end as blg_unit_id_2,
     case
+        when lpaadfm.tpklpaadfm = 46 then ''
         when lpaaddr.endunitsfx = '0' or lpaaddr.endunitsfx is null then ''
         else cast ( lpaaddr.endunitsfx as varchar )
     end as blg_unit_suffix_2,
     case
+        when lpaadfm.tpklpaadfm = 46 then ''
         when upper ( lpaaddr.lvlprefix ) in ( '1ST FLOOR' , '2ND FLOOR' , '3RD FLOOR' , '1' , '2' , '3' ) then 'FL'
         when upper ( lpaaddr.lvlprefix ) in ( 'B' , 'FL' , 'G' , 'LG' ) then upper ( lpaaddr.lvlprefix )
         when upper ( lpaaddr.lvlprefix ) in ( 'GR' , 'GRD FLOOR' ) then 'G'
@@ -72,6 +102,7 @@ select
     end as floor_type,
     '' as floor_prefix_1,
     case
+        when lpaadfm.tpklpaadfm = 46 then ''
         when lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
         when upper ( lpaaddr.lvlprefix ) = '1ST FLOOR' then '1'
         when upper ( lpaaddr.lvlprefix ) = '2ND FLOOR' then '2'
@@ -82,6 +113,7 @@ select
     '' as floor_suffix_1,
     '' as floor_prefix_2,
     case
+        when lpaadfm.tpklpaadfm = 46 then ''
         when lpaaddr.endlvlnum = 0 then ''
         else cast ( cast ( lpaaddr.endlvlnum as integer ) as varchar )
     end as floor_no_2,
@@ -145,7 +177,8 @@ from
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop left join
     pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
-    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm
+    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm left join
+    pathway_lpaadfm as lpaadfm on lpaadpr.tfklpaadfm = lpaadfm.tpklpaadfm
 where
     lpaprop.status <> 'H' and
     lpaprop.tfklpacncl = 12 and
