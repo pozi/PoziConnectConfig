@@ -1,10 +1,6 @@
 select
     *,
     case
-        when internal_spi <> '' and internal_spi not like '% %' then 'internal_spi'
-        else 'attributes'
-    end as spi_mode,
-    case
         when internal_spi <> '' and internal_spi not like '% %' then internal_spi
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
@@ -39,7 +35,11 @@ select
             '\' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as simple_spi
+    end as simple_spi,
+    case
+        when internal_spi <> '' and internal_spi not like '% %' then 'council_spi'
+        else 'council_attributes'
+    end as source
 from
 (
 select
