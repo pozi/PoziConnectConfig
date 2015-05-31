@@ -19,7 +19,7 @@ select
     vp.allotment as CrownAllotment,
     vp.portion as CrownPortion,
     vp.sec as Section,
-    vp.township_code as Township,
+    replace ( vp.township_code , '9999' , '' ) as Township,
     vp.parish_code as Parish,
     '' as Volume,
     '' as Folio,
@@ -36,7 +36,7 @@ from
         where Property not in ( select PropertyNumber from lynx_vwlandparcel )
         ) cp on vp.propnum = cp.propnum
 where
-    ( vp.plan_numeral = '' or ( vp.plan_numeral <> '' and cp.lot like '%' || vp.plan_numeral || '%' ) ) and   
+    ( vp.plan_numeral = '' or ( vp.plan_numeral <> '' and cp.lot like '%' || vp.plan_numeral || '%' ) ) and
     ( vp.lot_number = '' or ( vp.lot_number <> '' and cp.lot like '%LOT %' || vp.lot_number || '%' ) ) and
     ( vp.sec = '' or ( vp.sec <> '' and cp.lot like '%SEC %' || vp.sec || '%' ) ) and
     ( vp.allotment = '' or ( vp.allotment <> '' and cp.lot like '%' || vp.allotment || ' %' ) )

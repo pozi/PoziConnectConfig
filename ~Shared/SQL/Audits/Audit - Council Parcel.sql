@@ -23,6 +23,7 @@ select
         when plan_prefix = 'PS' and not ( ( 300001 <= cast ( plan_numeral as integer ) <= 350000 ) or ( 400001 <= cast ( plan_numeral as integer ) <= 450000 ) or ( 500001 <= cast ( plan_numeral as integer ) <= 550000 ) or ( 600001 <= cast ( plan_numeral as integer ) <= 650000 ) ) then 'Invalid: plan number not in valid range for PS (' || plan_number || ')'
         when plan_prefix = 'RP' and not ( cast ( plan_numeral as integer ) <= 19926 ) then 'Invalid: plan number not in valid range for RP (' || plan_number || ')'
         when plan_prefix = 'SP' and not ( 19927 <= cast ( plan_numeral as integer ) <= 40000 ) then 'Invalid: plan number not in valid range for SP (' || plan_number || ')'
+        when parish_code = '' and plan_number = '' and allotment <> '' then 'Invalid: parish missing for crown description'
         when parish_code <> '' and ( cast ( parish_code as integer ) < 2000 or cast ( parish_code as integer ) > 3999 ) then 'Invalid: parish number not in valid range (' || parish_code || ')'
         when township_code not in ( '' , '9999' ) and not ( substr ( township_code , 1 , 1 ) in ('2','3') and substr ( township_code , -1 ) in ('A','B','C','D','E','F','G','H','I','J','K') ) and ( cast ( township_code as integer ) < 5000 or cast ( township_code as integer ) > 5999 ) then 'Invalid: township number not in valid range (' || township_code || ')'
         when plan_numeral like '0%' then 'Invalid: plan number contains leading zero (' || plan_number || ')'
