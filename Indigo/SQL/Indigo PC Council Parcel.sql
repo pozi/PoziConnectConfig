@@ -1,6 +1,7 @@
 select
     *,
     case
+        when internal_spi <> '' and internal_spi not like '\%' then internal_spi
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
@@ -18,6 +19,7 @@ select
         else ''
     end as spi,
     case
+        when internal_spi <> '' and internal_spi not like '\%' then replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( internal_spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' )
         when plan_numeral <> '' and lot_number = '' then plan_numeral
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_numeral
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_numeral
@@ -33,30 +35,73 @@ select
             '\' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as simple_spi
+    end as simple_spi,
+    case
+        when internal_spi <> '' and internal_spi not like '% %' then 'council_spi'
+        else 'council_attributes'
+    end as source
 from
 (
 select
     cast ( Parcel.PropertyNumber as varchar ) as propnum,
     '' as status,
     '' as crefno,
+    case
+        when Parcel.StandardParcelId = '' then ''
+        when Parcel.StandardParcelId like '%\%' then Parcel.StandardParcelId
+        when Parcel.StandardParcelId like '%/%' then replace ( Parcel.StandardParcelId , '/' , '\' )
+        when Parcel.StandardParcelId like '%CS%' then replace ( Parcel.StandardParcelId , 'CS' , '\CS' )
+        when Parcel.StandardParcelId like '%LP%' then replace ( Parcel.StandardParcelId , 'LP' , '\LP' )
+        when Parcel.StandardParcelId like '%RP%' then replace ( Parcel.StandardParcelId , 'RP' , '\RP' )
+        when Parcel.StandardParcelId like '%PS%' then replace ( Parcel.StandardParcelId , 'PS' , '\PS' )
+        when Parcel.StandardParcelId like '%SP%' then replace ( Parcel.StandardParcelId , 'SP' , '\SP' )
+        when Parcel.StandardParcelId like '%TP%' then replace ( Parcel.StandardParcelId , 'TP' , '\TP' )
+        when Parcel.StandardParcelId like '%PP%' then replace ( Parcel.StandardParcelId , 'PP' , '\PP' )
+        when Parcel.StandardParcelId like '%CP%' then Parcel.StandardParcelId
+        when Parcel.StandardParcelId like '%PC%' then Parcel.StandardParcelId
+        else ''
+    end as internal_spi,
     Property.Lot as summary,
     '' as part,
     case
-        when Parcel.TypeAbrev in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then Parcel.TypeAbrev ||
+        when Parcel.TypeAbrev = 'CrD' or Parcel.PlanNo = '' then ''
+        when Parcel.TypeAbrev in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then Parcel.TypeAbrev
+        else
             case
-                when Parcel.PlanNo = '' then ''
-                when substr ( Parcel.PlanNo , -1 , 1 ) in ( '0','1','2','3','4','5','6','7','8','9' ) then Parcel.PlanNo
-                else substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
+                when Property.Lot like '%CP%' then 'CP'
+                when Property.Lot like '%CS%' then 'CS'
+                when Property.Lot like '%LP%' then 'LP'
+                when Property.Lot like '%PC%' then 'PC'
+                when Property.Lot like '%PS%' then 'PS'
+                when Property.Lot like '%RP%' then 'RP'
+                when Property.Lot like '%SP%' then 'SP'
+                when Property.Lot like '%TP%' then 'TP'
+                else ''
             end
-        else ''
+    end ||
+    case
+        when substr ( Parcel.PlanNo , -1 , 1 ) in ( '0','1','2','3','4','5','6','7','8','9' ) then Parcel.PlanNo
+        else substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
     end as plan_number,
     case
+        when Parcel.TypeAbrev = 'CrD' then ''
         when Parcel.TypeAbrev in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then Parcel.TypeAbrev
-        else ''
+        else
+            case
+                when Property.Lot like '%CP%' then 'CP'
+                when Property.Lot like '%CS%' then 'CS'
+                when Property.Lot like '%LP%' then 'LP'
+                when Property.Lot like '%PC%' then 'PC'
+                when Property.Lot like '%PS%' then 'PS'
+                when Property.Lot like '%RP%' then 'RP'
+                when Property.Lot like '%SP%' then 'SP'
+                when Property.Lot like '%TP%' then 'TP'
+                else ''
+            end
     end as plan_prefix,
     case
         when Parcel.PlanNo = '' then ''
+        when substr ( Parcel.PlanNo , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then substr ( Parcel.PlanNo , 3 , 99 )
         when substr ( Parcel.PlanNo , -1 , 1 ) in ( '0','1','2','3','4','5','6','7','8','9' ) then Parcel.PlanNo
         else substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
     end as plan_numeral,

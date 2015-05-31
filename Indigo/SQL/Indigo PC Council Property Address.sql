@@ -50,18 +50,18 @@ select
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    ifnull ( Property.Name , '' ) as building_name,
+    ifnull ( upper ( Property.Name ) , '' ) as building_name,
     '' as complex_name,
     '' as house_prefix_1,
     case
-        when substr ( Property.StreetNofrom , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        when substr ( Property.StreetNofrom , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then Property.StreetNofrom
-        else ifnull ( substr ( Property.StreetNofrom , 1 , length ( Property.StreetNofrom ) - 1 ) , '' )
+        when substr ( Property.StreetNoFrom , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
+        when substr ( Property.StreetNoFrom , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then Property.StreetNoFrom
+        else ifnull ( substr ( Property.StreetNoFrom , 1 , length ( Property.StreetNoFrom ) - 1 ) , '' )
     end as house_number_1,
     case
-        when substr ( Property.StreetNofrom , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        when substr ( Property.StreetNofrom , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        else ifnull ( upper ( substr ( Property.StreetNofrom , -1 , 1 ) ) , '' )
+        when substr ( Property.StreetNoFrom , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
+        when substr ( Property.StreetNoFrom , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
+        else ifnull ( upper ( substr ( Property.StreetNoFrom , -1 , 1 ) ) , '' )
     end as house_suffix_1,
     '' as house_prefix_2,
     case
@@ -109,7 +109,7 @@ where
     Street.Type = StreetType.ID and
     Street.Locality = Locality.ID and
     Property.Type not in ( 672 , 700 ) and
-    Classification.LandClassificationCode <> 010
+    Classification.LandClassificationCode <> '010'
 )
 )
 )
