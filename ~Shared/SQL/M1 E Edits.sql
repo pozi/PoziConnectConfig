@@ -77,9 +77,11 @@ select
     ( select road_suffix from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi limit 1 ) as road_suffix,
     ( select locality_name from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi limit 1 ) as locality_name,
     case
-        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then 'multi-parcel property'        
-        else 'parcel ' || vp.spi        
-    end || ': removing propnum ' || vp.propnum || ' (doesn''t exist in council)' as comments,
+        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then 'multi-parcel property'
+        else 'parcel ' || vp.spi
+    end || ': removing propnum ' || vp.propnum ||
+    ' (source: ' || ( select source from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi limit 1 ) || ')' ||
+    ' (doesn''t exist in council)' as comments,
     centroid ( vp.geometry ) as geometry
 from
     pc_vicmap_parcel vp
