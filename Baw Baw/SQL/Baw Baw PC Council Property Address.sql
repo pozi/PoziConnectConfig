@@ -82,6 +82,8 @@ select
         when upper ( S.street_name ) = 'O''KEEFE TRACK, CULLENS FLAT,' then 'O''KEEFE'
         when upper ( S.street_name ) = 'OLD COACH ROAD  HAPPY GO LUCKY' then 'OLD COACH'
         when upper ( S.street_name ) = 'MAIDENTOWN TRACK  MAIDENTOWN' then 'MAIDENTOWN'
+        when upper ( S.street_name ) = 'COOPERS CREEK TOWN' then 'COOPERS CREEK'
+        when upper ( S.street_name ) = 'NORTH EAST OF WALHALLA' then 'CRICKET GROUND'
         when upper ( substr ( S.street_name , -4 ) ) in ( ' END' , ' ROW' , ' RUN', ' KEY', ' WAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
         when upper ( substr ( S.street_name , -5 ) ) in ( ' BEND', ' BRAE', ' COVE' , ' EDGE' , ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' RISE', ' ROAD', ' VIEW', ' WALK', ' WYND' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
         when upper ( substr ( S.street_name , -6 ) ) in ( ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 6 ) )
@@ -100,6 +102,8 @@ select
     end , '&' , 'AND' ) as road_name,
     case
         when upper ( S.street_name ) in ( 'MOE WILLOW GROVE ROAD' , 'WILLOW GROVE ROAD' ) then 'ROAD'
+        when upper ( S.street_name ) = 'COOPERS CREEK TOWN' then 'ROAD'
+        when upper ( S.street_name ) = 'NORTH EAST OF WALHALLA' then 'TRACK'
         when S.street_name like 'THE %' then ''
         when S.street_name like '% ARCADE%' then 'ARCADE'
         when S.street_name like '% AVENUE%' then 'AVENUE'
