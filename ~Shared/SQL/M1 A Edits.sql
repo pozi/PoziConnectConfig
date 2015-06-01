@@ -72,6 +72,10 @@ select
         when ( select vpppc.num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = cp.spi ) > 1 then 'multi-parcel (' || ( select vpppc.num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = cp.spi ) || ') property'
         else 'parcel ' || cp.spi
     end ||
+        case ( select vp.status from pc_vicmap_parcel vp where vp.spi = cp.spi )
+            when 'P' then ' (proposed)'
+            else ''
+        end ||
         ': adding propnum ' ||
         cp.propnum || ' (' || ifnull ( cpa.ezi_address , '' ) || ')' ||
         case ( select vp.multi_assessment from pc_vicmap_parcel vp where vp.spi = cp.spi )
