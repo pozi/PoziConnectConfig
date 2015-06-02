@@ -71,11 +71,10 @@ select
         else ''
     end as allotment,
     case
-        when L.section_for_lot is not null then trim ( replace ( L.section_for_lot , ')' , '' ) )
-        when L.parish_section is not null then L.parish_section
+        when L.plan_no is null then ifnull ( L.section_for_lot , '' )
         else ''
     end as sec,
-    '' as block,
+    ifnull ( L.text6 , '' ) as block,
     ifnull ( L.parish_portion , '' ) as portion,
     '' as subdivision,
     case upper ( L.parish_desc )
