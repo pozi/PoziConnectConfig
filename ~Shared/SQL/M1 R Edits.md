@@ -30,6 +30,12 @@ Retire only properties that are multi-assessment.
 multi_assessment = 'Y'
 ```
 
+Exclude from retirement any parcels where the property number is a correct match for one of the property's parcels. (Introduced after Baw Baw discovered a property (18153) being removed even though one of its parcels was correctly matched to one of the multi-assessment's parcels.)
+
+```sql
+spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum in ( select propnum from pc_council_parcel cpx where cpx.spi = vp.spi ) )
+```
+
 Exclude from retirement the last record in the multi-assessment. This will ensure that the not all the records can be retired at once. Unfortunately this prevents us from targeting the last record for retirement.
 
 ```sql
