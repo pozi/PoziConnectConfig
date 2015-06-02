@@ -71,5 +71,18 @@ where
     vp.status = 'P' and
     cpa.num_address <> '' and
     vpa.num_address = '' and
-    ( cpa.crefno = cp.crefno or cpa.crefno = '' )
-group by cpa.propnum, vp.plan_number, vp.lot_number
+    ( cpa.crefno = cp.crefno or cpa.crefno = '' ) and
+    cpa.propnum in
+        ( select cpx.propnum
+            from
+                pc_council_parcel cpx,
+                pc_council_property_address cpax
+            where
+                cpx.propnum = cpax.propnum and
+                cpx.spi = vp.spi
+            order by
+                case
+                    when cpax.ezi_address not in ( select ezi_address from pc_vicmap_property_address ) then 1
+                    else 0
+                end desc
+            limit 1 )
