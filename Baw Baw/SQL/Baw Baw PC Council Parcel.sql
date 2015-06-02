@@ -37,7 +37,10 @@ select
 from
 (
 select
-    cast ( P.property_no as varchar ) as propnum,
+    case
+        when L.lot like 'CM%' then 'NCPR'
+        else cast ( P.property_no as varchar )
+    end as propnum,
     cast ( L.land_no as varchar ) as crefno,
     ifnull ( L.text5 , '' ) as internal_spi,
     ifnull ( substr ( P.override_legal_description , 1 , 99 ) , '' ) as summary,
@@ -162,6 +165,5 @@ from
 where
     A.association_type = 'PropLand' and
     A.date_ended is null and
-    P.status in ( 'C' , 'F' ) and
-    L.lot not like 'CM%'
+    P.status in ( 'C' , 'F' )
 )
