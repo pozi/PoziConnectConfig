@@ -28,6 +28,12 @@ Correspondence with Chrissie about the use of the auprparc.ttl_cde field:
 
 > Another tip.  If the ttl_cde is anything but 11 (CA) or 1(wildcard), there should be nothing in the ttl_no2 field.
 
+Also:
+
+> ttl_no5 is where Revenue Services key in the pure plan number, no plancode and the ttl_no1 field is where they key in the lot number in the majority of cases.
+
+> Do not take any notice of the plan code in ttl_no as this has been consistently keyed incorrectly as revenue staff mistakenly thought that a Lodged Plan 'LP' was a Plan of Subdivision hence 'PS' was keyed.
+
 ### Property Address query
 
 Copied from Melton, adjusted using Bayside's PIQA query
