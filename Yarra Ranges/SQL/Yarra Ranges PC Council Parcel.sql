@@ -45,37 +45,44 @@ select distinct
     cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     ifnull ( lpaparc.plancode || ': ' , '' ) || ifnull ( trim ( lpaparc.fmtparcel ) , '' ) as summary,
     case
-        when lpaparc.plancode is null then ''
-        else ifnull ( lpaparc.plancode , '' ) || ifnull ( lpaparc.plannum , '' )
+        when lpaparc.plannum is null then ''
+        else ifnull ( lpaparc.plancode , '' ) || ifnull ( cast ( cast ( lpaparc.plannum as integer ) as varchar ) , '' )
     end as plan_number,
     case
-        when lpaparc.plancode is null then ''
+        when lpaparc.plannum is null then ''
         else ifnull ( lpaparc.plancode , '' )
     end as plan_prefix,
     case
-        when lpaparc.plancode is null then ''
-        else ifnull ( lpaparc.plannum , '' )
+        when lpaparc.plannum is null then ''
+        else ifnull ( cast ( cast ( lpaparc.plannum as integer ) as varchar ) , '' )
     end as plan_numeral,
     case
-        when lpaparc.plancode is null then ''
-        when lpaparc.parcelcode = 'COMM' then 'CM' || ifnull ( lpaparc.parcelnum , '' )
-        when lpaparc.parcelcode = 'RD' then 'RD' || ifnull ( lpaparc.parcelnum , '' )
-        when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
-        else ifnull ( lpaparc.parcelnum , '' )
+        when lpaparc.plannum is null then ''
+        else
+            case
+                when lpaparc.parcelcode = 'R' then 'RES'
+                else ''
+            end ||
+            case
+                when lpaparc.parcelnum in ( 'PT' , 'PART' ) then ''
+                else ifnull ( lpaparc.parcelnum , '' )
+            end
     end as lot_number,
     case
-        when lpaparc.plancode is not null then ''
-        else ifnull ( trim ( replace ( replace ( lpacrwn.crownallotr , 'CA' , '' ) , 'PT' , '' ) ) , '' )
-    end as allotment,
-    ifnull ( lpasect.parcelsect , '' ) as sec,
-    '' as block,
-    case
-        when lpaparc.parcelcode = 'CP' then ifnull ( lpaparc.parcelnum , '' )
+        when lpaparc.plannum is null and lpacrwn.crownallotr is not null then ifnull ( trim ( replace ( replace ( lpacrwn.crownallotr , 'CA' , '' ) , 'PT' , '' ) ) , '' )
+        when lpaparc.plannum is null and lpaparc.parcelnum is not null then lpaparc.parcelnum
         else ''
-    end as portion,
+    end as allotment,
+    case
+        when lpaparc.plancode || lpaparc.plannum in ( 'LP1534','LP4348','LP4942','LP5022','LP6771','LP9422' ) then ifnull ( lpasect.parcelsect , '' )
+        when lpaparc.plannum is not null then ''
+        else ifnull ( replace ( lpasect.parcelsect , 'PT' , '' ) , '' )
+    end as sec,
+    '' as block,
+    '' as portion,
     '' as subdivision,
     case
-        when lpaparc.plancode is null then
+        when lpaparc.plannum is null then
             case upper ( lpadesc.descr )
                 when 'BEENAK' then '2101'
                 when 'BRIMBONGA' then '2229'
@@ -128,7 +135,7 @@ select distinct
         else ''
     end as parish_code,
     case
-        when lpaparc.plancode is null then
+        when lpaparc.plannum is null then
             case upper ( lpadesc.descr )
                 when 'BEENAK' then '5062'
                 when 'BRITANNIA CREEK' then '5112'
@@ -174,5 +181,6 @@ where
     lpatipa.status <> 'H' and
     lpaprti.status <> 'H' and
     lpatitl.status <> 'H' and
-    upper ( lpadesc.descr ) <> 'EVELYN'
+    upper ( lpadesc.descr ) <> 'EVELYN' and
+    lpadesc.descr <> 'CF'
 )
