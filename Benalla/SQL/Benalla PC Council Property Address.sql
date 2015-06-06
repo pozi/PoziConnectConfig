@@ -27,7 +27,7 @@ select
         rtrim ( ' ' || road_suffix ) ) as road_name_combined
 from (
 
-select
+select distinct
     assess as propnum,
     '' as status,
     '' as base_propnum,
@@ -106,7 +106,7 @@ select
     end as road_name,
     case
         when street_name like '% Avenue%' then 'AVENUE'
-        when street_name like '% Close%' then 'COLOSE'
+        when street_name like '% Close%' then 'CLOSE'
         when street_name like '% Court%' then 'COURT'
         when street_name like '% Crescent%' then 'CRESCENT'
         when street_name like '% Drive%' then 'DRIVE'
