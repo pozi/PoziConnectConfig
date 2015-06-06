@@ -66,10 +66,10 @@ select
         when substr ( trim ( [house_no.] ) , 3 , 1 ) = '-' then substr ( trim ( [house_no.] ) , 1 , 2 )
         when substr ( trim ( [house_no.] ) , 4 , 1 ) = '-' then substr ( trim ( [house_no.] ) , 1 , 3 )
     end as house_number_1,
-    case    
+    case
         when [house_no.] like '%-%' then ''
         when substr ( trim ( [house_no.] ) , -1 , 1 ) not in ( '0' , '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' ) then substr ( trim ( [house_no.] ) , -1 , 1 )
-        else ''        
+        else ''
     end as house_suffix_1,
     '' as house_prefix_2,
     case
@@ -78,10 +78,10 @@ select
         when substr ( trim ( [house_no.] ) , 4 , 1 ) = '-' then cast ( cast ( substr ( trim ( [house_no.] ) , 5 , 99 ) as integer ) as varchar )
         else ''
     end as house_number_2,
-    case    
+    case
         when [house_no.] like '%-%' and substr ( trim ( [house_no.] ) , -1 , 1 ) not in ( '0' , '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' ) then substr ( trim ( [house_no.] ) , -1 , 1 )
-        else ''        
-    end as house_suffix_2,    
+        else ''
+    end as house_suffix_2,
     case
         when street_name like '% Road North' then upper ( replace ( street_name , ' Road North' , '' ) )
         when street_name like '% Street East' then upper ( replace ( street_name , ' Street East' , '' ) )
@@ -103,7 +103,7 @@ select
         when street_name like '% Street%' then upper ( replace ( street_name , ' Street' , '' ) )
         when street_name like '% Track%' then upper ( replace ( street_name , ' Track' , '' ) )
         else upper ( street_name )
-    end as road_name, 
+    end as road_name,
     case
         when street_name like '% Avenue%' then 'AVENUE'
         when street_name like '% Close%' then 'COLOSE'
@@ -113,12 +113,12 @@ select
         when street_name like '% Grove%' then 'GROVE'
         when street_name like '% Highway%' then 'HIGHWAY'
         when street_name like '% Lane%' then 'LANE'
-        when street_name like '% Parade%' then 'PARADE' 
-        when street_name like '% Place%' then 'PLACE' 
-        when street_name like '% Rise%' then 'RISE' 
+        when street_name like '% Parade%' then 'PARADE'
+        when street_name like '% Place%' then 'PLACE'
+        when street_name like '% Rise%' then 'RISE'
         when street_name like '% Road%' then 'ROAD'
-        when street_name like '% Street%' then 'STREET' 
-        when street_name like '% Track%' then 'TRACK' 
+        when street_name like '% Street%' then 'STREET'
+        when street_name like '% Track%' then 'TRACK'
         else ''
     end as road_type,
     case

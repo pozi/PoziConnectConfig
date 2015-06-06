@@ -47,15 +47,15 @@ select distinct
     '' as summary,
     case
         when plan_number = 'PP' then ''
-        else replace ( plan_number , ' ' , '' ) 
+        else replace ( plan_number , ' ' , '' )
     end as plan_number,
     case
         when plan_number = 'PP' then ''
-        else substr ( plan_number , 1 , 2 ) 
+        else substr ( plan_number , 1 , 2 )
     end as plan_prefix,
     case
         when plan_number = 'PP' then ''
-        else substr ( plan_number , 4 , 99 ) 
+        else substr ( plan_number , 4 , 99 )
     end as plan_numeral,
     case
         when plan_number = 'PP' then ''
