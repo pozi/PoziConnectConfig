@@ -44,7 +44,7 @@ select distinct
     cpa.house_suffix_2 as house_suffix_2,
     cpa.access_type as access_type,
     case
-        when cpa.road_locality not in ( select road_locality from pc_vicmap_property_address ) then 'Y'
+        when replace ( replace ( cpa.road_locality , '''' , '' ) , '-' , ' ' ) not in ( select replace ( road_locality , '-' , ' ' ) from pc_vicmap_property_address ) then 'Y'
         else ''
     end as new_road,
     cpa.road_name as road_name,
