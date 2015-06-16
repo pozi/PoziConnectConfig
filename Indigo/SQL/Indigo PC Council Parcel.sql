@@ -80,6 +80,7 @@ select
             end
     end ||
     case
+        when substr ( Parcel.PlanNo , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then substr ( Parcel.PlanNo , 3 , 6 )
         when substr ( Parcel.PlanNo , -1 , 1 ) in ( '0','1','2','3','4','5','6','7','8','9' ) then Parcel.PlanNo
         else substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
     end as plan_number,
