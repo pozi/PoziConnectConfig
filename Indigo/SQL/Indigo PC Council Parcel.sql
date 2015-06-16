@@ -177,6 +177,7 @@ from
     lynx_propertys Property on Parcel.PropertyNumber = Property.Property
 where
     Parcel.Status = 'Active' and
-    Parcel.Ended is null
+    Parcel.Ended is null and
+    Property.Type not in ( 672 , 700 )
 )
 
