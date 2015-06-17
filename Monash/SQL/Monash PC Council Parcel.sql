@@ -50,7 +50,7 @@ select distinct
     ifnull ( lpaparc.plancode || ': ' , '' ) || ifnull ( trim ( lpaparc.fmtparcel ) , '' ) as summary,
     case
         when lpaparc.plancode is null or lpaparc.plancode not in ( '' , 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then ''
-        when substr ( plannum , 1 , 1 ) in ( '1','2','3','4','5','6','7','8','9' ) then ifnull ( lpaparc.plancode , '' ) || cast ( cast ( lpaparc.plannum as integer ) as varchar )
+        when substr ( trim ( lpaparc.plannum ) , 1 , 1 ) in ( '1','2','3','4','5','6','7','8','9' ) then ifnull ( lpaparc.plancode , '' ) || cast ( cast ( trim ( lpaparc.plannum ) as integer ) as varchar )
         else ifnull ( lpaparc.plancode , '' ) || ifnull ( lpaparc.plannum , '' )
     end as plan_number,
     case
@@ -59,7 +59,7 @@ select distinct
     end as plan_prefix,
     case
         when lpaparc.plancode is null or lpaparc.plancode not in ( '' , 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then ''
-        when substr ( plannum , 1 , 1 ) in ( '1','2','3','4','5','6','7','8','9' ) then cast ( cast ( lpaparc.plannum as integer ) as varchar )
+        when substr ( trim ( lpaparc.plannum ) , 1 , 1 ) in ( '1','2','3','4','5','6','7','8','9' ) then cast ( cast ( trim ( lpaparc.plannum ) as integer ) as varchar )
         else ifnull ( lpaparc.plannum , '' )
     end as plan_numeral,
     case
