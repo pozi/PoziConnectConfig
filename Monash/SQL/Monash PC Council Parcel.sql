@@ -45,6 +45,7 @@ select distinct
     cast ( cast ( lpaparc.tpklpaparc as integer ) as varchar ) as crefno,
     case
         when lpaparc.parcelcode in ( 'PT' , 'PTL' , 'PTRES' , 'PTU' ) then 'P'
+        when lpaparc.parcelnum in ( 'PT' , 'PTL' , 'PART' ) then 'P'
         else ''
     end as part,
     ifnull ( lpaparc.plancode || ': ' , '' ) || ifnull ( trim ( lpaparc.fmtparcel ) , '' ) as summary,
@@ -82,7 +83,7 @@ select distinct
                 when parcelcode in ( 'PTRES' , 'RES' ) then 'RES'
                 else ''
             end ||
-            ifnull ( lpaparc.parcelnum , '' )
+            ifnull ( replace ( replace ( replace ( lpaparc.parcelnum , 'PTL' , '' ) , 'PT' , '' ) , 'PART' , '' ) , '' )
     end as lot_number,
     case
         when lpaparc.plancode is null or lpaparc.plancode not in ( '' , 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then replace ( ifnull ( lpaparc.parcelnum , '' ) , 'PT' , '' )
