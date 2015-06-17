@@ -64,7 +64,13 @@ select
         case when propnum not in ( select propnum from pc_council_property_address ) and propnum <> 'NCPR' then ' (doesn''t exist in council)' else '' end ||
         ' from multi-assessment (' ||
         ( select vppc.num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = vp.spi ) ||
-        ') property' as comments,
+        ') property' ||
+        case
+            when propnum in ( select propnum from pc_council_property_address ) then
+            ' so it can be later matched to ' ||
+            ( select spi from pc_vicmap_parcel vpx where vpx.spi in ( select spi from pc_council_parcel pc where pc.propnum = vp.propnum ) limit 1 )
+            else ''
+        end as comments,
     centroid ( vp.geometry ) as geometry
 from
     pc_vicmap_parcel vp
