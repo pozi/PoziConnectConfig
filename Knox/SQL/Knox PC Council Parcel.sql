@@ -111,8 +111,8 @@ where
     lpatipa.status <> 'H' and
     lpaprti.status <> 'H' and
     lpatitl.status <> 'H' and
-    lraassm.status <> 'H' and
     lraassm.assmnumber is not null and
     lpaprtp.abbrev not in ( 'PARENT' , 'OBSOLETE' ) and
-    not ( lpaprtp.abbrev = 'HEADER' and lpaparc.parcelnum not like 'CM%' )
+    not ( lpaprtp.abbrev = 'HEADER' and lpaparc.parcelnum not like 'CM%' ) and
+    not ( lraassm.status = 'H' and lpaparc.parcelnum not like 'CM%' )
 )
