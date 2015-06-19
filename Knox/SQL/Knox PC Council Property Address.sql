@@ -191,7 +191,7 @@ where
     lpaprop.tfklpacncl = 12 and
     lpaaddr.addrtype = 'P' and
     lparole.fklparolta = 'LRA' and
-    lpaprtp.abbrev not in ( 'PARENT' , 'OBSOLETE' )
+    lpaprtp.abbrev <> 'OBSOLETE'
 )
 )
 )
