@@ -190,7 +190,9 @@ where
     lpaprop.status <> 'H' and
     lpaprop.tfklpacncl = 12 and
     lpaaddr.addrtype = 'P' and
-    lparole.fklparolta = 'LRA'
+    lparole.fklparolta = 'LRA' and
+    lpaprtp.abbrev not in ( 'HEADER' , 'PARENT' , 'OBSOLETE' ) and
+    lraassm.status <> 'H'
 )
 )
 )
