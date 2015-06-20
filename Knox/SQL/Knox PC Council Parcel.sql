@@ -47,13 +47,13 @@ select distinct
         when 'LOT PT' then 'P'
         else ''
     end as part,
-    ifnull ( lpaparc.plancode || ': ' , '' ) || ifnull ( trim ( lpaparc.fmtparcel ) , '' ) as summary,
+    ifnull ( lpaprtp.abbrev || ': ' , '' ) || ifnull ( lpaparc.plancode || ': ' , '' ) || ifnull ( trim ( lpaparc.fmtparcel ) , '' ) as summary,
     case
         when lpaparc.plancode is null or lpaparc.plancode = 'CA' then ''
         when lpaparc.plannum like 'R%' then 'RP' || replace ( replace ( lpaparc.plannum , 'RP' , '' ) , 'R' , '' )
         when lpaparc.plannum like 'CS%' then 'CS' || replace ( lpaparc.plannum , 'CS' , '' )
         when substr ( plannum , 1 , 1 ) in ( '1','2','3','4','5','6','7','8','9' ) then ifnull ( lpaparc.plancode , '' ) || cast ( cast ( lpaparc.plannum as integer ) as varchar )
-        else ifnull ( lpaparc.plancode , '' ) || ifnull ( lpaparc.plannum , '' )
+        else ifnull ( lpaparc.plancode , '' ) || ifnull ( trim ( lpaparc.plannum ) , '' )
     end as plan_number,
     case
         when lpaparc.plancode is null or lpaparc.plancode = 'CA' then ''
@@ -66,11 +66,11 @@ select distinct
         when lpaparc.plannum like 'R%' then replace ( replace ( lpaparc.plannum , 'RP' , '' ) , 'R' , '' )
         when lpaparc.plannum like 'CS%' then replace ( lpaparc.plannum , 'CS' , '' )
         when substr ( plannum , 1 , 1 ) in ( '1','2','3','4','5','6','7','8','9' ) then cast ( cast ( lpaparc.plannum as integer ) as varchar )
-        else ifnull ( lpaparc.plannum , '' )
+        else ifnull ( trim ( lpaparc.plannum ) , '' )
     end as plan_numeral,
     case
         when lpaparc.plancode is null or lpaparc.plancode = 'CA' then ''
-        else replace ( ifnull ( lpaparc.parcelnum , '' ) , 'UT' , '' )
+        else replace ( replace ( ifnull ( lpaparc.parcelnum , '' ) , 'UT' , '' ) , ' ' , '' )
     end as lot_number,
     case
         when ( lpaparc.plancode = 'CA' or lpaparc.parcelcode = 'CA' ) and lpaparc.parcelnum is not null then lpaparc.parcelnum
