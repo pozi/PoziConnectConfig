@@ -78,7 +78,7 @@ select
     case
         when StreetType.Type like 'Road %' then 'ROAD'
         when StreetType.Type like 'Street %' then 'STREET'
-        else upper ( StreetType.Type )
+        else upper ( ifnull ( StreetType.Type , '' ) )
     end as road_type,
     case
         when StreetType.Type like '% North' then 'N'
