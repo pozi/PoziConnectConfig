@@ -57,7 +57,7 @@ vp.propnum not in ( select vpx.propnum from pc_vicmap_parcel vpx where vpx.spi i
 Retire only those properties that have a valid spi. (Properties that don't have a valid spi shouldn't be retired from their existing multi-assessment because they can't be automatically matched anywhere else in Vicmap.)
 
 ```
-propnum in ( select propnum from pc_council_parcel cp where spi not in ( select x.spi from pc_vicmap_parcel x ) )
+propnum not in ( select propnum from pc_council_parcel cp where spi not in ( select x.spi from pc_vicmap_parcel x where spi <> '' ) )
 ```
 
 Eliminate duplicate records.
