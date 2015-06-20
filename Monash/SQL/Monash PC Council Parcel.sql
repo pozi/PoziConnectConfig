@@ -42,7 +42,7 @@ select distinct
         when 'C' then 'A'
         when 'A' then 'P'
     end as status,
-    cast ( cast ( lpaparc.tpklpaparc as integer ) as varchar ) as crefno,
+    cast ( cast ( lpaprop.tpklpaprop as integer ) as varchar ) as crefno,
     case
         when lpaparc.parcelcode in ( 'PT' , 'PTL' , 'PTRES' , 'PTU' ) then 'P'
         when lpaparc.parcelnum in ( 'PT' , 'PTL' , 'PART' ) then 'P'
