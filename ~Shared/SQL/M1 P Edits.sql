@@ -72,7 +72,7 @@ select
         case vp.propnum
             when '' then '(blank)'
             else vp.propnum  ||
-                case when vp.propnum not in ( select propnum from pc_council_property_address ) and vp.propnum <> 'NCPR' then ' (doesn''t exist in council)' else '' end
+                case when vp.propnum not in ( select propnum from pc_council_property_address ) and vp.propnum <> 'NCPR' then ' (invalid)' else '' end
         end ||
         ifnull ( ' (' || ( select ezi_address from pc_vicmap_property_address where property_pfi = vp.property_pfi and is_primary <> 'N' limit 1 ) || ')'  , '' ) || ' with ' ||
         cp.propnum ||
