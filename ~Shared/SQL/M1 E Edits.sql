@@ -81,7 +81,7 @@ select
         else 'parcel ' || vp.spi
     end || ': removing propnum ' || vp.propnum ||
     ' (source: ' || ( select source from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi limit 1 ) || ')' ||
-    ' (doesn''t exist in council)' as comments,
+    ' (invalid)' as comments,
     centroid ( vp.geometry ) as geometry
 from
     pc_vicmap_parcel vp

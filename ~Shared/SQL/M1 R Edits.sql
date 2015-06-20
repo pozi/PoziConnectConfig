@@ -61,7 +61,7 @@ select
     end ||
         ': removing propnum ' ||
         case propnum when '' then '(blank)' else propnum end ||
-        case when propnum not in ( select propnum from pc_council_property_address ) and propnum <> 'NCPR' then ' (doesn''t exist in council)' else '' end ||
+        case when propnum not in ( select propnum from pc_council_property_address ) and propnum <> 'NCPR' then ' (invalid)' else '' end ||
         ' from multi-assessment (' ||
         ( select vppc.num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = vp.spi ) ||
         ') property' ||
