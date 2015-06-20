@@ -63,50 +63,40 @@ select
     end as internal_spi,
     Property.Lot as summary,
     '' as part,
-    case
-        when Parcel.TypeAbrev = 'CrD' or Parcel.PlanNo = '' then ''
-        when Parcel.TypeAbrev in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then Parcel.TypeAbrev
-        else
-            case
-                when Property.Lot like '%CP%' then 'CP'
-                when Property.Lot like '%CS%' then 'CS'
-                when Property.Lot like '%LP%' then 'LP'
-                when Property.Lot like '%PC%' then 'PC'
-                when Property.Lot like '%PS%' then 'PS'
-                when Property.Lot like '%RP%' then 'RP'
-                when Property.Lot like '%SP%' then 'SP'
-                when Property.Lot like '%TP%' then 'TP'
-                else ''
-            end
-    end ||
-    case
-        when substr ( Parcel.PlanNo , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then substr ( Parcel.PlanNo , 3 , 6 )
-        when substr ( Parcel.PlanNo , -1 , 1 ) in ( '0','1','2','3','4','5','6','7','8','9' ) then Parcel.PlanNo
-        else substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
-    end as plan_number,
-    case
-        when Parcel.TypeAbrev = 'CrD' then ''
-        when Parcel.TypeAbrev in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then Parcel.TypeAbrev
-        else
-            case
-                when Property.Lot like '%CP%' then 'CP'
-                when Property.Lot like '%CS%' then 'CS'
-                when Property.Lot like '%LP%' then 'LP'
-                when Property.Lot like '%PC%' then 'PC'
-                when Property.Lot like '%PS%' then 'PS'
-                when Property.Lot like '%RP%' then 'RP'
-                when Property.Lot like '%SP%' then 'SP'
-                when Property.Lot like '%TP%' then 'TP'
-                else ''
-            end
+    case Parcel.Type
+        when 'Lodged Plan' then 'LP'
+        when 'Title Plan' then 'TP'
+        when 'Plan of Subdivision' then 'PS'
+        when 'Consolidation Plan' then 'CP'
+        when 'Plan of Consolidation' then 'PC'
+        when 'Strata Plan' then 'RP'
+        when 'Stratum Plan' then 'SP'
+        else ''
+    end || case
+            when Parcel.Type = 'Crown Description' then ''
+            when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
+            when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
+            else ''
+        end as plan_number,
+    case Parcel.Type
+        when 'Lodged Plan' then 'LP'
+        when 'Title Plan' then 'TP'
+        when 'Plan of Subdivision' then 'PS'
+        when 'Consolidation Plan' then 'PC'
+        when 'Strata Plan' then 'RP'
+        when 'Stratum Plan' then 'SP'
+        else ''
     end as plan_prefix,
     case
-        when Parcel.PlanNo = '' then ''
-        when substr ( Parcel.PlanNo , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then substr ( Parcel.PlanNo , 3 , 99 )
-        when substr ( Parcel.PlanNo , -1 , 1 ) in ( '0','1','2','3','4','5','6','7','8','9' ) then Parcel.PlanNo
-        else substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
+        when Parcel.Type = 'Crown Description' then ''
+        when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
+        when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
+        else ''
     end as plan_numeral,
-    Parcel.Lot as lot_number,
+    case
+        when Parcel.Type = 'Crown Description' then ''
+        else Parcel.Lot
+    end as lot_number,
     Parcel.CrownAllotment as allotment,
     Parcel.Section as sec,
     '' as block,
@@ -210,4 +200,3 @@ where
     Parcel.Ended is null and
     Property.Type not in ( 672 , 700 )
 )
-
