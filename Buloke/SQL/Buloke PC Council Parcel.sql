@@ -95,6 +95,7 @@ select
     Parcel.CrownAllotment as allotment,
     case
         when Parcel.Type = 'Crown Description' and ifnull ( Parcel.PlanNo , '' ) <> '' then ''
+        when ifnull ( Parcel.PlanNo , '' ) <> '' and Parcel.CrownAllotment <> '' then ''
         else Parcel.Section
     end as sec,
     '' as block,
