@@ -73,7 +73,7 @@ select
         when 'Stratum Plan' then 'SP'
         else ''
     end || case
-            when Parcel.Type = 'Crown Description' then ''
+            when ifnull ( Parcel.PlanNo , '' ) then ''
             when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
             when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
             else ''
@@ -89,17 +89,20 @@ select
         else ''
     end as plan_prefix,
     case
-        when Parcel.Type = 'Crown Description' then ''
+        when ifnull ( Parcel.PlanNo , '' ) then ''
         when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
         when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
         else ''
     end as plan_numeral,
     case
-        when Parcel.Type = 'Crown Description' then ''
+        when ifnull ( Parcel.PlanNo , '' ) = '' then ''
         else Parcel.Lot
     end as lot_number,
     Parcel.CrownAllotment as allotment,
-    Parcel.Section as sec,
+    case
+        when Parcel.Type = 'Crown Description' and ifnull ( Parcel.PlanNo , '' ) <> '' then ''
+        else Parcel.Section
+    end as sec,
     '' as block,
     Parcel.CrownPortion as portion,
     '' as subdivision,
