@@ -73,7 +73,7 @@ select
         when 'Stratum Plan' then 'SP'
         else ''
     end || case
-            when ifnull ( Parcel.PlanNo , '' ) then ''
+            when ifnull ( Parcel.PlanNo , '' ) = '' then ''
             when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
             when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
             else ''
@@ -89,7 +89,7 @@ select
         else ''
     end as plan_prefix,
     case
-        when ifnull ( Parcel.PlanNo , '' ) then ''
+        when ifnull ( Parcel.PlanNo , '' ) = '' then ''
         when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
         when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
         else ''
