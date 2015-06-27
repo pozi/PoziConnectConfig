@@ -39,7 +39,7 @@ select distinct
     '' as hsa_flag,
     '' as hsa_unit_id,
     '' as blg_unit_type,
-    case 
+    case
         when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then 'G'
         else ''
     end as blg_unit_prefix_1,
@@ -49,11 +49,11 @@ select distinct
     end as blg_unit_id_1,
     case
         when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then ''
-        else ifnull ( auprstad.unt_alp , '' ) 
+        else ifnull ( auprstad.unt_alp , '' )
     end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     ifnull ( auprstad.unt_end , '' ) as blg_unit_id_2,
-    ifnull ( auprstad.end_alp , '' ) as blg_unit_suffix_2,
+    '' as blg_unit_suffix_2,
     '' as floor_type,
     ifnull ( auprstad.flo_pre , '' ) as floor_prefix_1,
     ifnull ( auprstad.flo_num , '' ) as floor_no_1,
