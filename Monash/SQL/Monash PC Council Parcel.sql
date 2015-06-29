@@ -100,7 +100,10 @@ select distinct
         when 'PRAHRAN' then '3416'
         else ''
     end as parish_code,
-    '' as township_code,
+    case
+        when lpaparc.fmtparcel like '%Township Oakleigh%' then '5614'
+        else ''
+    end as township_code,
     '348' as lga_code,
     cast ( cast ( lpaprop.tpklpaprop as integer ) as varchar ) as assnum
 from
