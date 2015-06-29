@@ -101,10 +101,16 @@ select
         else cast ( lpaaddr.endunitsfx as varchar )
     end as blg_unit_suffix_2,
     case
-        when lpaadfm.tpklpaadfm = 1803 then ''
-        when upper ( lpaaddr.lvlprefix ) in ( '1ST FLOOR' , '2ND FLOOR' , '3RD FLOOR' , '1' , '2' , '3' ) then 'FL'
-        when upper ( lpaaddr.lvlprefix ) in ( 'GR' , 'GRD FLOOR' ) then 'G'
-        when lpaaddr.strlvlnum <> 0 then upper ( lpaaddr.lvlprefix )
+        when lpaaddr.lvlprefix is null then ''
+        when lpaaddr.lvlprefix = 'Carpark' then 'P'
+        when lpaaddr.lvlprefix = 'G0' then 'G'
+        when lpaaddr.lvlprefix = 'Ground' then 'G'
+        when lpaaddr.lvlprefix = 'Ground Lvl' then 'G'
+        when lpaaddr.lvlprefix = 'Level' then 'L'
+        when lpaaddr.lvlprefix = 'Levels' then 'L'
+        when lpaaddr.lvlprefix = 'LG0' then 'LG'
+        when lpaaddr.lvlprefix = 'Roof' then 'RT'
+        when lpaaddr.lvlprefix in ( 'B','FL','G','L','LB','LG','LL','M','OD','P','PD','PF','RT','SB','UG') then lpaaddr.lvlprefix
         else ''
     end as floor_type,
     '' as floor_prefix_1,
