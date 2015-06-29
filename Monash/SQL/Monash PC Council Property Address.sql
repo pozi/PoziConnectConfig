@@ -59,24 +59,21 @@ select
     end as hsa_unit_id,
     case
         when lpaadfm.tpklpaadfm = 1803 then ''
-        else case upper ( lpaaddr.unitprefix )
-            when 'ATM' then 'ATM'
-            when 'APARTMENT' then 'APT'
-            when 'HOSTEL' then 'HOST'
-            when 'KIOSK' then 'KSK'
-            when 'LOT' then 'LOT'
-            when 'OFF' then 'OFFC'
-            when 'SH' then 'SHOP'
-            when 'STE' then 'SE'
-            when 'SUITE' then 'SE'
-            when 'UNIT' then 'UNIT'
+        else case
+            when lpaaddr.unitprefix = 'ATM' then 'ATM'
+            when lpaaddr.unitprefix = 'Factory' then 'FCTY'
+            when lpaaddr.unitprefix = 'Office' then 'OFFC'
+            when lpaaddr.unitprefix = 'Shop' then 'SHOP'
+            when lpaaddr.unitprefix = 'Suite' then 'SE'
+            when lpaaddr.unitprefix = 'Tower' then 'TWR'
+            when lpaaddr.unitprefix = 'Unit' then 'UNIT'
+            when lpaaddr.lvlprefix like 'Bldg%' then 'BLDG'
             else ''
         end
     end as blg_unit_type,
     case
         when lpaadfm.tpklpaadfm = 1803 then ''
-        when lpaaddr.unitprefix is null or lpaaddr.unitprefix = '0' then ''
-        when length ( lpaaddr.unitprefix ) <= 2 and upper ( lpaaddr.unitprefix ) not in ( 'SH' ) then upper ( lpaaddr.unitprefix )
+        when lpaaddr.lvlprefix like 'Bldg %' then ifnull ( substr ( lpaaddr.lvlprefix , 6 , 1 ) , '' )
         else ''
     end as blg_unit_prefix_1,
     case
@@ -117,10 +114,6 @@ select
     case
         when lpaadfm.tpklpaadfm = 1803 then ''
         when lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
-        when upper ( lpaaddr.lvlprefix ) = '1ST FLOOR' then '1'
-        when upper ( lpaaddr.lvlprefix ) = '2ND FLOOR' then '2'
-        when upper ( lpaaddr.lvlprefix ) = '3RD FLOOR' then '3'
-        when upper ( lpaaddr.lvlprefix ) in ( '1' , '2' , '3' ) then lpaaddr.lvlprefix
         else ''
     end as floor_no_1,
     '' as floor_suffix_1,
