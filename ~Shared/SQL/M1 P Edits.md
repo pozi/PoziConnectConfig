@@ -82,7 +82,8 @@ Include only parcels where the Vicmap `propnum` value:
 
 * is either blank or NCPR, or
 * doesn't exist in Council, or
-* is matched to more than one parcel
+* is matched to more than one parcel, or
+* the property being replaced can be matched to another parcel
 
 This is a conservative approach that ensures that we are don't completely remove valid property numbers from Vicmap.
 
@@ -91,7 +92,8 @@ This is a conservative approach that ensures that we are don't completely remove
 ```sql
 ( vp.propnum in ( '' , 'NCPR' ) or
   vp.propnum not in ( select pc_council_property_address.propnum from pc_council_property_address )  or
-  ( select num_parcels from pc_vicmap_property_parcel_count where pc_vicmap_property_parcel_count.propnum = vp.propnum ) > 1 )
+  ( select num_parcels from pc_vicmap_property_parcel_count where pc_vicmap_property_parcel_count.propnum = vp.propnum ) > 1 or
+  vp.propnum in ( select propnum from pc_council_parcel cpx where cpx.spi in ( select spi from pc_vicmap_parcel where spi <> '' ) ) )
 ```
 
 Exclude matches where Vicmap parcels status is proposed and the Council property number has multiple parcels associated with it (because these could get merged in Vicmap).
