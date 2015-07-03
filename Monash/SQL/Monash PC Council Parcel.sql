@@ -91,7 +91,10 @@ select distinct
     end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     '' as block,
-    '' as portion,
+    case
+        when lpaparc.plancode is null or lpaparc.plancode not in ( '' , 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then ifnull ( lpaparc.plannum , '' )
+        else ''
+    end as portion,
     '' as subdivision,
     case upper ( lpadesc.descr )
         when 'DANDENONG' then '2483'
