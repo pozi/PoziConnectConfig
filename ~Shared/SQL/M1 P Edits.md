@@ -102,6 +102,12 @@ Exclude matches where Vicmap parcels status is proposed and the Council property
 not ( vp.status = 'P' and ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cp.propnum ) > 1 )
 ```
 
+Exclude properties being matched to an approved parcel if the number is already matched to a proposed parcel.
+
+```sql
+not ( vp.status = 'A' and cp.propnum in ( select propnum from pc_vicmap_parcel vpx where vpx.status = 'P' ) )
+```
+
 Return only one record per parcel.
 
 ```sql
