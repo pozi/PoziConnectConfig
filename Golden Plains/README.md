@@ -1,5 +1,4 @@
 # Golden Plains
+Query templates copied from Baw Baw.
 
-## Property Address Query
-
-## Parcel Query
+Queries adapted from existing Common Ground queries for Golden Plains.

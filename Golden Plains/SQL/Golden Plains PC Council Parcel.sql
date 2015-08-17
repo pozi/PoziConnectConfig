@@ -37,132 +37,128 @@ select
 from
 (
 select
+    substr ( parcel_index.assess_no , 2 , 99 ) as propnum,
+    '' as crefno,
+    '' as internal_spi,
+    parcels.land_parcel as summary,
+    '' as status,
     case
-        when L.lot like 'CM%' then 'NCPR'
-        else cast ( P.property_no as varchar )
-    end as propnum,
-    cast ( L.land_no as varchar ) as crefno,
-    ifnull ( L.text5 , '' ) as internal_spi,
-    ifnull ( substr ( P.override_legal_description , 1 , 99 ) , '' ) as summary,
-    case P.status
-        when 'F' then 'P'
-        else ''
-    end as status,
-    case
-        when upper ( L.plan_no ) like '%(PT%' then 'P'
-        when ifnull ( part_lot , '' ) <> '' then 'P'
+        when lot_no like '%PT%' then 'P'
         else ''
     end as part,
     case
-        when substr ( trim ( ifnull ( replace ( upper ( L.plan_no ) , '(PT' , '' ) , '' ) ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( ifnull ( L.plan_desc , '' ) ) || trim ( ifnull ( replace ( upper ( L.plan_no ) , '(PT' , '' ) , '' ) )
-        else trim ( ifnull ( L.plan_desc , '' ) ) || trim ( substr ( trim ( ifnull ( L.plan_no , '' ) ) , 1 , length ( trim ( ifnull ( L.plan_no , '' ) ) ) - 1 ) )
+        when parcel_type in ( 'L' , 'CP' , 'PC' , 'RS' ) then part_location
+        else ''
     end as plan_number,
     case
-        when L.plan_desc in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then L.plan_desc
+        when parcel_type in ( 'L' , 'CP' , 'PC' , 'RS' ) then substr ( part_location , 1 , 2 )
         else ''
     end as plan_prefix,
     case
-        when substr ( trim ( replace ( upper ( L.plan_no ) , '(PT' , '' ) ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( replace ( upper ( L.plan_no ) , '(PT' , '' ) )
-        else trim ( ifnull ( substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' ) )
+        when parcel_type in ( 'L' , 'CP' , 'PC' , 'RS' ) then substr ( part_location , 3 , 6 )
+        else ''
     end as plan_numeral,
-    upper ( replace ( replace ( ifnull ( upper ( L.lot ) , '' ) , 'PT' , '' ) , ' ' , '' ) ) as lot_number,
     case
-        when L.plan_desc is null then replace ( replace ( ifnull ( upper ( L.text3 ) , '' ) , 'PT' , '' ) , ' ' , '' )
+  		  when Parcel_Type in ( 'L' , 'RS' ) then lot_no
+		    else ''
+  	end as lot_number,
+    case
+        when parcel_type = 'CA' then trim ( replace ( lot_no , ' PT' , ' ' ) )
         else ''
     end as allotment,
     case
-        when L.plan_no is null then ifnull ( L.section_for_lot , '' )
-        else ''
-    end as sec,
-    ifnull ( L.text6 , '' ) as block,
-    ifnull ( L.parish_portion , '' ) as portion,
+  		  when Parcel_Type = 'CA' then ifnull ( location , '' )
+  	    else ''
+  	end as sec,
+    '' as block,
+    '' as portion,
     '' as subdivision,
-    case upper ( L.parish_desc )
-        when 'ALLAMBEE' then '2010'
-        when 'ALLAMEAST' then '2011'
-        when 'ALLAMBEEEA' then '2011'
-        when 'BAWBAW' then '2093'
-        when 'BINNUC' then '2154'
-        when 'BOOLABOOLA' then '2183'
-        when 'BULLUNG' then '2268'
-        when 'BUNDOWRA' then '2274'
-        when 'BUTGULLA' then '2310'
-        when 'COORNBURT' then '2443'
-        when 'DARNUM' then '2494'
-        when 'DROUINEAST' then '2547'
-        when 'DROUINWEST' then '2548'
-        when 'ELLINGING' then '2587'
-        when 'FUMINA' then '2623'
-        when 'FUMINANTH' then '2624'
-        when 'JINDIVICK' then '2801'
-        when 'LANGLANGE' then '2969'
-        when 'LONNGWARRY' then '3011'
-        when 'LONGWARRY' then '3011'
-        when 'MATLOCK' then '3073'
-        when 'MOE' then '3135'
-        when 'MOOLAP' then '3156'
-        when 'MOOLPAH' then '3156'
-        when 'MOONDARRA' then '3158'
-        when 'NARRACAN' then '3273'
-        when 'NARRACANS' then '3274'
-        when 'NAYOOK' then '3289'
-        when 'NAYOOKWEST' then '3290'
-        when 'NEERIM' then '3292'
-        when 'NEERIMEAST' then '3293'
-        when 'NOOJEE' then '3317'
-        when 'NOOJEEEAST' then '3318'
-        when 'NUMBRUK' then '3336'
-        when 'POOWONG' then '3411'
-        when 'POOWONGE' then '3412'
-        when 'STCLAIR' then '3464'
-        when 'TANJIL' then '3542'
-        when 'TANJILEAST' then '3543'
-        when 'TELBIT' then '3573'
-        when 'TELBITWEST' then '3574'
-        when 'TOOMBON' then '3622'
-        when 'TOORONGO' then '3632'
-        when 'WALHALLA' then '3702'
-        when 'WARRAGUL' then '3748'
-        when 'WURUTWUN' then '3914'
-        when 'YANNATHAN' then '3953'
-        when 'YARRAGON' then '3962'
+    case district
+        when 'ARGYLE' then '2027'
+        when 'BAMGANIE' then '2060'
+        when 'BURTWARRAH' then '2308'
+        when 'CARDIGAN' then '2344'
+        when 'CARGERIE' then '2345'
+        when 'CARNGHAM' then '2351'
+        when 'CARRAH' then '2355'
+        when 'CLARKESDALE' then '2388'
+        when 'COMMERALGHIP' then '2417'
+        when 'COOLEBARGHURK' then '2429'
+        when 'CORINDHAP' then '2452'
+        when 'DARRIWIL' then '2498'
+        when 'DEREEL' then '2511'
+        when 'DOROQ' then '2540'
+        when 'DURDIDWARRAH' then '2568'
+        when 'ENFIELD' then '2592'
+        when 'GALLA' then '2629'
+        when 'GHERINEGHAP' then '2650'
+        when 'HADDON' then '2740'
+        when 'HESSE' then '2753'
+        when 'KURUC-A-RUC' then '2947'
+        when 'LAWALUK' then '2980'
+        when 'LYNCHFIELD' then '3024'
+        when 'MANNIBADAR' then '3054'
+        when 'MEREDITH' then '3090'
+        when 'MINDAI' then '3109'
+        when 'MOREEP' then '3188'
+        when 'MURDEDUKE' then '3224'
+        when 'MURGHEBOLUC' then '3225'
+        when 'NARINGHIL NORTH' then '3268'
+        when 'NARINGHIL SOUTH' then '3269'
+        when 'POORNEET' then '3410'
+        when 'SCARSDALE' then '3477'
+        when 'SHELFORD' then '3484'
+        when 'SHELFORD WEST' then '3485'
+        when 'SMYTHESDALE' then '3491'
+        when 'WABDALLAH' then '3692'
+        when 'WALLINDUC' then '3709'
+        when 'WARRAMBINE' then '3752'
+        when 'WINGEEL' then '3836'
+        when 'WURROOK' then '3912'
+        when 'YARIMA' then '3959'
+        when 'YARROWEE' then '3971'
+        when 'GHERINGHAP' then '2650'
+        when 'NARINGHIL NTH' then '3268'
+        when 'NARINGHIL STH' then '3269'
         else ''
     end as parish_code,
-    case upper ( L.text4 )
-        when 'ABERFELDY' then '5001'
-        when 'BULNBULN' then '5129'
-        when 'CHILDERS' then '5172'
-        when 'COALVILLE' then '5179'
-        when 'COOPERSCK' then '5193'
-        when 'CROSSOVER' then '5213'
-        when 'DARNUM' then '5227'
-        when 'DROUIN' then '5252'
-        when 'GOULD' then '5341'
-        when 'LONGWARRY' then '5476'
-        when 'MATLOCK' then '5511'
-        when 'NEERIM' then '5582'
-        when 'NILMA' then '5596'
-        when 'NOOJEE' then '5600'
-        when 'ROKEBY' then '5679'
-        when 'ST.CLAIR' then '5693'
-        when 'TOOMBON' then '5794'
-        when 'TRAFALGAR' then '5800'
-        when 'WALHALLA' then '5819'
-        when 'WARRAGUL' then '5835'
-        when 'WESTBURY' then '5850'
-        when 'WHISKEYCK' then '5853'
-        when 'WHISKYCK' then '5853'
-        when 'WILLOWGVE' then '5862'
-        when 'YARRAGON' then '5898'
+    case
+        when district like 'BANNOCKBURN T%' then '5040'
+        when district like 'BERRINGA T%' then '5073'
+        when district like 'CAMBRIAN HILL T%' then '5144'
+        when district like 'CAPE CLEAR T%' then '5149'
+        when district like 'CORINDHAP T%' then '5197'
+        when district like 'DEREEL T%' then '5237'
+        when district like 'GARIBALDI T%' then '5308'
+        when district like 'GOLDEN LAKE T%' then '5331'
+        when district like 'GRENVILLE T%' then '5356'
+        when district like 'HADDON T%' then '5362'
+        when district like 'HAPPY VALLEY T%' then '5365'
+        when district like 'INVERLEIGH T%' then '5392'
+        when district like 'LETHBRIDGE T%' then '5461'
+        when district like 'LINTON T%' then '5467'
+        when district like 'MAUDE T%' then '5512'
+        when district like 'MEREDITH T%' then '5517'
+        when district like 'NAPOLEONS T%' then '5573'
+        when district like 'PITFIELD T%' then '5641'
+        when district like 'PITFIELD PLAINS T%' then '5642'
+        when district like 'ROKEWOOD T%' then '5680'
+        when district like 'SHELFORD T%' then '5712'
+        when district like 'SMYTHESDALE T%' then '5721'
+        when district like 'SOUTH BANNOCKBURN T%' then '5723'
+        when district like 'STEIGLITZ T%' then '5731'
+        when district like 'TEESDALE T%' then '5774'
+        when district like 'WINGEEL T%' then '5865'
+        when district = 'KALENO' then '5642'
+        when district = 'LINTON' then '5467'
+        when district = 'TEESDALE' then '5774'
         else ''
     end as township_code,
-    '305' as lga_code
+    '324' as lga_code
 from
-    techone_nucland L
-    join techone_nucassociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F')
-    join techone_nucproperty P on A.key1 = P.property_no
+    synergysoft_property_id as parcels join
+    synergysoft_parcel_index_properties as parcel_index on parcels.land_parcel = parcel_index.land_parcel
 where
-    A.association_type = 'PropLand' and
-    A.date_ended is null and
-    P.status in ( 'C' , 'F' )
+  	parcel_type in ( 'CA' , 'CP' , 'L' , 'PC' , 'RS' ) and
+  	substr ( parcels.lot_no , 1 , 4 ) not in ( 'HIST' , 'CANC' , 'EXTE' )
 )
