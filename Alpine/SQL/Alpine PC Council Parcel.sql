@@ -156,7 +156,9 @@ select
     cast ( auprparc.ass_num as varchar ) as assnum
 from
     authority_auprparc as auprparc join
-    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
+    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num join
+    authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num
 where
-    auprparc.pcl_flg in ( 'R' , 'P' )
+    auprparc.pcl_flg in ( 'R' , 'P' ) and
+    upper ( auprstad.sbr_nme ) not in ( 'HOTHAM HEIGHTS' , 'FALLS CREEK' )
 )
