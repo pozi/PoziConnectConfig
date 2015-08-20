@@ -78,7 +78,7 @@ select
     end as plan_numeral,
     case
         when auprparc.ttl_cde = 3 then ''
-        else auprparc.ttl_no1
+        else ifnull ( auprparc.ttl_no1 , '' )
     end as lot_number,
     case
         when auprparc.ttl_cde = 3 then auprparc.ttl_no5
