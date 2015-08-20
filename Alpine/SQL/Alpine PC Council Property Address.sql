@@ -52,13 +52,7 @@ select distinct
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    case
-        when auprparc.ttl_nme = '' then ''
-        when auprparc.ttl_nme like 'CA %' or auprparc.ttl_nme like '% CA %' or auprparc.ttl_nme like '% CA%' or auprparc.ttl_nme like '%PRT%' then ''
-        when auprparc.ttl_nme like '%U%NAMED%' then ''
-        when auprparc.ttl_nme like '(%' then ''
-        else upper ( ifnull ( auprparc.ttl_nme , '' ) )
-    end as building_name,
+    '' as building_name,
     '' as complex_name,
     '' as location_descriptor,
     '' as house_prefix_1,
@@ -91,7 +85,7 @@ select distinct
     '' as outside_property,
     '300' as lga_code,
     cast ( auprparc.pcl_num as varchar ) as crefno,
-    '' as summary
+    auprparc.ttl_nme as summary
 from
     authority_auprparc auprparc join
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num join
