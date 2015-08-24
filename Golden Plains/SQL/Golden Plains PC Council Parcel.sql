@@ -63,7 +63,7 @@ select
 		    else ''
   	end as lot_number,
     case
-        when parcel_type = 'CA' then trim ( replace ( lot_no , ' PT' , ' ' ) )
+        when parcel_type = 'CA' and lot_no not like '%POR%' then trim ( replace ( lot_no , ' PT' , ' ' ) )
         else ''
     end as allotment,
     case
@@ -71,7 +71,10 @@ select
   	    else ''
   	end as sec,
     '' as block,
-    '' as portion,
+    case
+        when parcel_type = 'CA' and lot_no like '%POR%' then trim ( replace ( replace ( lot_no , 'PORTION' , '' ) , 'POR' , ' ' ) )
+        else ''
+    end as portion,
     '' as subdivision,
     case district
         when 'ARGYLE' then '2027'
