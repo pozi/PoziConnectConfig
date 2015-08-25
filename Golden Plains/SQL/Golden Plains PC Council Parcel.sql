@@ -66,7 +66,7 @@ select
   		else trim ( replace ( replace ( replace ( lot_no , 'RATES' , '' ) , 'PT' , '' ) , 'ROAD' , '' ) )
   	end as lot_number,
     case
-        when parcel_type <> 'CA' then ''
+        when parcel_type not in ( 'CA' , 'PR' ) then ''
         when lot_no like '%POR%' then ''
         when substr ( lot_no , 2 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 1 )
         when substr ( lot_no , 3 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 2 )
@@ -74,17 +74,17 @@ select
         else trim ( replace ( lot_no , ' PT' , ' ' ) )
     end as allotment,
     case
-  		when parcel_type <> 'CA' then ''
+  		when parcel_type not in ( 'CA' , 'PR' ) then ''
         when location like 'NO SEC%' then ''
         else ifnull ( location , '' )
   	end as sec,
     '' as block,
     case
-        when parcel_type = 'CA' and lot_no like '%POR%' then trim ( replace ( replace ( lot_no , 'PORTION' , '' ) , 'POR' , ' ' ) )
+        when parcel_type in ( 'CA' , 'PR' ) and lot_no like '%POR%' then trim ( replace ( replace ( lot_no , 'PORTION' , '' ) , 'POR' , ' ' ) )
         else ''
     end as portion,
     case
-        when parcel_type = 'CA' and part_location like 'SUBD %' then trim ( replace ( part_location , 'SUBD' , '' ) )
+        when parcel_type in ( 'CA' , 'PR' ) and part_location like 'SUBD %' then trim ( replace ( part_location , 'SUBD' , '' ) )
         else ''
     end as subdivision,
     case district
@@ -176,6 +176,6 @@ from
     synergysoft_property_id as parcels join
     synergysoft_parcel_index_properties as parcel_index on parcels.land_parcel = parcel_index.land_parcel
 where
-  	parcel_type in ( 'CA' , 'CM' , 'CP' , 'L' , 'PC' , 'RS' ) and
+  	parcel_type in ( 'CA' , 'CM' , 'CP' , 'L' , 'PC' , 'PR' , 'RS' ) and
   	substr ( parcels.lot_no , 1 , 4 ) not in ( 'HIST' , 'CANC' , 'EXTE' )
 )
