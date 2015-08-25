@@ -47,19 +47,19 @@ select
         else ''
     end as part,
     case
-        when parcel_type in ( 'L' , 'CP' , 'PC' , 'RS' ) then part_location
+        when parcel_type in ( 'L' , 'CM' , 'CP' , 'PC' , 'RS' ) then part_location
         else ''
     end as plan_number,
     case
-        when parcel_type in ( 'L' , 'CP' , 'PC' , 'RS' ) then substr ( part_location , 1 , 2 )
+        when parcel_type in ( 'L' , 'CM' , 'CP' , 'PC' , 'RS' ) then substr ( part_location , 1 , 2 )
         else ''
     end as plan_prefix,
     case
-        when parcel_type in ( 'L' , 'CP' , 'PC' , 'RS' ) then substr ( part_location , 3 , 6 )
+        when parcel_type in ( 'L' , 'CM' , 'CP' , 'PC' , 'RS' ) then substr ( part_location , 3 , 6 )
         else ''
     end as plan_numeral,
     case
-        when parcel_type not in ( 'L' , 'RS' ) then ''
+        when parcel_type not in ( 'L' , 'CM' , 'RS' ) then ''
         when substr ( lot_no , 2 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 1 )
         when substr ( lot_no , 3 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 2 )
         when substr ( lot_no , 4 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 3 )
@@ -176,6 +176,6 @@ from
     synergysoft_property_id as parcels join
     synergysoft_parcel_index_properties as parcel_index on parcels.land_parcel = parcel_index.land_parcel
 where
-  	parcel_type in ( 'CA' , 'CP' , 'L' , 'PC' , 'RS' ) and
+  	parcel_type in ( 'CA' , 'CM' , 'CP' , 'L' , 'PC' , 'RS' ) and
   	substr ( parcels.lot_no , 1 , 4 ) not in ( 'HIST' , 'CANC' , 'EXTE' )
 )
