@@ -59,23 +59,34 @@ select
         else ''
     end as plan_numeral,
     case
-  		  when Parcel_Type in ( 'L' , 'RS' ) then lot_no
-		    else ''
+        when parcel_type not in ( 'L' , 'RS' ) then ''
+        when substr ( lot_no , 2 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 1 )
+        when substr ( lot_no , 3 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 2 )
+        when substr ( lot_no , 4 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 3 )
+  		else trim ( replace ( replace ( replace ( lot_no , 'RATES' , '' ) , 'PT' , '' ) , 'ROAD' , '' ) )
   	end as lot_number,
     case
-        when parcel_type = 'CA' and lot_no not like '%POR%' then trim ( replace ( lot_no , ' PT' , ' ' ) )
-        else ''
+        when parcel_type <> 'CA' then ''
+        when lot_no like '%POR%' then ''
+        when substr ( lot_no , 2 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 1 )
+        when substr ( lot_no , 3 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 2 )
+        when substr ( lot_no , 4 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 3 )
+        else trim ( replace ( lot_no , ' PT' , ' ' ) )
     end as allotment,
     case
-  		  when Parcel_Type = 'CA' then ifnull ( location , '' )
-  	    else ''
+  		when parcel_type <> 'CA' then ''
+        when location like 'NO SEC%' then ''
+        else ifnull ( location , '' )
   	end as sec,
     '' as block,
     case
         when parcel_type = 'CA' and lot_no like '%POR%' then trim ( replace ( replace ( lot_no , 'PORTION' , '' ) , 'POR' , ' ' ) )
         else ''
     end as portion,
-    '' as subdivision,
+    case
+        when parcel_type = 'CA' and part_location like 'SUBD %' then trim ( replace ( part_location , 'SUBD' , '' ) )
+        else ''
+    end as subdivision,
     case district
         when 'ARGYLE' then '2027'
         when 'BAMGANIE' then '2060'
