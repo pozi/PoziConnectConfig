@@ -67,6 +67,7 @@ select distinct
     ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
     replace ( upper ( replace ( auprstad.str_nme , '''' , '' ) )  , 'BRDGE' , 'BRIDGE' ) as road_name,
     case
+        when auprstad.str_nme = 'Broadway' then ''
         when auprstad.str_typ in ( 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) THEN 'AVENUE'
         when auprstad.str_typ in ( 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) THEN 'ROAD'
         when auprstad.str_typ in ( 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) THEN 'STREET'
