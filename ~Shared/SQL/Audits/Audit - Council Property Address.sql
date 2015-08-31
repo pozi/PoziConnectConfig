@@ -17,6 +17,7 @@ select
         when blg_unit_id_1 <> '' and house_number_1 = '' then 'Invalid: house_number_1 must be present for blg_unit_id_1 (' || blg_unit_id_1 || ')'
         when blg_unit_id_1 like '%&%' or blg_unit_id_1 like '% %' or blg_unit_id_1 like '%-%' or ( blg_unit_id_1 <> '' and cast ( blg_unit_id_1 as integer ) not between 1 and 99999 ) then 'Invalid: blg_unit_id_1 (' || blg_unit_id_1 || ')'
         when blg_unit_suffix_1 like '%&%' or blg_unit_suffix_1 like '% %' or blg_unit_suffix_1 like '%-%' or length ( blg_unit_suffix_1 ) > 2 then 'Invalid: blg_unit_suffix_1 (' || blg_unit_suffix_1 || ')'
+        when blg_unit_suffix_1 <> '' and blg_unit_id_1 = '' then 'Invalid: blg_unit_id_1 must be present for blg_unit_suffix_1 (' || blg_unit_suffix_1 || ')'
         when blg_unit_prefix_2 like '%&%' or blg_unit_prefix_2 like '% %' or blg_unit_prefix_2 like '%-%' or length ( blg_unit_prefix_2 ) > 2 then 'Invalid: blg_unit_prefix_2 (' || blg_unit_prefix_2 || ')'
         when blg_unit_id_2 like '%&%' or blg_unit_id_2 like '% %' or blg_unit_id_2 like '%-%' or ( blg_unit_id_2 <> '' and cast ( blg_unit_id_2 as integer ) not between 1 and 99999 ) then 'Invalid: blg_unit_id_2 (' || blg_unit_id_1 || ')'
         when blg_unit_id_2 <> '' and blg_unit_id_1 = '' then 'Invalid: blg_unit_id_1 must be present for blg_unit_id_2 (' || blg_unit_id_2 || ')'
