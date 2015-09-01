@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -57,7 +57,7 @@ select distinct
         when upper ( lpaaddr.unitprefix ) = 'ROOM' then 'ROOM'
         when upper ( lpaaddr.unitprefix ) like '%TOWER%' then 'TWR'
         else ''
-    end as blg_unit_type,   
+    end as blg_unit_type,
     case
         when length ( lpaaddr.unitprefix ) = 1 then lpaaddr.unitprefix
         else ''
@@ -77,22 +77,23 @@ select distinct
        else trim ( lpaaddr.endunitsfx )
     end as blg_unit_suffix_2,
     case
+        when length ( lpaaddr.lvlprefix ) <= 2 then upper ( lpaaddr.lvlprefix )
         when upper ( lpaaddr.lvlprefix ) = 'BASEMENT' then 'B'
         when upper ( lpaaddr.lvlprefix ) = 'LEVEL' then 'L'
         when upper ( lpaaddr.lvlprefix ) = 'FLOOR' then 'FL'
-        when upper ( lpaaddr.lvlprefix ) = 'GRD FLOOR' then 'G'
+        when upper ( lpaaddr.lvlprefix ) in ( 'GRD FLOOR' , 'GROUND' ) then 'G'
         else ''
     end as floor_type,
     '' as floor_prefix_1,
     case
-        when upper ( lpaaddr.lvlprefix ) in ( 'FLOOR' , 'LEVEL' ) then trim ( lpaaddr.strlvlnum )
-        else ''
+        when lpaaddr.strlvlnum = 0 or lpaaddr.strlvlnum is null then ''
+        else cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
     end as floor_no_1,
     '' as floor_suffix_1,
     '' as floor_prefix_2,
     case
-        when upper ( lpaaddr.lvlprefix ) in ( 'FLOOR' , 'LEVEL' ) and trim ( lpaaddr.endlvlnum ) <> '0.0' then cast(trim ( lpaaddr.endlvlnum ) as varchar)
-        else ''
+        when lpaaddr.endlvlnum = 0 or lpaaddr.endlvlnum is null then ''
+        else cast ( cast ( lpaaddr.endlvlnum as integer ) as varchar )
     end as floor_no_2,
     '' as floor_suffix_2,
     ifnull ( upper ( lpapnam.propname ) , '' ) as building_name,
@@ -118,7 +119,7 @@ select distinct
         else cast ( cast ( lpaaddr.endhousnum as integer ) as varchar )
     end as house_number_2,
     ifnull ( lpaaddr.endhoussfx , '' ) as house_suffix_2,
-    upper ( replace ( replace ( cnacomp.descr , ' - ' , '-' ) , '''' , '' ) ) as road_name, 
+    upper ( replace ( replace ( cnacomp.descr , ' - ' , '-' ) , '''' , '' ) ) as road_name,
     case
         when
             cnaqual.descr like '% NORTH' or
@@ -133,7 +134,7 @@ select distinct
         when upper ( cnaqual.descr ) like '% EAST' then 'E'
         when upper ( cnaqual.descr ) like '% WEST' then 'W'
         else ''
-    end as road_suffix, 
+    end as road_suffix,
     upper ( lpasubr.suburbname ) as locality_name,
     '' as postcode,
     '' as access_type,
@@ -145,17 +146,17 @@ select distinct
     '' as crefno,
     '' as summary
 from
-    pathway_lpaprop as lpaprop left join 
-    pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join 
-    pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join 
-    pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join 
-    pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join 
-    pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join 
-    pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join 
+    pathway_lpaprop as lpaprop left join
+    pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
+    pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join
+    pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join
+    pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join
+    pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join
+    pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
-    pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop 
+    pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
-    lpaprop.status in ( 'A', 'C' ) and 
+    lpaprop.status in ( 'A', 'C' ) and
     lpaaddr.addrtype = 'P' and
     lpaprop.fmtowner is not null and
     lpaprop.tfklpacncl = 12
