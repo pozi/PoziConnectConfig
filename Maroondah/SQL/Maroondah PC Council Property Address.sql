@@ -39,22 +39,16 @@ select distinct
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
-        when upper ( lpaaddr.unitprefix ) = 'ATM' then 'ATM'
+        when upper ( lpaaddr.unitprefix ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.unitprefix )
         when upper ( lpaaddr.unitprefix ) = 'CAR PARK' then 'CARP'
         when upper ( lpaaddr.unitprefix ) = 'COTTAGE' then 'CTGE'
         when upper ( lpaaddr.unitprefix ) = 'FACTORY' then 'FCTY'
-        when upper ( lpaaddr.unitprefix ) = 'FLAT' then 'FLAT'
         when upper ( lpaaddr.unitprefix ) = 'HOSTEL' then 'HOST'
-        when upper ( lpaaddr.unitprefix ) in ( 'KSK' , 'KIOSK' ) then 'KSK'
+        when upper ( lpaaddr.unitprefix ) = 'KIOSK' then 'KSK'
         when upper ( lpaaddr.unitprefix ) = 'OFFICE' then 'OFFC'
-        when upper ( lpaaddr.unitprefix ) = 'SHED' then 'SHED'
-        when upper ( lpaaddr.unitprefix ) = 'SHOP' then 'SHOP'
-        when upper ( lpaaddr.unitprefix ) = 'SIGN' then 'SIGN'
-        when upper ( lpaaddr.unitprefix ) in ( 'STOR' , 'STORE' ) then 'STOR'
+        when upper ( lpaaddr.unitprefix ) = 'STORE' then 'STOR'
         when upper ( lpaaddr.unitprefix ) = 'SUITE' then 'SE'
-        when upper ( lpaaddr.unitprefix ) = 'UNIT' then 'UNIT'
-        when upper ( lpaaddr.unitprefix ) in ( 'L' , 'LOT' ) then 'LOT'
-        when upper ( lpaaddr.unitprefix ) = 'ROOM' then 'ROOM'
+        when upper ( lpaaddr.unitprefix ) = 'L' then 'LOT'
         when upper ( lpaaddr.unitprefix ) like '%TOWER%' then 'TWR'
         else ''
     end as blg_unit_type,
