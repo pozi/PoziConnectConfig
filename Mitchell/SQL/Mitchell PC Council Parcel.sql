@@ -64,11 +64,12 @@ select
     end as plan_numeral,
     case
         when L.plan_desc in ( 'CA' , 'PTCA' , 'PT CA' ) then ''
-        else upper ( replace ( ifnull ( L.lot , '' ) , ' ' , '' ) ) 
+        else upper ( replace ( ifnull ( L.lot , '' ) , ' ' , '' ) )
     end as lot_number,
     case
-        when L.plan_desc in ( 'CA' , 'PTCA' , 'PT CA' ) then ifnull ( L.text10 , '' )
-        when L.plan_desc is null and L.plan_no = '' then ifnull ( L.text10 , '' )
+        when L.plan_desc not in ( 'CA' , 'PTCA' , 'PT CA' ) then ''
+        when L.text10 <> '' then L.text10
+        when L.plan_no <> '' then L.plan_no
         else ''
     end as allotment,
     ifnull ( L.parish_section , '' ) as sec,
