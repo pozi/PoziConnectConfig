@@ -58,6 +58,7 @@ select
         else ifnull ( L.plan_desc , '' )
     end as plan_prefix,
     case
+        when L.plan_desc in ( 'CA' , 'PTCA' , 'PT CA' ) then ''
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
         else ifnull ( substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_numeral,
