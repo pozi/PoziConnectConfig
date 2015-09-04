@@ -1,6 +1,7 @@
 select
     *,
     case
+        when internal_spi <> '' then internal_spi
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
@@ -18,6 +19,7 @@ select
         else ''
     end as spi,
     case
+        when internal_spi <> '' then replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( internal_spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' )
         when plan_numeral <> '' and lot_number = '' then plan_numeral
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_numeral
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_numeral
@@ -39,7 +41,7 @@ from
 select
     substr ( parcel_index.assess_no , 2 , 99 ) as propnum,
     '' as crefno,
-    '' as internal_spi,
+    ifnull ( parcels.survey_no , '' ) as internal_spi,
     parcels.land_parcel as summary,
     '' as status,
     case
