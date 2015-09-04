@@ -177,5 +177,6 @@ from
     synergysoft_parcel_index_properties as parcel_index on parcels.land_parcel = parcel_index.land_parcel
 where
   	parcel_type in ( 'CA' , 'CM' , 'CP' , 'L' , 'PC' , 'PR' , 'RS' ) and
-  	substr ( parcels.lot_no , 1 , 4 ) not in ( 'HIST' , 'CANC' , 'EXTE' )
+  	substr ( parcels.lot_no , 1 , 4 ) not in ( 'HIST' , 'CANC' , 'EXTE' ) and
+    parcel_index.assess_no is not null
 )
