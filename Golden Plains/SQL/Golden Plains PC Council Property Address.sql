@@ -93,7 +93,8 @@ from
     synergysoft_properties as properties join
     synergysoft_streets as streets on properties.street_code = streets.street_code
 where
-    properties.assess_no <> ''
+    properties.assess_no <> '' and
+    properties.land_use_code not in ( '10' , '010' , '01' )
 )
 )
 )
