@@ -180,5 +180,6 @@ from
 where
   	parcel_type in ( 'CA' , 'CM' , 'CP' , 'L' , 'PC' , 'PR' , 'RS' ) and
   	substr ( parcels.lot_no , 1 , 4 ) not in ( 'HIST' , 'CANC' , 'EXTE' ) and
-    parcel_index.assess_no is not null
+    parcel_index.assess_no is not null and
+    parcels.land_parcel not like '%RATES%'
 )
