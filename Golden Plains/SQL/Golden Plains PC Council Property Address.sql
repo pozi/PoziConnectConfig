@@ -94,7 +94,7 @@ from
     synergysoft_streets as streets on properties.street_code = streets.street_code
 where
     properties.assess_no <> '' and
-    properties.land_use_code not in ( '10' , '010' , '01' )
+    properties.land_use_code not in ( '10' , '010' , '01' , '011' , '80' )
 )
 )
 )
