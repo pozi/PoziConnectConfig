@@ -93,7 +93,6 @@ from
     synergysoft_properties as properties join
     synergysoft_streets as streets on properties.street_code = streets.street_code
 where
-    properties.non_current is null and
     properties.assess_no <> ''
 )
 )
