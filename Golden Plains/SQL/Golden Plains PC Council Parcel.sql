@@ -65,6 +65,7 @@ select
         when substr ( lot_no , 2 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 1 )
         when substr ( lot_no , 3 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 2 )
         when substr ( lot_no , 4 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 3 )
+        when substr ( lot_no , 5 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 4 )
   		else trim ( replace ( replace ( replace ( lot_no , 'RATES' , '' ) , 'PT' , '' ) , 'ROAD' , '' ) )
   	end as lot_number,
     case
@@ -73,6 +74,7 @@ select
         when substr ( lot_no , 2 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 1 )
         when substr ( lot_no , 3 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 2 )
         when substr ( lot_no , 4 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 3 )
+        when substr ( lot_no , 5 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 4 )
         else trim ( replace ( lot_no , ' PT' , ' ' ) )
     end as allotment,
     case
