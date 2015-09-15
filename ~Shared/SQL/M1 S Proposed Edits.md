@@ -28,6 +28,12 @@ cpa.propnum in
     )
 ```
 
+Exclude any address updates for proposed parcels if the address belongs to a property that is already being updated in another address edit.
+
+```sql
+cpa.propnum not in ( select propnum from m1_s_edits )
+```
+
 ## Developer Notes
 
 The limiting of one record per property number was introduced because Baw Baw observed multiple address updates per parcel. We wanted to exclude the address that belongs to the 'parent' property, which is already in Vicmap.

@@ -86,4 +86,5 @@ where
                 cpx.propnum = cpax.propnum and
                 cpx.spi = vp.spi
             )
-        )
+        ) and
+    cpa.propnum not in ( select propnum from m1_s_edits )
