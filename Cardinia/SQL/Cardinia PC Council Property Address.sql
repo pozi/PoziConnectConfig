@@ -138,7 +138,7 @@ from (
         propertygov_assessment_parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
         propertygov_assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id
     where
-        Parcel.Parcel_Status = 0 and
+        Parcel.Parcel_Status in ( 0 , 2 ) and
         Assessment.Assessment_Status not in ( '9' , '22' ) and
         Assessment.Assess_Number is not null and
         Parcel.Address_Id is not null
