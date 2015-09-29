@@ -76,12 +76,13 @@ select
     end as plan_numeral,
     case
         when auprparc.ttl_cde <> 4 then replace ( replace ( ifnull ( upper ( ttl_no1 ) , '' ) , 'PT ' , '' ) , 'RES NO ' , 'RES' )
-        else '' 
+        else ''
     end as lot_number,
     case
         when auprparc.ttl_cde = 4 and ttl_no2 is not null and ttl_no3 is not null and cast ( cast ( ttl_no3 as integer ) as varchar ) <> ttl_no3 then upper ( ttl_no2 || ttl_no3 )
         when auprparc.ttl_cde = 4 and ttl_no2 is not null then upper ( ttl_no2 )
         when auprparc.ttl_cde = 4 and ttl_no3 is not null then upper ( ttl_no3 )
+        when auprparc.ttl_cde = 4 and ttl_no1 is not null then upper ( ttl_no1 )
         else ''
     end as allotment,
     ifnull ( ttl_no4 , '' ) as sec,
