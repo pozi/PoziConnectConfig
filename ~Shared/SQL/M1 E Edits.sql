@@ -90,6 +90,7 @@ where
     vp.propnum not in ( '' , 'NCPR' ) and
     vp.propnum not in ( select cpa.propnum from pc_council_property_address cpa ) and
     vp.spi not in ( select cp.spi from pc_council_parcel cp ) and
-    vp.multi_assessment <> 'Y'
+    vp.multi_assessment <> 'Y' and
+    vp.property_pfi not in ( select property_pfi from pc_vicmap_property_address where source = 'SPE' )
 group by property_pfi, plan_number, lot_number
 )

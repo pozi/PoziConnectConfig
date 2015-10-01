@@ -58,6 +58,12 @@ Exclude from retirement any parcel whose description exists in Council (and thus
 vp.spi not in ( select cp.spi from pc_council_parcel cp )
 ```
 
+Exclude from retirement any parcel related to a property that was populated via SPEAR
+
+```
+vp.property_pfi not in ( select property_pfi from pc_vicmap_property_address where source = 'SPE' )
+```
+
 Eliminate duplicate records.
 
 ```sql
