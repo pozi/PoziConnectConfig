@@ -40,6 +40,14 @@ select
     ifnull ( pr_propnum , '' ) as propnum,
     ifnull ( propv_pfi , '' ) as property_view_pfi,
     parcel.parv_pfi as parcel_view_pfi,
+    ifnull ( (
+        select pfi
+        from vmadd_address address
+        where
+            address.pr_pfi = property_lut.pr_pfi and
+            address.is_primary = 'Y' and
+            st_within ( address.geometry , parcel.geometry )
+        limit 1 ) , '' ) as primary_address_pfi,
     parcel.geometry as geometry
 from
     vmprop_parcel_mp parcel left join
