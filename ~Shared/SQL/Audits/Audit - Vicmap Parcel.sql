@@ -1,6 +1,7 @@
 select
     spi as spi,
     parcel_pfi as parcel_pfi,
+    '=hyperlink("http://www.pozi.com/vicmap/ws/goto.php?lga_code=' || lga_code || '&parcel_pfi=' || parcel_pfi || '","map")' as pozi_map,
     crefno as crefno,
     status as status,
     further_description as further_description,

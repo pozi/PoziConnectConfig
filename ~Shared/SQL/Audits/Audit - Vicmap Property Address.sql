@@ -1,9 +1,10 @@
 select
     property_pfi,
-    propnum,    
+    '=hyperlink("http://www.pozi.com/vicmap/ws/goto.php?lga_code=' || lga_code || '&property_pfi=' || property_pfi || '","map")' as pozi_map,
+    propnum,
     multi_assessment,
-    status,    
-    address_pfi,    
+    status,
+    address_pfi,
     ezi_address,
     ifnull ( ( select edit_code from m1 where m1.propnum = vpa.propnum and vpa.propnum <> '' limit 1 ) , '' ) as m1_edit_code,
     ifnull ( ( select comments from m1 where m1.propnum = vpa.propnum and vpa.propnum <> '' limit 1 ) , '' ) as m1_comments,    
