@@ -35,7 +35,11 @@ select
             '\' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as simple_spi
+    end as simple_spi,
+    case
+        when internal_spi <> '' then 'council_spi'
+        else 'council_attributes'
+    end as source
 from
 (
 select
