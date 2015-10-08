@@ -65,14 +65,25 @@ select distinct
     '' as house_prefix_2,
     ifnull ( cast ( auprstad.hou_end as varchar ) , '' ) as house_number_2,
     ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
-    replace ( upper ( replace ( auprstad.str_nme , '''' , '' ) )  , 'BRDGE' , 'BRIDGE' ) as road_name,
     case
+        when auprstad.str_nme like 'CLYNES ROAD %' then 'CLYNES'
+        when auprstad.str_nme like 'HIGH STREET %' then 'HIGH'
+        when auprstad.str_nme like 'BOTHES ROAD %' then 'BOTHES'
+        else replace ( upper ( replace ( auprstad.str_nme , '''' , '' ) )  , 'BRDGE' , 'BRIDGE' )
+    end as road_name,
+    case
+        when auprstad.str_nme like '% Road %' then 'ROAD'
+        when auprstad.str_nme like '% Street %' then 'STREET'
         when auprstad.str_typ in ( 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) THEN 'AVENUE'
         when auprstad.str_typ in ( 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) THEN 'ROAD'
         when auprstad.str_typ in ( 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) THEN 'STREET'
-        else upper ( aualrefs.dsc_no3 )
+        else ifnull ( upper ( aualrefs.dsc_no3 ) , '' )
     end as road_type,
     case
+        when auprstad.str_nme like '% Road North' or auprstad.str_nme like '% Street North' then 'N'
+        when auprstad.str_nme like '% Road South' or auprstad.str_nme like '% Street South' then 'S'
+        when auprstad.str_nme like '% Road East' or auprstad.str_nme like '% Street East' then 'E'
+        when auprstad.str_nme like '% Road West' or auprstad.str_nme like '% Street West' then 'W'
         when upper ( auprstad.str_typ ) in ( 'AVEN' , 'RDN' , 'STN' ) then 'N'
         when upper ( auprstad.str_typ ) in ( 'AVES' , 'RDS' , 'STS' ) then 'S'
         when upper ( auprstad.str_typ ) in ( 'AVEE' , 'RDE' , 'STE' ) then 'E'
