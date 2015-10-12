@@ -1,6 +1,7 @@
 select
     *,
     case
+        when internal_spi <> '' and internal_spi not like '% %' then internal_spi
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
@@ -18,6 +19,7 @@ select
         else ''
     end as spi,
     case
+        when internal_spi <> '' and internal_spi not like '% %' then replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( internal_spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' )
         when plan_numeral <> '' and lot_number = '' then plan_numeral
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_numeral
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_numeral
@@ -33,7 +35,11 @@ select
             '\' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as simple_spi
+    end as simple_spi,
+    case
+        when internal_spi <> '' and internal_spi not like '% %' then 'council_spi'
+        else 'council_attributes'
+    end as source
 from
 (
 select
@@ -43,6 +49,7 @@ select
         when auprparc.pcl_flg = 'P' then 'P'
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
+    ifnull ( auprparc.ttl_nme , '' ) as internal_spi,
     case
         when auprparc.ttl_cde in ( 2 , 4 , 6 , 8 , 12 , 14 ) then 'P'
         else ''
