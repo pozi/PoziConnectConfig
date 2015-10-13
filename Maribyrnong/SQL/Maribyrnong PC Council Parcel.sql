@@ -43,7 +43,10 @@ select
 from
 (
 select
-    cast ( auprparc.ass_num as varchar ) as propnum,
+    case
+        when auprparc.ttl_no1 like 'CM%' then 'NCPR'
+        else cast ( auprparc.ass_num as varchar )
+    end as propnum,
     case
         when auprparc.pcl_flg = 'R' then 'A'
         when auprparc.pcl_flg = 'P' then 'P'
