@@ -169,7 +169,7 @@ from
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
     P.status in ( 'C' , 'F' ) and
-    L.locality_name not in ( 'PUCKAPUNYAL' , 'KINGLAKE WEST' , 'GRAYTOWN' )
+    L.locality_name not in ( 'PUCKAPUNYAL' , 'KINGLAKE WEST' , 'GRAYTOWN' , 'DOREEN' )
 )
 )
 )
