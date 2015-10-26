@@ -69,7 +69,7 @@ select
     '' as floor_suffix_2,
     ifnull ( upper ( lpapnam.propname ) , '' ) as building_name,
     '' as complex_name,
-    '' as location_descriptor,
+    case when cnacomp.descr like 'OFF %' then 'OFF' else '' end as location_descriptor,
     '' as house_prefix_1,
     case
         when lpaaddr.strhousnum = 0 or lpaaddr.strhousnum is null then ''
@@ -88,7 +88,7 @@ select
         when lpaaddr.endhoussfx = '0' or lpaaddr.endhoussfx is null then ''
         else cast ( lpaaddr.endhoussfx as varchar )
     end as house_suffix_2,
-    upper ( cnacomp.descr ) as road_name, 
+    replace ( upper ( cnacomp.descr ) , 'OFF ' , '' ) as road_name,
     case
         when
             cnaqual.descr like '% NORTH' or
