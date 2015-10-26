@@ -63,7 +63,7 @@ select
     '' as block,
     '' as portion,
     '' as subdivision,
-    case upper ( parish_desc )    
+    case upper ( parish_desc )
         when 'BARAMBOGIE' then '2067'
         when 'BONTHERAMB' then '2180'
         when 'BOORHAMAN' then '2192'
@@ -104,9 +104,9 @@ select
         when 'WHITFIELDS' then '3808'
         when 'WHOROULY' then '3810'
         when 'WINTERIGA' then '3842'
-        else ''        
+        else ''
     end as parish_code,
-    case    
+    case
         when upper ( L.text1 ) = 'CTS' then '5170'
         when upper ( L.text1 ) = 'EDTS' then '5267'
         when upper ( L.text1 ) = 'ETS' then '5272'
@@ -119,8 +119,8 @@ select
         when upper ( L.text1 ) = 'PTS' then '5628'
         when upper ( L.text1 ) = 'STS' then '5727'
         when upper ( L.text1 ) = 'WTS' then '5829'
-        when upper ( L.text1 ) = 'WHOTS' then '5856'        
-        else ''        
+        when upper ( L.text1 ) = 'WHOTS' then '5856'
+        else ''
     end as township_code,
     '368' as lga_code
 from
