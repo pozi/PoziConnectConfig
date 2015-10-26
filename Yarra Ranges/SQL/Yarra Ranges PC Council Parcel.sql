@@ -60,7 +60,7 @@ select distinct
         when lpaparc.plannum is null then ''
         else
             case
-                when lpaparc.parcelcode = 'R' then 'RES'
+                when lpaparc.parcelcode = 'R' and lpaparc.parcelnum is not null then 'RES'
                 else ''
             end ||
             case
