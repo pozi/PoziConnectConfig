@@ -130,7 +130,16 @@ select distinct
                 when 'YOUARRABUK' then '3997'
                 when 'YOURRABUK' then '3997'
                 when 'YUONGA' then '4003'
-                else ''
+                else
+                    case
+                        when lpaparc.fmtparcel like '%MONBULK%' then '3146'
+                        when lpaparc.fmtparcel like '%MOOROOLBARK%' then '3176'
+                        when lpaparc.fmtparcel like '%NARREE WORRAN%' then '3279'
+                        when lpaparc.fmtparcel like '%SCORESBY%' then '3478'
+                        when lpaparc.fmtparcel like '%ST CLAIR%' then '3464'
+                        when lpaparc.fmtparcel like '%WANDIN YALLOCK%' then '3721'
+                        else ''
+                    end
             end
         else ''
     end as parish_code,
