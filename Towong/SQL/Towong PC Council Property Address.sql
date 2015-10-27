@@ -38,10 +38,16 @@ select
     '' as location_descriptor,
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
-    ifnull ( Property.UnitNo , '' ) as blg_unit_id_1,
+    case
+        when substr ( Property.UnitNo , 2 , 1 ) = '-' then ifnull ( substr ( Property.UnitNo , 1 , 1 ) , '' )
+        else ifnull ( Property.UnitNo , '' )
+    end as blg_unit_id_1,
     '' as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
-    '' as blg_unit_id_2,
+    case
+        when substr ( Property.UnitNo , 2 , 1 ) = '-' then ifnull ( substr ( Property.UnitNo , 3 , 99 ) , '' )
+        else ''
+    end as blg_unit_id_2,
     '' as blg_unit_suffix_2,
     '' as floor_type,
     '' as floor_prefix_1,
