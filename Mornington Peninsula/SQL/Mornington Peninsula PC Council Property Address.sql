@@ -85,6 +85,23 @@ select
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
     case
+        when S.street_name like '% OFF %' then
+            case
+                when S.street_name like '% OFF POINT NEPEAN ROAD' then 'POINT NEPEAN'
+                when S.street_name like '% OFF PT NEPEAN RD' then 'POINT NEPEAN'
+                when S.street_name like '% OFF ESPLANADE' then 'ESPLANADE'
+                when S.street_name like '% OFF EARIMIL DRIVE' then 'EARIMIL'
+                when S.street_name like '% OFF STURIO PARADE' then 'STURIO'
+                when S.street_name like '% OFF POINT KING ROAD' then 'POINT KING'
+                when S.street_name like '% OFF ROSSERDALE CRESCENT' then 'ROSSERDALE'
+                when S.street_name like '% OFF MARINE DRIVE' then 'MARINE'
+                when S.street_name like '% OFF SOUTH BEACH RD' then 'SOUTH BEACH'
+                when S.street_name like '% OFF SUNNYSIDE ROAD' then 'SUNNYSIDE'
+                when S.street_name like '% OFF FREEMANS ROAD' then 'FREEMANS'
+                when S.street_name like '% OFF DAVEYS BAY ROAD' then 'DAVEYS BAY'
+                when S.street_name like '% OFF THE ESPLANADE' then 'THE ESPLANADE'
+                else upper ( S.street_name )
+            end
         when upper ( S.street_name ) in ( 'THE HEIGHTS' , 'THE DENE' , 'THE PARADE' , 'THE AVENUE' , 'THE ESPLANADE' , 'THE OUTLOOK' , 'VILLA CORA' ) then upper ( S.street_name )
         when upper ( substr ( S.street_name , -4 ) ) in ( ' END' , ' ROW' , ' RUN', ' KEY', ' WAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
         when upper ( substr ( S.street_name , -5 ) ) in ( ' BEND', ' BRAE', ' COVE' , ' EDGE' , ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' RISE', ' ROAD', ' VIEW', ' WALK', ' WYND', ' RIALTO WEST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
