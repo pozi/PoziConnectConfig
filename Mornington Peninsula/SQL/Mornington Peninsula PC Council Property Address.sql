@@ -110,9 +110,9 @@ select
                 when S.street_name like '% OFF THE ESPLANADE' then 'THE ESPLANADE'
                 else upper ( S.street_name )
             end
-        when upper ( substr ( S.street_name , -4 ) ) in ( ' END' , ' ROW' , ' RUN', ' KEY', ' WAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
+        when upper ( substr ( S.street_name , -4 ) ) in ( ' END', ' ROW', ' RUN', ' KEY', ' WAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
         when upper ( substr ( S.street_name , -5 ) ) in ( ' BEND', ' BRAE', ' COVE' , ' EDGE' , ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' RISE', ' ROAD', ' VIEW', ' WALK', ' WYND' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
-        when upper ( substr ( S.street_name , -6 ) ) in ( ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GREEN', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 6 ) )
+        when upper ( substr ( S.street_name , -6 ) ) in ( ' BEACH', ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GREEN', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 6 ) )
         when upper ( substr ( S.street_name , -7 ) ) in ( ' ACCESS', ' ARCADE', ' AVENUE', ' CIRCLE', ' COURSE', ' DIVIDE', ' GRANGE', ' PARADE', ' SQUARE', ' STREET', ' WATERS' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 7 ) )
         when upper ( substr ( S.street_name , -8 ) ) in ( ' CIRCUIT', ' CUTTING', ' FREEWAY', ' GARDENS', ' HIGHWAY', ' PARKWAY', ' RETREAT', ' TERRACE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 8 ) )
         when upper ( substr ( S.street_name , -9 ) ) in ( ' CRESCENT', ' CROSSING', ' QUADRANT' , ' WATERWAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 9 ) )
@@ -143,7 +143,6 @@ select
         when S.street_name like '% CIRCUIT%' then 'CIRCUIT'
         when S.street_name like '% CLOSE%' then 'CLOSE'
         when S.street_name like '% COURT%' then 'COURT'
-        when S.street_name like '% COVE%' then 'COVE'
         when S.street_name like '% CRESCENT%' then 'CRESCENT'
         when S.street_name like '% CROSSING%' then 'CROSSING'
         when S.street_name like '% CUTTING%' then 'CUTTING'
@@ -185,6 +184,7 @@ select
         when S.street_name like '% WYND%' then 'WYND'
         when S.street_name like '% ACCESS%' then 'ACCESS'
         when S.street_name like '% BEACH%' and S.street_name not like '% OFF %' then 'BEACH'
+        when S.street_name like '% COVE%' then 'COVE'
         when S.street_name like '% FORESHORE%' then 'FORESHORE'
         when S.street_name like '% LINK%' then 'LINK'
         when S.street_name like '% POINT%' then 'POINT'
