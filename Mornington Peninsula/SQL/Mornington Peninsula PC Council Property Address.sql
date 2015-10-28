@@ -85,6 +85,14 @@ select
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
     case
+        when S.street_name like 'THE %' then
+            case upper ( S.street_name )
+                when 'THE BITTERN BOULEVARD' then 'THE BITTERN'
+                when 'THE CUPS DRIVE' then 'THE CUPS'
+                when 'THE RIDGE ROAD' then 'THE RIDGE'
+                when 'THE SHEEDY WAY' then 'THE SHEEDY'
+                else upper ( S.street_name )
+            end
         when S.street_name like '% OFF %' then
             case
                 when S.street_name like '% OFF POINT NEPEAN ROAD' then 'POINT NEPEAN'
@@ -102,7 +110,6 @@ select
                 when S.street_name like '% OFF THE ESPLANADE' then 'THE ESPLANADE'
                 else upper ( S.street_name )
             end
-        when upper ( S.street_name ) in ( 'THE HEIGHTS' , 'THE DENE' , 'THE PARADE' , 'THE AVENUE' , 'THE ESPLANADE' , 'THE OUTLOOK' , 'THE GLADE' ) then upper ( S.street_name )
         when upper ( substr ( S.street_name , -4 ) ) in ( ' END' , ' ROW' , ' RUN', ' KEY', ' WAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
         when upper ( substr ( S.street_name , -5 ) ) in ( ' BEND', ' BRAE', ' COVE' , ' EDGE' , ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' RISE', ' ROAD', ' VIEW', ' WALK', ' WYND' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
         when upper ( substr ( S.street_name , -6 ) ) in ( ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GREEN', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 6 ) )
@@ -119,7 +126,14 @@ select
         else upper ( S.street_name )
     end as road_name,
     case
-        when upper ( S.street_name ) in ( 'THE HEIGHTS' , 'THE DENE' , 'THE PARADE' , 'THE AVENUE' , 'THE ESPLANADE' , 'THE OUTLOOK' , 'THE GLADE' ) then ''
+        when S.street_name like 'THE %' then
+            case upper ( S.street_name )
+                when 'THE BITTERN BOULEVARD' then 'BOULEVARD'
+                when 'THE CUPS DRIVE' then 'DRIVE'
+                when 'THE RIDGE ROAD' then 'ROAD'
+                when 'THE SHEEDY WAY' then 'WAY'
+                else ''
+            end
         when S.street_name like '% ARCADE%' then 'ARCADE'
         when S.street_name like '% AVENUE%' then 'AVENUE'
         when S.street_name like '% BEND%' then 'BEND'
