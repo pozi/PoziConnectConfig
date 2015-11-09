@@ -37,7 +37,6 @@ select
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi and vp.propnum = cp.propnum and length ( cp.spi ) >= 5 ) , 0 ) as spi_propnum_in_vicmap,
     substr ( ifnull ( ( select group_concat ( propnum , ';' ) from pc_vicmap_parcel vpx where vpx.spi = cp.spi and length ( cp.spi ) >= 5 ) , 0 ) , 1 , 99 ) as vicmap_propnums,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi and vp.spi <> cp.spi and length ( cp.spi ) >= 5 ) , 0 ) as partial_spi_in_vicmap,
-    ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.further_description = cp.spi and length ( cp.spi ) >= 5 ) , 0 ) as alt_spi_in_vicmap,
     case
         when cp.spi not in ( select spi from pc_vicmap_parcel ) then
             case
