@@ -84,8 +84,32 @@ select
         else ifnull ( A.floor_no_to , '' )
     end as floor_no_2,
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
-    '' as building_name,
-    '' as complex_name,
+    upper ( ifnull ( A.property_name , '' ) ) as building_name,
+    case
+        when upper ( A.formatted_address ) like '%CAPEL SOUND FORESHORE%' then 'CAPEL SOUND FORESHORE'
+        when upper ( A.formatted_address ) like '%DROMANA FORESHORE%' then 'DROMANA FORESHORE'
+        when upper ( A.formatted_address ) like '%EARIMIL BEACH NORTH%' then 'EARIMIL BEACH NORTH'
+        when upper ( A.formatted_address ) like '%EARIMIL BEACH SOUTH%' then 'EARIMIL BEACH SOUTH'
+        when upper ( A.formatted_address ) like '%FISHERMANS BEACH%' then 'FISHERMANS BEACH'
+        when upper ( A.formatted_address ) like '%FISHERMANS BEACH FORESHORE%' then 'FISHERMANS BEACH FORESHORE'
+        when upper ( A.formatted_address ) like '%HAWKER BEACH%' then 'HAWKER BEACH'
+        when upper ( A.formatted_address ) like '%MILLS BEACH%' then 'MILLS BEACH'
+        when upper ( A.formatted_address ) like '%MOONDAH BEACH%' then 'MOONDAH BEACH'
+        when upper ( A.formatted_address ) like '%MOUNT MARTHA BEACH NORTH%' then 'MOUNT MARTHA BEACH NORTH'
+        when upper ( A.formatted_address ) like '%MOUNT MARTHA BEACH SOUTH%' then 'MOUNT MARTHA BEACH SOUTH'
+        when upper ( A.formatted_address ) like '%RANELAGH BEACH%' then 'RANELAGH BEACH'
+        when upper ( A.formatted_address ) like '%ROSEBUD FORESHORE%' then 'ROSEBUD FORESHORE'
+        when upper ( A.formatted_address ) like '%RYE FORESHORE%' then 'RYE FORESHORE'
+        when upper ( A.formatted_address ) like '%SAFETY BEACH FORESHORE%' then 'SAFETY BEACH FORESHORE'
+        when upper ( A.formatted_address ) like '%SCOUT BEACH%' then 'SCOUT BEACH'
+        when upper ( A.formatted_address ) like '%SHELLEY BEACH FORESHORE%' then 'SHELLEY BEACH FORESHORE'
+        when upper ( A.formatted_address ) like '%SHIRE HALL BEACH%' then 'SHIRE HALL BEACH'
+        when upper ( A.formatted_address ) like '%SORRENTO FORESHORE%' then 'SORRENTO FORESHORE'
+        when upper ( A.formatted_address ) like '%TYRONE FORESHORE%' then 'TYRONE FORESHORE'
+        when upper ( A.formatted_address ) like '%WESTERNPORT GARDENS RETIREMENT VILLAGE%' then 'WESTERNPORT GARDENS RETIREMENT VILLAGE'
+        when upper ( A.formatted_address ) like '%WHITECLIFFS-CAMERONS BIGHT FORESHORE%' then 'WHITECLIFFS-CAMERONS BIGHT FORESHORE'
+        else ''
+    end as complex_name,
     '' as house_prefix_1,
     case
         when A.modifier_desc = 'BTSD' then ''
