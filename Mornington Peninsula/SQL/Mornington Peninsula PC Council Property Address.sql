@@ -39,29 +39,32 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
-        when a.formatted_address like 'ABOVE %' then 'ABOVE'
-        when a.formatted_address like 'BELOW %' then 'BELOW'
-        when a.formatted_address like 'REAR %' then 'REAR'
-        else ''
+        when S.street_name like '% OFF %' then 'OFF'
+        when upper ( A.modifier_desc ) = 'REAR' then 'REAR'
+        when A.formatted_address like 'REAR %' then 'REAR'
+    else ''
     end as location_descriptor,
-    case upper ( A.unit_desc )
-        when 'FLAT' then 'FLAT'
-        when 'KIOSK' then 'KSK'
-        when 'OFFICE' then 'OFFC'
-        when 'SHOP' then 'SHOP'
-        when 'SUITE' then 'SE'
+    case
+        when upper ( A.modifier_desc ) = 'BTSD' then 'BTSD'
+        when upper ( A.unit_desc ) in ( 'FLAT' , 'SHOP' ) then upper ( A.unit_desc )
+        when upper ( A.unit_desc ) = 'KIOSK' then 'KSK'
+        when upper ( A.unit_desc ) = 'OFFICE' then 'OFFC'
+        when upper ( A.unit_desc ) = 'SUITE' then 'SE'
         else ''
     end as blg_unit_type,
     case
-        when upper ( A.unit_desc ) in ( 'REAR' ) then ''
-        when upper ( A.unit_desc ) in ( 'FLAT' , 'KIOSK' , 'OFFICE' , 'SHOP' , 'SUITE' ) then ''
+        when upper ( A.unit_desc ) in ( 'FLAT' , 'KIOSK' , 'OFFICE' , 'REAR' , 'SHOP' , 'SUITE' ) then ''
         else ifnull ( A.unit_desc , '' )
     end  as blg_unit_prefix_1,
     case
+        when A.modifier_desc = 'BTSD' then ifnull ( A.house_no , '' )
         when A.unit_no = '0' then ''
         else ifnull ( A.unit_no , '' )
     end as blg_unit_id_1,
-    upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
+    case
+        when A.modifier_desc = 'BTSD' then upper ( ifnull ( A.house_no_suffix , '' ) )
+        else upper ( ifnull ( A.unit_no_suffix , '' ) )
+    end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
         when A.unit_no_to = '0' then ''
@@ -85,10 +88,14 @@ select
     '' as complex_name,
     '' as house_prefix_1,
     case
+        when A.modifier_desc = 'BTSD' then ''
         when A.house_no = '0' then ''
         else ifnull ( A.house_no , '' )
     end as house_number_1,
-    upper ( ifnull ( A.house_no_suffix , '' ) ) as house_suffix_1,
+    case
+        when A.modifier_desc = 'BTSD' then ''
+        else upper ( ifnull ( A.house_no_suffix , '' ) )
+    end as house_suffix_1,
     '' as house_prefix_2,
     case
         when A.house_no_to = '0' then ''
@@ -219,7 +226,7 @@ select
     '' as outside_property,
     '352' as lga_code,
     '' as crefno,
-    a.formatted_address as summary
+    A.formatted_address as summary
 from
     techone_nucproperty P
     join techone_nucaddress A on A.property_no = P.property_no
