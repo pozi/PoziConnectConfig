@@ -44,8 +44,19 @@ select
         when a.formatted_address like 'REAR %' then 'REAR'
         else ''
     end as location_descriptor,
-    '' as blg_unit_type,
-    '' as blg_unit_prefix_1,
+    case upper ( A.unit_desc )
+        when 'FLAT' then 'FLAT'
+        when 'KIOSK' then 'KSK'
+        when 'OFFICE' then 'OFFC'
+        when 'SHOP' then 'SHOP'
+        when 'SUITE' then 'SE'
+        else ''
+    end as blg_unit_type,
+    case
+        when upper ( A.unit_desc ) in ( 'REAR' ) then ''
+        when upper ( A.unit_desc ) in ( 'FLAT' , 'KIOSK' , 'OFFICE' , 'SHOP' , 'SUITE' ) then ''
+        else ifnull ( A.unit_desc , '' )
+    end  as blg_unit_prefix_1,
     case
         when A.unit_no = '0' then ''
         else ifnull ( A.unit_no , '' )
