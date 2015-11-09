@@ -7,7 +7,8 @@ select
     *,
     case
         when internal_spi <> '' then 'council_spi'
-        else 'council_attributes'
+        when generated_spi <> '' then 'council_attributes'
+        else ''
     end as source,
     case
         when internal_spi <> '' then internal_spi
