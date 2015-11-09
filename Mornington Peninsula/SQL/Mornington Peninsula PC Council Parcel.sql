@@ -74,35 +74,16 @@ select
         when L.plan_no <> '' then L.plan_no
         else ''
     end as allotment,
-    ifnull ( L.parish_section , '' ) as sec,
+    ifnull ( L.section_for_lot , '' ) as sec,
     '' as block,
     ifnull ( L.parish_portion , '' ) as portion,
     '' as subdivision,
-    case L.parish_desc
-        when 'BALNARRING' then '2054'
-        when 'BALNARR' then '2054'
-        when 'BITTERN' then '2159'
-        when 'BITT' then '2159'
-        when 'FINGAL' then '2612'
-        when 'FINGA' then '2612'
-        when 'FLINDERS' then '2613'
-        when 'FRANKSTON' then '2619'
-        when 'F/STON' then '2619'
-        when 'KANGERONG' then '2831'
-        when 'K/RONG' then '2831'
-        when 'LANGWARRIN' then '2972'
-        when 'MOOROODUC' then '3175'
-        when 'M/DUC' then '3175'
-        when 'NEPEAN' then '3297'
-        when 'TYABB' then '3666'
-        when 'WANNAEUE' then '3730'
-        when 'WANN' then '3730'
-        when 'ROSEBUD' then ''
+    case
+        when L.parish_section like '2%' or L.parish_section like '3%' then L.parish_section
         else ''
     end as parish_code,
-    case L.parish_desc
-        when 'KILMORE' then '5420'
-        when 'MERINGO TN' then '5518'
+    case
+        when L.parish_section like '5%' then L.parish_section
         else ''
     end as township_code,
     '352' as lga_code
