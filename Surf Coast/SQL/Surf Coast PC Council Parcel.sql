@@ -48,7 +48,7 @@ select
         else ''
     end as part,
     case
-        when auprparc.ttl_cde = 6 then ''
+        when auprparc.ttl_cde in ( 6 , 10 ) then ''
         else case
             when auprparc.ttl_cde = 1 then 'PS'
             when auprparc.ttl_cde = 2 then 'PC'
@@ -80,28 +80,28 @@ select
         else ''
     end as plan_prefix,
     case
-        when auprparc.ttl_cde = 6 then ''
+        when auprparc.ttl_cde in ( 6 , 10 ) then ''
         when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then auprparc.ttl_no5
-        when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( auprparc.ttl_no5 , 1 , length ( auprparc.ttl_no5 ) - 1 )        
+        when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( auprparc.ttl_no5 , 1 , length ( auprparc.ttl_no5 ) - 1 )
     end as plan_numeral,
     case
-        when auprparc.ttl_cde = 6 then ''
+        when auprparc.ttl_cde in ( 6 , 10 ) then ''
         else ifnull ( auprparc.ttl_no1 , '' )
     end as lot_number,
     case
-        when auprparc.ttl_cde = 6 then auprparc.ttl_no1
+        when auprparc.ttl_cde in ( 6 , 10 ) then ifnull ( auprparc.ttl_no1 , '' )
         else ''
     end as allotment,
     case
-        when auprparc.ttl_cde <> 6 then ''
-        else ifnull ( ttl_no4 , '' )
+        when auprparc.ttl_cde not in ( 6 , 10 ) then ''
+        else ifnull ( auprparc.ttl_no4 , '' )
     end as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
-    ifnull ( udn_cd2 , '' ) as parish_code,
+    ifnull ( auprparc.udn_cd2 , '' ) as parish_code,
     '' as township_code,
-    fmt_ttl as summary,
+    auprparc.fmt_ttl as summary,
     '365' as lga_code,
     cast ( auprparc.ass_num as varchar ) as assnum
 from
