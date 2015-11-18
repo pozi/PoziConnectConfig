@@ -60,7 +60,11 @@ select
             when auprparc.ttl_cde = 9 then 'TP'
             when auprparc.ttl_cde = 11 then 'CP'
             when auprparc.ttl_cde = 20 then 'TP'
-        end || auprparc.ttl_no5
+        end ||
+        case
+            when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then auprparc.ttl_no5
+            when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( auprparc.ttl_no5 , 1 , length ( auprparc.ttl_no5 ) - 1 )
+        end
     end as plan_number,
     case
         when auprparc.ttl_cde = 1 then 'PS'
@@ -77,7 +81,8 @@ select
     end as plan_prefix,
     case
         when auprparc.ttl_cde = 6 then ''
-        else auprparc.ttl_no5
+        when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then auprparc.ttl_no5
+        when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( auprparc.ttl_no5 , 1 , length ( auprparc.ttl_no5 ) - 1 )        
     end as plan_numeral,
     case
         when auprparc.ttl_cde = 6 then ''
