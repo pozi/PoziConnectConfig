@@ -109,5 +109,5 @@ from
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num join
     authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num
 where
-    auprparc.pcl_flg in ( 'R' , 'P' )
+    auprparc.pcl_flg in ( 'R' , 'P' , 'C' )
 )

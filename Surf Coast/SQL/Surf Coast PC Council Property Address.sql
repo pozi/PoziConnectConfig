@@ -92,7 +92,7 @@ from
     authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num left join
     authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ'
 where
-    auprparc.pcl_flg in ( 'R' , 'P' )
+    auprparc.pcl_flg in ( 'R' , 'P' , 'C' )
 )
 )
 )
