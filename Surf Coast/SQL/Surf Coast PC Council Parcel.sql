@@ -49,6 +49,7 @@ select
     end as part,
     case
         when auprparc.ttl_cde in ( 6 , 10 ) then ''
+        when auprparc.ttl_no5 is null then ''
         else case
             when auprparc.ttl_cde = 1 then 'PS'
             when auprparc.ttl_cde = 2 then 'PC'
@@ -81,6 +82,7 @@ select
     end as plan_prefix,
     case
         when auprparc.ttl_cde in ( 6 , 10 ) then ''
+        when auprparc.ttl_no5 is null then ''
         when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then auprparc.ttl_no5
         when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( auprparc.ttl_no5 , 1 , length ( auprparc.ttl_no5 ) - 1 )
     end as plan_numeral,
@@ -99,7 +101,10 @@ select
     '' as block,
     '' as portion,
     '' as subdivision,
-    ifnull ( auprparc.udn_cd2 , '' ) as parish_code,
+    case
+        when length ( auprparc.udn_cd2 ) = 4 then auprparc.udn_cd2
+        else ''
+    end as parish_code,
     '' as township_code,
     auprparc.fmt_ttl as summary,
     '365' as lga_code,
