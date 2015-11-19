@@ -127,7 +127,16 @@ from
 where
     lpaprop.status <> 'H' and
     lpaaddr.addrtype = 'P' and
-    lpaprtp.abbrev <> 'OTH'
+    lpaprtp.abbrev <> 'OTH' and
+    lpaprop.tpklpaprop in
+        ( select tfklpaprop
+            from
+                pathway_lpaprti as lpaprti join
+                pathway_lpatitl as lpatitl on lpaprti.tfklpatitl = lpatitl.tpklpatitl join
+                pathway_lpatipa as lpatipa on lpatitl.tpklpatitl = lpatipa.tfklpatitl
+            where
+                lpaprti.status <> 'H' and lpatitl.status <> 'H' and lpatipa.status <> 'H'
+        )
 )
 )
 )
