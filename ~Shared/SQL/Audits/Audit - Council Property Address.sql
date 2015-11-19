@@ -57,17 +57,17 @@ select
     end as propnum_in_vicmap,
     case
         when propnum not in ( select vpa.propnum from pc_vicmap_property_address vpa ) then ''
-        when replace ( replace ( num_road_address , '-' , ' ' ) , '''' , '' ) = ( select replace ( num_road_address , '-' , ' ' ) from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) then 'Y'
+        when replace ( replace ( num_road_address , '-' , ' ' ) , '''' , '' ) = ( select replace ( num_road_address , '-' , ' ' ) from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary <> 'N' limit 1 ) then 'Y'
         else 'N'
     end as address_match_in_vicmap,
     case
         when propnum not in ( select vpa.propnum from pc_vicmap_property_address vpa ) then ''
         when locality_name = ( select vpa.locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) then 'Y'
-        when ( select vpa.locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) like locality_name || ' (%)' then 'Y'
+        when ( select vpa.locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary <> 'N' limit 1 ) like locality_name || ' (%)' then 'Y'
         else 'N'
     end as locality_match_in_vicmap,
     case
-        when replace ( replace ( road_locality , '-' , ' ' ) , '''' , '' ) in ( select replace ( road_locality , '-' , ' ' ) from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) then 'Y'
+        when replace ( replace ( road_locality , '-' , ' ' ) , '''' , '' ) in ( select replace ( road_locality , '-' , ' ' ) from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary <> 'N' limit 1 ) then 'Y'
         else 'N'
     end as road_locality_in_vicmap,
     ifnull ( ( select edit_code from m1 where m1.propnum = cpa.propnum limit 1 ) , '' ) as current_m1_edit_code,
