@@ -41,6 +41,7 @@ select
     case auprparc.pcl_flg
         when 'R' then 'A'
         when 'P' then 'P'
+        else ''
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
     case ttl_no2

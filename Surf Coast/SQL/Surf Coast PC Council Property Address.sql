@@ -29,7 +29,11 @@ from (
 
 select distinct
     cast ( auprparc.ass_num as varchar ) as propnum,
-    '' as status,
+    case auprparc.pcl_flg
+        when 'R' then 'A'
+        when 'P' then 'P'
+        else ''
+    end as status,
     '' as base_propnum,
     case
         when auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
