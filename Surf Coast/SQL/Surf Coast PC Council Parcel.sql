@@ -105,7 +105,10 @@ select
         when length ( auprparc.udn_cd2 ) = 4 then auprparc.udn_cd2
         else ''
     end as parish_code,
-    '' as township_code,
+    case
+        when length ( auprparc.udn_cd4 ) = 4 then auprparc.udn_cd4
+        else ''
+    end as township_code,
     auprparc.fmt_ttl as summary,
     '365' as lga_code,
     cast ( auprparc.ass_num as varchar ) as assnum
