@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -89,7 +89,7 @@ select
     '' as floor_suffix_2,
     upper ( ifnull ( lpapnam.propname , '' ) ) as building_name,
     '' as complex_name,
-    case    
+    case
         when upper ( lpaaddr.prefix ) = 'REAR OF' then 'REAR'
         when upper ( lpaaddr.prefix ) = 'CNR' then 'CORNER'
         when upper ( lpaaddr.prefix ) in ( 'ACCESS' , 'M' , 'SHOP' , 'UPSTAIRS' ) then ''
@@ -108,32 +108,32 @@ select
     end as house_number_2,
     ifnull ( lpaaddr.endhoussfx , '' ) as house_suffix_2,
     case
-        when upper ( cnacomp.descr ) = 'JAMES ROAD' then 'JAMES'        
+        when upper ( cnacomp.descr ) = 'JAMES ROAD' then 'JAMES'
         when upper ( cnacomp.descr ) = 'MCPHEE STREET' then 'MCPHEE'
         else upper ( replace ( replace ( cnacomp.descr , ' - ' , '-' ) , '''' , '' ) )
-    end as road_name, 
+    end as road_name,
     case
-        when upper ( cnacomp.descr ) = 'JAMES ROAD' then 'ROAD'        
+        when upper ( cnacomp.descr ) = 'JAMES ROAD' then 'ROAD'
         when upper ( cnacomp.descr ) = 'MCPHEE STREET' then 'STREET'
         when upper ( cnaqual.descr ) like 'STREET %' then 'STREET'
         when upper ( cnaqual.descr ) like 'ROAD %' then 'ROAD'
         when upper ( cnaqual.descr ) like 'AVENUE %' then 'AVENUE'
         when upper ( cnaqual.descr ) like 'COURT %' then 'COURT'
-        when upper ( cnaqual.descr ) like 'DRIVE %' then 'DRIVE' 
+        when upper ( cnaqual.descr ) like 'DRIVE %' then 'DRIVE'
         when upper ( cnaqual.descr ) like 'PLACE %' then 'PLACE'
         when upper ( cnaqual.descr ) like 'PARADE %' then 'PARADE'
-        else upper ( ifnull ( cnaqual.descr , '' ) )    
+        else upper ( ifnull ( cnaqual.descr , '' ) )
     end as road_type,
-    case    
-        when upper ( cnacomp.descr ) = 'JAMES ROAD' then 'N'        
+    case
+        when upper ( cnacomp.descr ) = 'JAMES ROAD' then 'N'
         when upper ( cnacomp.descr ) = 'MCPHEE STREET' then 'N'
-        when upper ( ifnull (cnaqual.descr , '' ) ) like '% EAST%' then 'E'    
-        when upper ( ifnull (cnaqual.descr , '' ) ) like '% WEST%' then 'W'    
-        when upper ( ifnull (cnaqual.descr , '' ) ) like '% NORTH%' then 'N'    
+        when upper ( ifnull (cnaqual.descr , '' ) ) like '% EAST%' then 'E'
+        when upper ( ifnull (cnaqual.descr , '' ) ) like '% WEST%' then 'W'
+        when upper ( ifnull (cnaqual.descr , '' ) ) like '% NORTH%' then 'N'
         when upper ( ifnull (cnaqual.descr , '' ) ) like '% SOUTH%' then 'S'
-        else '' 
-    end as road_suffix, 
-    upper ( lpasubr.suburbname ) as locality_name, 
+        else ''
+    end as road_suffix,
+    upper ( lpasubr.suburbname ) as locality_name,
     cnacomp_1.descr as postcode,
     '' as access_type,
     '' as easting,
@@ -145,18 +145,18 @@ select
     '' as summary
 from
     pathway_lpaprop as lpaprop left join
-    pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join 
-    pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join 
-    pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join 
-    pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join 
-    pathway_cnacomp as cnacomp_1 on lpaaddr.tfkcnacomp = cnacomp_1.tpkcnacomp left join 
-    pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join 
-    pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join 
+    pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
+    pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join
+    pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join
+    pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join
+    pathway_cnacomp as cnacomp_1 on lpaaddr.tfkcnacomp = cnacomp_1.tpkcnacomp left join
+    pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join
+    pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
-    lpaprop.status <> 'H' and 
-    lpaaddr.addrtype = 'P' and 
+    lpaprop.status <> 'H' and
+    lpaaddr.addrtype = 'P' and
     lpaprop.tfklpacncl = 13
 )
 )

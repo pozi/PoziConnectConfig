@@ -61,20 +61,20 @@ select distinct
         when substr ( trim ( lpaparc.plannum ) , 1 ) = '0'  then substr ( lpaparc.plannum , 2 , 99 )
         else trim ( lpaparc.plannum )
     end as plan_numeral,
-    case 
+    case
         when ifnull ( lpaparc.parcelnum , '' ) = '' and lpaparc.parcelcode = 'CM' then 'CM'
         when ifnull ( lpaparc.parcelnum , '' ) <> '' and ifnull ( lpaparc.plannum , '' ) = '' then ''
         else ifnull ( lpaparc.parcelnum , '' )
     end as lot_number,
-    case 
+    case
         when ifnull ( lpaparc.parcelnum , '' ) <> '' and ifnull ( lpaparc.plannum , '' ) = '' then ifnull ( lpaparc.parcelnum , '' )
-        else ifnull ( lpacrwn.crownallot , '' ) 
+        else ifnull ( lpacrwn.crownallot , '' )
     end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
-    case    
+    case
         when lpadesc.descr = 'Allambee' then '2010'
         when lpadesc.descr = 'Allambee East' then '2011'
         when lpadesc.descr = 'Beek Beek' then '2100'
@@ -115,10 +115,10 @@ select distinct
         when lpadesc.descr = 'Wonga Wonga South' then '3863'
         when lpadesc.descr = 'Woorarra' then '3885'
         when lpadesc.descr = 'Yanakie' then '3945'
-        when lpadesc.descr = 'Yanakie South' then '3946'    
+        when lpadesc.descr = 'Yanakie South' then '3946'
         else ''
-    end as parish_code,    
-    case    
+    end as parish_code,
+    case
         when lpadesc.descr = 'Bennison Township' then '5072'
         when lpadesc.descr = 'Darlimurla Township' then '5224'
         when lpadesc.descr = 'Foster Township' then '5296'
@@ -133,7 +133,7 @@ select distinct
         when lpadesc.descr = 'Stony Creek Township' then '5734'
         when lpadesc.descr = 'Tarwin Lower Township' then '5770'
         when lpadesc.descr = 'Walkerville Township' then '5820'
-        when lpadesc.descr = 'Nyora Township' then '5613'       
+        when lpadesc.descr = 'Nyora Township' then '5613'
         else ''
     end as township_code,
     '361' as lga_code,
@@ -146,9 +146,9 @@ from
     pathway_lpaprti as lpaprti on lpaprop.tpklpaprop = lpaprti.tfklpaprop left outer join
     pathway_lpatipa as lpatipa on lpaprti.tfklpatitl = lpatipa.tfklpatitl left outer join
     pathway_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc left outer join
-    pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left outer join    
-    pathway_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpacrwn.tfklpaparc left outer join    
-    pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc left outer join    
+    pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left outer join
+    pathway_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpacrwn.tfklpaparc left outer join
+    pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc left outer join
     pathway_lpadesc as lpadesc on lpadepa.tfklpadesc = lpadesc.tpklpadesc left outer join
     pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left outer join
     pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm
