@@ -1,6 +1,6 @@
 # South Gippsland
 
-copied from Glen Erira
+copied from Glen Eira
 
 ## Notes
 
@@ -17,7 +17,7 @@ Parish / townships that dont have a match in vicmap ref.
     when lpadesc.descr = 'Kongwak Township' then '????
     when lpadesc.descr = 'Bena Township' then '????
 
-#### Parcel Desc 
+#### Parcel Desc
 
 Crown Allotments and sections are stored in separate tables from all other parcel info in LPAPARC.
 
@@ -34,7 +34,7 @@ Common Property lot info is stored in lpaparc.parcelcode
 
 Directional suffix is normally in street type for all other streets. these 2 streets do not have a correct street type and are not stored the same as other directional streets.
 
-* JAMES ROAD NORTH    
+* JAMES ROAD NORTH
 * MCPHEE STREET NORTH
 
 ### Units
