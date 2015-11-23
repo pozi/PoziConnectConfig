@@ -34,7 +34,10 @@ select
         when 'A' then 'P'
     end as status,
     '' as base_propnum,
-    '' as is_primary,
+    case lpaaddr.addrtype
+        when 'P' then 'Y'
+        else 'N'
+    end as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
@@ -156,7 +159,7 @@ from
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
     lpaprop.status <> 'H' and
-    lpaaddr.addrtype = 'P' and
+    lpaaddr.addrtype <> 'H' and
     lpaprop.tfklpacncl = 13
 )
 )
