@@ -3,12 +3,12 @@ set
     distance_related_flag = ifnull (
         ( select
             case
-                when upper ra.dist_flag = 'N' then 'N'
+                when upper ( ra.dist_flag ) = 'N' then 'N'
                 else 'Y'
             end from sgsc_rural_address ra
             where
                 ra.prop_key = pc_council_property_address.propnum and
-                ra.house = cast ( pc_council_property_address.house_number_1 as integer )  , '' ) ,
+                ra.house = cast ( pc_council_property_address.house_number_1 as integer ) )  , '' ) ,
     easting = ifnull ( ( select round ( X ( geometry ) , 0 ) from sgsc_rural_address ra where ra.prop_key = pc_council_property_address.propnum and ra.house = cast ( pc_council_property_address.house_number_1 as integer ) ) , '' ) ,
     northing = ifnull ( ( select round ( Y ( geometry ) , 0 ) from sgsc_rural_address ra where ra.prop_key = pc_council_property_address.propnum and ra.house = cast ( pc_council_property_address.house_number_1 as integer ) ) , '' ) ,
     datum_proj = ifnull ( ( select 'EPSG:' || SRID ( geometry ) from sgsc_rural_address ra where ra.prop_key = pc_council_property_address.propnum and ra.house = cast ( pc_council_property_address.house_number_1 as integer ) ) , '' ) ,
