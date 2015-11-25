@@ -73,7 +73,10 @@ select
         when Parcel.Section in ( 'NO' , 'NO SEC' ) then ''
         else Parcel.Section
     end as sec,
-    case when Lot like '%(BLK%)' then substr ( Lot , length ( Lot ) - 1 , 1 ) else '' end as block,
+    case
+        when Parcel.Lot like '%(BLK%)' then substr ( Parcel.Lot , length ( Parcel.Lot ) - 1 , 1 )
+        else ''
+    end as block,
     '' as portion,
     '' as subdivision,
     case upper ( Parcel.Parish )
