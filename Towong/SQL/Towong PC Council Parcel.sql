@@ -70,7 +70,7 @@ select
     end as lot_number,
     Parcel.CrownAllotment as allotment,
     case
-        when Parcel.Section in ( 'NO' , 'NO SEC' ) then ''
+        when upper ( Parcel.Section ) in ( 'NO' , 'NO SEC' ) then ''
         else Parcel.Section
     end as sec,
     case
