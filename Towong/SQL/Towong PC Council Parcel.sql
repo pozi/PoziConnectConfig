@@ -166,8 +166,10 @@ select
     end as township_code,
     '367' as lga_code
 from
-    lynx_vwlandparcel Parcel
+    lynx_vwlandparcel Parcel join
+    lynx_propertys Property on Parcel.PropertyNumber = Property.Property
 where
     Parcel.Status = 'Active' and
-    Parcel.Ended is null
+    Parcel.Ended is null and
+    Property.Type not in ( 672 , 700 )
 )
