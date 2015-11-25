@@ -39,10 +39,10 @@ from
 select
     cast ( Parcel.PropertyNumber as varchar ) as propnum,
     '' as status,
-    cast ( Parcel.LandParcelNumber as varchar ) as crefno,    
+    cast ( Parcel.LandParcelNumber as varchar ) as crefno,
     '' as summary,
     '' as part,
-    case Parcel.Type    
+    case Parcel.Type
         when 'Lodged Plan' then 'LP' || Parcel.PlanNo
         when 'Title Plan' then 'TP' || Parcel.PlanNo
         when 'Plan of Subdivision' then 'PS' || Parcel.PlanNo
@@ -51,7 +51,7 @@ select
         when 'Stratum Plan' then 'SP' || Parcel.PlanNo
         else ''
     end as plan_number,
-    case Parcel.Type    
+    case Parcel.Type
         when 'Lodged Plan' then 'LP'
         when 'Title Plan' then 'TP'
         when 'Plan of Subdivision' then 'PS'
@@ -167,4 +167,3 @@ where
     Parcel.Status = 'Active' and
     Parcel.Ended is null
 )
-
