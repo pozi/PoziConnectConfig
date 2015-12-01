@@ -82,6 +82,7 @@ select
         else ''
     end as allotment,
     case
+        when Parcel.Type in ( 'Title Plan' , 'Plan of Subdivision' , 'Consolidation Plan' , 'Plan of Consolidation' , 'Strata Plan' , 'Stratum Plan' ) then ''
         when upper ( Parcel.Section ) in ( 'NO' , 'NO SEC' , 'NO SECTION' ) then ''
         else Parcel.Section
     end as sec,
