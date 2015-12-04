@@ -49,13 +49,6 @@ select
     outside_property,
     edit_code,
     comments,
-    case
-        when property_pfi <> '' then '=hyperlink("http://www.pozi.com/vicmap/ws/goto.php?lga_code=' || lga_code || '&property_pfi=' || property_pfi || '","map")'        
-        when parcel_pfi <> '' then '=hyperlink("http://www.pozi.com/vicmap/ws/goto.php?lga_code=' || lga_code || '&parcel_pfi=' || parcel_pfi || '","map")'
-        when spi <> '' then '=hyperlink("http://www.pozi.com/vicmap/ws/goto.php?lga_code=' || lga_code || '&parcel_pfi=' || ( select vp.parcel_pfi from pc_vicmap_parcel vp where vp.spi = combined_m1.spi limit 1 ) || '","map")'
-        when propnum <> '' and geometry is not null then '=hyperlink("http://www.pozi.com/vicmap/ws/goto.php?lga_code=' || lga_code || '&propnum=' || propnum || '","map")'  
-        else ''
-    end as map,
     geometry
 from
 (
