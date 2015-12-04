@@ -31,7 +31,10 @@ select
     cast ( lpaprop.tpklpaprop as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
-    '' as is_primary,
+    case lpaaddr.addrtype
+        when 'P' then 'Y'
+        else 'N'
+    end as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
@@ -127,7 +130,7 @@ from
 where
     lpaprop.status <> 'H' and
     lpaprop.tfklpacncl = 12 and
-    lpaaddr.addrtype = 'P' and
+    lpaaddr.addrtype <> 'H' and
     lpaprtp.abbrev <> 'OTH'
 )
 )

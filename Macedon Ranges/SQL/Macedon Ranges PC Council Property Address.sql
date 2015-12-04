@@ -34,7 +34,10 @@ select distinct
         when 'A' then 'P'
     end as status,
     '' as base_propnum,
-    '' as is_primary,
+    case lpaaddr.addrtype
+        when 'P' then 'Y'
+        else 'N'
+    end as is_primary,
     case
         when lpaprop.tpklpaprop in ( select tfklpaprop from pathway_lpaprgp where tfklpapgrp = 1751 ) then 'Y'
         else ''
@@ -157,7 +160,7 @@ from
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
     lpaprop.status in ('A', 'C') and
-    lpaaddr.addrtype = 'P' and
+    lpaaddr.addrtype <> 'H' and
     lpaprtp.abbrev <> 'BASE' and
     lpaprop.tfklpacncl = 12
 )
