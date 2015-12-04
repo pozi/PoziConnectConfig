@@ -98,5 +98,6 @@ from
 where
     A.association_type = 'PropLand' and
     A.date_ended is null and
-    P.status in ( 'C' , 'F' )
+    P.status in ( 'C' , 'F' ) and
+    P.property_no <> 1
 )
