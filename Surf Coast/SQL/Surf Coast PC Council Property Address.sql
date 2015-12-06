@@ -89,7 +89,7 @@ select distinct
     '' as outside_property,
     '365' as lga_code,
     cast ( auprparc.pcl_num as varchar ) as crefno,
-    auprparc.ttl_nme as summary
+    ifnull ( auprparc.ttl_nme , '' ) as summary
 from
     authority_auprparc auprparc join
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num join
