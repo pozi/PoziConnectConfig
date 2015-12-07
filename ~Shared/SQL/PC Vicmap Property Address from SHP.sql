@@ -51,9 +51,9 @@ select
     st_y ( address.geometry ) as address_y,
     property.geometry as geometry
 from
-    vmprop_property_mp property,   
+    vmprop_property_mp property,
     vmadd_address address
 where
-    property.prop_pfi = address.pr_pfi and  
-    property.pr_ptype = 'O' and 
+    property.prop_pfi = address.pr_pfi and
+    property.pr_ptype = 'O' and
     address.is_primary = 'Y'
