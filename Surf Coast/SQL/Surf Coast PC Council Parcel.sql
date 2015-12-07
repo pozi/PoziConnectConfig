@@ -97,7 +97,7 @@ select
     end as allotment,
     case
         when auprparc.ttl_cde not in ( 6 , 10 ) then ''
-        else ifnull ( auprparc.ttl_no4 , '' )
+        else ifnull ( auprparc.ttl_no3 , '' )
     end as sec,
     '' as block,
     '' as portion,
