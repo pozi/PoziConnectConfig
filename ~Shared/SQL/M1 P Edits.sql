@@ -84,7 +84,7 @@ select
             when cp.propnum not in ( select propnum from pc_vicmap_parcel ) then ' (new)'
             else ''
         end ||
-        ifnull ( ' (' || ( select cpa.ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum and is_primary <> 'N' limit 1 ) , '' ) || ')' ||
+        ifnull ( ' (' || ( select cpa.ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum and is_primary <> 'N' limit 1 ) || ')' , '' ) ||
         case
             when ( select locality_name from pc_vicmap_property_address where property_pfi = vp.property_pfi ) <> ( select locality_name from pc_council_property_address where propnum = cp.propnum ) then ' (**WARNING**: conflicting localities)'
             when ( vp.primary_address_pfi in ( select address_pfi from pc_vicmap_property_address where distance_related_flag = 'Y' ) and vp.propnum in ( select propnum from pc_vicmap_property_parcel_count where propnum not in ( '' , 'NCPR' ) and num_parcels > 1 ) ) then ' (**WARNING**: transfer of parcel that includes existing primary distance-based address)'
