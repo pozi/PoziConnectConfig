@@ -69,6 +69,7 @@ select
         end
     end as plan_number,
     case
+        when auprparc.ttl_no5 is null then ''
         when auprparc.ttl_cde = 1 then 'PS'
         when auprparc.ttl_cde = 2 then 'PC'
         when auprparc.ttl_cde = 3 then 'LP'
@@ -88,7 +89,7 @@ select
         when substr ( cast ( auprparc.ttl_no5 as varchar ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( auprparc.ttl_no5 , 1 , length ( auprparc.ttl_no5 ) - 1 )
     end as plan_numeral,
     case
-        when auprparc.ttl_cde in ( 6 , 10 ) then ''
+        when auprparc.ttl_cde in ( 6 , 10 , 11 ) then ''
         else ifnull ( auprparc.ttl_no1 , '' )
     end as lot_number,
     case
@@ -96,11 +97,15 @@ select
         else ''
     end as allotment,
     case
+        when auprparc.ttl_cde = '11' then ifnull ( auprparc.ttl_no3 , '' )
         when auprparc.ttl_cde not in ( 6 , 10 ) then ''
         else ifnull ( auprparc.ttl_no3 , '' )
     end as sec,
     '' as block,
-    '' as portion,
+    case
+        when auprparc.ttl_cde = '11' then ifnull ( auprparc.ttl_no1 , '' )
+        else ''
+    end as portion,
     '' as subdivision,
     case
         when length ( auprparc.udn_cd2 ) = 4 then auprparc.udn_cd2
