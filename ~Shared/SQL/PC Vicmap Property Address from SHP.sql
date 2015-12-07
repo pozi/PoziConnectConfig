@@ -4,6 +4,7 @@ select
     ifnull ( property.pr_propnum , '' ) as propnum,
     property.pr_multass as multi_assessment,
     property.pr_stat as status,
+    property.propv_pfi as property_view_pfi,
     address.pfi as address_pfi,
     substr ( address.ezi_add , 1 , length ( address.ezi_add ) - 5 ) as ezi_address,
     address.source as source,
