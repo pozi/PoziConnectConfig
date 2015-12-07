@@ -47,6 +47,8 @@ select
     address.out_prop as outside_property,
     ifnull ( address.road_name , '' ) || rtrim ( ' ' || ifnull ( address.road_type , '' ) ) || rtrim ( ' ' || ifnull ( address.rd_suf , '' ) ) as road_name_combined,
     ifnull ( address.road_name , '' ) || rtrim ( ' ' || ifnull ( address.road_type , '' ) ) || rtrim ( ' ' || ifnull ( address.rd_suf , '' ) ) || rtrim ( ' ' || locality ) as road_locality,
+    st_x ( address.geometry ) as address_x,
+    st_y ( address.geometry ) as address_y,
     property.geometry as geometry
 from
     vmprop_property_mp property,   
