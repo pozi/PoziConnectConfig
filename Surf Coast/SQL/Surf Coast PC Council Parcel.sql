@@ -44,6 +44,7 @@ select
         else ''
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
+    aualchkl.dta_val as internal_spi,
     case ttl_no2
         when 'Y' then 'P'
         else ''
@@ -121,7 +122,8 @@ select
 from
     authority_auprparc as auprparc join
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num join
-    authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num
+    authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num left join
+    authority_aualchkl as aualchkl on auprparc.pcl_num = aualchkl.fmt_acc_int
 where
     auprparc.pcl_flg in ( 'R' , 'P' , 'C' )
 )
