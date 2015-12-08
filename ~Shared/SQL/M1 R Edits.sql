@@ -81,6 +81,7 @@ where
     ( propnum not in ( select cpa.propnum from pc_council_property_address cpa ) or
       vp.spi in ( select cp.spi from pc_council_parcel cp )
     ) and
-    propnum not in ( select propnum from pc_council_parcel cp where spi not in ( select x.spi from pc_vicmap_parcel x where spi <> '' ) )
+    propnum not in ( select propnum from pc_council_parcel cp where spi not in ( select x.spi from pc_vicmap_parcel x where spi <> '' ) ) and
+    vp.spi <> ''
 group by property_pfi
 )
