@@ -1,18 +1,7 @@
 select
     parcel.parcel_pfi as parcel_pfi,
     ifnull ( parcel.parcel_spi , '' ) as spi,
-    ifnull ( case
-        when parcel.pc_parc not null then replace ( parcel_spi , '\PP' , '\' )
-        when parcel.pc_planno like 'CP%' then substr ( parcel.pc_planno , 3 , 6 )
-        when parcel.pc_planno like 'PC%' then substr ( parcel.pc_planno , 3 , 6 )
-        when parcel.pc_planno like 'CS%' then replace ( parcel_spi , '\CS' , '\' )
-        when parcel.pc_planno like 'LP%' then replace ( parcel_spi , '\LP' , '\' )
-        when parcel.pc_planno like 'PS%' then replace ( parcel_spi , '\PS' , '\' )
-        when parcel.pc_planno like 'RP%' then replace ( parcel_spi , '\RP' , '\' )
-        when parcel.pc_planno like 'SP%' then replace ( parcel_spi , '\SP' , '\' )
-        when parcel.pc_planno like 'TP%' then replace ( parcel_spi , '\TP' , '\' )
-        else ''
-    end , '' ) as simple_spi,
+    replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( parcel.parcel_spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' ) as simple_spi,
     parcel.pc_spic as spi_code,
     parcel.pc_dtype as desc_type,
     parcel.pc_lgac as lga_code,

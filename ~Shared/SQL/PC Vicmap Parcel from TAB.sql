@@ -1,18 +1,7 @@
 select
     parcel.parcel_pfi as parcel_pfi,
     parcel.parcel_spi as spi,
-    case
-        when parcel.parcel_parish_code <> '' then replace ( parcel.parcel_spi , '\PP' , '\' )
-        when parcel.parcel_plan_number like 'CP%' then substr ( parcel.parcel_plan_number , 3 , 6 )
-        when parcel.parcel_plan_number like 'PC%' then substr ( parcel.parcel_plan_number , 3 , 6 )
-        when parcel.parcel_plan_number like 'CS%' then replace ( parcel.parcel_spi , '\CS' , '\' )
-        when parcel.parcel_plan_number like 'LP%' then replace ( parcel.parcel_spi , '\LP' , '\' )
-        when parcel.parcel_plan_number like 'PS%' then replace ( parcel.parcel_spi , '\PS' , '\' )
-        when parcel.parcel_plan_number like 'RP%' then replace ( parcel.parcel_spi , '\RP' , '\' )
-        when parcel.parcel_plan_number like 'SP%' then replace ( parcel.parcel_spi , '\SP' , '\' )
-        when parcel.parcel_plan_number like 'TP%' then replace ( parcel.parcel_spi , '\TP' , '\' )
-        else ''
-    end as simple_spi,
+    replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( parcel.parcel_spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' ) as simple_spi,
     parcel.parcel_spi_code as spi_code,
     parcel.parcel_desc_type as desc_type,
     parcel.parcel_lga_code as lga_code,
