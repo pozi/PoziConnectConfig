@@ -87,17 +87,21 @@ select
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
     upper ( ifnull ( A.property_name , '' ) ) as building_name,
     case
+        when upper ( A.formatted_address ) like '%CANADIAN BAY FORESHORE%' then 'CANADIAN BAY FORESHORE'
         when upper ( A.formatted_address ) like '%CAPEL SOUND FORESHORE%' then 'CAPEL SOUND FORESHORE'
+        when upper ( A.formatted_address ) like '%DAVEYS BAY FORESHORE%' then 'DAVEYS BAY FORESHORE'
         when upper ( A.formatted_address ) like '%DROMANA FORESHORE%' then 'DROMANA FORESHORE'
         when upper ( A.formatted_address ) like '%EARIMIL BEACH NORTH%' then 'EARIMIL BEACH NORTH'
         when upper ( A.formatted_address ) like '%EARIMIL BEACH SOUTH%' then 'EARIMIL BEACH SOUTH'
-        when upper ( A.formatted_address ) like '%FISHERMANS BEACH%' then 'FISHERMANS BEACH'
         when upper ( A.formatted_address ) like '%FISHERMANS BEACH FORESHORE%' then 'FISHERMANS BEACH FORESHORE'
+        when upper ( A.formatted_address ) like '%FISHERMANS BEACH%' then 'FISHERMANS BEACH'
         when upper ( A.formatted_address ) like '%HAWKER BEACH%' then 'HAWKER BEACH'
         when upper ( A.formatted_address ) like '%MILLS BEACH%' then 'MILLS BEACH'
         when upper ( A.formatted_address ) like '%MOONDAH BEACH%' then 'MOONDAH BEACH'
         when upper ( A.formatted_address ) like '%MOUNT MARTHA BEACH NORTH%' then 'MOUNT MARTHA BEACH NORTH'
         when upper ( A.formatted_address ) like '%MOUNT MARTHA BEACH SOUTH%' then 'MOUNT MARTHA BEACH SOUTH'
+        when upper ( A.formatted_address ) like '%POINT KING FORESHORE%' then 'POINT KING FORESHORE'
+        when upper ( A.formatted_address ) like '%PORTSEA FORESHORE%' then 'PORTSEA FORESHORE'
         when upper ( A.formatted_address ) like '%RANELAGH BEACH%' then 'RANELAGH BEACH'
         when upper ( A.formatted_address ) like '%ROSEBUD FORESHORE%' then 'ROSEBUD FORESHORE'
         when upper ( A.formatted_address ) like '%RYE FORESHORE%' then 'RYE FORESHORE'
