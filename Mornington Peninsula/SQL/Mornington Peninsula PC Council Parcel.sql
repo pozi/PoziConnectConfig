@@ -86,7 +86,10 @@ select
         when L.parish_section like '5%' then L.parish_section
         else ''
     end as township_code,
-    '352' as lga_code
+    case P.electorate
+        when 'French' then '379'
+        else '352'
+    end as lga_code
 from
     techone_nucland L
     join techone_nucassociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F')

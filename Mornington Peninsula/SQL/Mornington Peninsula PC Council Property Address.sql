@@ -248,7 +248,10 @@ select
     '' as northing,
     '' as datum_proj,
     '' as outside_property,
-    '352' as lga_code,
+    case P.electorate
+        when 'French' then '379'
+        else '352'
+    end as lga_code,
     '' as crefno,
     A.formatted_address as summary
 from
