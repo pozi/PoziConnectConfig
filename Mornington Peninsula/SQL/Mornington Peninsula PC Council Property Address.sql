@@ -67,6 +67,7 @@ select
     end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
+        when A.modifier_desc = 'BTSD' then ifnull ( A.house_no_to , '' )
         when A.unit_no_to = '0' then ''
         else ifnull ( A.unit_no_to , '' )
     end as blg_unit_id_2,
@@ -123,6 +124,7 @@ select
     end as house_suffix_1,
     '' as house_prefix_2,
     case
+        when A.modifier_desc = 'BTSD' then ''
         when A.house_no_to = '0' then ''
         else ifnull ( A.house_no_to , '' )
     end as house_number_2,
