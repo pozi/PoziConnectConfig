@@ -104,6 +104,7 @@ select
         when upper ( A.formatted_address ) like '%SCOUT BEACH%' then 'SCOUT BEACH'
         when upper ( A.formatted_address ) like '%SHELLEY BEACH FORESHORE%' then 'SHELLEY BEACH FORESHORE'
         when upper ( A.formatted_address ) like '%SHIRE HALL BEACH%' then 'SHIRE HALL BEACH'
+        when upper ( A.formatted_address ) like '%SOMERS FORESHORE%' then 'SOMERS FORESHORE'
         when upper ( A.formatted_address ) like '%SORRENTO FORESHORE%' then 'SORRENTO FORESHORE'
         when upper ( A.formatted_address ) like '%TYRONE FORESHORE%' then 'TYRONE FORESHORE'
         when upper ( A.formatted_address ) like '%WESTERNPORT GARDENS RETIREMENT VILLAGE%' then 'WESTERNPORT GARDENS RETIREMENT VILLAGE'
