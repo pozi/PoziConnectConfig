@@ -108,10 +108,14 @@ Exclude properties being matched to an approved parcel if the number is already 
 not ( vp.status = 'A' and cp.propnum in ( select propnum from pc_vicmap_parcel vpx where vpx.status = 'P' ) )
 ```
 
+Include only parcels whose SPI is not already matched to the same property number. (Mornington Peninsula has a lot of parcels that aren't multi-assessments, but still have duplicate SPIs. If one of these parcels is already matched to the desired propnum, we shouldn't try to match it again.)
+
+```sql
+vp.spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum = cp.propnum )
+```
+
 Return only one record per parcel.
 
 ```sql
 group by vp.spi
 ```
-
-

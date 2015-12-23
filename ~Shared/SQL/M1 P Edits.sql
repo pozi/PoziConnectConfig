@@ -108,7 +108,8 @@ where
       ( select num_parcels from pc_vicmap_property_parcel_count where propnum = vp.propnum ) > 1 or
       vp.propnum in ( select propnum from pc_council_parcel cpx where cpx.spi in ( select spi from pc_vicmap_parcel where spi <> '' ) ) ) and
     not ( vp.status = 'P' and ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cp.propnum ) > 1 ) and
-    not ( vp.status = 'A' and cp.propnum in ( select propnum from pc_vicmap_parcel vpx where vpx.status = 'P' ) )
+    not ( vp.status = 'A' and cp.propnum in ( select propnum from pc_vicmap_parcel vpx where vpx.status = 'P' ) ) and
+    vp.spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum = cp.propnum )
 group by vp.spi
 )
 order by plan_number, lot_number
