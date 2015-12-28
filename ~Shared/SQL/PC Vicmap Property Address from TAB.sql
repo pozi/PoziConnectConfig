@@ -5,7 +5,7 @@ select
     property.prop_multi_assessment as multi_assessment,
     property.prop_status as status,
     property.propv_pfi as property_view_pfi,
-    property.prop_pfi_created_char as property_pfi_created,
+    replace ( property.prop_pfi_created_char , '/' , '-' ) as property_pfi_created,
     address.pfi as address_pfi,
     substr ( address.ezi_address , 1 , length ( address.ezi_address ) - 5 ) as ezi_address,
     address.source as source,
@@ -48,7 +48,7 @@ select
     address.outside_property as outside_property,
     road_name || rtrim ( ' ' || road_type ) || rtrim ( ' ' || road_suffix ) as road_name_combined,
     road_name || rtrim ( ' ' || road_type ) || rtrim ( ' ' || road_suffix ) || rtrim ( ' ' || locality_name ) as road_locality,
-    pfi_created_char as address_pfi_created,
+    replace ( pfi_created_char , '/' , '-' ) as address_pfi_created,
     st_x ( address.geometry ) as address_x,
     st_y ( address.geometry ) as address_y,
     property.geometry as geometry

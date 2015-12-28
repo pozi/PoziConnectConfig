@@ -29,7 +29,7 @@ select
     ifnull ( pr_propnum , '' ) as propnum,
     ifnull ( propv_pfi , '' ) as property_view_pfi,
     parcel.parv_pfi as parcel_view_pfi,
-    parcel.pc_pfi_cr_char as parcel_pfi_created,
+    replace ( parcel.pc_pfi_cr_char , '/' , '-' ) as parcel_pfi_created,
     ifnull ( (
         select pfi
         from vmadd_address address
