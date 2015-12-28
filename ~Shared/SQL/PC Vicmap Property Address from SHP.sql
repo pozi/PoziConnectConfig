@@ -5,6 +5,7 @@ select
     property.pr_multass as multi_assessment,
     property.pr_stat as status,
     property.propv_pfi as property_view_pfi,
+    property.pr_pfi_cr_char as property_pfi_created,
     address.pfi as address_pfi,
     substr ( address.ezi_add , 1 , length ( address.ezi_add ) - 5 ) as ezi_address,
     address.source as source,
@@ -47,6 +48,7 @@ select
     address.out_prop as outside_property,
     ifnull ( address.road_name , '' ) || rtrim ( ' ' || ifnull ( address.road_type , '' ) ) || rtrim ( ' ' || ifnull ( address.rd_suf , '' ) ) as road_name_combined,
     ifnull ( address.road_name , '' ) || rtrim ( ' ' || ifnull ( address.road_type , '' ) ) || rtrim ( ' ' || ifnull ( address.rd_suf , '' ) ) || rtrim ( ' ' || locality ) as road_locality,
+    pfi_cr_char as address_pfi_created,
     st_x ( address.geometry ) as address_x,
     st_y ( address.geometry ) as address_y,
     property.geometry as geometry
