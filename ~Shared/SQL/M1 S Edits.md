@@ -32,6 +32,8 @@ Include only property address records where the address is not marked as non-pri
 
 (Allowing non-primary records if they're the only record for that property suits Property.Gov sites whose addresses may be marked as non-primary if the address doesn't closely match the free-form address summary field.)
 
+All comparisons with Vicmap Address are performed only on the Vicmap primary addresses. Another S edit query will need to be developed for taking any secondary Vicmap addresses into account (say, for adding new secondary addresses from Council that don't exist in Vicmap).
+
 ```sql
 ( is_primary <> 'N' or ( select cpc.num_records from pc_council_property_count cpc where cpc.propnum = cpa.propnum ) = 1 ) and
 ```
@@ -44,8 +46,8 @@ Include only records where:
 *Note: This complex query caters for systems such as Property.Gov where there can be multiple records per council property, each with different addresses If any one of them match the Vicmap address, it would not warrant an update.*
 
 ```sql
-( propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address where propnum = cpa.propnum ) ) or
-  building_name <> '' and building_name not in ( ifnull ( ( select building_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , '' ) ) ) ) and
+( propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' ) ) or
+  building_name <> '' and building_name not in ( ifnull ( ( select building_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' ) , '' ) ) ) ) and
 ```
 
 Exclude properties that will be retired.
@@ -68,7 +70,7 @@ Include only properties that 1) already exist in Vicmap; 2) will appear in a P e
 Exclude properties where the only difference between the Council and Vicmap address is a hyphen or an apostrophe.
 
 ```sql
-not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' ) , '' )
+not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' ) , '-' , ' ' ) , '''' , '' ) , '' )
 ```
 
 Generate only one record per property.

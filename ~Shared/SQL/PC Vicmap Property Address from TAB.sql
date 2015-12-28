@@ -57,5 +57,4 @@ from
     vmadd_address address
 where
     property.prop_pfi = address.property_pfi and
-    property.prop_property_type = 'O' and
-    address.is_primary = 'Y'
+    property.prop_property_type = 'O'
