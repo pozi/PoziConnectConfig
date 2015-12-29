@@ -129,6 +129,8 @@ select
     end as house_suffix_2,
     upper ( cnacomp.descr ) as road_name,
     case
+        when cnaqual.descr = 'Avenue Mall' then 'AVENUE'
+        when cnaqual.descr = 'Street Mall' then 'STREET'
         when
             cnaqual.descr like '% NORTH' or
             cnaqual.descr like '% SOUTH' or
@@ -137,6 +139,7 @@ select
         else ifnull ( upper ( cnaqual.descr ) , '' )
     end as road_type,
     case
+        when cnaqual.descr in ( 'Street Mall' , 'Avenue Mall' ) then 'ML'
         when cnaqual.descr like '%NORTH' then 'N'
         when cnaqual.descr like '%SOUTH' then 'S'
         when cnaqual.descr like '%EAST' then 'E'
