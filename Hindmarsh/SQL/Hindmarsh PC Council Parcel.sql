@@ -50,10 +50,14 @@ select
     end as part,
     case
         when auprparc.ttl_cde = 1 then 'LP'
-        when auprparc.ttl_cde = 2 then 'PC'
-        when auprparc.ttl_cde = 4 then ''
+        when auprparc.ttl_cde = 2 then 'CP'
         when auprparc.ttl_cde = 5 then 'SP'
+        when auprparc.ttl_cde = 7 then 'RP'
         when auprparc.ttl_cde = 9 then 'TP'
+        when auprparc.ttl_cde = 10 then 'PS'
+        when auprparc.ttl_cde = 11 then 'CS'
+        when auprparc.ttl_cde = 12 then 'PC'
+        else ''
     end ||
         case
             when auprparc.ttl_cde = 4 then ''
@@ -63,10 +67,14 @@ select
         end as plan_number,
     case
         when auprparc.ttl_cde = 1 then 'LP'
-        when auprparc.ttl_cde = 2 then 'PC'
-        when auprparc.ttl_cde = 4 then ''
+        when auprparc.ttl_cde = 2 then 'CP'
         when auprparc.ttl_cde = 5 then 'SP'
+        when auprparc.ttl_cde = 7 then 'RP'
         when auprparc.ttl_cde = 9 then 'TP'
+        when auprparc.ttl_cde = 10 then 'PS'
+        when auprparc.ttl_cde = 11 then 'CS'
+        when auprparc.ttl_cde = 12 then 'PC'
+        else ''
     end as plan_prefix,
     case
         when auprparc.ttl_cde = 4 then ''
