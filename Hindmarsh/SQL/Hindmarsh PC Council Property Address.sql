@@ -52,7 +52,7 @@ select distinct
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    ifnull ( upper ( auprparc.ttl_nme ) , '' ) as building_name,
+    '' as building_name,
     '' as complex_name,
     '' as location_descriptor,
     '' as house_prefix_1,
