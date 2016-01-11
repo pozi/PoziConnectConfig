@@ -69,6 +69,7 @@ select distinct
         cpa.ezi_address ||
         case
             when ( select house_number_1 from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) <> 0 and cpa.house_number_1 = '' then ' (**WARNING**: house number is being removed)'
+            when ( select distance_related_flag from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) = 'Y' and cpa.distance_related_flag <> 'Y' then ' (**WARNING**: replacing distance-based address with non-distance-based address)'
             else ''
         end ||
         case
