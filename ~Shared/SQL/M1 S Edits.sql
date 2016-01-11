@@ -68,6 +68,10 @@ select distinct
         end ||
         cpa.ezi_address ||
         case
+            when ( select house_number_1 from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) <> 0 and cpa.house_number_1 = '' then ' (**WARNING**: house number is being removed)'
+            else ''
+        end ||
+        case
             when ( select locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) <> cpa.locality_name then ' (**WARNING**: different locality)'
             else ''
         end ||
