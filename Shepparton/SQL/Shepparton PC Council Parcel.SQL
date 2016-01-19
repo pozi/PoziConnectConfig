@@ -98,7 +98,8 @@ select distinct
         when lpaparc.fmtparcel like '%Town of Murchison' then '5561'
         else ''
     end as township_code,
-    '328' as lga_code
+    '328' as lga_code,
+    cast ( lpaprop.tpklpaprop as varchar ) as assnum
 from
     pathway_lpaprop as lpaprop left join
     pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join

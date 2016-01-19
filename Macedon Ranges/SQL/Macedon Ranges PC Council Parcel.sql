@@ -123,7 +123,8 @@ select distinct
         when lpaparc.fmtparcel like '%T/WOODEND%' then '5874'
         else ''
     end as township_code,
-    '339' as lga_code
+    '339' as lga_code,
+    cast ( lpaprop.tpklpaprop as varchar ) as assnum
 from
     pathway_lpaprop as lpaprop left join
     pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join

@@ -97,7 +97,8 @@ select distinct
         when lpaparc.plancode = 'PP' and substr (lpaparc.plannum , 1 , 1 ) in ( '5' ) then lpaparc.plannum
         else ''
     end as township_code,
-    '342' as lga_code
+    '342' as lga_code,
+    cast ( lpaprop.tpklpaprop as varchar ) as assnum
 from
     pathway_lpaprop as lpaprop left join
     pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join

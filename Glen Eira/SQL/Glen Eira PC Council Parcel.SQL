@@ -69,7 +69,8 @@ select distinct
     '' as subdivision,
     '' as parish_code,
     '' as township_code,
-    '322' as lga_code
+    '322' as lga_code,
+    cast ( lpaprop.tpklpaprop as varchar ) as assnum
 from
     pathway_lpaprop as lpaprop left outer join
     pathway_lpaprti as lpaprti on lpaprop.tpklpaprop = lpaprti.tfklpaprop left outer join

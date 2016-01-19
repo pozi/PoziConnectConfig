@@ -75,7 +75,8 @@ select distinct
         when '3186A' then lpaparc.plannum
         else ''
     end as township_code,
-    '335' as lga_code
+    '335' as lga_code,
+    cast ( lpaprop.tpklpaprop as varchar ) as assnum
 from
     pathway_lpaprop as lpaprop left join
     pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join

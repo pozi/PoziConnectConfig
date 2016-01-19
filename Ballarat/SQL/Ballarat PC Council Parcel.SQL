@@ -64,7 +64,8 @@ select distinct
     '' as subdivision,
     ifnull ( cnacomp.descrsrch , '' ) as parish_code,
     '' as township_code,
-    '302' as lga_code
+    '302' as lga_code,
+    cast ( lpaprop.tpklpaprop as varchar ) as assnum
 from
     pathway_lpaprop as lpaprop left join
     pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
