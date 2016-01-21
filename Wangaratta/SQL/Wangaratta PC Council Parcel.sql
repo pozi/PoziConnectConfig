@@ -122,7 +122,8 @@ select
         when upper ( L.text1 ) = 'WHOTS' then '5856'
         else ''
     end as township_code,
-    '368' as lga_code
+    '368' as lga_code,
+    cast ( A.key1 as varchar ) as assnum
 from
     techone_nucland L
     join techone_nucassociation A on L.land_no = A.key2 and

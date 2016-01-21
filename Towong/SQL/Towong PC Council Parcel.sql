@@ -165,7 +165,8 @@ select
         when 'BETHANGA' then '5079'
         else ''
     end as township_code,
-    '367' as lga_code
+    '367' as lga_code,
+    cast ( Parcel.PropertyNumber as varchar ) as assnum
 from
     lynx_vwlandparcel Parcel join
     lynx_propertys Property on Parcel.PropertyNumber = Property.Property

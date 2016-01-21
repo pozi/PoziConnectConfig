@@ -53,7 +53,8 @@ select
     ifnull ( Title.Title_Subdivision , '' ) as subdivision,
     ifnull ( Parish.Parish_Code , '' ) as parish_code,
     ifnull ( Township.Township_Code , '' ) as township_code,
-    '311' as lga_code
+    '311' as lga_code,
+    cast ( cast ( Assessment.Assess_Number as integer ) as varchar ) as assnum
 from
     propertygov_parcel as Parcel inner join
     propertygov_parcel_title as Parcel_Title on Parcel.Parcel_Id = Parcel_Title.Parcel_Id inner join

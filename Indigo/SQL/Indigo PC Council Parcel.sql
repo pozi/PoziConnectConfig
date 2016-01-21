@@ -172,7 +172,8 @@ select
         when 'YACKANDANDAH' then '5893'
         else ''
     end as township_code,
-    '334' as lga_code
+    '334' as lga_code,
+    cast ( Parcel.PropertyNumber as varchar ) as assnum
 from
     lynx_vwlandparcel Parcel join
     lynx_propertys Property on Parcel.PropertyNumber = Property.Property

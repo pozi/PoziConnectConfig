@@ -212,7 +212,8 @@ select
         when 'WEHLA' then '5846'
         else ''
     end as township_code,
-    '338' as lga_code
+    '338' as lga_code,
+    cast ( Parcel.PropertyNumber as varchar ) as assnum
 from
     lynx_vwlandparcel Parcel
 where

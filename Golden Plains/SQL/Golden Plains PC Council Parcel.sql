@@ -179,7 +179,8 @@ select
         when district = 'TEESDALE' then '5774'
         else ''
     end as township_code,
-    '324' as lga_code
+    '324' as lga_code,
+    substr ( parcel_index.assess_no , 2 , 99 ) as assnum
 from
     synergysoft_property_id as parcels join
     synergysoft_parcel_index_properties as parcel_index on parcels.land_parcel = parcel_index.land_parcel

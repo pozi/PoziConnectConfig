@@ -90,7 +90,8 @@ select
         when P.OVERRIDE_LEGAL_DESCRIPTION like '%Town%' and upper ( L.parish_desc ) = 'WARRA' then '5837'
         else ''
     end as township_code,
-    '340' as lga_code
+    '340' as lga_code,
+    cast ( P.property_no as varchar ) as assnum
 from
     techone_nucland L
     join techone_nucassociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F')

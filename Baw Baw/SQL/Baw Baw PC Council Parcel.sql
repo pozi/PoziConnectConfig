@@ -156,7 +156,8 @@ select
         when 'YARRAGON' then '5898'
         else ''
     end as township_code,
-    '305' as lga_code
+    '305' as lga_code,
+    cast ( P.property_no as varchar ) as assnum
 from
     techone_nucland L
     join techone_nucassociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F')

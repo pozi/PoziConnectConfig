@@ -179,7 +179,8 @@ select
     end as township_code,
     fmt_ttl as summary,
     ifnull ( mem_txt , '' ) as memo,
-    '371' as lga_code
+    '371' as lga_code,
+    cast ( auprparc.ass_num as varchar ) as assnum
 from
     authority_auprparc as auprparc left join
     authority_aumememo as aumememo on

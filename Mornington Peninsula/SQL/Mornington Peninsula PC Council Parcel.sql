@@ -89,7 +89,8 @@ select
     case P.electorate
         when 'French' then '379'
         else '352'
-    end as lga_code
+    end as lga_code,
+    cast ( P.property_no as varchar ) as assnum
 from
     techone_nucland L
     join techone_nucassociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F')

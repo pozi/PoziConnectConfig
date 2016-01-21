@@ -158,7 +158,8 @@ select
         else ''
     end as township_code,
     fmt_ttl as summary,
-    '355' as lga_code
+    '355' as lga_code,
+    cast ( auprparc.ass_num as varchar ) as assnum
 from
     authority_auprparc auprparc,
     authority_auprstad auprstad,

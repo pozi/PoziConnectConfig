@@ -97,7 +97,8 @@ select
     case when auprparc.ttl_cde = 9 then ifnull ( auprparc.udn_cd1 , '' ) else '' end as parish_code,
     '' as township_code,
     fmt_ttl as summary,
-    '314' as lga_code
+    '314' as lga_code,
+    cast ( auprparc.ass_num as varchar ) as assnum
 from
     authority_auprparc as auprparc
 where

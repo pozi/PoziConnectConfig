@@ -87,7 +87,8 @@ select
         when 'WOTO' then '5880'
         else ''
     end as township_code,
-    '304' as lga_code
+    '304' as lga_code,
+    cast ( Assessment.Assess_Number as varchar ) as assnum
 from
     propertygov_parcel as Parcel inner join
     propertygov_parcel_title as Parcel_Title on Parcel.Parcel_Id = Parcel_Title.Parcel_Id inner join

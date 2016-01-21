@@ -156,7 +156,8 @@ select
         when auprparc.ttl_cde = 4 then auprparc.uda_cd1 || ': ' || fmt_ttl
         else fmt_ttl
     end as summary,
-    '330' as lga_code
+    '330' as lga_code,
+    cast ( auprparc.ass_num as varchar ) as assnum
 from
     authority_auprparc as auprparc
 where
