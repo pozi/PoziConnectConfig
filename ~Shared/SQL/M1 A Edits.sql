@@ -104,6 +104,7 @@ where
     cp.spi in ( select vp.spi from pc_vicmap_parcel vp where not ( vp.multi_assessment = 'N' and vp.spi in ( select vppc.spi from pc_vicmap_parcel_property_count vppc where vppc.num_props > 1 ) ) ) and
     cp.spi in ( select vp.spi from pc_vicmap_parcel vp where vp.propnum in ( select propnum from pc_council_parcel ) ) and
     cp.propnum not in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) and
+    cp.propnum not in ( select vp.propnum from pc_vicmap_parcel vp where property_view_pfi in ( select vp.property_view_pfi from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) and
     cp.plan_number <> '' and
     cp.spi in ( select vp.spi from pc_vicmap_parcel vp where vp.spi in ( select cpy.spi from pc_council_parcel cpy where cpy.spi = vp.spi and cpy.propnum = vp.propnum ) )
 ) as cpx
