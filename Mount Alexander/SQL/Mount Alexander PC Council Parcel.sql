@@ -1,5 +1,10 @@
 select
     *,
+    replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' ) as simple_spi
+from
+(
+select
+    *,
     case
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
@@ -16,24 +21,7 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as spi,
-    case
-        when plan_numeral <> '' and lot_number = '' then plan_numeral
-        when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_numeral
-        when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_numeral
-        when plan_numeral <> '' then lot_number || '\' || plan_numeral
-        when ( parish_code <> '' or township_code <> '' ) then
-            subdivision ||
-            case when subdivision <> '' and ( portion <> '' or allotment <> '' ) then '~' else '' end ||
-            portion ||
-            case when portion <> '' and allotment <> '' then '~' else '' end ||
-            allotment ||
-            case when sec <> '' then '~' else '' end ||
-            sec ||
-            '\' ||
-            case when township_code <> '' then township_code else parish_code end
-        else ''
-    end as simple_spi
+    end as spi
 from
 (
 select
@@ -71,4 +59,5 @@ where
     Assessment.Assessment_Id not in ( 10978 , 10986 ) and
     Parcel.Parcel_Id <> 25284
 order by propnum, crefno
+)
 )
