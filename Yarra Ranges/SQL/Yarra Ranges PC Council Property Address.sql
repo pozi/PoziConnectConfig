@@ -36,7 +36,6 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     case upper ( lpaaddr.unitprefix )
-        when null then ''
         when 'BUILD' then 'BLDG'
         when 'CAR PARK' then 'CP'
         when 'FACTORY' then 'FCTY'
@@ -44,7 +43,7 @@ select
         when 'L' then 'LOT'
         when 'OFFICE' then 'OFFC'
         when 'SUITE' then 'SE'
-        else upper ( lpaaddr.unitprefix )
+        else ifnull ( upper ( lpaaddr.unitprefix ) , '' )
     end as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
