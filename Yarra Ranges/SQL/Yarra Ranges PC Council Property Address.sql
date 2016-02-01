@@ -145,7 +145,8 @@ where
                 pathway_lpatipa as lpatipa on lpatitl.tpklpatitl = lpatipa.tfklpatitl
             where
                 lpaprti.status <> 'H' and lpatitl.status <> 'H' and lpatipa.status <> 'H'
-        )
+        ) and
+    lpapnam.propname not like 'ROAD RES%'
 )
 )
 )
