@@ -35,7 +35,17 @@ select
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    upper ( ifnull ( lpaaddr.unitprefix , '' ) ) as blg_unit_type,
+    case upper ( lpaaddr.unitprefix )
+        when null then ''
+        when 'BUILD' then 'BLDG'
+        when 'CAR PARK' then 'CP'
+        when 'FACTORY' then 'FCTY'
+        when 'KIOSK' then 'KSK'
+        when 'L' then 'LOT'
+        when 'OFFICE' then 'OFFC'
+        when 'SUITE' then 'SE'
+        else upper ( lpaaddr.unitprefix )
+    end as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
@@ -67,7 +77,7 @@ select
         else cast ( cast ( lpaaddr.endlvlnum as integer ) as varchar )
     end as floor_no_2,
     '' as floor_suffix_2,
-    ifnull ( upper ( lpapnam.propname ) , '' ) as building_name,
+    '' as building_name,
     '' as complex_name,
     case when cnacomp.descr like 'OFF %' then 'OFF' else '' end as location_descriptor,
     '' as house_prefix_1,
