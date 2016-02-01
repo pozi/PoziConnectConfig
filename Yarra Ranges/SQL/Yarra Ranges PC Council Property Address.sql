@@ -68,7 +68,6 @@ select
         when 'BASEMENT' then 'B'
         when 'BASEMENT 1' then 'B'
         when 'UNDERCROFT' then 'B'
-        when 'UPSTAIRS' then 'U'
         when 'LEVEL' then 'L'
         else ifnull ( upper ( lpaaddr.lvlprefix ) , '' )
     end as floor_type,
