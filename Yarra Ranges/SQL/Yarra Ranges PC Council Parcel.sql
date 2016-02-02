@@ -53,7 +53,6 @@ select distinct
             end ||
             case
                 when lpaparc.parcelnum in ( 'PT' , 'PART' ) then ''
-                when lpaparc.parcelnum is null and lpaparc.plancode in ( 'LP' , 'PS' , 'RP' , 'SP' , 'TP' ) then ifnull ( trim ( replace ( replace ( lpacrwn.crownallotr , 'CA' , '' ) , 'PT' , '' ) ) , '' )
                 else ifnull ( replace ( lpaparc.parcelnum , ' ' , '' ) , '' )
             end
     end as lot_number,
