@@ -64,7 +64,16 @@ from (
 
 select
     cp.lga_code,
-    ( select vp.property_pfi from pc_vicmap_parcel vp where vp.spi = cp.spi limit 1 ) as property_pfi,
+    ( select vp.property_pfi
+        from pc_vicmap_parcel vp
+        where vp.spi = cp.spi
+        order by
+            case
+                when vp.property_pfi in ( select property_pfi from m1_r_edits ) then 1
+                else 2
+            end desc
+        limit 1
+    ) as property_pfi,
     cp.propnum,
     cpa.*,
     '' as new_road,
