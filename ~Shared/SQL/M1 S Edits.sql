@@ -56,10 +56,26 @@ select distinct
         when 'Y' then 'Y'
         else ''
     end as is_primary,
-    cast ( cpa.easting as varchar ) as easting,
-    cast ( cpa.northing as varchar ) as northing,
-    cpa.datum_proj as datum_proj,
-    cpa.outside_property as outside_property,
+    case
+        when cast ( cpa.easting as varchar ) not in ( '' , '0' ) then cast ( cpa.easting as varchar )
+        when ( select distance_related_flag from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' limit 1 ) = 'Y' then ( select address_x from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' limit 1 )
+        else ''
+    end as easting,
+    case
+        when cast ( cpa.northing as varchar ) not in ( '' , '0' ) then cast ( cpa.northing as varchar )
+        when ( select distance_related_flag from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' limit 1 ) = 'Y' then ( select address_y from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' limit 1 )
+        else ''
+    end as northing,
+    case
+        when cpa.datum_proj <> '' then datum_proj
+        when ( select distance_related_flag from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' limit 1 ) = 'Y' then 'EPSG:4326'
+        else ''
+    end as datum_proj,
+    case
+        when cpa.outside_property <> '' then outside_property
+        when ( select distance_related_flag from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' limit 1 ) = 'Y' then ( select outside_property from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' limit 1 )
+        else ''
+    end as outside_property,
     'S' as edit_code,
     'property ' || propnum || ': ' ||
         case
@@ -69,7 +85,7 @@ select distinct
         cpa.ezi_address ||
         case
             when ( select house_number_1 from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum ) <> 0 and cpa.house_number_1 = '' then ' (**WARNING**: house number is being removed)'
-            when ( select distance_related_flag from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) = 'Y' and cpa.distance_related_flag <> 'Y' then ' (**WARNING**: replacing distance-based address with non-distance-based address)'
+            when ( select distance_related_flag from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) = 'Y' and cpa.distance_related_flag <> 'Y' then ' (**NOTE**: address update will maintain the existing location of distance-based address)'
             else ''
         end ||
         case
