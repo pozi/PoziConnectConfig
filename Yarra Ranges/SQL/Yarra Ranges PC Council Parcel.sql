@@ -134,7 +134,7 @@ select distinct
     case
         when lpaparc.plannum is null then
             case upper ( lpadesc.descr )
-                when 'BEENAK' then '5062'
+                when 'TOWNSHIP BEENAK' then '5062'
                 when 'BRITANNIA CREEK' then '5112'
                 when 'HEALESVILLE' then '5372'
                 when 'LAUNCHING PLACE' then '5453'
