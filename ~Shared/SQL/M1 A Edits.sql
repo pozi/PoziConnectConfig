@@ -66,12 +66,8 @@ select
     cp.lga_code,
     ( select vp.property_pfi
         from pc_vicmap_parcel vp
-        where vp.spi = cp.spi
-        order by
-            case
-                when vp.property_pfi in ( select property_pfi from m1_r_edits ) then 1
-                else 2
-            end desc
+        where vp.spi = cp.spi and
+            vp.property_pfi not in ( select property_pfi from m1_r_edits )
         limit 1
     ) as property_pfi,
     cp.propnum,
