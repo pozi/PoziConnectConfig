@@ -59,6 +59,12 @@ Retire only those properties that have a valid spi. (Properties that don't have 
 propnum not in ( select propnum from pc_council_parcel cp where spi not in ( select x.spi from pc_vicmap_parcel x where spi <> '' ) )
 ```
 
+In addition to above conditions, retire any multi-assessment whose propnum is invalid.
+
+```
+vp.propnum not in ( select propnum from pc_council_property_address )
+```
+
 Eliminate duplicate records.
 
 ```sql
