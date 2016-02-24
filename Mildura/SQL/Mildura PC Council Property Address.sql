@@ -29,7 +29,11 @@ from (
 
 select distinct
     cast ( auprparc.ass_num as varchar ) as propnum,
-    '' as status,
+    case auprparc.pcl_flg
+        when 'R' then 'A'
+        when 'P' then 'P'
+        else ''
+    end as status,
     '' as base_propnum,
     case
         when auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
@@ -41,12 +45,12 @@ select distinct
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
     ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) as blg_unit_id_1,
-    ifnull ( auprstad.unt_alp , '' ) as blg_unit_suffix_1,
+    upper ( ifnull ( auprstad.unt_alp , '' ) ) as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     ifnull ( auprstad.unt_end , '' ) as blg_unit_id_2,
-    ifnull ( auprstad.una_end , '' ) as blg_unit_suffix_2,
+    upper ( ifnull ( auprstad.una_end , '' ) ) as blg_unit_suffix_2,
     '' as floor_type,
-    ifnull ( auprstad.flo_pre , '' ) as floor_prefix_1,
+    upper ( ifnull ( auprstad.flo_pre , '' ) ) as floor_prefix_1,
     ifnull ( auprstad.flo_num , '' ) as floor_no_1,
     '' as floor_suffix_1,
     '' as floor_prefix_2,
@@ -65,13 +69,12 @@ select distinct
     '' as house_prefix_2,
     ifnull ( cast ( auprstad.hou_end as varchar ) , '' ) as house_number_2,
     ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
-    replace ( upper ( replace ( auprstad.str_nme , '''' , '' ) )  , 'BRDGE' , 'BRIDGE' ) as road_name,
+    replace ( upper ( replace ( auprstad.str_nme , '''' , '' ) )  , '.' , '' ) as road_name,
     case
-        when auprstad.str_nme = 'Broadway' then ''
-        when auprstad.str_typ in ( 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) THEN 'AVENUE'
-        when auprstad.str_typ in ( 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) THEN 'ROAD'
-        when auprstad.str_typ in ( 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) THEN 'STREET'
-        else upper ( aualrefs.dsc_no3 )
+        when auprstad.str_typ in ( 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) then 'AVENUE'
+        when auprstad.str_typ in ( 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) then 'ROAD'
+        when auprstad.str_typ in ( 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) then 'STREET'
+        else upper ( ifnull ( aualrefs.dsc_no3 , '' ) )
     end as road_type,
     case
         when upper ( auprstad.str_typ ) in ( 'AVEN' , 'RDN' , 'STN' ) then 'N'
@@ -96,7 +99,7 @@ from
     authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num left join
     authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ'
 where
-    auprparc.pcl_flg in ( 'R' , 'P' ) and
+    auprparc.pcl_flg in ( 'R' , 'P' , 'U' ) and
     auprparc.ass_num is not null
 )
 )
