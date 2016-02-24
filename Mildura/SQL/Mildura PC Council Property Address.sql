@@ -49,8 +49,8 @@ select distinct
     '' as blg_unit_prefix_2,
     ifnull ( auprstad.unt_end , '' ) as blg_unit_id_2,
     upper ( ifnull ( auprstad.una_end , '' ) ) as blg_unit_suffix_2,
-    '' as floor_type,
-    upper ( ifnull ( auprstad.flo_pre , '' ) ) as floor_prefix_1,
+    upper ( ifnull ( auprstad.flo_pre , '' ) ) as floor_type,
+    '' as floor_prefix_1,
     ifnull ( auprstad.flo_num , '' ) as floor_no_1,
     '' as floor_suffix_1,
     '' as floor_prefix_2,
@@ -71,9 +71,14 @@ select distinct
     ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
     replace ( upper ( replace ( auprstad.str_nme , '''' , '' ) )  , '.' , '' ) as road_name,
     case
-        when auprstad.str_typ in ( 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) then 'AVENUE'
-        when auprstad.str_typ in ( 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) then 'ROAD'
-        when auprstad.str_typ in ( 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) then 'STREET'
+        when auprstad.str_typ in ( 'Av' , 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) then 'AVENUE'
+        when auprstad.str_typ in ( 'Cl' ) then 'CLOSE'
+        when auprstad.str_typ in ( 'Ct' ) then 'COURT'
+        when auprstad.str_typ in ( 'Dr' ) then 'DRIVE'
+        when auprstad.str_typ in ( 'La' ) then 'LANE'
+        when auprstad.str_typ in ( 'Pl' ) then 'PLACE'
+        when auprstad.str_typ in ( 'Rd' , 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) then 'ROAD'
+        when auprstad.str_typ in ( 'St' , 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) then 'STREET'
         else upper ( ifnull ( aualrefs.dsc_no3 , '' ) )
     end as road_type,
     case
