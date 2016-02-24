@@ -97,7 +97,7 @@ select
         else ''
     end as parish_code,
     case
-        when auprparc.ttl_cde in ( 9 , 19 , 24 , 99 ) then ifnull ( auprparc.udn_cd4 , '' )
+        when auprparc.ttl_cde in ( 9 , 19 , 24 , 99 ) and auprparc.udn_cd4 like '5%' then ifnull ( auprparc.udn_cd4 , '' )
         else ''
     end as township_code,
     fmt_ttl as summary,
