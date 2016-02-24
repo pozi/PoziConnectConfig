@@ -153,7 +153,7 @@ where
             where
                 lpaprti.status <> 'H' and lpatitl.status <> 'H' and lpatipa.status <> 'H'
         ) and
-    lpapnam.propname not like 'ROAD RES%'
+    ifnull ( lpapnam.propname , '' ) not like 'ROAD RES%'
 )
 )
 )
