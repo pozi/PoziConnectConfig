@@ -57,6 +57,7 @@ where
     Assessment.Assessment_Status <> '9' and
     Assessment.Assess_Number is not null and
     Assessment.Assessment_Id not in ( 10978 , 10986 ) and
+    Assessment.Primary_Assess_Land_Use_Id <> 662 and
     Parcel.Parcel_Id <> 25284
 order by propnum, crefno
 )
