@@ -105,7 +105,8 @@ from
     authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ'
 where
     auprparc.pcl_flg in ( 'R' , 'P' , 'U' ) and
-    auprparc.ass_num is not null
+    auprparc.ass_num is not null and
+    auprstad.seq_num = 0
 )
 )
 )

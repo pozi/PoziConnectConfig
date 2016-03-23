@@ -93,7 +93,11 @@ select
     '' as portion,
     '' as subdivision,
     case
-        when auprparc.ttl_cde in ( 9 , 19 , 24 , 99 ) then ifnull ( auprparc.udn_cd1 , '' )
+        when auprparc.ttl_cde in ( 9 , 19 , 24 , 99 ) then
+            case
+                when auprparc.udn_cd1 = 3102 and cast ( ttl_no3 as integer ) <> 0 then '3102A'
+                else ifnull ( auprparc.udn_cd1 , '' )
+            end
         else ''
     end as parish_code,
     case
