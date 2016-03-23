@@ -2,10 +2,8 @@
 
 ## Parcel Query
 
-Inidividual parcel attributes are based on Maribyrnong query. However, the spi value is populated directly from the spi field in Fujitsu, rather than being constructed from individual attributes.
-
-The Fujitsu spi value appears to be better maintained (and therefor better matched to Vicmap) than the individual attributes.
+Copied from Mitchell's Pozi Connect parcel query, adapted to suit. The logic to say whether it's a council-maintain spi or a generated spi was copied from Mornington Peninsula.
 
 ## Property Address Query
 
-based on CommonGround_Address_Campaspe.SQL, with formatting changes based on Maribyrnong config
+Copied from Mitchell's Pozi Connect address query, adapted to suit.
