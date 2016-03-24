@@ -46,9 +46,9 @@ select
         else ''
     end as address_validity,
     ifnull ( ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cpa.propnum ) , 0 ) as parcels_in_council,
-    substr ( ifnull ( ( select group_concat ( spi , ';' ) from pc_council_parcel cp where cp.propnum = cpa.propnum ) , '' ) , 1 , 99 ) as council_parcels,
+    ifnull ( ( select group_concat ( spi , ';' ) from ( select spi from pc_council_parcel cp where cp.propnum = cpa.propnum limit 20 ) ) , '' ) as council_parcels,
     ifnull ( ( select vppc.num_parcels from pc_vicmap_property_parcel_count vppc where vppc.propnum = cpa.propnum ) , 0 ) as parcels_in_vicmap,
-    substr ( ifnull ( ( select group_concat ( spi , ';' ) from pc_vicmap_parcel vp where vp.propnum = cpa.propnum ) , '' ) , 1 , 99 ) as vicmap_parcels,
+    ifnull ( ( select group_concat ( spi , ';' ) from ( select spi from pc_vicmap_parcel vp where vp.propnum = cpa.propnum limit 20 ) ) , '' ) as vicmap_parcels,
     ifnull ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) , '' ) as vicmap_address,
     ifnull ( ( select vpa.locality_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum limit 1 ) , '' ) as vicmap_locality,
     case
