@@ -33,10 +33,10 @@ select
         else ''
     end as spi_validity,
     ifnull ( ( select count(*) from pc_council_parcel x where x.spi = cp.spi and length ( cp.spi ) >= 5 ) , '' ) as spi_in_council,
-    substr ( ifnull ( ( select group_concat ( propnum , ';' ) from pc_council_parcel x where x.spi = cp.spi and length ( cp.spi ) >= 5 ) , '' ) , 1 , 99 ) as council_propnums,
+    ifnull ( ( select group_concat ( propnum , ';' ) from ( select propnum from pc_council_parcel x where x.spi = cp.spi and length ( cp.spi ) >= 5 limit 20 ) ) , '' ) as council_propnums,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi and length ( cp.spi ) >= 5 ) , 0 ) as spi_in_vicmap,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.spi = cp.spi and vp.propnum = cp.propnum and length ( cp.spi ) >= 5 ) , 0 ) as spi_propnum_in_vicmap,
-    substr ( ifnull ( ( select group_concat ( propnum , ';' ) from pc_vicmap_parcel vpx where vpx.spi = cp.spi and length ( cp.spi ) >= 5 ) , 0 ) , 1 , 99 ) as vicmap_propnums,
+    ifnull ( ( select group_concat ( propnum , ';' ) from ( select propnum from pc_vicmap_parcel vpx where vpx.spi = cp.spi and length ( cp.spi ) >= 5 limit 20 ) ) , '' ) as vicmap_propnums,
     ifnull ( ( select count(*) from pc_vicmap_parcel vp where vp.simple_spi = cp.simple_spi and vp.spi <> cp.spi and length ( cp.spi ) >= 5 ) , 0 ) as partial_spi_in_vicmap,
     case
         when cp.spi not in ( select spi from pc_vicmap_parcel ) then
