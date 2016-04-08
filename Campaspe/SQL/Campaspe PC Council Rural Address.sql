@@ -6,4 +6,4 @@ set
     datum_proj = ifnull ( ( select 'EPSG:' || SRID ( geometry ) from campaspe_rural_road_numbers ra where ra.prop_num = pc_council_property_address.propnum and ra.road_number = pc_council_property_address.house_number_1 ) , '' ) ,
     outside_property = ifnull ( ( select replace ( replace ( upper ( outside_property ) , 'T' , 'Y' ) , 'F' , 'N' ) from campaspe_rural_road_numbers ra where ra.prop_num = pc_council_property_address.propnum and ra.road_number = pc_council_property_address.house_number_1 ) , '' )
 where
-    propnum in ( select prop_num from campaspe_rural_road_numbers where propnum <> '' and geometry is not null )
+    propnum in ( select prop_num from campaspe_rural_road_numbers where geometry is not null )
