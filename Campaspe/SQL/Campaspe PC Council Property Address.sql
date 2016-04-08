@@ -47,46 +47,47 @@ select
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
-        when A.unit_no = '0' then ''
-        else ifnull ( A.unit_no , '' )
+        when A.unit_no = 0 then ''
+        else ifnull ( cast ( A.unit_no as varchar ) , '' )
     end as blg_unit_id_1,
     upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
-        when A.unit_no_to = '0' then ''
-        else ifnull ( A.unit_no_to , '' )
+        when A.unit_no_to = 0 then ''
+        else ifnull ( cast ( A.unit_no_to as varchar ) , '' )
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
     '' as floor_type,
     '' as floor_prefix_1,
     case
-        when A.floor_no = '0' then ''
-        else ifnull ( A.floor_no , '' )
+        when A.floor_no = 0 then ''
+        else ifnull ( cast ( A.floor_no as varchar ) , '' )
     end as floor_no_1,
     upper ( ifnull ( A.floor_suffix , '' ) ) as floor_suffix_1,
     '' as floor_prefix_2,
     case
-        when A.floor_no_to = '0' then ''
-        else ifnull ( A.floor_no_to , '' )
+        when A.floor_no_to = 0 then ''
+        else ifnull ( cast ( A.floor_no_to as varchar ) , '' )
     end as floor_no_2,
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
     '' as building_name,
     '' as complex_name,
     '' as house_prefix_1,
     case
-        when A.house_no = '0' then ''
-        else ifnull ( A.house_no , '' )
+        when A.house_no = 0 then ''
+        else ifnull ( cast ( A.house_no as varchar ) , '' )
     end as house_number_1,
     upper ( ifnull ( A.house_no_suffix , '' ) ) as house_suffix_1,
     '' as house_prefix_2,
     case
-        when A.house_no_to = '0' then ''
-        else ifnull ( A.house_no_to , '' )
+        when A.house_no_to = 0 then ''
+        else ifnull ( cast ( A.house_no_to as varchar ) , '' )
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
     replace ( (
         case
-            when upper ( S.street_name ) in ( 'THE HEIGHTS' , 'THE DENE' , 'THE PARADE' , 'THE AVENUE' , 'THE ESPLANADE' , 'THE OUTLOOK' , 'VILLA CORA' ) then upper ( S.street_name )
+            when upper ( S.street_name ) in ( 'THE AVENUE' , 'THE LINK' ) then upper ( S.street_name )
+            when upper ( substr ( S.street_name , -3 ) ) in ( ' RD' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 3 ) )
             when upper ( substr ( S.street_name , -4 ) ) in ( ' END' , ' ROW' , ' RUN', ' KEY', ' WAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
             when upper ( substr ( S.street_name , -5 ) ) in ( ' BEND', ' BRAE', ' COVE' , ' EDGE' , ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' RISE', ' ROAD', ' VIEW', ' WALK', ' WYND', ' RIALTO WEST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
             when upper ( substr ( S.street_name , -6 ) ) in ( ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GREEN', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 6 ) )
@@ -100,10 +101,13 @@ select
             when upper ( substr ( S.street_name , -12 ) ) in ( ' CLOSE NORTH' , ' CLOSE SOUTH' , ' COURT NORTH' , ' COURT SOUTH' , ' DRIVE NORTH' , ' DRIVE SOUTH' , ' STREET EAST' , ' STREET WEST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 12 ) )
             when upper ( substr ( S.street_name , -13 ) ) in ( ' AVENUE NORTH' , ' AVENUE SOUTH' , ' STREET NORTH' , ' STREET SOUTH' , ' PARADE NORTH' , ' PARADE SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 13 ) )
             when upper ( substr ( S.street_name , -14 ) ) in ( ' HIGHWAY NORTH' , ' HIGHWAY SOUTH' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 14 ) )
+            when S.street_name like '% ROAD NTH' then replace ( upper ( S.street_name ) , ' ROAD NTH' , '' )
             else upper ( S.street_name )
         end ) , '&' , 'AND' ) as road_name,
     case
-        when upper ( S.street_name ) in ( 'THE HEIGHTS' , 'THE DENE' , 'THE PARADE' , 'THE AVENUE' , 'THE ESPLANADE' , 'THE OUTLOOK' , 'VILLA CORA' ) then ''
+        when upper ( S.street_name ) in ( 'THE AVENUE' , 'THE LINK' ) then ''
+        when S.street_name like '% ROAD%' then 'ROAD'
+        when S.street_name like '% ACCESS%' then 'ACCESS'
         when S.street_name like '% ARCADE%' then 'ARCADE'
         when S.street_name like '% AVENUE%' then 'AVENUE'
         when S.street_name like '% BEND%' then 'BEND'
@@ -116,6 +120,7 @@ select
         when S.street_name like '% CROSSING%' then 'CROSSING'
         when S.street_name like '% CUTTING%' then 'CUTTING'
         when S.street_name like '% DRIVE%' then 'DRIVE'
+        when S.street_name like '% ESPLANADE%' then 'ESPLANADE'
         when S.street_name like '% FREEWAY%' then 'FREEWAY'
         when S.street_name like '% GREEN%' then 'GREEN'
         when S.street_name like '% GRANGE%' then 'GRANGE'
@@ -128,25 +133,22 @@ select
         when S.street_name like '% PLAZA%' then 'PLAZA'
         when S.street_name like '% QUAY%' then 'QUAY'
         when S.street_name like '% RIDGE%' then 'RIDGE'
-        when S.street_name like '% ROAD%' then 'ROAD'
+        when S.street_name like '% RISE%' then 'RISE'
         when S.street_name like '% RD%' then 'ROAD'
         when S.street_name like '% ROUND%' then 'ROUND'
         when S.street_name like '% RUN%' then 'RUN'
         when S.street_name like '% SQUARE%' then 'SQUARE'
         when S.street_name like '% STREET%' then 'STREET'
-        when S.street_name like '% ST' then 'STREET'
-        when S.street_name like '% ST %' then 'STREET'
         when S.street_name like '% TERRACE%' then 'TERRACE'
         when S.street_name like '% TRACK%' then 'TRACK'
         when S.street_name like '% VISTA%' then 'VISTA'
         when S.street_name like '% WALK%' then 'WALK'
         when S.street_name like '% WAY%' then 'WAY'
-        when S.street_name like '% ACCESS%' then 'ACCESS'
-        when S.street_name like '% RISE%' then 'RISE'
         else ''
     end as road_type,
     case
         when S.street_name like '% NORTH' then 'N'
+        when S.street_name like '% NTH' then 'N'
         when S.street_name like '% SOUTH' then 'S'
         when S.street_name like '% EAST' then 'E'
         when S.street_name like '% WEST' then 'W'
