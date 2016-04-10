@@ -112,7 +112,10 @@ select
         when auprparc.ttl_cde in ( 7 , 8 , 9 , 10 ) then '2478'
         else ''
     end as parish_code,
-    '' as township_code,
+    case
+        when auprparc.ttl_no5 in ( '2478A' , '2478B' , '2478C' , '2478D' , '5106' , '5502' ) then auprparc.ttl_no5
+        else ''
+    end as township_code,
     auprparc.fmt_ttl as summary,
     '341' as lga_code,
     cast ( auprparc.ass_num as varchar ) as assnum
