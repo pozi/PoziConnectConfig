@@ -106,7 +106,8 @@ from
 where
     auprparc.pcl_flg in ( 'R' , 'P' , 'U' ) and
     auprparc.ass_num is not null and
-    auprstad.seq_num = 0
+    auprstad.seq_num = 0 and
+    auprparc.ttl_cde not in ( 21 , 23 , 90 , 99 )
 )
 )
 )
