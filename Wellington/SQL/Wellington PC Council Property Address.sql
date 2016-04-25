@@ -69,7 +69,10 @@ select distinct
     '' as house_prefix_2,
     ifnull ( cast ( auprstad.hou_end as varchar ) , '' ) as house_number_2,
     ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
-    replace ( upper ( replace ( auprstad.str_nme , '''' , '' ) )  , '.' , '' ) as road_name,
+    case
+        when str_nme = 'Old Port Albert-Tarravill' then 'OLD PORT ALBERT-TARRAVILLE'
+        else upper ( replace ( auprstad.str_nme , '''' , '' ) )
+    end as road_name,
     case
         when auprstad.str_typ in ( 'Av' , 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) then 'AVENUE'
         when auprstad.str_typ in ( 'Cl' ) then 'CLOSE'
