@@ -1,0 +1,61 @@
+select distinct
+    cpa.lga_code as lga_code,
+    '' as new_sub,
+    vpa.property_pfi as property_pfi,
+    '' as parcel_pfi,
+    '' as address_pfi,
+    '' as spi,
+    '' as plan_number,
+    '' as lot_number,
+    '' as base_propnum,
+    cpa.propnum as propnum,
+    '' as crefno,
+    cpa.hsa_flag as hsa_flag,
+    cpa.hsa_unit_id as hsa_unit_id,
+    cpa.blg_unit_type as blg_unit_type,
+    cpa.blg_unit_prefix_1 as blg_unit_prefix_1,
+    cpa.blg_unit_id_1 as blg_unit_id_1,
+    cpa.blg_unit_suffix_1 as blg_unit_suffix_1,
+    cpa.blg_unit_prefix_2 as blg_unit_prefix_2,
+    cpa.blg_unit_id_2 as blg_unit_id_2,
+    cpa.blg_unit_suffix_2 as blg_unit_suffix_2,
+    cpa.floor_type as floor_type,
+    cpa.floor_prefix_1 as floor_prefix_1,
+    cpa.floor_no_1 as floor_no_1,
+    cpa.floor_suffix_1 as floor_suffix_1,
+    cpa.floor_prefix_2 as floor_prefix_2,
+    cpa.floor_no_2 as floor_no_2,
+    cpa.floor_suffix_2 as floor_suffix_2,
+    cpa.building_name as building_name,
+    cpa.complex_name as complex_name,
+    cpa.location_descriptor as location_descriptor,
+    cpa.house_prefix_1 as house_prefix_1,
+    cpa.house_number_1 as house_number_1,
+    cpa.house_suffix_1 as house_suffix_1,
+    cpa.house_prefix_2 as house_prefix_2,
+    cpa.house_number_2 as house_number_2,
+    cpa.house_suffix_2 as house_suffix_2,
+    cpa.access_type as access_type,
+    '' as new_road,
+    cpa.road_name as road_name,
+    cpa.road_type as road_type,
+    cpa.road_suffix as road_suffix,
+    cpa.locality_name as locality_name,
+    cpa.distance_related_flag as distance_related_flag,
+    cpa.is_primary as is_primary,
+    cast ( cpa.easting as varchar ) as easting,
+    cast ( cpa.northing as varchar ) as northing,
+    cpa.datum_proj as datum_proj,
+    cpa.outside_property as outside_property,
+    'S' as edit_code,
+    'property ' || cpa.propnum || ': adding secondary address ' || cpa.ezi_address as comments,
+    centroid ( vpa.geometry ) as geometry
+from
+    pc_council_property_address cpa join
+    pc_vicmap_property_address vpa on cpa.propnum = vpa.propnum
+where
+    cpa.propnum not in ( '' , 'NCPR' ) and
+    cpa.is_primary = 'N' and
+    cpa.easting <> '' and cpa.northing <> '' and
+    ( cpa.propnum not in ( select propnum from pc_council_property_address vpax where vpax.num_road_address in ( select num_road_address from pc_vicmap_property_address where vpa.propnum = cpa.propnum ) ) ) and
+    not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpax where vpa.propnum = cpa.propnum ) , '-' , ' ' ) , '''' , '' ) , '' )
