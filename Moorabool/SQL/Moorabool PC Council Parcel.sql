@@ -6,6 +6,7 @@ from
 select
     *,
     case
+        when internal_spi <> '' then internal_spi
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
@@ -27,7 +28,7 @@ from
 select
     cast ( Parcel.PropertyNumber as varchar ) as propnum,
     '' as status,
-    cast ( Parcel.LandParcelNumber as varchar ) as crefno,
+    '' as crefno,
     case
         when Parcel.StandardParcelId = '' then ''
         when Parcel.StandardParcelId like '%\%' then Parcel.StandardParcelId
@@ -43,7 +44,7 @@ select
         when Parcel.StandardParcelId like '%PC%' then Parcel.StandardParcelId
         else ''
     end as internal_spi,
-    Property.Lot as summary,
+    ifnull ( Property.Lot , '' ) as summary,
     '' as part,
     case Parcel.Type
         when 'Lodged Plan' then 'LP'
@@ -78,10 +79,11 @@ select
     end as plan_numeral,
     case
         when ifnull ( Parcel.PlanNo , '' ) = '' then ''
-        else Parcel.Lot
+        else upper ( replace ( Parcel.Lot , ' ' , '' ) )
     end as lot_number,
     Parcel.CrownAllotment as allotment,
     case
+        when Parcel.Section = 'NO' then ''
         when Parcel.Type = 'Crown Description' and ifnull ( Parcel.PlanNo , '' ) <> '' then ''
         when ifnull ( Parcel.PlanNo , '' ) <> '' and Parcel.CrownAllotment <> '' then ''
         else Parcel.Section

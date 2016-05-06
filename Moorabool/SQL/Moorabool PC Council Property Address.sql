@@ -38,7 +38,7 @@ select
     '' as location_descriptor,
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
-    ifnull ( Property.UnitNo , '' ) as blg_unit_id_1,
+    ifnull ( replace ( Property.UnitNo , 'Shop ' , '' ) , '' ) as blg_unit_id_1,
     '' as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     '' as blg_unit_id_2,
@@ -75,11 +75,12 @@ select
         else ifnull ( upper ( substr ( Property.StreetNoTo , -1 , 1 ) ) , '' )
     end as house_suffix_2,
     case
-        when Street.Name = 'Jeffcott South School Bus' then 'JEFFCOTT SOUTH SCHOOL BUS ROUTE'
-        else replace ( upper ( Street.Name ) , ' - ' , '-' )
+        when upper ( Street.Name ) in ( 'MOUNT BLACKWOOD', 'MOUNT BUNINYONG', 'MOUNT DORAN', 'MOUNT DORAN-EGERTON', 'MOUNT WARRENHEIP' ) then replace ( upper ( Street.Name ) , 'MOUNT ' , 'MT ' )
+        else upper ( replace ( Street.Name , '&' , 'AND' ) )
     end as road_name,
     case
-        when StreetType.Type = 'Route Road' then 'ROAD'
+        when StreetType.Type like 'Court %' then 'COURT'
+        when StreetType.Type like 'Lane %' then 'LANE'
         when StreetType.Type like 'Road %' then 'ROAD'
         when StreetType.Type like 'Street %' then 'STREET'
         else upper ( ifnull ( StreetType.Type , '' ) )
@@ -89,6 +90,7 @@ select
         when StreetType.Type like '% South' then 'S'
         when StreetType.Type like '% East' then 'E'
         when StreetType.Type like '% West' then 'W'
+        when StreetType.Type like '% Extension' then 'EX'
         else ''
     end as road_suffix,
     upper ( Locality.Locality ) as locality_name,
