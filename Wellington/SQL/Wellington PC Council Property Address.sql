@@ -70,26 +70,52 @@ select distinct
     ifnull ( cast ( auprstad.hou_end as varchar ) , '' ) as house_number_2,
     ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
     case
-        when str_nme = 'Old Port Albert-Tarravill' then 'OLD PORT ALBERT-TARRAVILLE'
-        else upper ( replace ( auprstad.str_nme , '''' , '' ) )
+        when auprstad.str_nme like '% Road Ext' then upper ( replace ( auprstad.str_nme , ' Road Ext' , '' ) )
+        when auprstad.str_nme like '% Road Extension' then upper ( replace ( auprstad.str_nme , ' Road Extension' , '' ) )
+        when auprstad.str_nme like '% Central' then upper ( replace ( auprstad.str_nme , ' Central' , '' ) )
+        when auprstad.str_nme = 'Billy Creek-Tap Tap Conne' then 'BILLY CREEK-TAP TAP CONNECTION'
+        when auprstad.str_nme = 'Old Port Albert-Tarravill' then 'OLD PORT ALBERT-TARRAVILLE'
+        when auprstad.str_nme = 'Sixth Avenue North' then 'SIXTH'
+        else upper ( replace ( replace ( auprstad.str_nme , '''' , '' ) , '&' , 'AND' ) )
     end as road_name,
     case
-        when auprstad.str_typ in ( 'Av' , 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) then 'AVENUE'
-        when auprstad.str_typ in ( 'Cl' ) then 'CLOSE'
-        when auprstad.str_typ in ( 'Ct' ) then 'COURT'
-        when auprstad.str_typ in ( 'Dr' ) then 'DRIVE'
-        when auprstad.str_typ in ( 'La' ) then 'LANE'
-        when auprstad.str_typ in ( 'Pl' ) then 'PLACE'
-        when auprstad.str_typ in ( 'Rd' , 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) then 'ROAD'
-        when auprstad.str_typ in ( 'St' , 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) then 'STREET'
+        when auprstad.str_typ in ( 'AVE' , 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) then 'AVENUE'
+        when auprstad.str_typ in ( 'BLVD' ) then 'BOULEVARD'
+        when auprstad.str_typ in ( 'CL' ) then 'CLOSE'
+        when auprstad.str_typ in ( 'CRES' ) then 'CRESCENT'
+        when auprstad.str_typ in ( 'CRT' ) then 'COURT'
+        when auprstad.str_typ in ( 'CSWY' ) then 'CAUSEWAY'
+        when auprstad.str_typ in ( 'DVE' ) then 'DRIVE'
+        when auprstad.str_typ in ( 'GVE' ) then 'GROVE'
+        when auprstad.str_typ in ( 'HWY' ) then 'HIGHWAY'
+        when auprstad.str_typ in ( 'IS' ) then 'ISLAND'
+        when auprstad.str_typ in ( 'LA' ) then 'LANE'
+        when auprstad.str_typ in ( 'LNST' , 'LNW' ) then 'LANE'
+        when auprstad.str_typ in ( 'PASS' ) then 'PASS'
+        when auprstad.str_typ in ( 'PDE' ) then 'PARADE'
+        when auprstad.str_typ in ( 'PL' ) then 'PLACE'
+        when auprstad.str_typ in ( 'RD' , 'RDNT' , 'RDST' , 'RDE' , 'RDW' , 'RDEX' ) then 'ROAD'
+        when auprstad.str_typ in ( 'RISE' ) then 'RISE'
+        when auprstad.str_typ in ( 'SQ' ) then 'SQUARE'
+        when auprstad.str_typ in ( 'ST' , 'STNT' , 'STST' , 'STE' , 'STW' , 'STEX' ) then 'STREET'
+        when auprstad.str_typ in ( 'TCE' ) then 'TERRACE'
+        when auprstad.str_typ in ( 'TRK' ) then 'TRACK'
+        when auprstad.str_typ in ( 'WAY' ) then 'WAY'
+        when auprstad.str_nme like '% Road Ext' then 'ROAD'
+        when auprstad.str_nme like '% Road Extension' then 'ROAD'
+        when auprstad.str_nme = 'Sixth Avenue North' then 'AVENUE'
         else upper ( ifnull ( aualrefs.dsc_no3 , '' ) )
     end as road_type,
     case
-        when upper ( auprstad.str_typ ) in ( 'AVEN' , 'RDN' , 'STN' ) then 'N'
-        when upper ( auprstad.str_typ ) in ( 'AVES' , 'RDS' , 'STS' ) then 'S'
-        when upper ( auprstad.str_typ ) in ( 'AVEE' , 'RDE' , 'STE' ) then 'E'
-        when upper ( auprstad.str_typ ) in ( 'AVEW' , 'RDW' , 'STW' ) then 'W'
-        when upper ( auprstad.str_typ ) in ( 'AVEX' , 'RDX' , 'STX' ) then 'EX'
+        when upper ( auprstad.str_typ ) in ( 'AVEN' , 'LNNT' , 'RDNT' , 'STNT' ) then 'N'
+        when upper ( auprstad.str_typ ) in ( 'AVES' , 'LNST' , 'RDST' , 'STST' ) then 'S'
+        when upper ( auprstad.str_typ ) in ( 'AVEE' , 'LNE' , 'RDE' , 'STE' ) then 'E'
+        when upper ( auprstad.str_typ ) in ( 'AVEW' , 'LNW' , 'RDW' , 'STW' ) then 'W'
+        when upper ( auprstad.str_typ ) in ( 'AVEX' , 'RDEX' , 'STEX' ) then 'EX'
+        when auprstad.str_nme like '% Road Ext' then 'EX'
+        when auprstad.str_nme like '% Road Extension' then 'EX'
+        when auprstad.str_nme like '% Central' then 'CN'
+        when auprstad.str_nme = 'Sixth Avenue North' then 'N'
         else ''
     end as road_suffix,
     upper ( auprstad.sbr_nme ) as locality_name,
