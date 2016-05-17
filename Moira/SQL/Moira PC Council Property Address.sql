@@ -38,7 +38,10 @@ select distinct
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    '' as blg_unit_type,
+    case
+        when upper ( auprparc.ttl_nme ) in ( 'FLAT' , 'SHOP' , 'UNIT' ) and auprstad.pcl_unt is not null then upper ( auprparc.ttl_nme )
+        else ''
+    end as blg_unit_type,
     '' as blg_unit_prefix_1,
     ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) as blg_unit_id_1,
     ifnull ( auprstad.unt_alp , '' ) as blg_unit_suffix_1,
@@ -52,7 +55,10 @@ select distinct
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    ifnull ( upper ( auprparc.ttl_nme ) , '' ) as building_name,
+    case
+        when auprparc.ttl_nme is null or upper ( auprparc.ttl_nme ) in ( 'FLAT' , 'SHOP' , 'UNIT' ) then ''
+        else upper ( auprparc.ttl_nme )
+    end as building_name,
     '' as complex_name,
     '' as location_descriptor,
     '' as house_prefix_1,
