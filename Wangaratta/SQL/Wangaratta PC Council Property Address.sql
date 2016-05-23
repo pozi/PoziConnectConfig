@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -176,13 +176,13 @@ from
             attribute_type,
             status,
             text1,
-            text2 
+            text2
         from
             techone_nucattribute
         where
             attribute_type = 'RuralAddr' and status in ( 'C' , 'F' ) ) as RA on A.address_ctr = RA.table_no
 where
-    P.status in ( 'C' , 'F' , 'c' , 'f' ) and
+    P.status in ( 'C' , 'F' ) and
     p.property_no not in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 )
 
 union
@@ -337,13 +337,13 @@ from
             attribute_type,
             status,
             text1,
-            text2 
+            text2
         from
             techone_nucattribute
         where
             attribute_type = 'RuralAddr' and status in ( 'C' , 'F' ) ) as RA on A.address_ctr = RA.table_no
 where
-    P.status in ( 'C' , 'F' , 'c' , 'f' ) and
+    P.status in ( 'C' , 'F' ) and
     p.property_no not in ( 16953 , 16899 , 17736 , 15127 , 14359 , 15893 , 14360 , 15303 ) and
     asc.association_type = 'AltPropAdd' and
     asc.date_ended is null
