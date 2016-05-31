@@ -29,7 +29,7 @@ select
             portion ||
             case when portion <> '' and allotment <> '' then '~' else '' end ||
             allotment ||
-            case when sec <> '' then '~' else '' end ||
+            case when sec <> '' and ( portion <> '' or allotment <> '' ) then '~' else '' end ||
             sec ||
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
