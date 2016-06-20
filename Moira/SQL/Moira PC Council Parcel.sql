@@ -133,7 +133,7 @@ select
         end
         else ''
     end as parish_code,
-    '' as township_code,
+    ifnull ( replace ( auprparc.uda_cd3 , '9999' , '' ) , '' ) as township_code,
     fmt_ttl as summary,
     '347' as lga_code,
     cast ( auprparc.ass_num as varchar ) as assnum
