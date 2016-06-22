@@ -25,8 +25,8 @@ select
 from
 (
 select
-    cast ( Assessment.Assess_Number as varchar ) ||
-        case length ( cast ( Assessment.Assess_Number as varchar ) )
+    substr ( Assessment.Assess_Number , 1 , 13 ) ||
+        case length ( substr ( Assessment.Assess_Number , 1 , 13 ) )
             when 8 then '.0000'
             when 10 then '000'
             when 11 then '00'
