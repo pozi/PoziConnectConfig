@@ -67,19 +67,19 @@ select
         else ''
     end as northing,
     case
-        when cpa.datum_proj <> '' then datum_proj
+        when cpa.datum_proj <> '' then cpa.datum_proj
         when ( select distance_related_flag from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' limit 1 ) = 'Y' then 'EPSG:4326'
         else ''
     end as datum_proj,
     case
-        when cpa.outside_property <> '' then outside_property
+        when cpa.outside_property <> '' then cpa.outside_property
         when ( select distance_related_flag from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' limit 1 ) = 'Y' then ( select outside_property from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' limit 1 )
         else ''
     end as outside_property,
     'S' as edit_code,
-    'property ' || propnum || ': ' ||
+    'property ' || cpa.propnum || ': ' ||
         case
-            when propnum in ( select vpa.propnum from pc_vicmap_property_address vpa ) then 'replacing address ' || ( select vpa.ezi_address from pc_vicmap_property_address vpa where cpa.propnum = vpa.propnum and vpa.is_primary <> 'N' limit 1 ) || ' with '
+            when cpa.propnum in ( select vpa.propnum from pc_vicmap_property_address vpa ) then 'replacing address ' || ( select vpa.ezi_address from pc_vicmap_property_address vpa where cpa.propnum = vpa.propnum and vpa.is_primary <> 'N' limit 1 ) || ' with '
             else 'assigning new address '
         end ||
         cpa.ezi_address ||
@@ -100,12 +100,12 @@ select
 from
     pc_council_property_address cpa
 where
-    propnum not in ( '' , 'NCPR' ) and
-    ( is_primary <> 'N' or ( select cpc.num_records from pc_council_property_count cpc where cpc.propnum = cpa.propnum ) = 1 ) and
-    ( propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' ) ) or
-      ( building_name <> '' and building_name not in ( ifnull ( ( select building_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' ) , '' ) ) ) ) and
-    propnum not in ( select vpa.propnum from pc_vicmap_property_address vpa, m1_r_edits r where vpa.property_pfi = r.property_pfi ) and
-    ( propnum in ( select propnum from pc_vicmap_property_address ) or
-      propnum in ( select propnum from m1_p_edits ) ) and
+    cpa.propnum not in ( '' , 'NCPR' ) and
+    ( cpa.is_primary <> 'N' or ( select cpc.num_records from pc_council_property_count cpc where cpc.propnum = cpa.propnum ) = 1 ) and
+    ( cpa.propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' ) ) or
+      ( cpa.building_name <> '' and cpa.building_name not in ( ifnull ( ( select building_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' ) , '' ) ) ) ) and
+    cpa.propnum not in ( select vpa.propnum from pc_vicmap_property_address vpa, m1_r_edits r where vpa.property_pfi = r.property_pfi ) and
+    ( cpa.propnum in ( select propnum from pc_vicmap_property_address ) or
+      cpa.propnum in ( select propnum from m1_p_edits ) ) and
     not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' ) , '-' , ' ' ) , '''' , '' ) , '' )
-group by propnum
+group by cpa.propnum
