@@ -1,7 +1,10 @@
 select
     cpa.lga_code as lga_code,
     '' as new_sub,
-    '' as property_pfi,
+    case
+        when ( select count(*) from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum group by vpax.propnum ) > 1 then vpa.property_pfi
+        else ''
+    end as property_pfi,
     '' as parcel_pfi,
     '' as address_pfi,
     '' as spi,
@@ -109,4 +112,4 @@ where
     ( cpa.propnum in ( select propnum from pc_vicmap_property_address ) or
       cpa.propnum in ( select propnum from m1_p_edits ) ) and
     not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , '' )
-group by cpa.propnum
+group by cpa.propnum, vpa.property_pfi
