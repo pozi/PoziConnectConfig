@@ -46,17 +46,17 @@ Include only records where:
 *Note: This complex query caters for systems such as Property.Gov where there can be multiple records per council property, each with different addresses If any one of them match the Vicmap address, it would not warrant an update.*
 
 ```sql
-( propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' ) ) or
-  building_name <> '' and building_name not in ( ifnull ( ( select building_name from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' ) , '' ) ) ) ) and
+( propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum and vpax.is_primary = 'Y' ) ) or
+  building_name <> '' and building_name not in ( ifnull ( ( select building_name from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum and vpax.is_primary = 'Y' ) , '' ) ) ) )
 ```
 
 Exclude properties that will be retired.
 
 ```sql
 propnum not in (
-    select vpa.propnum
-        from pc_vicmap_property_address vpa, M1_R_Edits r
-        where vpa.property_pfi = r.property_pfi )
+    select vpax.propnum
+        from pc_vicmap_property_address vpax, M1_R_Edits r
+        where vpax.property_pfi = r.property_pfi )
 ```
 
 Include only properties that 1) already exist in Vicmap; 2) will appear in a P edit; or 3) will appear in an A edit.
@@ -64,13 +64,13 @@ Include only properties that 1) already exist in Vicmap; 2) will appear in a P e
 ```sql
 ( propnum in ( select propnum from pc_vicmap_property_address ) or
   propnum in ( select propnum from m1_p_edits ) or
-  propnum in ( select propnum from m1_a_edits ) ) 
+  propnum in ( select propnum from m1_a_edits ) )
 ```
 
 Exclude properties where the only difference between the Council and Vicmap address is a hyphen or an apostrophe.
 
 ```sql
-not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( ( select vpa.num_road_address from pc_vicmap_property_address vpa where vpa.propnum = cpa.propnum and vpa.is_primary = 'Y' ) , '-' , ' ' ) , '''' , '' ) , '' )
+not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , '' )
 ```
 
 Generate only one record per property.
