@@ -51,6 +51,9 @@ select
     replace ( pfi_cr_char , '/' , '-' ) as address_pfi_created,
     st_x ( address.geometry ) as address_x,
     st_y ( address.geometry ) as address_y,
+    round ( st_x ( st_transform ( address.geometry, 3111 ) ) , 0 ) as address_x_proj,
+    round ( st_y ( st_transform ( address.geometry, 3111 ) ) , 0 ) as address_y_proj,
+    'EPSG:3111' as address_datum_proj,
     property.geometry as geometry
 from
     vmprop_property_mp property,

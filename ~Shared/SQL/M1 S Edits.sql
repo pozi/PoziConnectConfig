@@ -61,17 +61,17 @@ select
     end as is_primary,
     case
         when cast ( cpa.easting as varchar ) not in ( '' , '0' ) then cast ( cpa.easting as varchar )
-        when vpa.distance_related_flag = 'Y' then vpa.address_x
+        when vpa.distance_related_flag = 'Y' then vpa.address_x_proj
         else ''
     end as easting,
     case
         when cast ( cpa.northing as varchar ) not in ( '' , '0' ) then cast ( cpa.northing as varchar )
-        when vpa.distance_related_flag = 'Y' then vpa.address_y
+        when vpa.distance_related_flag = 'Y' then vpa.address_y_proj
         else ''
     end as northing,
     case
         when cpa.datum_proj <> '' then cpa.datum_proj
-        when vpa.distance_related_flag = 'Y' then 'EPSG:4326'
+        when vpa.distance_related_flag = 'Y' then vpa.address_datum_proj
         else ''
     end as datum_proj,
     case
