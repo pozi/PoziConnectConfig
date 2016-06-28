@@ -80,7 +80,11 @@ select
         else ''
     end as outside_property,
     'S' as edit_code,
-    'property ' || cpa.propnum || ': ' ||
+    'property ' || cpa.propnum ||
+        case vpa.status
+            when 'P' then ' (proposed)'
+            else ''
+        end || ': ' ||
         case
             when cpa.propnum = vpa.propnum then 'replacing address ' || vpa.ezi_address || ' with '
             else 'assigning new address '
