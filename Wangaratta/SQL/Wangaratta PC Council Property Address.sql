@@ -48,7 +48,7 @@ select
         when 'OFFICE' then 'OFFC'
         when 'SUITE' then 'SE'
         when 'WORKSHOP' then 'WKSH'
-        else upper ( A.unit_desc )
+        else upper ( ifnull ( A.unit_desc , '' ) )
     end as blg_unit_type,
     '' as blg_unit_prefix_1,
     ifnull ( A.unit_no , '' ) as blg_unit_id_1,
