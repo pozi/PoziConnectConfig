@@ -42,7 +42,14 @@ select
         when 'REAR' then 'REAR'
         else ''
     end as location_descriptor,
-    '' as blg_unit_type,
+    case upper ( A.unit_desc )
+        when 'CARPARK' then 'CARP'
+        when 'HANGAR' then 'HNGR'
+        when 'OFFICE' then 'OFFC'
+        when 'SUITE' then 'SE'
+        when 'WORKSHOP' then 'WKSH'
+        else upper ( A.unit_desc )
+    end as blg_unit_type,
     '' as blg_unit_prefix_1,
     ifnull ( A.unit_no , '' ) as blg_unit_id_1,
     upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
