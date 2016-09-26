@@ -100,6 +100,10 @@ select
             else ''
         end ||
         case
+            when length ( cpa.building_name ) > 45 then ' (**WARNING**: building name exceeds limit of 45 characters)'
+            else ''
+        end ||
+        case
             when replace ( cpa.road_locality , '-' , ' ' ) not in ( select replace ( road_locality , '-' , ' ' ) from pc_vicmap_property_address ) then ' (**WARNING**: new road name)'
             else ''
         end as comments,
