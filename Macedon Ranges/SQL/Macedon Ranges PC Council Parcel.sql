@@ -25,7 +25,10 @@ select
 from
 (
 select distinct
-    cast ( lpaprop.tpklpaprop as varchar ) as propnum,
+    case
+        when lpaparc.parcelcode = 'CM' then 'NCPR'
+        else cast ( lpaprop.tpklpaprop as varchar )
+    end as propnum,
     case lpaparc.status
         when 'C' then 'A'
         when 'A' then 'P'
@@ -46,6 +49,7 @@ select distinct
     end as plan_numeral,
     case
         when lpaparc.parcelcode in ( 'CA' , 'PTCA' , 'PORT' , 'PTPORT' ) then ''
+        when lpaparc.parcelcode = 'CM' then 'CM' || ifnull ( lpaparc.parcelnum , '' )
         when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
         else ifnull ( lpaparc.parcelnum , '' )
     end as lot_number,
