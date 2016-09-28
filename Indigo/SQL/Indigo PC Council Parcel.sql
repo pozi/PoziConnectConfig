@@ -37,7 +37,7 @@ select
         else ''
     end as simple_spi,
     case
-        when internal_spi <> '' and internal_spi not like '% %' then 'council_spi'
+        when internal_spi <> '' and internal_spi not like '\%' then 'council_spi'
         else 'council_attributes'
     end as source
 from
