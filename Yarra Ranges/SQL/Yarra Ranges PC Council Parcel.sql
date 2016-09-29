@@ -156,7 +156,7 @@ select distinct
         else ''
     end as township_code,
     '377' as lga_code,
-    cast ( cast ( lraassm.assmnumber as integer ) as varchar ) as assnum
+    ifnull ( cast ( cast ( lraassm.assmnumber as integer ) as varchar ) , '' ) as assnum
 from
     pathway_lpaprop as lpaprop left join
     pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
@@ -178,7 +178,7 @@ where
     lpatipa.status <> 'H' and
     lpaprti.status <> 'H' and
     lpatitl.status <> 'H' and
-    upper ( lpadesc.descr ) <> 'EVELYN' and
-    lpadesc.descr <> 'CF'
+    upper ( ifnull ( lpadesc.descr , '' ) ) not in ( 'CF' , 'EVELYN' ) and
+    not ( lpadesc.descr is null and plancode is null )
 )
 )
