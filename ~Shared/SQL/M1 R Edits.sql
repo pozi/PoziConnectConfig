@@ -56,7 +56,7 @@ select
     lga_code,
     property_pfi,
     case
-        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then  'multi-parcel (' || ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) || ') property'
+        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi and vp.propnum <> 'NCPR') > 1 then 'multi-parcel (' || ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) || ') property'
         else 'parcel ' || spi
     end ||
         ': removing propnum ' ||
