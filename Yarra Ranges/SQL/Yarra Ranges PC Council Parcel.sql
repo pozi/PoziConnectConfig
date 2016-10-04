@@ -49,6 +49,7 @@ select distinct
         else
             case
                 when lpaparc.parcelcode = 'R' and lpaparc.parcelnum is not null then 'RES'
+                when lpaparc.parcelcode = 'R' and lpaparc.parcelnum is null then 'RES1'
                 else ''
             end ||
             case
