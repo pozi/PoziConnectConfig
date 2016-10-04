@@ -33,6 +33,10 @@ select distinct
     cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     ifnull ( lpaparc.plancode || ': ' , '' ) || ifnull ( trim ( lpaparc.fmtparcel ) , '' ) as summary,
     case
+        when lpaparc.parcelcode in ( 'PT L' , 'PT U' ) then 'P'
+        else ''
+    end as part,
+    case
         when lpaparc.plannum is null then ''
         else ifnull ( lpaparc.plancode , '' ) || ifnull ( cast ( cast ( lpaparc.plannum as integer ) as varchar ) , '' )
     end as plan_number,
