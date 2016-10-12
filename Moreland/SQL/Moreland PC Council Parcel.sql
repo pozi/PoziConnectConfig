@@ -6,6 +6,18 @@ from
 select
     *,
     case
+        when internal_spi <> '' then internal_spi
+        else constructed_spi
+    end as spi,
+    case
+        when internal_spi <> '' then 'council_spi'
+        else 'council_attributes'
+    end as spi_source
+from
+(
+select
+    *,
+    case
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
@@ -21,7 +33,7 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as spi
+    end as constructed_spi
 from
 (
 select distinct
@@ -31,26 +43,45 @@ select distinct
         when 'A' then 'P'
     end as status,
     '' as crefno,
-    '' as part,
+    ifnull ( lpaparc.spi , '' ) as internal_spi,
+    case
+        when lpaparc.parcelcode = 'P L' then 'P'
+        else ''
+    end as part,
     ifnull ( lpaparc.plancode || ': ' , '' ) || ifnull ( trim ( lpaparc.fmtparcel ) , '' ) as summary,
-    ifnull ( lpaparc.plancode || lpaparc.plannum , '' ) as plan_number,
-    ifnull ( lpaparc.plancode , '' ) as plan_prefix,
-    ifnull ( lpaparc.plannum , '' ) as plan_numeral,
-    ifnull ( lpaparc.parcelnum , '' ) as lot_number,
-    ifnull ( lpacrwn.crownallot , '' ) as allotment,
+    case
+        when lpaparc.plancode = 'PP' then ''
+        else ifnull ( lpaparc.plancode || lpaparc.plannum , '' )
+    end as plan_number,
+    case
+        when lpaparc.plancode = 'PP' then ''
+        else ifnull ( lpaparc.plancode , '' )
+    end as plan_prefix,
+    case
+        when lpaparc.plancode = 'PP' then ''
+        else ifnull ( lpaparc.plannum , '' )
+    end as plan_numeral,
+    case
+        when lpaparc.plancode = 'PP' then ''
+        when lpaparc.parcelcode = 'CM' then 'CM' || ifnull ( lpaparc.parcelnum , '' )
+        when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
+        else ifnull ( lpaparc.parcelnum , '' )
+    end as lot_number,
+    case
+        when lpaparc.plancode = 'PP' then ifnull ( lpaparc.parcelnum , '' )
+        else ''
+    end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
-    case upper ( lpadesc.descr )
-        when null then ''
-        when '' then ''
-        else upper ( lpadesc.descr )
+    case
+        when lpaparc.plancode = 'PP' and substr ( lpaparc.plannum , 1 , 1 ) in ( '2' , '3' ) then ifnull ( lpaparc.plannum , '' )
+        else ''
     end as parish_code,
-    case upper ( lpadesc.descr )
-        when null then ''
-        when '' then ''
-        else upper ( lpadesc.descr )
+    case
+        when lpaparc.plancode = 'PP' and substr ( lpaparc.plannum , 1 , 1 ) in ( '5' ) then ifnull ( lpaparc.plannum , '' )
+        else ''
     end as township_code,
     '351' as lga_code,
     cast ( cast ( lpaprop.tpklpaprop as integer ) as varchar ) as assnum
@@ -73,5 +104,6 @@ where
     lpatipa.status <> 'H' and
     lpaprti.status <> 'H' and
     lpatitl.status <> 'H'
+)
 )
 )
