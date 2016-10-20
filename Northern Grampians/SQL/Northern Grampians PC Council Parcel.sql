@@ -56,19 +56,19 @@ select
             else ifnull ( cast ( auprparc.ttl_in5 as varchar ) , '' )
         end as plan_number,
     case
-    when auprparc.ttl_cde = 1 then ''
-    when auprparc.ttl_cde = 2 then 'PS'
-    when auprparc.ttl_cde = 3 then 'LP'
-    when auprparc.ttl_cde = 4 then 'CP'
-    when auprparc.ttl_cde = 5 then
-        case
-            when fmt_ttl like '%SP%' then 'SP'
-            else 'RP'
-        end
-    when auprparc.ttl_cde = 7 then 'TP'
-    when auprparc.ttl_cde = 8 then ''
-    when auprparc.ttl_cde = 9 then ''
-    when auprparc.ttl_cde = 10 then 'PC'
+        when auprparc.ttl_cde = 1 then ''
+        when auprparc.ttl_cde = 2 then 'PS'
+        when auprparc.ttl_cde = 3 then 'LP'
+        when auprparc.ttl_cde = 4 then 'CP'
+        when auprparc.ttl_cde = 5 then
+            case
+                when fmt_ttl like '%SP%' then 'SP'
+                else 'RP'
+            end
+        when auprparc.ttl_cde = 7 then 'TP'
+        when auprparc.ttl_cde = 8 then ''
+        when auprparc.ttl_cde = 9 then ''
+        when auprparc.ttl_cde = 10 then 'PC'
     end as plan_prefix,
     case
         when auprparc.ttl_cde in ( 1 , 8 , 9 ) then ''
