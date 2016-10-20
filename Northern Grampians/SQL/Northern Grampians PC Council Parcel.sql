@@ -51,11 +51,7 @@ select
         when auprparc.ttl_cde = 9 then ''
         when auprparc.ttl_cde = 10 then 'PC'
     end ||
-        case
-            when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
-            when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
-            else ''
-        end as plan_number,
+        ifnull ( cast ( auprparc.ttl_in5 as varchar ) , '' ) as plan_number,
     case
     when auprparc.ttl_cde = 1 then ''
     when auprparc.ttl_cde = 2 then 'PS'
@@ -73,9 +69,7 @@ select
     end as plan_prefix,
     case
         when auprparc.ttl_cde in ( 1 , 8 , 9 ) then ''
-        when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
-        when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
-        else ''
+        else ifnull ( cast ( auprparc.ttl_in5 as varchar ) , '' )
     end as plan_numeral,
     case
         when auprparc.ttl_cde = 3 and length ( ttl_no1 ) > 1 and substr ( ttl_no1 , 1 , 1 ) in ( 'A' , 'B' ) then substr ( ttl_no1 , 2 , 99 )
@@ -96,10 +90,14 @@ select
         when 15 then '2107'
         when 20 then '2108'
         when 30 then '2171'
+        when 35 then '2204'
+        when 40 then '2205'
         when 45 then '2182'
         when 50 then '2208'
         when 55 then '2257'
+        when 60 then '2302'
         when 65 then '2306'
+        when 70 then '2301'
         when 75 then '2321'
         when 80 then '2338'
         when 85 then '2339'
@@ -118,6 +116,7 @@ select
         when 150 then '2771'
         when 155 then '2806'
         when 160 then '2887'
+        when 165 then '2890'
         when 170 then '2913'
         when 175 then '2915'
         when 180 then '2955'
@@ -129,6 +128,7 @@ select
         when 210 then '3154'
         when 215 then '3193'
         when 220 then '3206'
+        when 225 then '3287'
         when 230 then '3288'
         when 235 then '3443'
         when 237 then '3443'
@@ -147,6 +147,7 @@ select
         when 300 then '3768'
         when 305 then '3777'
         when 310 then '3822'
+        when 315 then '3837'
         when 320 then '3839'
         when 325 then '3846'
         else ifnull ( cast ( auprparc.udn_cd1 as varchar ) , '' )
@@ -159,10 +160,12 @@ select
         when 35 then '5194'
         when 45 then '5281'
         when 50 then '5326'
+        when 55 then '5336'
         when 60 then '5343'
         when 65 then '5355'
         when 70 then '5351'
         when 85 then '5374'
+        when 95 then '5480'
         when 105 then '5581'
         when 110 then '5692'
         when 115 then '5730'
