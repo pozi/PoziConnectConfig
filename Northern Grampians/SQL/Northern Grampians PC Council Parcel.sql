@@ -51,7 +51,10 @@ select
         when auprparc.ttl_cde = 9 then ''
         when auprparc.ttl_cde = 10 then 'PC'
     end ||
-        ifnull ( cast ( auprparc.ttl_in5 as varchar ) , '' ) as plan_number,
+        case
+            when auprparc.ttl_cde in ( 1 , 8 , 9 ) then ''
+            else ifnull ( cast ( auprparc.ttl_in5 as varchar ) , '' )
+        end as plan_number,
     case
     when auprparc.ttl_cde = 1 then ''
     when auprparc.ttl_cde = 2 then 'PS'
