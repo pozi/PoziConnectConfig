@@ -32,7 +32,7 @@ select
         when 'F' then 'P'
         else ''
     end as status,
-    case 
+    case
         when ifnull ( upper ( part_lot ) , '' ) = 'Y' then 'P'
         else  ifnull ( upper ( part_lot ) , '' )
     end as part,
@@ -44,7 +44,7 @@ select
     end as plan_number,
     case
         when upper (l.plan_desc) = 'SEC' then ''
-        else ifnull ( L.plan_desc , '' ) 
+        else ifnull ( L.plan_desc , '' )
     end as plan_prefix,
     case
         when upper (l.plan_desc) = 'SEC' then ''
@@ -54,7 +54,7 @@ select
     end as plan_numeral,
     case
         when l.parish_desc <> '' then ''
-        else upper ( replace ( ifnull ( L.lot , '' ) , ' ' , '' ) ) 
+        else upper ( replace ( ifnull ( L.lot , '' ) , ' ' , '' ) )
     end as lot_number,
     case
         when l.parish_desc <> '' then l.lot
@@ -73,7 +73,7 @@ select
         when 'WARRA' then '3753'
         else ''
     end as parish_code,
-    case 
+    case
         when P.OVERRIDE_LEGAL_DESCRIPTION like '%Town%' and upper ( L.parish_desc ) = 'TEMPLE' then '5776'
         when P.OVERRIDE_LEGAL_DESCRIPTION like '%Town%' and upper ( L.parish_desc ) = 'WARRA' then '5837'
         else ''
@@ -85,10 +85,10 @@ from
     join techone_nucassociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F')
     join techone_nucproperty P on A.key1 = P.property_no
 where
-    A.association_type = 'PropLand' and
-    ( P.property_no < 550000 or P.property_no >= 700000 ) and
     L.plan_desc <> 'PA' and
+    A.association_type = 'PropLand' and
     A.date_ended is null and
-    P.status in ( 'C' , 'F' )
+    P.status in ( 'C' , 'F' ) and
+    ( P.property_no < 550000 or P.property_no >= 700000 )
 )
 )
