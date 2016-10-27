@@ -89,6 +89,7 @@ where
     A.association_type = 'PropLand' and
     A.date_ended is null and
     P.status in ( 'C' , 'F' ) and
+    P.property_type_desc not in ( 'Header' , 'Plan App' ) and
     ( P.property_no < 550000 or P.property_no >= 700000 )
 )
 )

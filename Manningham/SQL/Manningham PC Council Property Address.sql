@@ -236,7 +236,7 @@ from
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
     P.status in ( 'C' , 'F' ) and
-    P.property_type_desc <> 'Header' and
+    P.property_type_desc not in ( 'Header' , 'Plan App' ) and
     ( P.property_no < 550000 or P.property_no >= 700000 )
 )
 )
