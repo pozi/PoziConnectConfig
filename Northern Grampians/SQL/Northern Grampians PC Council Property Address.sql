@@ -32,7 +32,7 @@ select distinct
     '' as status,
     '' as base_propnum,
     case
-        when auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
+        when auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'M' , 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
         else 'N'
     end as is_primary,
     '' as distance_related_flag,
@@ -114,7 +114,7 @@ from
     authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num left join
     authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ'
 where
-    auprparc.pcl_flg in ( 'R' , 'P' )
+    auprparc.pcl_flg in ( 'M' , 'R' , 'P' )
 )
 )
 )

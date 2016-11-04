@@ -182,7 +182,7 @@ from
     authority_auprparc as auprparc join
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
 where
-    auprparc.pcl_flg in ( 'R' , 'P' ) and
+    auprparc.pcl_flg in ( 'M' , 'R' , 'P' ) and
     auprparc.ttl_cde not in ( 6 , 50 )
 )
 )
