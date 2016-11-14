@@ -98,7 +98,9 @@ from
 where
     A.association_type = 'PropLand' and
     A.date_ended is null and
-    P.status in ( 'C' , 'F' )
+    P.status <> 'P' and
+    P.property_type_desc not in ( 'LUR' , 'RoadReserv' , 'CornerSpla' , 'InactRecor' , 'Laneway' , 'PermOcc' , 'Pms Blocks' ) and
+    P.rate_analysis_desc not in ( 'R FarmHous' )
 )
 )
 )
