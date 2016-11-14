@@ -87,6 +87,7 @@ select
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
     upper ( ifnull ( A.property_name , '' ) ) as building_name,
     case
+        when upper ( S.street_name ) = 'TANKERTON ESTATE' then 'TANKERTON ESTATE'
         when upper ( A.formatted_address ) like '%CANADIAN BAY FORESHORE%' then 'CANADIAN BAY FORESHORE'
         when upper ( A.formatted_address ) like '%CAPEL SOUND FORESHORE%' then 'CAPEL SOUND FORESHORE'
         when upper ( A.formatted_address ) like '%DAVEYS BAY FORESHORE%' then 'DAVEYS BAY FORESHORE'
@@ -134,6 +135,7 @@ select
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
     case
+        when upper ( S.street_name ) = 'TANKERTON ESTATE' then ''
         when S.street_name like 'THE %' then
             case upper ( S.street_name )
                 when 'THE BITTERN BOULEVARD' then 'THE BITTERN'
