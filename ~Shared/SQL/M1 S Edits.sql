@@ -119,5 +119,6 @@ where
     cpa.propnum not in ( select vpax.propnum from pc_vicmap_property_address vpax, m1_r_edits r where vpax.property_pfi = r.property_pfi ) and
     ( cpa.propnum in ( select propnum from pc_vicmap_property_address ) or
       cpa.propnum in ( select propnum from m1_p_edits ) ) and
-    not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , '' )
+    not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , '' ) and
+    cpa.road_name <> ''
 group by cpa.propnum, vpa.property_pfi

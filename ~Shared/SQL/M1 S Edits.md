@@ -73,6 +73,12 @@ Exclude properties where the only difference between the Council and Vicmap addr
 not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , '' )
 ```
 
+Include only properties where the council address has a valid road name.
+
+```sql
+cpa.road_name <> ''
+```
+
 Generate only one record per property.
 
 ```sql
