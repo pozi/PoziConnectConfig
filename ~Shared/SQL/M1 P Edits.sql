@@ -5,8 +5,8 @@ select
     '' as parcel_pfi,
     '' as address_pfi,
     spi as spi,
-    plan_number as plan_number,
-    lot_number as lot_number,
+    '' as plan_number,
+    '' as lot_number,
     base_propnum as base_propnum,
     propnum as propnum,
     '' as crefno,
@@ -60,8 +60,6 @@ select
         else ''
     end as property_pfi,
     vp.spi as spi,
-    vp.plan_number as plan_number,
-    vp.lot_number as lot_number,
     cp.propnum as propnum,
     ifnull ( ( select cpa.base_propnum from pc_council_property_address cpa where cpa.propnum = cp.propnum limit 1 ) , '' ) as base_propnum,
     'parcel ' || vp.spi ||

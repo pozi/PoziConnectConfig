@@ -5,8 +5,8 @@ select
     parcel_pfi as parcel_pfi,
     '' as address_pfi,
     spi as spi,
-    plan_number as plan_number,
-    lot_number as lot_number,
+    '' as plan_number,
+    '' as lot_number,
     '' as base_propnum,
     '' as propnum,
     crefno as crefno,
@@ -60,8 +60,6 @@ select
         else ''
     end as parcel_pfi,
     vp.spi as spi,
-    vp.plan_number as plan_number,
-    vp.lot_number as lot_number,
     cp.crefno as crefno,
     'parcel ' || vp.spi ||
         case vp.status
