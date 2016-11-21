@@ -5,8 +5,8 @@ select
     '' as parcel_pfi,
     '' as address_pfi,
     spi as spi,
-    '' as plan_number,
-    '' as lot_number,
+    plan_number as plan_number,
+    lot_number as lot_number,
     base_propnum as base_propnum,
     propnum as propnum,
     '' as crefno,
@@ -62,6 +62,14 @@ select
         when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then ''
         else vp.spi
     end as spi,
+    case
+        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then ''
+        else vp.plan_number
+    end as plan_number,
+    case
+        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then ''
+        else vp.lot_number
+    end as lot_number,
     '' as propnum,
     '' as base_propnum,
     ( select road_name from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi limit 1 ) as road_name,
