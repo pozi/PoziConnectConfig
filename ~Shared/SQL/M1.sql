@@ -5,8 +5,8 @@ select
     parcel_pfi,
     address_pfi,
     spi,
-    plan_number,
-    lot_number,
+    '' as plan_number,
+    '' as lot_number,
     case base_propnum when 0 then '' else cast ( base_propnum as varchar ) end as base_propnum,
     propnum,
     crefno,
@@ -52,6 +52,8 @@ select
     geometry
 from
 (
+select * from
+(
 select * from m1_r_edits
 union
 select * from m1_c_edits
@@ -66,4 +68,5 @@ select * from m1_s_edits
 union
 select * from m1_s_proposed_edits
 ) as combined_m1
-order by edit_code, plan_number, lot_number
+order by edit_code, plan_number, lot_number, cast ( propnum as integer )
+)
