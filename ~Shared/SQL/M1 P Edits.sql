@@ -55,11 +55,13 @@ from (
 select
     vp.lga_code as lga_code,
     case
-        when vp.multi_assessment = 'N' then ''
-        when vp.spi in ( select spi from ( select vpx.spi, count(*) num_parcels from ( select distinct spi, property_pfi from pc_vicmap_parcel where property_status = status ) vpx group by vpx.spi ) where num_parcels > 1 ) then vp.property_pfi
+        when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then vp.property_pfi
         else ''
     end as property_pfi,
-    vp.spi as spi,
+    case
+        when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) = 1 then vp.spi
+        else ''
+    end as spi,
     vp.plan_number as plan_number,
     vp.lot_number as lot_number,
     cp.propnum as propnum,
@@ -89,6 +91,10 @@ select
         case
             when ( select locality_name from pc_vicmap_property_address where property_pfi = vp.property_pfi ) <> ( select locality_name from pc_council_property_address where propnum = cp.propnum ) then ' (**WARNING**: conflicting localities)'
             when ( vp.primary_address_pfi in ( select address_pfi from pc_vicmap_property_address where distance_related_flag = 'Y' ) and vp.propnum in ( select propnum from pc_vicmap_property_parcel_count where propnum not in ( '' , 'NCPR' ) and num_parcels > 1 ) ) then ' (**WARNING**: transfer of parcel includes existing primary distance-based address)'
+            else ''
+        end ||
+        case
+            when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then ' (**WARNING**: parcel is linked to multiple properties in Vicmap - check that the target property_pfi is correct)'
             else ''
         end as comments,
     centroid ( vp.geometry ) as geometry
