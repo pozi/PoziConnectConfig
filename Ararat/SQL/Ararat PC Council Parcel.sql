@@ -38,22 +38,11 @@ select
     cast ( Title.Title_Id as varchar ) as crefno,
     Title.Title_Legal_Description as summary,
     case when Title_Is_Part_of_Lot = 1 then 'P' else '' end as part,
-    ifnull ( Plan_Type.Plan_Type_Code , '' ) ||
-            case
-                when Title.Title_Plan_Number is null then ''
-                when Title.Title_Plan_Number = '' then ''
-                when substr ( Title.Title_Plan_Number , -1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then substr ( Title.Title_Plan_Number , 1 , length ( Title.Title_Plan_Number ) - 1 )
-                else Title.Title_Plan_Number
-            end as plan_number,
+    ifnull ( Plan_Type.Plan_Type_Code , '' ) || ifnull ( Title.Title_Plan_Number , '' ) as plan_number,
     ifnull ( Plan_Type.Plan_Type_Code , '' ) as plan_prefix,
-    case
-        when Title.Title_Plan_Number is null then ''
-        when Title.Title_Plan_Number = '' then ''
-        when substr ( Title.Title_Plan_Number , -1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then substr ( Title.Title_Plan_Number , 1 , length ( Title.Title_Plan_Number ) - 1 )
-        else Title.Title_Plan_Number
-    end as plan_numeral,
+    ifnull ( Title.Title_Plan_Number , '' ) as plan_numeral,
     ifnull ( replace ( upper ( Title_Lot ) , ' ' , '' ) , '' ) as lot_number,
-    ifnull ( replace ( upper ( Title.Title_Crown_Allotment ) , 'PT ' , '' ) , '' ) as allotment,
+    ifnull ( upper ( Title.Title_Crown_Allotment ) , '' ) as allotment,
     ifnull ( Title.Title_Section , '' ) as sec,
     ifnull ( Title.Title_Block , '' ) as block,
     ifnull ( Title.Title_Portion , '' ) as portion,
