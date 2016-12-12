@@ -113,3 +113,4 @@ where
     cp.plan_number <> '' and
     cp.spi in ( select vp.spi from pc_vicmap_parcel vp where vp.spi in ( select cpy.spi from pc_council_parcel cpy where cpy.spi = vp.spi and cpy.propnum = vp.propnum ) )
 ) as cpx
+group by property_pfi, propnum
