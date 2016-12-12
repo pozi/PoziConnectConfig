@@ -55,7 +55,7 @@ from (
 select
     vp.lga_code as lga_code,
     case
-        when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then vp.property_pfi
+        when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then '???' || vp.property_pfi || '???'
         else ''
     end as property_pfi,
     case
@@ -94,7 +94,7 @@ select
             else ''
         end ||
         case
-            when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then ' (**WARNING**: parcel is linked to multiple properties in Vicmap - check that the target property_pfi is correct)'
+            when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then ' (**WARNING**: parcel is linked to multiple properties in Vicmap - populate the target property_pfi)'
             else ''
         end as comments,
     centroid ( vp.geometry ) as geometry
