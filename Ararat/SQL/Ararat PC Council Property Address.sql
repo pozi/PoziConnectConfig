@@ -28,13 +28,14 @@ select
 from (
 
 select distinct
-    substr ( Assessment.Assess_Number , 1 , 13 ) ||
-        case length ( substr ( Assessment.Assess_Number , 1 , 13 ) )
-            when 8 then '.0000'
-            when 10 then '000'
-            when 11 then '00'
-            when 12 then '0'
-            when 13 then ''
+    cast ( Assessment.Assess_Number as varchar ) ||
+        case
+            when substr ( Assessment.Assess_Number , -7 , 1 ) = '.' then ''
+            when substr ( Assessment.Assess_Number , -6 , 1 ) = '.' then '0'
+            when substr ( Assessment.Assess_Number , -5 , 1 ) = '.' then '00'
+            when substr ( Assessment.Assess_Number , -4 , 1 ) = '.' then '000'
+            when substr ( Assessment.Assess_Number , -3 , 1 ) = '.' then '0000'
+            when substr ( Assessment.Assess_Number , -2 , 1 ) = '.' then '00000'
         end as propnum,
     '' as status,
     '' as base_propnum,
