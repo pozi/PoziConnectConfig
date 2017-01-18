@@ -33,8 +33,8 @@ select
     ifnull ( Plan_Type.Plan_Type_Code || Title.Title_Plan_Number , '' ) as plan_number,
     ifnull ( Plan_Type.Plan_Type_Code , '' ) as plan_prefix,
     ifnull ( Title.Title_Plan_Number ,'' ) as plan_numeral,
-    ifnull ( Title_Lot , '' ) as lot_number,
-    ifnull ( Title.Title_Crown_Allotment , '' ) as allotment,
+    ifnull ( replace ( replace ( upper ( Title_Lot ) , 'ROAD ' , '' ) , 'RESERVE ' , 'RES' ) , '' ) as lot_number,
+    ifnull ( trim ( replace ( upper ( Title.Title_Crown_Allotment ) , '(PT)' , '' ) ) , '' ) as allotment,
     ifnull ( Title.Title_Section , '' ) as sec,
     ifnull ( Title.Title_Block , '' ) as block,
     ifnull ( Title.Title_Portion , '' ) as portion,
@@ -54,7 +54,7 @@ from
     propertygov_township as Township on Title.Township_Id = Township.Township_Id
 where
     Parcel.Parcel_Status = 0 and
-    Assessment.Assessment_Status not in ( '9' , '22' ) and
+    Assessment.Assessment_Status not in ( '9' , '21' ) and
     Assessment.Assess_Number is not null
 order by propnum, crefno
 )

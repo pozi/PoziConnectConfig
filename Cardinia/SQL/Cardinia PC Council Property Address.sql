@@ -102,6 +102,7 @@ select distinct
     cast ( ifnull ( Address.Addr_House_Number_2 , '' ) as varchar ) as house_number_2,
     upper ( ifnull ( Address.Addr_House_Suffix_2 , '' ) ) as house_suffix_2,
     case
+        when upper ( Street.Street_Name ) = 'L. L.' then 'L L'
         when upper ( Street.Street_Name ) = 'NO 4 DRAIN' then 'NUMBER FOUR DRAIN'
         when upper ( Street.Street_Name ) = 'NO 5 DRAIN' then 'NUMBER FIVE DRAIN'
         when upper ( Street.Street_Name ) = 'NO 7 DRAIN' then 'NUMBER SEVEN DRAIN'
@@ -139,7 +140,7 @@ from (
         propertygov_assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id
     where
         Parcel.Parcel_Status in ( 0 , 2 ) and
-        Assessment.Assessment_Status not in ( '9' , '22' ) and
+        Assessment.Assessment_Status not in ( '9' , '21' ) and
         Assessment.Assess_Number is not null and
         Parcel.Address_Id is not null
     group by Assessment.Assess_Number
