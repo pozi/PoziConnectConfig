@@ -28,7 +28,7 @@ select
 from (
 
 select
-    substr ( properties.assess_no , 2 , 99 ) as propnum,
+    properties.assess_no as propnum,
     '' as status,
     '' as base_propnum,
     '' as is_primary,
@@ -54,6 +54,10 @@ select
     '' as complex_name,
     '' as house_prefix_1,
     case
+        when substr ( properties.house_no , 2 , 1 ) = '-' then substr ( properties.house_no , 1 , 1 )
+        when substr ( properties.house_no , 3 , 1 ) = '-' then substr ( properties.house_no , 1 , 2 )
+        when substr ( properties.house_no , 4 , 1 ) = '-' then substr ( properties.house_no , 1 , 3 )
+        when substr ( properties.house_no , 5 , 1 ) = '-' then substr ( properties.house_no , 1 , 4 )
         when substr ( properties.house_no , -1 , 1 ) not in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then substr ( properties.house_no , 1 , length ( properties.house_no ) -1 )
         else ifnull ( properties.house_no , '' )
     end as house_number_1,
@@ -62,23 +66,17 @@ select
         else ''
     end as house_suffix_1,
     '' as house_prefix_2,
-    '' as house_number_2,
-    '' as house_suffix_2,
     case
-        when streets.street_type in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) and ( upper ( streets.street_name ) like '% ST' or upper ( streets.street_name ) like '% RD' ) then substr ( streets.street_name , 1 , length ( streets.street_name ) - 3 )
-        when streets.street_type in ( 'HONOUR' , 'GRANGE' , 'PARADE' ) then streets.street_name || ' ' || streets.street_type
-        else streets.street_name
-    end as road_name,
-    case
-        when streets.street_type in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) and streets.street_name like '% ST' then 'STREET'
-        when streets.street_type in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) and streets.street_name like '% RD' then 'ROAD'
-        when streets.street_type in ( 'HONOUR' , 'GRANGE' , 'PARADE' ) then ''
-        else streets.street_type
-    end as road_type,
-    case
-        when streets.street_type in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) then substr ( streets.street_type , 1 , 1 )
+        when substr ( properties.house_no , 2 , 1 ) = '-' then substr ( properties.house_no , 3 , 99 )
+        when substr ( properties.house_no , 3 , 1 ) = '-' then substr ( properties.house_no , 4 , 99 )
+        when substr ( properties.house_no , 4 , 1 ) = '-' then substr ( properties.house_no , 5 , 99 )
+        when substr ( properties.house_no , 5 , 1 ) = '-' then substr ( properties.house_no , 6 , 99 )
         else ''
-    end as road_suffix,
+    end as house_number_2,
+    '' as house_suffix_2,
+    upper ( streets.street_name ) as road_name,
+    ifnull ( upper ( streets.street_type ) , '' ) as road_type,
+    '' as road_suffix,
     properties.suburb as locality_name,
     properties.post_code as postcode,
     '' as access_type,
@@ -94,7 +92,7 @@ from
     synergysoft_streets as streets on properties.street_code = streets.street_code
 where
     properties.assess_no <> '' and
-    properties.land_use_code not in ( '10' , '010' , '01' , '011' , '80' )
+    properties.rate_code <> '07'
 )
 )
 )
