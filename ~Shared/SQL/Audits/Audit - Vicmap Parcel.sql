@@ -4,6 +4,7 @@ select
     '=hyperlink("http://vicmap.pozi.com/?parcelpfi=' || parcel_pfi || '","map")' as pozi_map,
     crefno as crefno,
     status as status,
+    crown_status as crown_status,
     further_description as further_description,
     multi_assessment,
     ( select count(*) from pc_council_parcel x where x.spi = vp.spi and length ( vp.spi ) >= 5 ) as spi_in_council,
