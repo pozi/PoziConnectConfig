@@ -48,7 +48,7 @@ select
         else ''
     end as part,
     case
-        when substr ( part_location , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then replace ( part_location , ' ' , '' )
+        when substr ( part_location , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then substr ( replace ( part_location , ' ' , '' ) , 1 , 8 )
         else ''
     end as plan_number,
     case
@@ -56,7 +56,7 @@ select
         else ''
     end as plan_prefix,
     case
-        when substr ( part_location , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then substr ( part_location , 4 , 6 )
+        when substr ( part_location , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then substr ( replace ( part_location , ' ' , '' ) , 3 , 6 )
         else ''
     end as plan_numeral,
     case
@@ -68,6 +68,7 @@ select
         else ''
     end as allotment,
     case
+        when location = 'NO SEC' then ''
   		  when substr ( upper ( part_location ) , 1 , 2 ) in ( 'CA' , 'PP' , 'LP' ) then ifnull ( location , '' )
        else ''
   	end as sec,
