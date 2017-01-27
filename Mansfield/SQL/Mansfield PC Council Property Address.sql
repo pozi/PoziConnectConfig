@@ -36,12 +36,44 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     '' as location_descriptor,
-    '' as blg_unit_type,
-    '' as blg_unit_prefix_1,
-    ifnull ( properties.unit_no , '' ) as blg_unit_id_1,
-    '' as blg_unit_suffix_1,
+    case
+        when properties.unit_no like 'APT. %' then 'APT'
+        when properties.unit_no like 'CLUB %' then 'CLUB'
+        when properties.unit_no like 'ROOM %' then 'ROOM'
+        else ''
+    end as blg_unit_type,
+    case
+        when length ( properties.unit_no ) = 1 and properties.unit_no not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then properties.unit_no
+        when substr ( properties.unit_no , 1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( properties.unit_no , 1 , 1 )
+        else ''
+    end as blg_unit_prefix_1,
+    case
+        when properties.unit_no like 'APT. %' then substr ( properties.unit_no , 6 , 99 )
+        when properties.unit_no like 'CLUB %' then substr ( properties.unit_no , 6 , 99 )
+        when properties.unit_no like 'ROOM %' then substr ( properties.unit_no , 6 , 99 )
+        when properties.unit_no like '%&%' or properties.unit_no like '%/%' then properties.unit_no
+        when length ( properties.unit_no ) = 1 and properties.unit_no not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then ''
+        when substr ( properties.unit_no , 1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( properties.unit_no , 2 , 1 )
+        when substr ( properties.unit_no , 1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( properties.unit_no , 1 , 1 )
+        when substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 3 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( properties.unit_no , 1 , 2 )
+        when substr ( properties.unit_no , 3 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 4 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( properties.unit_no , 1 , 3 )
+        when substr ( properties.unit_no , 2 , 1 ) = '-' then substr ( properties.unit_no , 1 , 1 )
+        when substr ( properties.unit_no , 3 , 1 ) = '-' then substr ( properties.unit_no , 1 , 2 )
+        else ifnull ( properties.unit_no , '' )
+    end as blg_unit_id_1,
+    case
+        when properties.unit_no like '%&%' or properties.unit_no like '%/%' then ''
+        when substr ( properties.unit_no , 1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' , '-' , '&' ) then substr ( properties.unit_no , 2 , 1 )
+        when substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 3 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' , '-' , '&' ) then substr ( properties.unit_no , 3 , 1 )
+        when substr ( properties.unit_no , 3 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 4 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' , '-' , '&' ) then substr ( properties.unit_no , 4 , 1 )
+        else ''
+     end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
-    '' as blg_unit_id_2,
+    case
+        when substr ( properties.unit_no , 2 , 1 ) = '-' then substr ( properties.unit_no , 3 , 99 )
+        when substr ( properties.unit_no , 3 , 1 ) = '-' then substr ( properties.unit_no , 4 , 99 )
+        else ''
+    end as blg_unit_id_2,
     '' as blg_unit_suffix_2,
     '' as floor_type,
     '' as floor_prefix_1,
