@@ -60,7 +60,12 @@ select
         else ''
     end as plan_numeral,
     case
-        when substr ( part_location , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then ifnull ( trim ( replace ( lot_no , 'PT' , '' ) ) , '' )
+        when substr ( part_location , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then
+            case
+                when lot_no like '%RESERVE%' then replace ( replace ( lot_no , 'RESERVE' , 'RES' ) , ' ' , '' )
+                when lot_no like '%RES%' then replace ( upper ( lot_no ) , ' ' , '' )
+                else ifnull ( trim ( replace ( lot_no , 'PT' , '' ) ) , '' )
+            end
         else ''
     end as lot_number,
     case
