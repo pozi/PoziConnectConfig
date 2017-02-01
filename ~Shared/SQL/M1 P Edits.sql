@@ -58,10 +58,7 @@ select
         when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then '???' || vp.property_pfi || '???'
         else ''
     end as property_pfi,
-    case
-        when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) = 1 then vp.spi
-        else ''
-    end as spi,
+    vp.spi as spi,
     vp.plan_number as plan_number,
     vp.lot_number as lot_number,
     cp.propnum as propnum,
