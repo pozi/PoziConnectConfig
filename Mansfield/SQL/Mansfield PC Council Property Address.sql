@@ -43,35 +43,34 @@ select
         else ''
     end as blg_unit_type,
     case
-        when length ( properties.unit_no ) = 1 and properties.unit_no not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then properties.unit_no
-        when substr ( properties.unit_no , 1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( properties.unit_no , 1 , 1 )
+        when length ( properties.unit_no ) = 1 then ''
+        when substr ( properties.unit_no , 1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( upper ( properties.unit_no ) , 1 , 1 ) )
         else ''
     end as blg_unit_prefix_1,
     case
-        when properties.unit_no like 'APT. %' then substr ( properties.unit_no , 6 , 99 )
-        when properties.unit_no like 'CLUB %' then substr ( properties.unit_no , 6 , 99 )
-        when properties.unit_no like 'ROOM %' then substr ( properties.unit_no , 6 , 99 )
-        when properties.unit_no like '%&%' or properties.unit_no like '%/%' then properties.unit_no
+        when properties.unit_no like 'APT. %' then trim ( substr ( properties.unit_no , 6 , 99 ) )
+        when properties.unit_no like 'CLUB %' then trim ( substr ( properties.unit_no , 6 , 99 ) )
+        when properties.unit_no like 'ROOM %' then trim ( substr ( properties.unit_no , 6 , 99 ) )
         when length ( properties.unit_no ) = 1 and properties.unit_no not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then ''
-        when substr ( properties.unit_no , 1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( properties.unit_no , 2 , 1 )
-        when substr ( properties.unit_no , 1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( properties.unit_no , 1 , 1 )
-        when substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 3 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( properties.unit_no , 1 , 2 )
-        when substr ( properties.unit_no , 3 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 4 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( properties.unit_no , 1 , 3 )
-        when substr ( properties.unit_no , 2 , 1 ) = '-' then substr ( properties.unit_no , 1 , 1 )
-        when substr ( properties.unit_no , 3 , 1 ) = '-' then substr ( properties.unit_no , 1 , 2 )
+        when substr ( properties.unit_no , 1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( properties.unit_no , 2 , 1 ) )
+        when substr ( properties.unit_no , 1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( properties.unit_no , 1 , 1 ) )
+        when substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 3 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( properties.unit_no , 1 , 2 ) )
+        when substr ( properties.unit_no , 3 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 4 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( properties.unit_no , 1 , 3 ) )
+        when substr ( properties.unit_no , 2 , 1 ) in ( '-' , '&' , '/' ) then trim ( substr ( properties.unit_no , 1 , 1 ) )
+        when substr ( properties.unit_no , 3 , 1 ) in ( '-' , '&' , '/' ) then trim ( substr ( properties.unit_no , 1 , 2 ) )
         else ifnull ( properties.unit_no , '' )
     end as blg_unit_id_1,
     case
-        when properties.unit_no like '%&%' or properties.unit_no like '%/%' then ''
-        when substr ( properties.unit_no , 1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' , '-' , '&' ) then substr ( properties.unit_no , 2 , 1 )
-        when substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 3 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' , '-' , '&' ) then substr ( properties.unit_no , 3 , 1 )
-        when substr ( properties.unit_no , 3 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 4 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' , '-' , '&' ) then substr ( properties.unit_no , 4 , 1 )
+        when length ( properties.unit_no ) = 1 and properties.unit_no not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' , '.' ) then upper ( properties.unit_no )
+        when substr ( properties.unit_no , 1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 2 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' , '-' , '&' ) then trim ( substr ( upper ( properties.unit_no ) , 2 , 1 ) )
+        when substr ( properties.unit_no , 2 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 3 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' , '-' , '&' ) then trim ( substr ( upper ( properties.unit_no ) , 3 , 1 ) )
+        when substr ( properties.unit_no , 3 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) and substr ( properties.unit_no , 4 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' , '-' , '&' ) then trim ( substr ( upper ( properties.unit_no ) , 4 , 1 ) )
         else ''
      end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
-        when substr ( properties.unit_no , 2 , 1 ) = '-' then substr ( properties.unit_no , 3 , 99 )
-        when substr ( properties.unit_no , 3 , 1 ) = '-' then substr ( properties.unit_no , 4 , 99 )
+        when substr ( properties.unit_no , 2 , 1 ) in ( '-' , '&' , '/' ) then trim ( substr ( properties.unit_no , 3 , 99 ) )
+        when substr ( properties.unit_no , 3 , 1 ) in ( '-' , '&' , '/' ) then trim ( substr ( properties.unit_no , 4 , 99 ) )
         else ''
     end as blg_unit_id_2,
     '' as blg_unit_suffix_2,
@@ -86,30 +85,30 @@ select
     '' as complex_name,
     '' as house_prefix_1,
     case
-        when substr ( properties.house_no , 2 , 1 ) = '-' then substr ( properties.house_no , 1 , 1 )
-        when substr ( properties.house_no , 3 , 1 ) = '-' then substr ( properties.house_no , 1 , 2 )
-        when substr ( properties.house_no , 4 , 1 ) = '-' then substr ( properties.house_no , 1 , 3 )
-        when substr ( properties.house_no , 5 , 1 ) = '-' then substr ( properties.house_no , 1 , 4 )
+        when substr ( properties.house_no , 2 , 1 ) = '-' then trim ( substr ( properties.house_no , 1 , 1 ) )
+        when substr ( properties.house_no , 3 , 1 ) = '-' then trim ( substr ( properties.house_no , 1 , 2 ) )
+        when substr ( properties.house_no , 4 , 1 ) = '-' then trim ( substr ( properties.house_no , 1 , 3 ) )
+        when substr ( properties.house_no , 5 , 1 ) = '-' then trim ( substr ( properties.house_no , 1 , 4 ) )
         when substr ( properties.house_no , -1 , 1 ) not in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then substr ( properties.house_no , 1 , length ( properties.house_no ) -1 )
         else ifnull ( properties.house_no , '' )
     end as house_number_1,
     case
-        when substr ( properties.house_no , -1 , 1 ) not in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then substr ( properties.house_no , -1 , 1 )
+        when substr ( properties.house_no , -1 , 1 ) not in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then substr ( upper ( properties.house_no ) , -1 , 1 )
         else ''
     end as house_suffix_1,
     '' as house_prefix_2,
     case
-        when substr ( properties.house_no , 2 , 1 ) = '-' then substr ( properties.house_no , 3 , 99 )
-        when substr ( properties.house_no , 3 , 1 ) = '-' then substr ( properties.house_no , 4 , 99 )
-        when substr ( properties.house_no , 4 , 1 ) = '-' then substr ( properties.house_no , 5 , 99 )
-        when substr ( properties.house_no , 5 , 1 ) = '-' then substr ( properties.house_no , 6 , 99 )
+        when substr ( properties.house_no , 2 , 1 ) = '-' then trim ( substr ( properties.house_no , 3 , 99 ) )
+        when substr ( properties.house_no , 3 , 1 ) = '-' then trim ( substr ( properties.house_no , 4 , 99 ) )
+        when substr ( properties.house_no , 4 , 1 ) = '-' then trim ( substr ( properties.house_no , 5 , 99 ) )
+        when substr ( properties.house_no , 5 , 1 ) = '-' then trim ( substr ( properties.house_no , 6 , 99 ) )
         else ''
     end as house_number_2,
     '' as house_suffix_2,
     upper ( streets.street_name ) as road_name,
     ifnull ( upper ( streets.street_type ) , '' ) as road_type,
     '' as road_suffix,
-    properties.suburb as locality_name,
+    upper ( properties.suburb ) as locality_name,
     properties.post_code as postcode,
     '' as access_type,
     '' as easting,
@@ -123,8 +122,7 @@ from
     synergysoft_properties as properties join
     synergysoft_streets as streets on properties.street_code = streets.street_code
 where
-    properties.assess_no <> '' and
-    properties.rate_code <> '07'
+    properties.rate_code not in ( '07' , '08' , '11' , '12' , '99' )
 )
 )
 )
