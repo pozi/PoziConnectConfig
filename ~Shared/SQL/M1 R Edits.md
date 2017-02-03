@@ -46,10 +46,10 @@ Retire only those properties that either don't exist in Council...
 ```sql
 propnum not in ( select cpa.propnum from pc_council_property_address cpa )
 ```
-...or where the parcel's spi exists somewhere in Council.
+...or where the parcel's spi exists somewhere in Council (and its property has at least one parcel record).
 
 ```sql
-vp.spi in ( select cp.spi from pc_council_parcel cp )
+( vp.spi in ( select cp.spi from pc_council_parcel cp ) and ( select count(*) from pc_council_parcel cp where cp.propnum = vp.propnum ) > 0 )
 
 ```
 
@@ -122,4 +122,3 @@ Retire only records where the parcel description exists in Council (because we d
 ```sql
 ( spi in ( select cp.spi from pc_council_parcel cp ) or propnum not in ( select cpa.propnum from pc_council_property_address cpa ) )
 ```
-

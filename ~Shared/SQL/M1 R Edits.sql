@@ -81,7 +81,7 @@ where
             vp.spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum in ( select propnum from pc_council_parcel cpx where cpx.spi = vp.spi ) ) and
             property_pfi not in ( select max ( t.property_pfi ) from pc_vicmap_parcel t group by t.parcel_pfi ) and
             ( propnum not in ( select cpa.propnum from pc_council_property_address cpa ) or
-              vp.spi in ( select cp.spi from pc_council_parcel cp )
+              ( vp.spi in ( select cp.spi from pc_council_parcel cp ) and ( select count(*) from pc_council_parcel cp where cp.propnum = vp.propnum ) > 0 )
             ) and
             propnum not in ( select propnum from pc_council_parcel cp where spi not in ( select x.spi from pc_vicmap_parcel x where spi <> '' ) ) and
             vp.spi <> ''
