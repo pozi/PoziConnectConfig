@@ -54,6 +54,8 @@ select
     round ( st_x ( st_transform ( address.geometry, 3111 ) ) , 0 ) as address_x_proj,
     round ( st_y ( st_transform ( address.geometry, 3111 ) ) , 0 ) as address_y_proj,
     'EPSG:3111' as address_datum_proj,
+    area ( st_transform ( property.geometry , 3111 ) ) as property_area,
+    area ( envelope ( st_transform ( property.geometry , 3111 ) ) ) property_mbr_area,
     property.geometry as geometry
 from
     vmprop_property_mp property,
