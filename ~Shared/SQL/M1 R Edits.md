@@ -30,6 +30,12 @@ Retire only properties that are multi-assessment.
 multi_assessment = 'Y'
 ```
 
+Retire only properties that are not NCPR. NCPR properties may have valid address information that is maintained by authorities other than the council (eg, retirement villages, universities).
+
+```sql
+propnum <> 'NCPR'
+```
+
 Exclude from retirement any parcels where the property number is a correct match for one of the property's parcels. (Introduced after Baw Baw discovered a property (18153) being removed even though one of its parcels was correctly matched to one of the multi-assessment's parcels.)
 
 ```sql
