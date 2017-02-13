@@ -118,7 +118,7 @@ select distinct
         else ''
     end as road_suffix,
     upper ( ifnull ( Locality.Locality_Name , '' ) ) as locality_name,
-    Locality.Locality_Postcode as postcode,
+    ifnull ( Locality.Locality_Postcode , '' ) as postcode,
     '' as access_type,
     '' as easting,
     '' as northing,
