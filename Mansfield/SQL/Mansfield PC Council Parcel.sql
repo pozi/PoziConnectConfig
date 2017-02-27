@@ -71,12 +71,14 @@ select
     end as lot_number,
     case
         when substr ( upper ( part_location ) , 1 , 2 ) in ( 'CA' , 'PP' ) then ifnull ( trim ( replace ( lot_no , 'PT' , '' ) ) , '' )
+        when part_location is null then ifnull ( trim ( replace ( replace ( lot_no , 'CA' , '' ) , 'PT' , '' ) ) , '' )
         else ''
     end as allotment,
     case
         when location = 'NO SEC' then ''
-  		  when substr ( upper ( part_location ) , 1 , 2 ) in ( 'CA' , 'PP' , 'LP' ) then ifnull ( location , '' )
-       else ''
+  	    when substr ( upper ( part_location ) , 1 , 2 ) in ( 'CA' , 'PP' , 'LP' ) then ifnull ( location , '' )
+        when part_location is null then ifnull ( location , '' )
+        else ''
   	end as sec,
     '' as block,
     '' as portion,
