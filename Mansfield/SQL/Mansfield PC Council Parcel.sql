@@ -6,13 +6,14 @@ from
 select
     *,
     case
-        when internal_spi <> '' then 'council_spi'
         when generated_spi <> '' then 'council_attributes'
+        when internal_spi <> '' then 'council_spi'
         else ''
     end as source,
     case
+        when generated_spi <> '' then generated_spi
         when internal_spi <> '' then internal_spi
-        else generated_spi
+        else ''
     end as spi
 from
 (
