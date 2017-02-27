@@ -43,7 +43,7 @@ select
     end as plan_number,
     case
         when L.plan_desc in ( 'CA' , 'PTCA' ) then ''
-        else ifnull ( L.plan_desc , '' ) 
+        else ifnull ( L.plan_desc , '' )
     end as plan_prefix,
     case
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
@@ -51,14 +51,17 @@ select
     end as plan_numeral,
     case
         when L.plan_desc in ( 'CA' , 'PTCA' ) then ''
-        else upper ( replace ( ifnull ( L.lot , '' ) , ' ' , '' ) ) 
+        else upper ( replace ( ifnull ( L.lot , '' ) , ' ' , '' ) )
     end as lot_number,
     case
         when L.plan_desc in ( 'CA' , 'PTCA' ) then L.lot
         when L.plan_desc is null and L.plan_no = '' then L.lot
         else ''
     end as allotment,
-    ifnull ( L.parish_section , '' ) as sec,
+    case
+        when L.plan_desc in ( 'CA' , 'PTCA' ) and L.parish_section not null then L.parish_section
+        else ifnull ( L.section_for_lot , '' )
+    end as sec,
     '' as block,
     ifnull ( L.parish_portion , '' ) as portion,
     '' as subdivision,
@@ -74,6 +77,7 @@ select
     case L.county_desc
         when 'BUSH' then '5139'
         when 'DENN' then '5235'
+        when 'WARN' then '5841'
         when 'WARR' then '5841'
         when 'WOOD' then '5875'
         else ''
