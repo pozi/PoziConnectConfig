@@ -76,11 +76,15 @@ select
     end as allotment,
     case
         when location = 'NO SEC' then ''
-  	    when substr ( upper ( part_location ) , 1 , 2 ) in ( 'CA' , 'PP' , 'LP' ) then ifnull ( location , '' )
-        when part_location is null then ifnull ( location , '' )
-        else ''
+        when location like 'BL%' then ''
+  		  when substr ( upper ( part_location ) , 1 , 2 ) in ( 'CA' , 'PP' , 'LP' ) then ifnull ( location , '' )
+       else ''
   	end as sec,
-    '' as block,
+    case
+        when location like 'BL%' then replace ( location , 'BL' , '' )
+        when part_lot like 'BL%' then replace ( part_lot , 'BL' , '' )
+        else ''
+    end as block,
     '' as portion,
     '' as subdivision,
     case district
