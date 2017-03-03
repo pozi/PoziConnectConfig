@@ -40,7 +40,7 @@ from
 (
 select
     parcel_index.assess_no as propnum,
-    '' as crefno,
+    ifnull ( dolapins.pin , '' ) as crefno,
     ifnull ( parcels.survey_no , '' ) as internal_spi,
     parcels.land_parcel as summary,
     '' as status,
@@ -169,7 +169,8 @@ select
     parcel_index.assess_no as assnum
 from
     synergysoft_property_id as parcels join
-    synergysoft_parcel_index_properties as parcel_index on parcels.land_parcel = parcel_index.land_parcel
+    synergysoft_parcel_index_properties as parcel_index on parcels.land_parcel = parcel_index.land_parcel left join
+    synergysoft_property_id_dolapins as dolapins on parcels.land_parcel = dolapins.land_parcel and dolapins.mv = 1
 )
 )
 )
