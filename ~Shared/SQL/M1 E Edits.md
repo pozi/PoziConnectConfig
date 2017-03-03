@@ -67,6 +67,5 @@ vp.property_pfi not in ( select property_pfi from pc_vicmap_property_address whe
 Eliminate duplicate records.
 
 ```sql
-group by property_pfi, plan_number, lot_number
+group by property_pfi, spi
 ```
-
