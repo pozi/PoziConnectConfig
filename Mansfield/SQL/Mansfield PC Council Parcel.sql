@@ -39,13 +39,13 @@ select
 from
 (
 select
-    parcel_index.assess_no as propnum,
-    ifnull ( dolapins.pin , '' ) as crefno,
-    ifnull ( parcels.survey_no , '' ) as internal_spi,
-    parcels.land_parcel as summary,
+    pip.assess_no as propnum,
+    ifnull ( pid.pin , '' ) as crefno,
+    ifnull ( pi.survey_no , '' ) as internal_spi,
+    pi.land_parcel as summary,
     '' as status,
     case
-        when parcels.lot_no like '%PT%' then 'P'
+        when pi.lot_no like '%PT%' then 'P'
         else ''
     end as part,
     case
@@ -63,15 +63,15 @@ select
     case
         when substr ( part_location , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then
             case
-                when parcels.lot_no like '%RESERVE%' then replace ( replace ( parcels.lot_no , 'RESERVE' , 'RES' ) , ' ' , '' )
-                when parcels.lot_no like '%RES%' then replace ( upper ( parcels.lot_no ) , ' ' , '' )
-                else ifnull ( trim ( replace ( parcels.lot_no , 'PT' , '' ) ) , '' )
+                when pi.lot_no like '%RESERVE%' then replace ( replace ( pi.lot_no , 'RESERVE' , 'RES' ) , ' ' , '' )
+                when pi.lot_no like '%RES%' then replace ( upper ( pi.lot_no ) , ' ' , '' )
+                else ifnull ( trim ( replace ( pi.lot_no , 'PT' , '' ) ) , '' )
             end
         else ''
     end as lot_number,
     case
-        when substr ( upper ( part_location ) , 1 , 2 ) in ( 'CA' , 'PP' ) then ifnull ( trim ( replace ( parcels.lot_no , 'PT' , '' ) ) , '' )
-        when part_location is null then ifnull ( trim ( replace ( replace ( parcels.lot_no , 'CA' , '' ) , 'PT' , '' ) ) , '' )
+        when substr ( upper ( part_location ) , 1 , 2 ) in ( 'CA' , 'PP' ) then ifnull ( trim ( replace ( pi.lot_no , 'PT' , '' ) ) , '' )
+        when part_location is null then ifnull ( trim ( replace ( replace ( pi.lot_no , 'CA' , '' ) , 'PT' , '' ) ) , '' )
         else ''
     end as allotment,
     case
@@ -82,7 +82,7 @@ select
   	end as sec,
     case
         when location like 'BL%' then replace ( location , 'BL' , '' )
-        when parcels.part_lot like 'BL%' then replace ( parcels.part_lot , 'BL' , '' )
+        when pi.part_lot like 'BL%' then replace ( pi.part_lot , 'BL' , '' )
         else ''
     end as block,
     '' as portion,
@@ -166,11 +166,11 @@ select
         else ''
     end as township_code,
     '382' as lga_code,
-    parcel_index.assess_no as assnum
+    pip.assess_no as assnum
 from
-    synergysoft_property_id as parcels join
-    synergysoft_parcel_index_properties as parcel_index on parcels.land_parcel = parcel_index.land_parcel left join
-    synergysoft_property_id_dolapins as dolapins on parcels.land_parcel = dolapins.land_parcel and dolapins.mv = 1
+    synergysoft_property_id as pi join
+    synergysoft_parcel_index_properties as pip on pi.land_parcel = pip.land_parcel left join
+    synergysoft_property_id_dolapins as pid on pi.land_parcel = pid.land_parcel and pid.mv = 1
 )
 )
 )
