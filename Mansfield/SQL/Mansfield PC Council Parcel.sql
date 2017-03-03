@@ -45,7 +45,7 @@ select
     parcels.land_parcel as summary,
     '' as status,
     case
-        when lot_no like '%PT%' then 'P'
+        when parcels.lot_no like '%PT%' then 'P'
         else ''
     end as part,
     case
@@ -63,15 +63,15 @@ select
     case
         when substr ( part_location , 1 , 2 ) in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then
             case
-                when lot_no like '%RESERVE%' then replace ( replace ( lot_no , 'RESERVE' , 'RES' ) , ' ' , '' )
-                when lot_no like '%RES%' then replace ( upper ( lot_no ) , ' ' , '' )
-                else ifnull ( trim ( replace ( lot_no , 'PT' , '' ) ) , '' )
+                when parcels.lot_no like '%RESERVE%' then replace ( replace ( parcels.lot_no , 'RESERVE' , 'RES' ) , ' ' , '' )
+                when parcels.lot_no like '%RES%' then replace ( upper ( parcels.lot_no ) , ' ' , '' )
+                else ifnull ( trim ( replace ( parcels.lot_no , 'PT' , '' ) ) , '' )
             end
         else ''
     end as lot_number,
     case
-        when substr ( upper ( part_location ) , 1 , 2 ) in ( 'CA' , 'PP' ) then ifnull ( trim ( replace ( lot_no , 'PT' , '' ) ) , '' )
-        when part_location is null then ifnull ( trim ( replace ( replace ( lot_no , 'CA' , '' ) , 'PT' , '' ) ) , '' )
+        when substr ( upper ( part_location ) , 1 , 2 ) in ( 'CA' , 'PP' ) then ifnull ( trim ( replace ( parcels.lot_no , 'PT' , '' ) ) , '' )
+        when part_location is null then ifnull ( trim ( replace ( replace ( parcels.lot_no , 'CA' , '' ) , 'PT' , '' ) ) , '' )
         else ''
     end as allotment,
     case
@@ -82,7 +82,7 @@ select
   	end as sec,
     case
         when location like 'BL%' then replace ( location , 'BL' , '' )
-        when part_lot like 'BL%' then replace ( part_lot , 'BL' , '' )
+        when parcels.part_lot like 'BL%' then replace ( parcels.part_lot , 'BL' , '' )
         else ''
     end as block,
     '' as portion,
