@@ -1,6 +1,6 @@
 select
     property_pfi,
-    '=hyperlink("http://vicmap.pozi.com/?propertypfi=' || property_pfi || '","map")' as pozi_map,
+    '=hyperlink("https://vicmap.pozi.com/?propertypfi=' || property_pfi || '","map")' as pozi_map,
     propnum,
     multi_assessment,
     status,
