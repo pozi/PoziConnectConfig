@@ -170,8 +170,6 @@ select
 from
     synergysoft_property_id as parcels join
     synergysoft_parcel_index_properties as parcel_index on parcels.land_parcel = parcel_index.land_parcel
-where
-  	parcel_type in ( 'CA' , 'CM' , 'CP' , 'L' , 'PC' , 'PR' , 'RS' )
 )
 )
 )
