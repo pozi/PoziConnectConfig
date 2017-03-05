@@ -75,7 +75,7 @@ select
     case
         when auprparc.ttl_cde = 10 and ttl_no1 not like '%RES%' then 'RES' || ifnull ( upper ( ttl_no1 ) , '' )
         when auprparc.ttl_cde <> 9 then ifnull ( upper ( ttl_no1 ) , '' )
-        else '' 
+        else ''
     end as lot_number,
     case when auprparc.ttl_cde = 9 then ifnull ( upper ( ttl_no1 ) , '' ) else '' end as allotment,
     ifnull ( ttl_no3 , '' ) as sec,
@@ -92,7 +92,7 @@ from
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
-    auprparc.ttl_cde not in ( 11 , 12 , 13 , 14 , 99 ) and    
-    aurtmast.rte_zne <> 'LS'
+    auprparc.ttl_cde not in ( 11 , 12 , 13 , 14 , 99 ) and
+    not ( aurtmast.rte_zne = 'LS' and auprparc.pcl_flg <> 'R' )
 )
 )
