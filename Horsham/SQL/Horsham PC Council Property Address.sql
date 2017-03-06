@@ -74,9 +74,9 @@ select distinct
     case
         when auprstad.str_nme like '% Road %' then 'ROAD'
         when auprstad.str_nme like '% Street %' then 'STREET'
-        when auprstad.str_typ in ( 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) THEN 'AVENUE'
-        when auprstad.str_typ in ( 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) THEN 'ROAD'
-        when auprstad.str_typ in ( 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) THEN 'STREET'
+        when upper ( auprstad.str_typ ) in ( 'AVE' , 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) THEN 'AVENUE'
+        when upper ( auprstad.str_typ ) in ( 'RD' , 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) THEN 'ROAD'
+        when upper ( auprstad.str_typ ) in ( 'ST' , 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) THEN 'STREET'
         else ifnull ( upper ( aualrefs.dsc_no3 ) , '' )
     end as road_type,
     case
