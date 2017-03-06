@@ -34,6 +34,7 @@ select
         when 'P' then 'P'
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
+    ifnull ( replace ( auprparc.ttl_nme , '/' , '\' ) , '' ) as internal_spi,
     case
         when auprparc.ttl_no1 like '%PT%' then 'P'
         else ''
