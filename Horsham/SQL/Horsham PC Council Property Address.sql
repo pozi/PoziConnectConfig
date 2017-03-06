@@ -108,7 +108,8 @@ from
     authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ'
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
-    not ( aurtmast.rte_zne = 'LS' and auprparc.pcl_flg <> 'R' )
+    not ( aurtmast.rte_zne = 'LS' and auprparc.pcl_flg <> 'R' ) and
+    aurtmast.rte_zne not in ( 'DL' , 'PR' )
 )
 )
 )
