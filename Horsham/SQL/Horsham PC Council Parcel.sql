@@ -25,7 +25,10 @@ select
 from
 (
 select
-    cast ( auprparc.ass_num as varchar ) as propnum,
+    case
+        when aurtmast.rte_zne = 'CM' then 'NCPR'
+        else cast ( auprparc.ass_num as varchar )
+    end as propnum,
     case auprparc.pcl_flg
         when 'R' then 'A'
         when 'P' then 'P'
