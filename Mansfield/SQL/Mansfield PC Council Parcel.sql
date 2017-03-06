@@ -169,7 +169,10 @@ select
     parcels.assess_no as assnum
 from
     synergysoft_vw_pozi_parcels_properties as parcels left join
-    synergysoft_property_id_dolapins as dolapins on parcels.land_parcel = dolapins.land_parcel and dolapins.mv = 1
+    synergysoft_property_id_dolapins as dolapins on parcels.land_parcel = dolapins.land_parcel and dolapins.mv = 1 left join
+    synergysoft_properties as properties on parcels.assess_no = properties.assess_no
+where
+    properties.rate_code not in ( '07' , '08' , '11' , '12' , '99' )
 )
 )
 )
