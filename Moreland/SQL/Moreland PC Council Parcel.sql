@@ -5,14 +5,8 @@ from
 (
 select
     *,
-    case
-        when constructed_spi <> '' then constructed_spi
-        else internal_spi
-    end as spi,
-    case
-        when constructed_spi <> '' then 'council_attributes'
-        else 'council_spi'
-    end as spi_source
+    constructed_spi as spi,
+    'council_attributes' as spi_source
 from
 (
 select
