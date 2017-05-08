@@ -153,7 +153,7 @@ from
 where
     lpaprop.status <> 'H' and
     lpaaddr.addrtype in ( 'P' , 'A' ) and
-    lpaprtp.tpklpaprtp <> 15
+    lpaprtp.tpklpaprtp not in ( 15 , 16 )
 )
 )
 )
