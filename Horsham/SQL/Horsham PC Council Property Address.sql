@@ -109,7 +109,7 @@ from
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
     not ( aurtmast.rte_zne = 'LS' and auprparc.pcl_flg <> 'R' ) and
-    aurtmast.rte_zne not in ( 'CM' , 'DL' , 'PR' )
+    aurtmast.rte_zne not in ( 'CM' , 'DL' )
 )
 )
 )
