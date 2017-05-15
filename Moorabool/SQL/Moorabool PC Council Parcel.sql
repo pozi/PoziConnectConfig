@@ -92,7 +92,7 @@ select
         when ifnull ( Parcel.PlanNo , '' ) = '' then ''
         else upper ( replace ( Parcel.Lot , ' ' , '' ) )
     end as lot_number,
-    Parcel.CrownAllotment as allotment,
+    trim ( replace ( replace ( upper ( Parcel.CrownAllotment ) , 'PT' , '' ) , '()' , '' ) ) as allotment,
     case
         when Parcel.Section = 'NO' then ''
         when Parcel.Type = 'Crown Description' and ifnull ( Parcel.PlanNo , '' ) <> '' then ''
