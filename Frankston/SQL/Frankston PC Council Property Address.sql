@@ -130,7 +130,7 @@ select
         when lpaaddr.endhoussfx = '0' or lpaaddr.endhoussfx is null then ''
         else cast ( lpaaddr.endhoussfx as varchar )
     end as house_suffix_2,
-    upper ( cnacomp.descr ) as road_name,
+    upper ( replace ( cnacomp.descr , '''' , '' ) ) as road_name,
     case
         when cnaqual.descr = 'Avenue Mall' then 'AVENUE'
         when cnaqual.descr = 'Street Mall' then 'STREET'
