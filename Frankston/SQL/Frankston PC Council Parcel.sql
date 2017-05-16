@@ -42,7 +42,10 @@ select distinct
     ifnull ( lpaparc.parcelnum , '' ) as lot_number,
     ifnull ( lpacrwn.crownallot , '' ) as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
-    '' as block,
+    case
+        when lpaparc.fmtparcel like '%Block %' then substr ( lpaparc.fmtparcel , -1 , 1 )
+        else ''
+    end as block,
     '' as portion,
     '' as subdivision,
     case upper ( lpadesc.descr )
