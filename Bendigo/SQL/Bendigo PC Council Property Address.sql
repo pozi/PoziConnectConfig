@@ -53,7 +53,7 @@ select
         when upper ( lpaaddr.prefix ) = 'UNIT' then 'UNIT'
         else ''
     end as blg_unit_type,
-    '' as blg_unit_prefix_1,
+    ifnull ( lpaaddr.unitprefix , '' ) as blg_unit_prefix_1,
     case
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
         else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
