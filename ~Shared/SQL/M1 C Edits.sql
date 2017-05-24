@@ -72,7 +72,11 @@ select
         case vp.crefno
             when '' then '(blank)'
             else vp.crefno ||
-                case when vp.crefno not in ( select crefno from pc_council_parcel ) then ' (invalid)' else '' end
+                case
+                    when vp.crefno not in ( select crefno from pc_council_parcel ) then ' (invalid)'
+                    when ( select count(*) from pc_vicmap_parcel vpx where vpx.crefno = vp.crefno and vpx.spi <> vp.spi group by vpx.crefno ) > 0 then ' (duplicate)'
+                    else ''
+                end
         end ||
         ' with ' || cp.crefno || ' (propnum ' || cp.propnum || ifnull ( ', ' || ( select cpa.ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum limit 1 ) , '' ) || ')' as comments,
     centroid ( vp.geometry ) as geometry
