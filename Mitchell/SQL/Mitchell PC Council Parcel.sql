@@ -39,7 +39,11 @@ from
 select
     cast ( P.property_no as varchar ) as propnum,
     cast ( L.land_no as varchar ) as crefno,
-    ifnull ( L.text9 , '' ) as internal_spi,
+    case
+        when L.text5 <> '' then L.text5
+        when L.text9 <> '' then L.text9
+        else ''
+    end as internal_spi,
     ifnull ( substr ( P.override_legal_description , 1 , 99 ) , '' ) as summary,
     case P.status
         when 'F' then 'P'
