@@ -31,6 +31,7 @@ select
     parcel.parv_pfi as parcel_view_pfi,
     replace ( parcel.parcel_pfi_created_char , '/' , '-' ) as parcel_pfi_created,
     area ( st_transform ( parcel.geometry , 3111 ) ) as parcel_area,
+    area ( st_transform ( property_lut.geometry , 3111 ) ) as property_area,
     ifnull ( (
         select pfi
         from vmadd_address address
