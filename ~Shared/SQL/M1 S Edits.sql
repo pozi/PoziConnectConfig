@@ -120,5 +120,6 @@ where
     ( cpa.propnum in ( select propnum from pc_vicmap_property_address ) or
       cpa.propnum in ( select propnum from m1_p_edits ) ) and
     not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , '' ) and
+    not replace ( cpa.num_road_address , 'MT ' , 'MOUNT ' ) = ifnull ( replace ( vpa.num_road_address , 'MT ' , 'MOUNT ' ) , '' ) and
     cpa.road_name <> ''
 group by cpa.propnum, vpa.property_pfi
