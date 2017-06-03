@@ -36,18 +36,25 @@ Retire only properties that are not NCPR. NCPR properties may have valid address
 propnum <> 'NCPR'
 ```
 
-Exclude from retirement any parcels where the property number is a correct match for one of the property's parcels. (Introduced after Baw Baw discovered a property (18153) being removed even though one of its parcels was correctly matched to one of the multi-assessment's parcels.)
+Include only parcels where the property number is not a correct match for one of the property's parcels. (Introduced after Baw Baw discovered a property (18153) being removed even though one of its parcels was correctly matched to one of the multi-assessment's parcels.)...
 
 ```sql
 spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum in ( select propnum from pc_council_parcel cpx where cpx.spi = vp.spi ) )
 ```
 
-Exclude from retirement the last record in the multi-assessment. This will ensure that the not all the records can be retired at once. Unfortunately this prevents us from targeting the last record for retirement.
+...or where every parcel in the multi-assessment only belongs to one property.
+
+```sql
+( select spi from pc_council_parcel_property_count where spi in ( select spi from pc_vicmap_parcel where propnum = vp.propnum ) and num_props > 1 ) is null
+```
+
+Exclude from the last record in the multi-assessment. This will ensure that the not all the records can be retired at once. Unfortunately this prevents us from targeting the last record for retirement.
 
 ```sql
 property_pfi not in ( select max ( t.property_pfi ) from pc_vicmap_parcel t group by t.parcel_pfi )
 ```
-Retire only those properties that either don't exist in Council...
+
+Include only those properties that either don't exist in Council...
 
 ```sql
 propnum not in ( select cpa.propnum from pc_council_property_address cpa )
@@ -59,13 +66,13 @@ propnum not in ( select cpa.propnum from pc_council_property_address cpa )
 
 ```
 
-Retire only those properties that have a valid spi. (Properties that don't have a valid spi shouldn't be retired from their existing multi-assessment because they can't be automatically matched anywhere else in Vicmap.)
+Include only those properties that have a valid spi. (Properties that don't have a valid spi shouldn't be retired from their existing multi-assessment because they can't be automatically matched anywhere else in Vicmap.)
 
 ```
 propnum not in ( select propnum from pc_council_parcel cp where spi not in ( select x.spi from pc_vicmap_parcel x where spi <> '' ) )
 ```
 
-In addition to above conditions, retire any multi-assessment whose propnum is invalid.
+In addition to above conditions, include any multi-assessment whose propnum is invalid.
 
 ```
 vp.propnum not in ( select propnum from pc_council_property_address )
