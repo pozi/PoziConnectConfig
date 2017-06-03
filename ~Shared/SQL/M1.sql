@@ -68,5 +68,12 @@ select * from m1_s_edits
 union
 select * from m1_s_proposed_edits
 ) as combined_m1
+where
+    property_pfi not in ( select property_pfi from m1_exceptions where property_pfi <> '' ) and
+    parcel_pfi not in ( select parcel_pfi from m1_exceptions where parcel_pfi <> '' ) and
+    address_pfi not in ( select address_pfi from m1_exceptions where address_pfi <> '' ) and
+    spi not in ( select spi from m1_exceptions where spi <> '' ) and
+    propnum not in ( select propnum from m1_exceptions where propnum <> '' ) and
+    crefno not in ( select crefno from m1_exceptions where crefno <> '' )
 order by edit_code, plan_number, lot_number, cast ( propnum as integer )
 )
