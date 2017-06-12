@@ -48,10 +48,13 @@ spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum in ( select 
 ( select spi from pc_council_parcel_property_count where spi in ( select spi from pc_vicmap_parcel where propnum = vp.propnum ) and num_props > 1 ) is null
 ```
 
-Exclude from the last record in the multi-assessment. This will ensure that the not all the records can be retired at once. Unfortunately this prevents us from targeting the last record for retirement.
+Each month, alternate between excluding the first and last record in the multi-assessment. This will ensure that the not all the records are retired at once, which is not allowed in the M1.
 
 ```sql
-property_pfi not in ( select max ( t.property_pfi ) from pc_vicmap_parcel t group by t.parcel_pfi )
+case cast ( strftime ( '%m' , 'now' ) as integer ) % 2
+    when 0 then property_pfi not in ( select min ( t.property_pfi ) from pc_vicmap_parcel t group by t.parcel_pfi )
+    when 1 then property_pfi not in ( select max ( t.property_pfi ) from pc_vicmap_parcel t group by t.parcel_pfi )
+end
 ```
 
 Include only those properties that either don't exist in Council...
