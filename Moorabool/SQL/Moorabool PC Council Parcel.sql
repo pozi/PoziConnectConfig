@@ -174,7 +174,7 @@ from
 where
     Parcel.Status = 'Active' and
     Parcel.Ended is null and
-    Property.Type not in ( 672 )
+    Property.Type not in ( 0 , 672 )
 )
 )
 )

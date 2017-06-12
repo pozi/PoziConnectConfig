@@ -132,7 +132,7 @@ where
     Property.StreetID = Street.ID and
     Street.Type = StreetType.ID and
     Street.Locality = Locality.ID and
-    Property.Type not in ( 672 )
+    Property.Type not in ( 0 , 672 )
 )
 )
 )
