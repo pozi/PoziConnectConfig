@@ -147,9 +147,11 @@ select
     '330' as lga_code,
     cast ( auprparc.ass_num as varchar ) as assnum
 from
-    authority_auprparc as auprparc
+    authority_auprparc auprparc join
+    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
-    auprparc.ass_num is not null
+    auprparc.ass_num is not null and
+    aurtmast.rte_zne <> 'DA'
 )
 )
