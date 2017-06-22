@@ -175,7 +175,7 @@ where
     Parcel.Status = 'Active' and
     Parcel.Ended is null and
     Property.Type not in ( 0 , 672 ) and
-    not ( Parcel.TypeAbrev = 'URD' and Parcel.StandardParcelId = '' )
+    not ( Parcel.TypeAbrev in ( 'Agricult Lic' , 'GeL' , 'Grazing Lic' , 'Unused Rd Lic' , 'URD' , 'Water Front Lic' , 'WF' ) and Parcel.StandardParcelId = '' )
 )
 )
 )
