@@ -37,15 +37,18 @@ select
     '' as hsa_unit_id,
     '' as location_descriptor,
     case
+        when Property.UnitNo like 'ATM%' then 'ATM'
         when Property.UnitNo like 'Shop%' then 'SHOP'
         else ''
     end as blg_unit_type,
     case
+        when Property.UnitNo like 'ATM%' then ''
         when Property.UnitNo like 'Shop%' then ''
         when Property.UnitNo <> '' and substr ( Property.UnitNo , 1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9' ) then substr ( Property.UnitNo , 1 , 1 )
         else ''
     end as blg_unit_prefix_1,
     case
+        when Property.UnitNo like 'ATM%' then replace ( Property.UnitNo , 'ATM' , '' )
         when Property.UnitNo like 'Shop%' then replace ( Property.UnitNo , 'Shop ' , '' )
         when substr ( Property.UnitNo , 2 , 1 ) = '-' then substr ( Property.UnitNo , 1 , 1 )
         when substr ( Property.UnitNo , 3 , 1 ) = '-' then substr ( Property.UnitNo , 1 , 2 )
@@ -67,11 +70,7 @@ select
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    case
-        when Property.Name like 'PARENT PTY%' then ''
-        when Property.Name like 'CHILD PTY%' then ''
-        else ifnull ( upper ( Property.Name ) , '' )
-    end as building_name,
+    '' as building_name,
     '' as complex_name,
     '' as house_prefix_1,
     case
