@@ -55,7 +55,7 @@ select
         when Parcel.StandardParcelId like '%PC%' then Parcel.StandardParcelId
         else ''
     end as internal_spi,
-    ifnull ( Property.Lot , '' ) as summary,
+    ifnull ( Property.CombinedParcelDetails , '' ) as summary,
     '' as part,
     case Parcel.Type
         when 'Lodged Plan' then 'LP'
