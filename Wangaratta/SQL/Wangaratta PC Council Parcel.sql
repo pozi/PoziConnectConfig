@@ -44,7 +44,7 @@ select
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( L.plan_desc ) || L.plan_no
         else ifnull ( trim ( L.plan_desc ) || substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_number,
-    ifnull ( replace ( L.plan_desc , 'CG' , '' ) , '' ) as plan_prefix,
+    ifnull ( replace ( replace ( L.plan_desc , 'CG' , '' ) , 'CA' , '' ) , '' ) as plan_prefix,
     case
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
         else ifnull ( substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
