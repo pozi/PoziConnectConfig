@@ -35,7 +35,11 @@ select
         when 'F' then 'P'
         else ''
     end as status,
-    ifnull ( upper ( part_lot ) , '' ) as part,
+    case
+        when part_lot = 'Y' then 'P'
+        when L.text3 like 'PT %' then 'P'
+        else ''
+    end as part,
     case
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( L.plan_desc ) || L.plan_no
         else ifnull ( trim ( L.plan_desc ) || substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
@@ -46,7 +50,7 @@ select
         else ifnull ( substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_numeral,
     ifnull ( replace ( L.lot , ' ' , '' ) , '' ) as lot_number,
-    ifnull ( L.text3,'') as allotment,
+    ifnull ( replace ( upper ( L.text3 ) , 'PT ' , '' ) ,'' ) as allotment,
     ifnull ( replace ( L.parish_section , 'NO' , '' ) , '' ) as sec,
     '' as block,
     '' as portion,
