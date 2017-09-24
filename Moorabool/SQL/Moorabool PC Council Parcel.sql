@@ -60,11 +60,11 @@ select
     case Parcel.Type
         when 'Lodged Plan' then 'LP'
         when 'Title Plan' then 'TP'
+        when 'Letter Plan' then 'TP'
         when 'Plan of Subdivision' then 'PS'
         when 'Consolidation Plan' then 'CP'
         when 'Plan of Consolidation' then 'PC'
         when 'Strata Plan' then 'RP'
-        when 'Stratum Plan' then 'SP'
         else ''
     end || case
             when ifnull ( Parcel.PlanNo , '' ) = '' then ''
@@ -75,11 +75,11 @@ select
     case Parcel.Type
         when 'Lodged Plan' then 'LP'
         when 'Title Plan' then 'TP'
+        when 'Letter Plan' then 'TP'
         when 'Plan of Subdivision' then 'PS'
         when 'Consolidation Plan' then 'CP'
         when 'Plan of Consolidation' then 'PC'
         when 'Strata Plan' then 'RP'
-        when 'Stratum Plan' then 'SP'
         else ''
     end as plan_prefix,
     case
