@@ -145,7 +145,7 @@ select
         when auprparc.uda_cd3 = 'LQ' then '5479'
         when auprparc.uda_cd3 = 'NB' then '5586'
         when auprparc.uda_cd3 = 'NH' then '5595'
-        when auprparc.uda_cd3 = 'NN' then '5597'
+        when auprparc.uda_cd3 = 'NI' then '5597'
         when auprparc.uda_cd3 = 'PT' then '5655'
         when auprparc.uda_cd3 = 'RB' then '5664'
         when auprparc.uda_cd3 = 'SB' then '5696'
