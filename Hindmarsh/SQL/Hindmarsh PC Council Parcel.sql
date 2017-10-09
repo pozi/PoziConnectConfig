@@ -133,6 +133,24 @@ select
         else ''
     end as parish_code,
     case
+        when auprparc.uda_cd3 = 'AB' then '5004'
+        when auprparc.uda_cd3 = 'AW' then '5013'
+        when auprparc.uda_cd3 = 'BK' then '5028'
+        when auprparc.uda_cd3 = 'BR' then '5118'
+        when auprparc.uda_cd3 = 'DA' then '5245'
+        when auprparc.uda_cd3 = 'DP' then '5243'
+        when auprparc.uda_cd3 = 'EM' then '5274'
+        when auprparc.uda_cd3 = 'GG' then '5315'
+        when auprparc.uda_cd3 = 'KA' then '5417'
+        when auprparc.uda_cd3 = 'LQ' then '5479'
+        when auprparc.uda_cd3 = 'NB' then '5586'
+        when auprparc.uda_cd3 = 'NH' then '5595'
+        when auprparc.uda_cd3 = 'NN' then '5597'
+        when auprparc.uda_cd3 = 'PT' then '5655'
+        when auprparc.uda_cd3 = 'RB' then '5664'
+        when auprparc.uda_cd3 = 'SB' then '5696'
+        when auprparc.uda_cd3 = 'TG' then '5766'
+        when auprparc.uda_cd3 = 'YS' then '5895'
         when auprparc.ttl_cde = 4 then
             case auprparc.uda_cd1
                 when 'WP' then '5664'
