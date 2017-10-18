@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -43,7 +43,7 @@ select
         when upper ( lpaaddr.unitprefix ) = 'FLAT' then 'FLAT'
         when upper ( lpaaddr.unitprefix ) = 'SUITE' then 'SE'
         when upper ( lpaaddr.unitprefix ) = 'UNIT' then 'UNIT'
-        when upper ( lpaaddr.lvlprefix ) = 'ATM' then 'ATM' 
+        when upper ( lpaaddr.lvlprefix ) = 'ATM' then 'ATM'
         when upper ( lpaaddr.lvlprefix ) = 'HALL' then 'HALL'
         when upper ( lpaaddr.lvlprefix ) = 'HOUSE' then 'HSE'
         when upper ( lpaaddr.lvlprefix ) = 'KIOSK' then 'KSK'
@@ -103,13 +103,13 @@ select
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    case    
+    case
         when upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'FLOOR' , 'KIOSK' , 'LEVEL' , 'OFFICE' , 'REAR' , 'SHOP' , 'SIGN' , 'SUITE' ) then upper ( ifnull ( lpapnam.propname , '' ) )
         when upper ( lpaaddr.prefix ) in ( 'ATM' , 'FLOOR' , 'KIOSK' , 'LEVEL' , 'OFFICE' , 'REAR' , 'SHOP' , 'SIGN' , 'SUITE' ) then upper ( ifnull ( lpapnam.propname , '' ) )
         else upper ( ifnull ( lpapnam.propname , ifnull ( lpaaddr.prefix || ' ' , '' ) || ifnull ( lpaaddr.lvlprefix , '' ) ) )
     end as building_name,
     '' as complex_name,
-    case    
+    case
         when upper ( lpaaddr.prefix ) = 'REAR' then upper ( lpaaddr.prefix )
         else ''
     end as location_descriptor,
@@ -125,10 +125,10 @@ select
         else cast ( cast ( lpaaddr.endhousnum as integer ) as varchar )
     end as house_number_2,
     ifnull ( lpaaddr.endhoussfx , '' ) as house_suffix_2,
-    upper ( replace ( replace ( cnacomp.descr , ' - ' , '-' ) , '''' , '' ) ) as road_name, 
+    upper ( replace ( replace ( cnacomp.descr , ' - ' , '-' ) , '''' , '' ) ) as road_name,
     ifnull ( upper ( cnaqual.descr ) , '' ) as road_type,
-    '' as road_suffix, 
-    lpasubr.suburbname as locality_name, 
+    '' as road_suffix,
+    lpasubr.suburbname as locality_name,
     cnacomp_1.descr as postcode,
     '' as access_type,
     '' as easting,
@@ -140,21 +140,22 @@ select
     '' as summary
 from
     pathway_lpaprop as lpaprop left join
-    pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join 
-    pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join 
-    pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join 
-    pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join 
-    pathway_cnacomp as cnacomp_1 on lpaaddr.tfkcnacomp = cnacomp_1.tpkcnacomp left join 
-    pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join 
-    pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join 
+    pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
+    pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join
+    pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join
+    pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join
+    pathway_cnacomp as cnacomp_1 on lpaaddr.tfkcnacomp = cnacomp_1.tpkcnacomp left join
+    pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join
+    pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
     pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
     pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm left join
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
-    lpaprop.status in ( 'A' , 'C' ) and 
-    lpaaddr.addrtype = 'P' and 
-    lpaprop.tfklpacncl = 13
+    lpaprop.status in ( 'A' , 'C' ) and
+    lpaaddr.addrtype = 'P' and
+    lpaprop.tfklpacncl = 13 and
+    lraassm.assmnumber <> 1
 )
 )
 )
