@@ -29,6 +29,7 @@ select
     cast ( L.land_no as varchar ) as crefno,
     ifnull ( substr ( P.override_legal_description , 1 , 99 ) , '' ) as summary,
     case P.status
+        when 'C' then 'A'
         when 'F' then 'P'
         else ''
     end as status,
@@ -37,50 +38,89 @@ select
         else ''
     end as part,
     case
-        when L.plan_desc in ( 'CA' , 'PTCA' ) then ''
-        when substr ( trim ( ifnull ( L.plan_no , '' ) ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( ifnull ( L.plan_desc , '' ) ) || ifnull ( L.plan_no , '' )
-        else trim ( ifnull ( L.plan_desc , '' ) ) || substr ( trim ( ifnull ( L.plan_no , '' ) ) , 1 , length ( trim ( ifnull ( L.plan_no , '' ) ) ) - 1 )
+        when L.plan_desc in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then L.plan_desc || L.plan_no
+        else ''
     end as plan_number,
     case
-        when L.plan_desc in ( 'CA' , 'PTCA' ) then ''
-        else ifnull ( L.plan_desc , '' )
+        when L.plan_desc in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then L.plan_desc
+        else ''
     end as plan_prefix,
     case
-        when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
-        else ifnull ( substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
+        when L.plan_desc in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then L.plan_no
+        else ''
     end as plan_numeral,
     case
-        when L.plan_desc in ( 'CA' , 'PTCA' ) then ''
-        else upper ( replace ( ifnull ( L.lot , '' ) , ' ' , '' ) )
+        when L.plan_desc in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then upper ( replace ( ifnull ( L.lot , '' ) , ' ' , '' ) )
+        else ''
     end as lot_number,
     case
-        when L.plan_desc in ( 'CA' , 'PTCA' ) then L.lot
-        when L.plan_desc is null and L.plan_no = '' then L.lot
+        when ifnull ( L.plan_desc , '' ) = '' then L.lot
         else ''
     end as allotment,
     case
-        when L.plan_desc in ( 'CA' , 'PTCA' ) and L.parish_section not null then L.parish_section
-        else ifnull ( L.section_for_lot , '' )
+        when L.plan_desc in ( 'CP' , 'CS' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then ''
+        else replace ( replace ( ifnull ( L.section_for_lot , '' ) , 'NS' , '' ) , 'No S' , '' )
     end as sec,
     '' as block,
     ifnull ( L.parish_portion , '' ) as portion,
     '' as subdivision,
     case L.parish_desc
-        when 'MEE' then '3078'
-        when 'MEP' then '3087'
-        when 'PUR' then '3426'
-        when 'TAL' then '3530'
-        when 'WAN' then '3729'
-        when 'YAN' then '3950'
-        else ''
+        when 'PAM' then '2012'
+        when 'PBA' then '2046'
+        when 'PBE' then '2097'
+        when 'PBK' then '2261'
+        when 'PBL' then '2160'
+        when 'PBN' then '2279'
+        when 'PBO' then '2262'
+        when 'PBU' then '2293'
+        when 'PCA' then '2326'
+        when 'PCL' then '2391'
+        when 'PCO' then '2409'
+        when 'PCR' then '2464'
+        when 'PDE' then '2503'
+        when 'PDR' then '2552'
+        when 'PED' then '2576'
+        when 'PEG' then '2579'
+        when 'PFR' then '2618'
+        when 'PGL' then '2674'
+        when 'PGN' then '2678'
+        when 'PHO' then '2760'
+        when 'PKO' then '2930'
+        when 'PSH' then '3495'
+        when 'PSM' then '3490'
+        when 'PTO' then '3638'
+        when 'PTR' then '3649'
+        when 'PTY' then '3673'
+        when 'PWO' then '3857'
+        when 'PYA' then '3947'
+        else ifnull ( L.parish_desc , '' )
     end as parish_code,
     case L.county_desc
-        when 'BUSH' then '5139'
-        when 'DENN' then '5235'
-        when 'WARN' then '5841'
-        when 'WARR' then '5841'
-        when 'WOOD' then '5875'
-        else ''
+        when 'TAL' then ''
+        when 'TBO' then '5126'
+        when 'TBR' then '5117'
+        when 'TBS' then '5127'
+        when 'TCA' then '5146'
+        when 'TCL' then '5178'
+        when 'TCM' then '5189'
+        when 'TCR' then '5211'
+        when 'TDD' then '5253'
+        when 'TDF' then '5231'
+        when 'TDW' then '5232'
+        when 'TFR' then '5300'
+        when 'TGL' then '5323'
+        when 'TGN' then '5324'
+        when 'THE' then '5377'
+        when 'THO' then '5383'
+        when 'TLA' then '5456'
+        when 'TLH' then '5459'
+        when 'TLY' then '5485'
+        when 'TNB' then '5589'
+        when 'TNE' then '5591'
+        when 'TSM' then '5719'
+        when 'TTR' then '5802'
+        when 'TYA' then '5896'
+        else ifnull ( L.county_desc , '' )
     end as township_code,
     '329' as lga_code,
     cast ( P.property_no as varchar ) as assnum
@@ -91,7 +131,6 @@ from
 where
     A.association_type = 'PropLand' and
     A.date_ended is null and
-    P.status in ( 'C' , 'F' ) and
-    P.property_no <> 1
+    P.status in ( 'C' , 'F' )
 )
 )

@@ -30,6 +30,7 @@ from (
 select
     cast ( P.property_no as varchar ) as propnum,
     case P.status
+        when 'C' then 'A'
         when 'F' then 'P'
         else ''
     end as status,
@@ -38,12 +39,7 @@ select
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    case
-        when a.formatted_address like 'ABOVE %' then 'ABOVE'
-        when a.formatted_address like 'BELOW %' then 'BELOW'
-        when a.formatted_address like 'REAR %' then 'REAR'
-        else ''
-    end as location_descriptor,
+    '' as location_descriptor,
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
@@ -143,8 +139,7 @@ from
     join techone_nucstreet S on S.street_no = A.street_no
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
-    P.status in ( 'C' , 'F' ) and
-    P.property_no <> 1
+    P.status in ( 'C' , 'F' )
 )
 )
 )
