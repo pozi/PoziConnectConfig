@@ -42,10 +42,10 @@ Include only parcels that are not multi-assessments. (Multi-assessment edits are
 vp.multi_assessment <> 'Y'
 ```
 
-Include only parcels whose property status is the same as the parcel status (or whose property status is null due to Vicmap not having a parcel-property join). Sometimes a non-multi-assessment parcel has multiple properties because it is linked to both approved and proposed properties. This ensures that the match applies to only the property that reflects the current status of the parcel.
+Include only one property per parcel. Sometimes a non-multi-assessment parcel has multiple properties because it is linked to both approved (A) and proposed (P) properties. DELWP's advice is to target the proposed one, so we select the property with the maximum value in the property status field.
 
 ```sql
-vp.status = vp.property_status or vp.property_status = ''
+vp.property_pfi in ( select property_pfi from ( select property_pfi, max ( property_status ) from pc_vicmap_parcel group by spi ) ) and
 ```
 
 Include only valid council property numbers.

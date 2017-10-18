@@ -55,7 +55,7 @@ from (
 select
     vp.lga_code as lga_code,
     case
-        when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then '???' || vp.property_pfi || '???'
+        when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then vp.property_pfi
         else ''
     end as property_pfi,
     vp.spi as spi,
@@ -91,7 +91,7 @@ select
             else ''
         end ||
         case
-            when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then ' (**WARNING**: parcel is linked to multiple properties in Vicmap - populate the target property_pfi)'
+            when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then ' (**NOTE**: parcel is linked to multiple properties)'
             else ''
         end as comments,
     centroid ( vp.geometry ) as geometry
@@ -101,7 +101,7 @@ from
 where
     vp.spi <> '' and
     vp.multi_assessment <> 'Y' and
-    ( vp.status = vp.property_status or vp.property_status = '' ) and
+    vp.property_pfi in ( select property_pfi from ( select property_pfi, max ( property_status ) from pc_vicmap_parcel group by spi ) ) and
     cp.propnum <> '' and
     cp.propnum in ( select propnum from pc_council_property_address ) and
     vp.spi = cp.spi and
