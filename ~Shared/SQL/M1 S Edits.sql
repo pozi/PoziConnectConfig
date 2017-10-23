@@ -54,7 +54,11 @@ select
     cpa.road_type as road_type,
     cpa.road_suffix as road_suffix,
     cpa.locality_name as locality_name,
-    cpa.distance_related_flag as distance_related_flag,
+    case
+        when cpa.distance_related_flag <> '' then cpa.distance_related_flag
+        when vpa.distance_related_flag = 'Y' then 'Y'
+        else ''
+    end as distance_related_flag,
     case cpa.is_primary
         when 'Y' then 'Y'
         else ''
