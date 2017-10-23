@@ -53,7 +53,11 @@ select
         else ifnull ( A.unit_no_to , '' )
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
-    '' as floor_type,
+    case
+        when upper ( A.floor_desc ) in ( 'FL' , 'FLOOR' ) then 'FL'
+        when upper ( A.floor_desc ) in ( 'L' , 'LVL' , 'LEVEL' ) then 'L'
+        else ''
+    end as floor_type,
     '' as floor_prefix_1,
     case
         when A.floor_no = '0' then ''
