@@ -97,6 +97,7 @@ select
     end as parish_code,
     case L.county_desc
         when 'TAL' then ''
+        when 'TRI' then ''
         when 'TBO' then '5126'
         when 'TBR' then '5117'
         when 'TBS' then '5127'
@@ -131,6 +132,7 @@ from
 where
     A.association_type = 'PropLand' and
     A.date_ended is null and
-    P.status in ( 'C' , 'F' )
+    P.status in ( 'C' , 'F' ) and
+    ifnull ( L.plan_desc , '' ) in ( '' , 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' )
 )
 )
