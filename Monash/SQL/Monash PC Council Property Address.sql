@@ -215,14 +215,12 @@ from
     pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop left join
-    pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
-    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm left join
     pathway_lpaadfm as lpaadfm on lpaadpr.tfklpaadfm = lpaadfm.tpklpaadfm
 where
     lpaprop.status <> 'H' and
     lpaprop.tfklpacncl = 12 and
     lpaaddr.addrtype = 'P' and
-    lparole.fklparolta = 'LRA'
+    lpaprtp.abbrev <> 'HEADER'
 )
 )
 )
