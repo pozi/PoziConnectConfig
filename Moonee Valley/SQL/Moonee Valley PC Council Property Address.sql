@@ -36,15 +36,26 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
-        when upper ( lpaaddr.unitprefix ) is null then ''
-        when upper ( lpaaddr.unitprefix ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.unitprefix )
+        when upper ( lpaaddr.unitprefix ) in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.unitprefix )
+        when upper ( lpaaddr.unitprefix ) = 'ADV PANEL' then 'SIGN'
+        when upper ( lpaaddr.unitprefix ) = 'ADV SIGN' then 'SIGN'
+        when upper ( lpaaddr.unitprefix ) = 'COMM TOWER' then 'TWR'
+        when upper ( lpaaddr.unitprefix ) = 'KIOSK' then 'KSK'
+        when upper ( lpaaddr.unitprefix ) = 'OFFICE' then 'OFFC'
+        when upper ( lpaaddr.unitprefix ) = 'SUITE' then 'SE'
+        when upper ( lpaaddr.prefix ) in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.prefix )
+        when upper ( lpaaddr.prefix ) = 'CAR WASH' then 'CARW'
+        when upper ( lpaaddr.prefix ) = 'COMM.TOWER' then 'TWR'
+        when upper ( lpaaddr.prefix ) = 'FACTORY' then 'FCTY'
+        when upper ( lpaaddr.prefix ) = 'OFFICE' then 'OFFC'
+        when upper ( lpaaddr.prefix ) = 'SUITE' then 'SE'
         else ''
     end as blg_unit_type,
     case
-        when lpaaddr.lvlprefix in ( 'A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'G' ) then lpaaddr.lvlprefix
         when upper ( lpaaddr.unitprefix ) is null then ''
-        when upper ( lpaaddr.unitprefix ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then ''
-        else upper ( lpaaddr.unitprefix )
+        when upper ( lpaaddr.unitprefix ) in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then ''
+        when upper ( lpaaddr.unitprefix ) in ( 'ADV PANEL' , 'ADV SIGN' , 'COMM TOWER' , 'KIOSK' , 'OFFICE' , 'SUITE' ) then ''
+        else upper ( ifnull ( lpaaddr.unitprefix , '' ) )
     end as blg_unit_prefix_1,
     case
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
@@ -64,14 +75,20 @@ select
         else cast ( lpaaddr.endunitsfx as varchar )
     end as blg_unit_suffix_2,
     case
-        when lpaaddr.lvlprefix is null then ''
         when lpaaddr.lvlprefix = 'Level' then 'L'
-        when lpaaddr.lvlprefix in ( 'A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'G' ) then ''
-        else lpaaddr.lvlprefix
+        when lpaaddr.prefix in ( 'G/F' , 'G/F Office' , 'Ground Fl' ) then 'G'
+        when lpaaddr.prefix in ( '1/F' , '1/F Office' , '1st Floor' , '2/F' , '2nd Floor' , '3rd Floor' ) then 'FL'
+        else ifnull ( lpaaddr.lvlprefix , '' )
     end as floor_type,
     '' as floor_prefix_1,
     case
         when lpaaddr.strlvlnum <> 0 then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
+        when lpaaddr.lvlprefix in ( '1/F' , '1/F Office' , '1st Floor' ) then '1'
+        when lpaaddr.lvlprefix in ( '2/F' , '2/F Office' , '2nd Floor' ) then '2'
+        when lpaaddr.lvlprefix in ( '3/F' , '3/F Office' , '3rd Floor' ) then '3'
+        when lpaaddr.prefix in ( '1/F' , '1/F Office' , '1st Floor' ) then '1'
+        when lpaaddr.prefix in ( '2/F' , '2/F Office' , '2nd Floor' ) then '2'
+        when lpaaddr.prefix in ( '3/F' , '3/F Office' , '3rd Floor' ) then '3'
         else ''
     end as floor_no_1,
     '' as floor_suffix_1,
@@ -147,8 +164,7 @@ from
     pathway_lpaadfm as lpaadfm on lpaadpr.tfklpaadfm = lpaadfm.tpklpaadfm
 where
     lpaprop.status <> 'H' and
-    lpaaddr.addrtype = 'P' and
-    lpaprop.tfklpacncl = 12
+    lpaaddr.addrtype = 'P'
 )
 )
 )
