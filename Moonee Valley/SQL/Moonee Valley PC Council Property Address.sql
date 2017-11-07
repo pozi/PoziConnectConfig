@@ -55,7 +55,7 @@ select
         when upper ( lpaaddr.unitprefix ) is null then ''
         when upper ( lpaaddr.unitprefix ) in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then ''
         when upper ( lpaaddr.unitprefix ) in ( 'ADV PANEL' , 'ADV SIGN' , 'COMM TOWER' , 'KIOSK' , 'OFFICE' , 'SUITE' ) then ''
-        else upper ( ifnull ( lpaaddr.unitprefix , '' ) )
+        else upper ( lpaaddr.unitprefix )
     end as blg_unit_prefix_1,
     case
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
@@ -75,9 +75,12 @@ select
         else cast ( lpaaddr.endunitsfx as varchar )
     end as blg_unit_suffix_2,
     case
-        when lpaaddr.lvlprefix = 'Level' then 'L'
-        when lpaaddr.prefix in ( 'G/F' , 'G/F Office' , 'Ground Fl' ) then 'G'
-        when lpaaddr.prefix in ( '1/F' , '1/F Office' , '1st Floor' , '2/F' , '2nd Floor' , '3rd Floor' ) then 'FL'
+        when lpaaddr.lvlprefix in ( 'Level' ) then 'L'
+        when lpaaddr.lvlprefix in ( 'G/F' , 'G/F Office' , 'Ground Fl' , 'Gr Floor' ) then 'G'
+        when lpaaddr.lvlprefix in ( 'Floor' , '1/F' , '1/F Office' , '1st Floor' , '2/F' , '2nd Floor' , '3rd Floor' ) then 'FL'
+        when lpaaddr.prefix in ( 'Level' ) then 'L'
+        when lpaaddr.prefix in ( 'G/F' , 'G/F Office' , 'Ground Fl' , 'Gr Floor' ) then 'G'
+        when lpaaddr.prefix in ( 'Floor' , '1/F' , '1/F Office' , '1st Floor' , '2/F' , '2nd Floor' , '3rd Floor' ) then 'FL'
         else ifnull ( lpaaddr.lvlprefix , '' )
     end as floor_type,
     '' as floor_prefix_1,
