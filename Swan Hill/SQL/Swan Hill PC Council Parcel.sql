@@ -40,13 +40,13 @@ select distinct
     case
         when auprparc.ttl_cde not in ( 9 , 10 , 27 , 28 ) then
             case
-                when auprparc.ttl_cde in ( 1 , 2 , 13 , 18 , 19 , 20 , 21 ) then 'PS'
-                when auprparc.ttl_cde in ( 3 , 4 ) then 'LP'
-                when auprparc.ttl_cde in ( 5 , 12 ) then 'TP'
+                when auprparc.ttl_cde in ( 1 , 2 , 13 , 18 , 20 , 24 , 25 , 26 ) then 'PS'
+                when auprparc.ttl_cde in ( 3 , 4 , 19 , 21 ) then 'LP'
+                when auprparc.ttl_cde = 5 then 'TP'
                 when auprparc.ttl_cde = 6 then 'PC'
                 when auprparc.ttl_cde = 7 then 'CP'
                 when auprparc.ttl_cde = 8 then 'RP'
-                when auprparc.ttl_cde = 11 then 'SP'
+                when auprparc.ttl_cde in ( 11 , 23 ) then 'SP'
                 when auprparc.ttl_cde = 22 then 'CS'
                 else ''
             end ||
@@ -59,13 +59,13 @@ select distinct
         else ''
     end as plan_number,
     case
-        when auprparc.ttl_cde in ( 1 , 2 , 13 , 18 , 19 , 20 , 21 ) then 'PS'
-        when auprparc.ttl_cde in ( 3 , 4 ) then 'LP'
-        when auprparc.ttl_cde in ( 5 , 12 ) then 'TP'
+        when auprparc.ttl_cde in ( 1 , 2 , 13 , 18 , 20 , 24 , 25 , 26 ) then 'PS'
+        when auprparc.ttl_cde in ( 3 , 4 , 19 , 21 ) then 'LP'
+        when auprparc.ttl_cde = 5 then 'TP'
         when auprparc.ttl_cde = 6 then 'PC'
         when auprparc.ttl_cde = 7 then 'CP'
         when auprparc.ttl_cde = 8 then 'RP'
-        when auprparc.ttl_cde = 11 then 'SP'
+        when auprparc.ttl_cde in ( 11 , 23 ) then 'SP'
         when auprparc.ttl_cde = 22 then 'CS'
         else ''
     end as plan_prefix,
@@ -80,8 +80,12 @@ select distinct
         else ''
     end as plan_numeral,
     case
-        when auprparc.ttl_cde not in ( 9 , 10 , 27 , 28 ) then ifnull ( auprparc.ttl_no1 , '' )
-        else ''
+        when auprparc.ttl_cde in ( 9 , 10 , 27 , 28 ) then ''
+        when auprparc.ttl_cde = 18 then 'RES' || ifnull ( auprparc.ttl_no2 , '' )
+        when auprparc.ttl_cde = 24 then 'CM1'
+        when auprparc.ttl_cde = 25 then 'CM2'
+        when auprparc.ttl_cde = 26 then 'CM3'
+        else ifnull ( auprparc.ttl_no1 , '' )
     end as lot_number,
     case
         when auprparc.ttl_cde in ( 9 , 10 , 27 , 28 ) then ifnull ( auprparc.ttl_no1 , '' )
@@ -92,16 +96,24 @@ select distinct
             replace (
                 case
                     when auprparc.ttl_cde in ( 9 , 10 , 27 , 28 ) then ifnull ( auprparc.ttl_no5 , '' )
-                    else ifnull ( auprparc.ttl_no3 , '' )
+                    when auprparc.ttl_cde = 4 then ifnull ( auprparc.ttl_no3 , '' )
+                    else ''
                 end ,
             '*' , '' ) ,
         '.' , '' ) ,
     '0' , '' ) as sec,
-    '' as block,
+    case
+        when auprparc.ttl_cde = 21 then ifnull ( auprparc.ttl_no4 , '' )
+        else ''
+    end as block,
     '' as portion,
     '' as subdivision,
-    cast ( auprparc.udn_cd1 as varchar ) as parish_code,
     case
+        when auprparc.ttl_cde not in ( 9 , 10 , 27 , 28 ) then ''
+        else cast ( auprparc.udn_cd1 as varchar )
+    end as parish_code,
+    case
+        when auprparc.ttl_cde not in ( 9 , 10 , 27 , 28 ) then ''
         when auprparc.udn_cd3 = 6000 then ''
         else cast ( auprparc.udn_cd3 as varchar )
     end as township_code,
@@ -112,7 +124,8 @@ from
     authority_auprparc auprparc
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
-    auprparc.ass_num is not null
+    auprparc.ass_num is not null and
+    auprparc.ttl_cde not in ( 12 , 13 , 14 , 15 , 16 , 17 )
 order by
     ass_num
 )

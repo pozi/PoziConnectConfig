@@ -131,7 +131,8 @@ where
     auprparc.pcl_num = auprstad.pcl_num and
     auprparc.pcl_flg in ( 'R' , 'P' ) and
     auprparc.ass_num <> 0 and
-    auprstad.seq_num = 0
+    auprstad.seq_num = 0 and
+    auprparc.ttl_cde not in ( 12 , 13 , 14 , 15 , 16 , 17 )
 )
 )
 )
