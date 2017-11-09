@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -38,7 +38,7 @@ select distinct
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    '' as blg_unit_type,   
+    '' as blg_unit_type,
     '' as blg_unit_prefix_1,
     ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) as blg_unit_id_1,
     ifnull ( auprstad.unt_alp , '' ) as blg_unit_suffix_1,
@@ -52,7 +52,7 @@ select distinct
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    ifnull ( auprparc.ttl_nme , '' ) as building_name,
+    '' as building_name,
     '' as complex_name,
     '' as location_descriptor,
     '' as house_prefix_1,
@@ -66,7 +66,7 @@ select distinct
         when upper ( auprstad.str_nme ) = 'HILLSIDE (SOUTH)' then 'HILLSIDE'
         when upper ( auprstad.str_nme ) like '%-LEFT ARM' then replace ( upper ( auprstad.str_nme ) , '-' , ' ' )
         when upper ( auprstad.str_nme ) like '%-RIGHT ARM' then replace ( upper ( auprstad.str_nme ) , '-' , ' ' )
-        when upper ( auprstad.str_nme ) like '%-FIRST' then replace ( upper ( auprstad.str_nme ) , '-' , ' ' )        
+        when upper ( auprstad.str_nme ) like '%-FIRST' then replace ( upper ( auprstad.str_nme ) , '-' , ' ' )
         else upper ( auprstad.str_nme )
     end as road_name,
     case
