@@ -57,7 +57,7 @@ select distinct
     '' as location_descriptor,
     '' as house_prefix_1,
     ifnull ( auprstad.hou_num , '' ) as house_number_1,
-    ifnull ( auprstad.hou_alp , '' ) as house_suffix_1,
+    ifnull ( replace ( auprstad.hou_alp , '-' , '' ) , '' ) as house_suffix_1,
     '' as house_prefix_2,
     ifnull ( auprstad.hou_end , '' ) as house_number_2,
     ifnull ( auprstad.end_alp , '' ) as house_suffix_2,
