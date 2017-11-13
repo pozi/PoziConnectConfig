@@ -196,7 +196,8 @@ from
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
 where
     auprparc.pcl_flg in ( 'M' , 'R' , 'P' ) and
-    auprparc.ttl_cde not in ( 6 , 50 )
+    auprparc.ttl_cde not in ( 6 , 50 ) and
+    auprparc.ass_num not in ( 2233289 , 2234543 )
 )
 )
 )

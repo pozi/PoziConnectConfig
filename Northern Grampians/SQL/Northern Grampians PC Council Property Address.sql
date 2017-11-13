@@ -52,11 +52,7 @@ select distinct
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    case
-        when auprparc.ttl_nme is null then ''
-        when ( auprparc.ttl_nme like '%CA %' or auprparc.ttl_nme like '%LOT %' ) then ''
-        else upper ( auprparc.ttl_nme )
-    end as building_name,
+    '' as building_name,
     '' as complex_name,
     '' as location_descriptor,
     '' as house_prefix_1,
@@ -114,7 +110,8 @@ from
     authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num left join
     authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ'
 where
-    auprparc.pcl_flg in ( 'M' , 'R' , 'P' )
+    auprparc.pcl_flg in ( 'M' , 'R' , 'P' ) and
+    auprparc.ass_num not in ( 2233289 , 2234543 )
 )
 )
 )
