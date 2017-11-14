@@ -43,7 +43,10 @@ select
         when 'P' then 'P'
         else ''
     end as status,
-    cast ( auprparc.pcl_num as varchar ) as crefno,
+    case
+        when auprparc.pcl_flg = 'M' then cast ( ifnull ( ( select p.lnk_pcl from authority_auprplnk p where p.pcl_num = auprparc.pcl_num and p.rel_flg = 'C' ) , auprparc.pcl_num ) as varchar )
+        else cast ( auprparc.pcl_num as varchar )
+    end as crefno,
     ifnull ( auprparc.ttl_nme , '' ) as internal_spi,
     case
         when auprparc.ttl_no1 like '%PT%' then 'P'
