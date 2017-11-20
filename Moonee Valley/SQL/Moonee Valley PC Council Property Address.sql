@@ -37,14 +37,14 @@ select
     '' as hsa_unit_id,
     case
         when upper ( lpaaddr.unitprefix ) in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.unitprefix )
-        when upper ( lpaaddr.unitprefix ) = 'ADV PANEL' then 'SIGN'
-        when upper ( lpaaddr.unitprefix ) = 'ADV SIGN' then 'SIGN'
-        when upper ( lpaaddr.unitprefix ) = 'COMM TOWER' then 'TWR'
+        when upper ( lpaaddr.unitprefix ) in ( 'ADV PANEL' , 'ADV SIGN' ) then 'SIGN'
+        when upper ( lpaaddr.unitprefix ) in ( 'COMM TOWER' , 'COMMTOWER' ) then 'TWR'
+        when upper ( lpaaddr.unitprefix ) = 'FACTORY' then 'FCTY'
         when upper ( lpaaddr.unitprefix ) = 'KIOSK' then 'KSK'
         when upper ( lpaaddr.unitprefix ) = 'OFFICE' then 'OFFC'
         when upper ( lpaaddr.unitprefix ) = 'SUITE' then 'SE'
         when upper ( lpaaddr.prefix ) in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.prefix )
-        when upper ( lpaaddr.prefix ) = 'CAR WASH' then 'CARW'
+        when upper ( lpaaddr.prefix ) in ( 'CAR WASH' , 'CARWASH' ) then 'CARW'
         when upper ( lpaaddr.prefix ) = 'COMM.TOWER' then 'TWR'
         when upper ( lpaaddr.prefix ) = 'FACTORY' then 'FCTY'
         when upper ( lpaaddr.prefix ) = 'OFFICE' then 'OFFC'
@@ -75,10 +75,10 @@ select
     case
         when upper ( lpaaddr.lvlprefix ) in ( 'B' , 'FL' , 'G' , 'L' , 'LG' , 'M' , 'UG' , 'RT' , 'PD' , 'LB' , 'LL' , 'OD' , 'P' , 'PF' , 'SB' ) then upper ( lpaaddr.lvlprefix )
         when upper ( lpaaddr.lvlprefix ) in ( 'LEVEL' ) then 'L'
-        when upper ( lpaaddr.lvlprefix ) in ( 'G/F' , 'G/F OFFICE' , 'GROUNG FL' , 'GR FLOOR' ) then 'G'
+        when upper ( lpaaddr.lvlprefix ) in ( 'G/F' , 'G/F OFFICE' , 'GROUNG FL' , 'GR FLOOR' , 'GR FL' ) then 'G'
         when upper ( lpaaddr.lvlprefix ) in ( 'FLOOR' , '1/F' , '1/F OFFICE' , '1ST FLOOR' , '2/F' , '2ND FLOOR' , '3RD FLOOR' ) then 'FL'
         when upper ( lpaaddr.prefix ) in ( 'LEVEL' ) then 'L'
-        when upper ( lpaaddr.prefix ) in ( 'G/F' , 'G/F OFFICE' , 'GROUND FL' , 'GR FLOOR' ) then 'G'
+        when upper ( lpaaddr.prefix ) in ( 'G/F' , 'G/F OFFICE' , 'GROUND FL' , 'GR FLOOR' , 'GR FL' ) then 'G'
         when upper ( lpaaddr.prefix ) in ( 'FLOOR' , '1/F' , '1/F OFFICE' , '1ST FLOOR' , '2/F' , '2ND FLOOR' , '3RD FLOOR' ) then 'FL'
         else ''
     end as floor_type,
