@@ -36,7 +36,7 @@ select distinct
         when 'C' then 'A'
         when 'A' then 'P'
     end as status,
-    '' as crefno,
+    cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     ifnull ( lpaparc.spi , '' ) as internal_spi,
     case
         when lpaparc.parcelcode = 'PT L' then 'P'
