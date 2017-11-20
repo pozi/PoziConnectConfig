@@ -52,7 +52,7 @@ select
         else ''
     end as blg_unit_type,
     case
-        when upper ( lpaaddr.unitprefix ) = 'G0' then 'G0'
+        when upper ( lpaaddr.unitprefix ) in ( 'G' , 'G0' , 'M' , 'M0' ) then upper ( lpaaddr.unitprefix )
         else ''
     end as blg_unit_prefix_1,
     case
