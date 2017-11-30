@@ -45,7 +45,7 @@ select
             npx.property_no = P.property_no and
             nax.date_ended is null and
             nax.association_type = 'ChildProp' and
-            npx1.status in ('C','F')    
+            npx1.status in ('C','F')
         limit 1
         ) , ''
     ) as base_propnum,
@@ -77,7 +77,10 @@ select
         when A.unit_no = '0' then replace ( A.unit_no , '0' , '' )
         else ifnull ( A.unit_no , '' )
     end as blg_unit_id_1,
-    upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
+    case
+        when A.unit_no_suffix = '&' then ''
+        else upper ( ifnull ( A.unit_no_suffix , '' ) )
+    end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
         when A.unit_no_to = '0' then replace ( A.unit_no_to , '0' , '' )
