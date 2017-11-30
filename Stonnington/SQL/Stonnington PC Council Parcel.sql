@@ -59,10 +59,10 @@ from
     left join techone_nucassociation T on A.key1 = T.key1 and A.key2 = t.key2 and
     T.association_type is null and A.date_ended is null
 where
-    A.association_type = 'PropLand' and
+    A.association_type in ( 'PropLand' , 'Propland' ) and
     A.date_ended is null and
     L.plan_desc in ( 'TP' , 'LP' , 'PS' , 'PC' , 'CP' , 'SP' , 'CS' , 'RP' , 'CG' )
-    and t.key1 is null and  
+    and t.key1 is null and
     P.status in ( 'C' , 'F' )
 )
 )
