@@ -26,7 +26,7 @@ from
 (
 select
     cast ( A.key1 as varchar ) as propnum,
-    '' as crefno,
+    cast ( L.land_no as varchar ) as crefno,
     '' as summary,
     case P.status
         when 'F' then 'P'
