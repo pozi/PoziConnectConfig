@@ -111,6 +111,7 @@ select
     '' as complex_name,
     '' as house_prefix_1,
     case
+        when upper ( S.street_name ) = 'CHADSTONE SHOPPING CENTRE' then '1341'
         when A.house_no ='0' then replace ( A.house_no , '0' , '' )
         else ifnull ( A.house_no , '' )
     end as house_number_1,
@@ -123,7 +124,7 @@ select
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
     case
         when upper ( S.street_name ) like 'A''BECKETT%' then 'ABECKETT'
-        when upper ( S.street_name ) like 'CHADSTONE S%' then 'DANDENONG'
+        when upper ( S.street_name ) = 'CHADSTONE SHOPPING CENTRE' then 'DANDENONG'
         when S.street_name like 'MOUNT PLEASANT%' then 'MT PLEASANT'
         when S.street_name like 'THE AVENUE' then 'THE AVENUE'
         when S.street_name like 'THE GRANGE' then 'THE GRANGE'
@@ -146,7 +147,7 @@ select
         else upper ( S.street_name )
     end as road_name,
     case
-        when upper (S.street_name like 'CHADSTONE S%') then 'ROAD'
+        when upper ( S.street_name ) = 'CHADSTONE SHOPPING CENTRE' then 'ROAD'
         when S.street_name like 'THE AVENUE' then ''
         when S.street_name like 'THE GRANGE' then ''
         when S.street_name like 'THE BOULEVARD' then ''
