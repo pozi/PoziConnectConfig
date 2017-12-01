@@ -34,22 +34,43 @@ select
     end as status,
     ifnull ( upper ( part_lot ) , '' ) as part,
     case
+        when L.plan_desc = 'CA' then ''
         when substr ( trim ( ifnull ( L.plan_no , '' ) ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( ifnull ( L.plan_desc , '' ) ) || ifnull ( L.plan_no , '' )
         else trim ( ifnull ( L.plan_desc , '' ) ) || substr ( trim ( ifnull ( L.plan_no , '' ) ) , 1 , length ( trim ( ifnull ( L.plan_no , '' ) ) ) - 1 )
     end as plan_number,
-    ifnull ( L.plan_desc , '' ) as plan_prefix,
     case
+        when L.plan_desc = 'CA' then ''
+        else ifnull ( L.plan_desc , '' )
+    end as plan_prefix,
+    case
+        when L.plan_desc = 'CA' then ''
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
         else ifnull (substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_numeral,
-    ifnull ( L.lot , '' ) as lot_number,
-    ifnull ( L.text3 , '' ) as allotment,
+    case
+        when L.plan_desc = 'CA' then ''
+        else ifnull ( L.lot , '' )
+    end as lot_number,
+    case
+        when L.plan_desc = 'CA' and L.Lot <> '' then ifnull ( L.lot , '' )
+        else ''
+    end as allotment,
     ifnull ( L.parish_section , '' ) as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
-    '' as parish_code,
-    '' as township_code,
+    case
+        when L.plan_desc = 'CA' and upper ( parish_desc ) = 'PRAHRAN' then '3416'
+        when L.plan_desc = 'CA' and upper ( parish_desc ) = 'BOROONDARA' then '2209'
+        when L.plan_desc = 'CA' and upper ( parish_desc ) = 'MELBOURNE SOUTH' then '3084'
+        else ''
+    end as parish_code,
+    case
+        when L.plan_desc = 'CA' and upper ( parish_desc ) = 'CAULFIELD' then '3416A'
+        when L.plan_desc = 'CA' and upper ( parish_desc ) = 'GARDINER' then '3416E'
+        when L.plan_desc = 'CA' and upper ( parish_desc ) = 'SOUTH YARRA' then '3084E'
+        else ''
+    end as township_code,
     '363' as lga_code,
     cast ( A.key1 as varchar ) as assnum
 from
@@ -61,7 +82,7 @@ from
 where
     A.association_type in ( 'PropLand' , 'Propland' ) and
     A.date_ended is null and
-    L.plan_desc in ( 'TP' , 'LP' , 'PS' , 'PC' , 'CP' , 'SP' , 'CS' , 'RP' , 'CG' )
+    L.plan_desc in ( 'TP' , 'LP' , 'PS' , 'PC' , 'CP' , 'SP' , 'CS' , 'RP' , 'CA' )
     and t.key1 is null and
     P.status in ( 'C' , 'F' )
 )
