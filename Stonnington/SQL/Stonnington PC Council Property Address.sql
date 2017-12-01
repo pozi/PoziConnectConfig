@@ -112,13 +112,13 @@ select
     '' as house_prefix_1,
     case
         when upper ( S.street_name ) = 'CHADSTONE SHOPPING CENTRE' then '1341'
-        when A.house_no ='0' then replace ( A.house_no , '0' , '' )
+        when A.house_no = '0' then replace ( A.house_no , '0' , '' )
         else ifnull ( A.house_no , '' )
     end as house_number_1,
     upper ( ifnull ( A.house_no_suffix , '' ) ) as house_suffix_1,
     '' as house_prefix_2,
     case
-        when A.house_no_to ='0' then replace ( A.house_no_to , '0' , '' )
+        when A.house_no_to = '0' then replace ( A.house_no_to , '0' , '' )
         else ifnull ( A.house_no_to , '' )
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
