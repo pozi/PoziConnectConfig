@@ -108,7 +108,10 @@ select
     end as floor_no_2,
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
     '' as building_name,
-    '' as complex_name,
+    case
+        when upper ( S.street_name ) in ( 'CHADSTONE SHOPPING CENTRE' ) then upper ( S.street_name )
+        else ''
+    end as complex_name,
     '' as house_prefix_1,
     case
         when upper ( S.street_name ) = 'CHADSTONE SHOPPING CENTRE' then '1341'
