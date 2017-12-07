@@ -65,18 +65,18 @@ select
     '' as house_number_2,
     '' as house_suffix_2,
     case
-        when streets.street_type in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) and ( upper ( streets.street_name ) like '% ST' or upper ( streets.street_name ) like '% RD' ) then substr ( streets.street_name , 1 , length ( streets.street_name ) - 3 )
-        when streets.street_type in ( 'HONOUR' , 'GRANGE' , 'PARADE' ) then streets.street_name || ' ' || streets.street_type
-        else streets.street_name
+        when upper ( streets.street_type ) in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) and ( streets.street_name like '% ST' or streets.street_name like '% RD' ) then substr ( upper ( streets.street_name ) , 1 , length ( streets.street_name ) - 3 )
+        when upper ( streets.street_type ) in ( 'HONOUR' , 'GRANGE' , 'PARADE' ) then upper ( streets.street_name ) || ' ' || upper ( streets.street_type )
+        else upper ( streets.street_name )
     end as road_name,
     case
-        when streets.street_type in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) and streets.street_name like '% ST' then 'STREET'
-        when streets.street_type in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) and streets.street_name like '% RD' then 'ROAD'
-        when streets.street_type in ( 'HONOUR' , 'GRANGE' , 'PARADE' ) then ''
-        else streets.street_type
+        when upper ( streets.street_type ) in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) and streets.street_name like '% ST' then 'STREET'
+        when upper ( streets.street_type ) in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) and streets.street_name like '% RD' then 'ROAD'
+        when upper ( streets.street_type ) in ( 'HONOUR' , 'GRANGE' , 'PARADE' ) then ''
+        else upper ( streets.street_type )
     end as road_type,
     case
-        when streets.street_type in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) then substr ( streets.street_type , 1 , 1 )
+        when upper ( streets.street_type ) in ( 'NORTH' , 'SOUTH' , 'EAST' , 'WEST' ) then substr ( streets.street_type , 1 , 1 )
         else ''
     end as road_suffix,
     properties.suburb as locality_name,
