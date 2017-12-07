@@ -38,8 +38,8 @@ select
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    upper ( ifnull ( lpaaddr.unitprefix , '' ) ) as blg_unit_type,
-    '' as blg_unit_prefix_1,
+    '' as blg_unit_type,
+    upper ( ifnull ( lpaaddr.unitprefix , '' ) ) as blg_unit_prefix_1,
     case
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
         else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
@@ -91,7 +91,7 @@ select
         when lpaaddr.endhoussfx = '0' or lpaaddr.endhoussfx is null then ''
         else cast ( lpaaddr.endhoussfx as varchar )
     end as house_suffix_2,
-    upper ( cnacomp.descr ) as road_name, 
+    upper ( cnacomp.descr ) as road_name,
     case
         when
             cnaqual.descr like '% NORTH' or
