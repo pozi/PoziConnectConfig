@@ -131,7 +131,20 @@ where
     lpaprop.status <> 'H' and
     lpaprop.tfklpacncl = 12 and
     lpaaddr.addrtype <> 'H' and
-    lpaprtp.abbrev <> 'OTH'
+    lpaprtp.abbrev <> 'OTH' and
+    lpaprop.tpklpaprop in
+        (
+        select
+            lpaprop.tpklpaprop
+        from
+            pathway_lpaprop as lpaprop left join
+            pathway_lpaprti as lpaprti on lpaprop.tpklpaprop = lpaprti.tfklpaprop left join
+            pathway_lpatitl as lpatitl on lpaprti.tfklpatitl = lpatitl.tpklpatitl left join
+            pathway_lpatipa as lpatipa on lpatitl.tpklpatitl = lpatipa.tfklpatitl left join
+            pathway_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc
+        where
+            lpaparc.fmtparcel <> 'Valuers Master Header'
+        )
 )
 )
 )
