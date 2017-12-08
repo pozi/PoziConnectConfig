@@ -60,15 +60,17 @@ select
     end as plan_numeral,
     case
         when parcel_type not in ( 'L' , 'CM' , 'RS' ) then ''
+        when parcels.lot_no is null then ''
         when substr ( lot_no , 2 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 1 )
         when substr ( lot_no , 3 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 2 )
         when substr ( lot_no , 4 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 3 )
         when substr ( lot_no , 5 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 4 )
-  		else trim ( replace ( replace ( replace ( lot_no , 'RATES' , '' ) , 'PT' , '' ) , 'ROAD' , '' ) )
+  		  else trim ( replace ( replace ( replace ( lot_no , 'RATES' , '' ) , 'PT' , '' ) , 'ROAD' , '' ) )
   	end as lot_number,
     case
         when parcel_type not in ( 'CA' , 'PR' ) then ''
         when lot_no like '%POR%' then ''
+        when parcels.lot_no is null then ''
         when substr ( lot_no , 2 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 1 )
         when substr ( lot_no , 3 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 2 )
         when substr ( lot_no , 4 , 1 ) in ( ' ' ) then substr ( lot_no , 1 , 3 )
@@ -76,7 +78,7 @@ select
         else trim ( replace ( lot_no , ' PT' , ' ' ) )
     end as allotment,
     case
-  		when parcel_type not in ( 'CA' , 'PR' ) then ''
+  			when parcel_type not in ( 'CA' , 'PR' ) then ''
         when location like 'NO SEC%' then ''
         else ifnull ( location , '' )
   	end as sec,
@@ -180,7 +182,7 @@ from
     synergysoft_parcel_index_properties as parcel_index on parcels.land_parcel = parcel_index.land_parcel
 where
   	parcel_type in ( 'CA' , 'CM' , 'CP' , 'L' , 'PC' , 'PR' , 'RS' ) and
-  	substr ( parcels.lot_no , 1 , 4 ) not in ( 'HIST' , 'CANC' , 'EXTE' ) and
+  	substr ( ifnull ( parcels.lot_no , '' ) , 1 , 4 ) not in ( 'HIST' , 'CANC' , 'EXTE' ) and
     parcel_index.assess_no is not null and
     parcels.land_parcel not like '%RATES%'
 )
