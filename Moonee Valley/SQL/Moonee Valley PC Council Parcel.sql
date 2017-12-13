@@ -77,7 +77,7 @@ select distinct
         else ''
     end as township_code,
     '349' as lga_code,
-    '' as assnum
+    cast ( cast ( lpaprop.tpklpaprop as integer ) as varchar ) as assnum
 from
     pathway_lpaprop as lpaprop left join
     pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
