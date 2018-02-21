@@ -141,7 +141,10 @@ select
         when cnaqual.descr like '%WEST' then 'W'
         else ''
     end as road_suffix,
-    upper ( lpasubr.suburbname ) as locality_name,
+    case
+        when lpasubr.suburbname in ( 'EAST KEILOR' , 'NORTH ESSENDON' , 'WEST ESSENDON' ) then ''
+        else lpasubr.suburbname
+    end as locality_name,
     '' as postcode,
     '' as access_type,
     '' as easting,
