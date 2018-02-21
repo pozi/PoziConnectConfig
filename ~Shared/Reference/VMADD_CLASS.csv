@@ -1,3 +1,3 @@
 ADDRESS_CLASS_CODE,ADDRESS_CLASS,DESCRIPTION,UFI,UFI_CREATED
-S,STANDARD,"Standard forms of property address, house_number_1, road_name and locality attributes must be populated. ROAD_NAME cannot be ""UNNAMED"" or NULL",       10014901,2008/05/23
-M,MISCELLANEOUS,Addresses where the minimum Standard class attributes are not populated.,       10000003,2008/02/28
+S,STANDARD,"Standard forms of property address, house_number_1, road_name and locality attributes must be populated. ROAD_NAME cannot be ""UNNAMED"" or NULL",10014901,2008/05/23
+M,MISCELLANEOUS,Addresses where the minimum Standard class attributes are not populated.,10000003,2008/02/28

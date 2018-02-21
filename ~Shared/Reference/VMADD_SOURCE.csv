@@ -1,10 +1,10 @@
 SOURCE_CODE,SOURCE,DESCRIPTION,UFI,UFI_CREATED
-PD,PROPERTY DEVELOPER,Property Developer similar Non-government organisation e.g. Retirement village,       10016223,2008/07/24
-ES,EMERGENCY SERVICES,"Emergency Services Telecommunications Authority (on behalf of SES, MFB, CFA, etc.)",       10016224,2008/07/24
-PH,PUBLIC HOUSING,"State, Commonwealth or similar public housing organisation.",       10016225,2008/07/24
-LGO,LOCAL GOVERNMENT - OFFICIAL,Local Government specified in lga_code field - Officially included in VMADD by local government from Council source data.,       10016226,2008/07/24
-LGU,LOCAL GOVERNMENT - UNOFFICIAL,Local Government specified in lga_code field - Unofficially included in VMADD from Council source data.,       10016227,2008/07/24
-LR,LAND REGISTRY,Land Titles Office and Landata,       10016228,2008/07/24
-VAC,VICMAP ADDRESS CUSTODIAN,Vicmap Address(VMADD) Custodian,       10016229,2008/07/24
-UNK,UNKNOWN,Not known,       10016230,2008/07/24
-SPR,SPEAR,,       10096504,2011/11/03
+PD,PROPERTY DEVELOPER,Property Developer similar Non-government organisation e.g. Retirement village,10016223,2008/07/24
+ES,EMERGENCY SERVICES,"Emergency Services Telecommunications Authority (on behalf of SES, MFB, CFA, etc.)",10016224,2008/07/24
+PH,PUBLIC HOUSING,"State, Commonwealth or similar public housing organisation.",10016225,2008/07/24
+LGO,LOCAL GOVERNMENT - OFFICIAL,Local Government specified in lga_code field - Officially included in VMADD by local government from Council source data.,10016226,2008/07/24
+LGU,LOCAL GOVERNMENT - UNOFFICIAL,Local Government specified in lga_code field - Unofficially included in VMADD from Council source data.,10016227,2008/07/24
+LR,LAND REGISTRY,Land Titles Office and Landata,10016228,2008/07/24
+VAC,VICMAP ADDRESS CUSTODIAN,Vicmap Address(VMADD) Custodian,10016229,2008/07/24
+UNK,UNKNOWN,Not known,10016230,2008/07/24
+SPR,SPEAR,,10096504,2011/11/03

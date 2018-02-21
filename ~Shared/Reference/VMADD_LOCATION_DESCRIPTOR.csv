@@ -1,16 +1,16 @@
 LOCATION_DESCRIPTOR,DESCRIPTION,UFI,UFI_CREATED
-ABOVE,Above or over specified feature/address,       10015002,2008/06/02
-ADJACENT,Close to (not necessarily abutting) specified feature/address,       10015003,2008/06/02
-BELOW,Below or under specified feature/address,       10015016,2008/06/02
-BETWEEN,Between referenced addressing (eg. 45-49 Smith St.),       10015004,2008/06/02
-CORNER,Corner of specific road name,       10015005,2008/06/02
-EAST,Eastward direction from specified feature/address,       10015006,2008/06/02
-FRONT,Front of specified feature/address,       10015007,2008/06/02
-NORTH,Northward direction from specified feature/address,       10015008,2008/06/02
-OFF,References road name providing nearest access route,       10015009,2008/06/02
-OPPOSITE,Opposite (generally across road) from specified feature/address,       10015010,2008/06/02
-PART,Part only of the the specified feature/address,       10015011,2008/06/02
-REAR,Rear or behind identified feature/address,       10015015,2008/06/02
-ROOFTOP,Rooftop of the the specified feature/address,       10015012,2008/06/02
-SOUTH,Southward direction from specified feature/address,       10015013,2008/06/02
-WEST,Westward direction from specified feature/address,       10015014,2008/06/02
+ABOVE,Above or over specified feature/address,10015002,2008/06/02
+ADJACENT,Close to (not necessarily abutting) specified feature/address,10015003,2008/06/02
+BELOW,Below or under specified feature/address,10015016,2008/06/02
+BETWEEN,Between referenced addressing (eg. 45-49 Smith St.),10015004,2008/06/02
+CORNER,Corner of specific road name,10015005,2008/06/02
+EAST,Eastward direction from specified feature/address,10015006,2008/06/02
+FRONT,Front of specified feature/address,10015007,2008/06/02
+NORTH,Northward direction from specified feature/address,10015008,2008/06/02
+OFF,References road name providing nearest access route,10015009,2008/06/02
+OPPOSITE,Opposite (generally across road) from specified feature/address,10015010,2008/06/02
+PART,Part only of the the specified feature/address,10015011,2008/06/02
+REAR,Rear or behind identified feature/address,10015015,2008/06/02
+ROOFTOP,Rooftop of the the specified feature/address,10015012,2008/06/02
+SOUTH,Southward direction from specified feature/address,10015013,2008/06/02
+WEST,Westward direction from specified feature/address,10015014,2008/06/02
