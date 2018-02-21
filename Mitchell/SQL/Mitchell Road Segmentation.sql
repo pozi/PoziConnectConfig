@@ -32,38 +32,38 @@ from
     (
         select
                 AssetID,
-                "Segment Start Point / Chainage" as ch1,
-                "Segment End Point / Chainage" as ch2,
+                "Segment Start Point" as ch1,
+                "Segment End Point" as ch2,
                 ParentID,"Road Start Point" as start_road,
                 'SEALS' as type
             from conquest_roads_seals
 
         union
-        
+
         select
                 AssetID,
-                "Segment Start Point / Chainage",
-                "Segment End Point / Chainage",
+                "Segment Start Point",
+                "Segment End Point",
                 ParentID,"Road Start Point",
                 'FORMATIONS'
             from conquest_formations
 
         union
-        
+
         select
                 AssetID,
-                "Segment Start Point / Chainage",
-                "Segment End Point / Chainage",
+                "Segment Start Point",
+                "Segment End Point",
                 ParentID,"Road Start Point",
                 'PAVEMENT - SEALED'
             from conquest_pavement_sealed
 
         union
-        
+
         select
                 AssetID,
-                "Segment Start Point / Chainage",
-                "Segment End Point / Chainage",
+                "Segment Start Point",
+                "Segment End Point",
                 ParentID,"Road Start Point",
                 'PAVEMENT - UNSEALED'
             from conquest_pavement_unsealed
