@@ -39,6 +39,8 @@ from
 select
     cast ( P.property_no as varchar ) as propnum,
     cast ( L.land_no as varchar ) as crefno,
+    ifnull ( L.text5 , '' ) as text5,
+    ifnull ( L.text9 , '' ) as text9,
     case
         when L.text5 <> '' then L.text5
         when L.text9 <> '' then L.text9
