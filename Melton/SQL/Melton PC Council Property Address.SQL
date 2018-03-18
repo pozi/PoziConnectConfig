@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -41,7 +41,7 @@ select distinct
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    '' as blg_unit_type,   
+    '' as blg_unit_type,
     '' as blg_unit_prefix_1,
     ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) as blg_unit_id_1,
     ifnull ( auprstad.unt_alp , '' ) as blg_unit_suffix_1,
@@ -65,13 +65,13 @@ select distinct
     ifnull ( auprstad.hou_end , '' ) as house_number_2,
     upper ( ifnull ( auprstad.end_alp , '' ) ) as house_suffix_2,
     case
-        when upper ( substr ( trim ( auprstad.str_nme ) , -13 ) ) in  ( ' AVENUE NORTH' , ' AVENUE SOUTH' ) 
+        when upper ( substr ( trim ( auprstad.str_nme ) , -13 ) ) in  ( ' AVENUE NORTH' , ' AVENUE SOUTH' )
             then upper ( substr ( trim ( auprstad.str_nme ) , 1 , length ( trim ( auprstad.str_nme ) ) - 13 ) )
-        when upper ( substr ( trim ( auprstad.str_nme ) , -12 ) ) in  ( ' AVENUE EAST' , ' AVENUE WEST' ) 
+        when upper ( substr ( trim ( auprstad.str_nme ) , -12 ) ) in  ( ' AVENUE EAST' , ' AVENUE WEST' )
             then upper ( substr ( trim ( auprstad.str_nme ) , 1 , length ( trim ( auprstad.str_nme ) ) - 12 ) )
-        when upper ( substr ( trim ( auprstad.str_nme ) , -11 ) ) in  ( ' ROAD NORTH' , ' ROAD SOUTH' , ' LANE NORTH' , ' LANE SOUTH' ) 
+        when upper ( substr ( trim ( auprstad.str_nme ) , -11 ) ) in  ( ' ROAD NORTH' , ' ROAD SOUTH' , ' LANE NORTH' , ' LANE SOUTH' )
             then upper ( substr ( trim ( auprstad.str_nme ) , 1 , length ( trim ( auprstad.str_nme ) ) - 11 ) )
-        when upper ( substr ( trim ( auprstad.str_nme ) , -10 ) ) in  ( ' LANE EAST' , ' LANE WEST' , ' ROAD EAST' , ' ROAD WEST' ) 
+        when upper ( substr ( trim ( auprstad.str_nme ) , -10 ) ) in  ( ' LANE EAST' , ' LANE WEST' , ' ROAD EAST' , ' ROAD WEST' )
             then upper ( substr ( trim ( auprstad.str_nme ) , 1 , length ( trim ( auprstad.str_nme ) ) - 10 ) )
         else upper ( trim ( auprstad.str_nme ) )
     end as road_name,
@@ -89,6 +89,7 @@ select distinct
         when trim ( auprstad.str_typ ) in ( 'CL' ) then 'CLOSE'
         when trim ( auprstad.str_typ ) in ( 'CNR' ) then 'CORNER'
         when trim ( auprstad.str_typ ) in ( 'COU' ) then 'COURSE'
+        when trim ( auprstad.str_typ ) in ( 'CON' ) then 'CONCOURSE'
         when trim ( auprstad.str_typ ) in ( 'COVE' , 'COV' ) then 'COVE'
         when trim ( auprstad.str_typ ) in ( 'CR' , 'CRES' ) then 'CRESCENT'
         when trim ( auprstad.str_typ ) in ( 'CRSE' ) then 'COURSE'
@@ -152,7 +153,7 @@ select distinct
         when trim ( auprstad.str_typ ) in ( 'WKWY' ) then 'WALKWAY'
         when trim ( auprstad.str_typ ) in ( 'WA' , 'WTRS' ) then 'WATERS'
         when trim ( auprstad.str_typ ) in ( 'WYN' , 'WYND' ) then 'WYND'
-        when trim ( auprstad.str_typ ) in ( '.' ) then ''        
+        when trim ( auprstad.str_typ ) in ( '.' ) then ''
         when upper ( substr ( trim ( auprstad.str_nme ) , -13 ) ) in  ( ' AVENUE NORTH' , ' AVENUE SOUTH' ) then 'AVENUE'
         when upper ( substr ( trim ( auprstad.str_nme ) , -12 ) ) in  ( ' AVENUE EAST' , ' AVENUE WEST' ) then 'AVENUE'
         when upper ( substr ( trim ( auprstad.str_nme ) , -11 ) ) in  ( ' LANE NORTH' , ' LANE SOUTH' )  then 'LANE'
@@ -178,9 +179,9 @@ select distinct
     '344' as lga_code,
     cast ( auprparc.pcl_num as varchar ) as crefno,
     '' as summary
-from 
+from
     authority_auprparc auprparc inner join
-    authority_auprstad auprstad ON auprparc.pcl_num = auprstad.pcl_num left outer join                                 
+    authority_auprstad auprstad ON auprparc.pcl_num = auprstad.pcl_num left outer join
     authority_ausrsubr ausrsubr ON auprstad.sbr_nme = ausrsubr.sbr_nme
 where
     auprparc.pcl_flg in ( 'R' , 'U' , 'P' ) and
