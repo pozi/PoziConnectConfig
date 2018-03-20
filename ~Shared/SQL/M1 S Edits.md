@@ -79,6 +79,12 @@ Include only properties where the council address has a valid road name.
 cpa.road_name <> ''
 ```
 
+Prevent overwriting addresses if there are multiple unique addresses already associated with that property number in Vicmap. This avoids the issue of existing addresses (particularly ones submitted by SPEAR) being overwritten by a 'parent' property's address.
+
+```sql
+not ( select count(*) from ( select distinct ezi_address from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum ) ) > 1
+```
+
 Generate only one record per property.
 
 ```sql

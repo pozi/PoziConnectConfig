@@ -125,5 +125,6 @@ where
       cpa.propnum in ( select propnum from m1_p_edits ) ) and
     not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , '' ) and
     not replace ( cpa.num_road_address , 'MT ' , 'MOUNT ' ) = ifnull ( replace ( vpa.num_road_address , 'MT ' , 'MOUNT ' ) , '' ) and
-    cpa.road_name <> ''
+    cpa.road_name <> '' and
+    not ( select count(*) from ( select distinct ezi_address from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum ) ) > 1
 group by cpa.propnum, vpa.property_pfi
