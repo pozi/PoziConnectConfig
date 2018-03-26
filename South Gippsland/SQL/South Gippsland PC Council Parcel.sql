@@ -146,10 +146,10 @@ from
     pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm
 
 where
-    lpaprop.status <> 'H' and
-    lpaprti.status <> 'H' and
-    lpatipa.status <> 'H' and
-    lpaparc.status <> 'H' and
+    lpaprop.status = 'C' and
+    lpaprti.status = 'C' and
+    lpatipa.status = 'C' and
+    lpaparc.status = 'C' and
     lpaprop.tfklpacncl = 13 and
     ifnull ( lpaparc.plancode , '' ) <> 'AG' and
     ifnull ( lpaparc.parcelcode , '' ) not in ( 'RDR' , 'VR' , 'E' )
