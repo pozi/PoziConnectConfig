@@ -158,7 +158,7 @@ from
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
     pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
 where
-    lpaprop.status <> 'H' and
+    lpaprop.status = 'C' and
     lpaaddr.addrtype <> 'H' and
     lpaprop.tfklpacncl = 13
 )
