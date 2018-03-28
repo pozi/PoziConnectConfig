@@ -1,6 +1,6 @@
 # Edit Code ‘C’
 
-## DEPI
+## DELWP
 
 ### Rule
 
@@ -43,7 +43,7 @@ Exclude parcels where the `crefno` values already match.
 ```sql
 vp.crefno <> cp.crefno
 ```
- 
+
 Exclude parcels where Council `crefno` value is blank.
 
 ```sql

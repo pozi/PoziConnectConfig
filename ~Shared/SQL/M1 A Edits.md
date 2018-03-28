@@ -1,6 +1,6 @@
 # Edit Code ‘A’
 
-## DEPI
+## DELWP
 
 ### Rule
 

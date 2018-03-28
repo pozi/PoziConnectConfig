@@ -1,12 +1,12 @@
 # Edit Code ‘R’
 
-## DEPI
+## DELWP
 
 ### Rule
 
 Edit Code R is only used to remove a property from a Multi Assessment. The last record on a multi assessment cannot be retired.
 
-#### Question to DEPI: If a multi-assessment contains five properties, and we submit R edits records for all five, will the first four succeed (or will they all fail)?
+#### Question to DELWP: If a multi-assessment contains five properties, and we submit R edits records for all five, will the first four succeed (or will they all fail)?
 
 The current M1 loading software will identify that you are trying to retire all instances which fails validation rules and therefore no edits will occur ie all five edits will fail.
 
