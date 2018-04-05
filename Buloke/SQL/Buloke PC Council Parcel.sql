@@ -123,6 +123,7 @@ select
         when 'KANEIRA' then '2829'
         when 'KARYRIE' then '2848'
         when 'KINNABULLA' then '2880'
+        when 'KINABULLA' then '2880'
         when 'LAEN' then '2954'
         when 'LALBERT' then '2957'
         when 'LIANIDUCK' then '2990'
