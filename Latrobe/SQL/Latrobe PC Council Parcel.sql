@@ -109,7 +109,7 @@ select distinct
                 when 'WONYIP' then '3870'
                 when 'YARRAGON' then '3962'
                 when 'YINNAR' then '3993'
-                else upper ( lpadesc.descr )
+                else ''
             end
         else ''
     end as parish_code,
