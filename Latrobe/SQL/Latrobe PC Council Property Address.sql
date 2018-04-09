@@ -59,7 +59,10 @@ select
         when lpaaddr.endunitsfx = '0' or lpaaddr.endunitsfx is null then ''
         else cast ( lpaaddr.endunitsfx as varchar )
     end as blg_unit_suffix_2,
-    upper ( ifnull ( lpaaddr.lvlprefix , '' ) ) as floor_type,
+    case
+        when upper ( lpaaddr.lvlprefix ) = 'FLOOR' then 'FL'
+        else upper ( ifnull ( lpaaddr.lvlprefix , '' ) )
+    end as floor_type,
     '' as floor_prefix_1,
     case
         when lpaaddr.strlvlnum = 0 then ''
