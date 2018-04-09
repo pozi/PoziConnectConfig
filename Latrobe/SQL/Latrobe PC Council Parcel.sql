@@ -30,7 +30,7 @@ select distinct
         when 'C' then 'A'
         when 'A' then 'P'
     end as status,
-    '' as crefno,
+    cast ( lpaparc.tpklpaparc as varchar ) as crefno,
     case
         when lpaparc.plancode = 'PTCA' then 'P'
         else ''
