@@ -84,6 +84,12 @@ Include only parcels from Vicmap that are already correctly matched.
 cp.spi in ( select vp.spi from pc_vicmap_parcel vp where vp.spi in ( select cpy.spi from pc_council_parcel cpy where cpy.spi = vp.spi and cpy.propnum = vp.propnum ) )
 ```
 
+Include only properties that aren't associated (via the `property_view_pfi`) to any properties currently being retired in an R edit.
+
+```sql
+( select vp.property_view_pfi from pc_vicmap_parcel vp where vp.spi = cp.spi ) not in ( select property_view_pfi from pc_vicmap_property_address vpa where property_pfi in ( select property_pfi from m1_r_edits ) )
+```
+
 ## Old
 
 This section shows the previous logic and SQL used to solve the A edits.
