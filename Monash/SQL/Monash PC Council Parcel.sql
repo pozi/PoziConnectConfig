@@ -30,7 +30,7 @@ select distinct
         when 'C' then 'A'
         when 'A' then 'P'
     end as status,
-    ( select gisref from pathway_lpagipr where tfklpaprop = lpaprop.tpklpaprop ) as crefno,
+    cast ( cast ( lpaparc.tpklpaparc as integer ) as varchar ) as crefno,
     case
         when lpaparc.parcelcode in ( 'PT' , 'PTL' , 'PTRES' , 'PTU' ) then 'P'
         when lpaparc.parcelnum in ( 'PT' , 'PTL' , 'PART' ) then 'P'
