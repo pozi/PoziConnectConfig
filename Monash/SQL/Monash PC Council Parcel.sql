@@ -31,6 +31,7 @@ select distinct
         when 'A' then 'P'
     end as status,
     ( select gisref from pathway_lpagipr where tfklpaprop = lpaprop.tpklpaprop ) as crefno,
+    ifnull ( lpaparc.spi , '' ) as internal_spi,
     case
         when lpaparc.parcelcode in ( 'PT' , 'PTL' , 'PTRES' , 'PTU' ) then 'P'
         when lpaparc.parcelnum in ( 'PT' , 'PTL' , 'PART' ) then 'P'
