@@ -30,7 +30,7 @@ from (
 select
     cast ( cast ( lpaprop.tpklpaprop as integer ) as varchar ) as propnum,
     '' as status,
-    '' as base_propnum,
+    ifnull ( cast ( cast ( lpaprop.tfklpaprop as integer ) as varchar ) , '' ) as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
     case lpaadfm.tpklpaadfm
