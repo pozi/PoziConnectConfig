@@ -50,7 +50,7 @@ select distinct
                     cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) ||
                     '%' or
                 ifnull ( Address.Addr_House_Number_1 , '' ) = ''
-            )			
+            )
             and
                 ( Assessment.Property_Name_Address_Locality like '%1%' or
                   Assessment.Property_Name_Address_Locality like '%2%' or
@@ -71,13 +71,18 @@ select distinct
             ifnull ( '-' || ifnull ( Address.Addr_House_Prefix_2 , '' ) || Address.Addr_House_Number_2 , '' ) || ifnull ( Address.Addr_House_Suffix_2 , '' ) || ' ' ||
             ifnull ( Street.Street_Name , '' ) || '%' then 'Y'
         when
-            Address.Addr_House_Number_1 is null and Assessment.Property_Name_Address_Locality like Street.Street_Name || '%' then 'Y'    
+            Address.Addr_House_Number_1 is null and Assessment.Property_Name_Address_Locality like Street.Street_Name || '%' then 'Y'
         else ''
     end as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    upper ( ifnull ( Address.Building_Unit_Abbreviation , '' ) ) as blg_unit_type,
+    case
+        when upper ( Address.Building_Unit_Abbreviation ) = 'U' then 'UNIT'
+        when upper ( Address.Building_Unit_Abbreviation ) = 'P' then ''
+        when upper ( Address.Building_Unit_Abbreviation ) = 'REAR' then ''
+        else upper ( ifnull ( Address.Building_Unit_Abbreviation , '' ) )
+    end as blg_unit_type,
     upper ( ifnull ( Address.Addr_Building_Unit_Prefix_1 , '' ) ) as blg_unit_prefix_1,
     cast ( ifnull ( Address.Addr_Building_Unit_Number_1 , '' ) as varchar ) as blg_unit_id_1,
     upper ( ifnull ( Address.Addr_Building_Unit_Suffix_1 , '' ) ) as blg_unit_suffix_1,
@@ -91,10 +96,14 @@ select distinct
     upper ( ifnull ( Address.Addr_Floor_Prefix_2 , '' ) )  as floor_prefix_2,
     cast ( ifnull ( Address.Addr_Floor_Number_2 , '' ) as varchar ) as floor_no_2,
     upper ( ifnull ( Address.Addr_Floor_Suffix_2 , '' ) )  as floor_suffix_2,
-    upper ( ifnull ( Assessment.Assess_Property_Name , '' ) ) as building_name,
+    case
+        when Assessment.Assess_Property_Name like '%OWNER%' then ''
+        else upper ( ifnull ( Assessment.Assess_Property_Name , '' ) )
+    end as building_name,
     '' as complex_name,
     case
         when upper ( Street.Street_Name ) like 'OFF %' then 'OFF'
+        when upper ( Address.Building_Unit_Abbreviation ) = 'REAR' then 'REAR'
         else ''
     end as location_descriptor,
     upper ( ifnull ( Address.Addr_House_Prefix_1 , '' ) )  as house_prefix_1,
