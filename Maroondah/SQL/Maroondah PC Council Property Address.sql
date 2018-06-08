@@ -36,9 +36,18 @@ select distinct
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
-    '' as hsa_flag,
-    '' as hsa_unit_id,
+    case lpaadfm.tpklpaadfm
+        when 1802 then 'Y'
+        else ''
+    end as hsa_flag,
     case
+        when ifnull ( lpaadfm.tpklpaadfm , '' ) <> 1802 then ''
+        when ifnull ( lpaaddr.unitprefix , '' ) = 'G' then 'G' || substr ( '00' || cast ( cast ( lpaaddr.strunitnum as integer ) as varchar ) , -2 )
+        when ifnull ( lpaaddr.unitprefix , '' ) = 'B' then 'B' || cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
+        else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
+    end as hsa_unit_id,
+    case
+        when lpaadfm.tpklpaadfm = 1802 then ''
         when upper ( lpaaddr.unitprefix ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.unitprefix )
         when upper ( lpaaddr.unitprefix ) = 'CAR PARK' then 'CARP'
         when upper ( lpaaddr.unitprefix ) = 'COTTAGE' then 'CTGE'
@@ -53,24 +62,32 @@ select distinct
         else ''
     end as blg_unit_type,
     case
+        when lpaadfm.tpklpaadfm = 1802 then ''
         when length ( lpaaddr.unitprefix ) = 1 then lpaaddr.unitprefix
         else ''
     end as blg_unit_prefix_1,
     case
+        when lpaadfm.tpklpaadfm = 1802 then ''
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
         else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
     end as blg_unit_id_1,
-    ifnull ( lpaaddr.strunitsfx , '' ) as blg_unit_suffix_1,
+    case
+        when lpaadfm.tpklpaadfm = 1802 then ''
+        else ifnull ( lpaaddr.strunitsfx , '' )
+    end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
+        when lpaadfm.tpklpaadfm = 1802 then ''
         when lpaaddr.endunitnum = 0 or lpaaddr.endunitnum is null then ''
         else cast ( cast ( lpaaddr.endunitnum as integer ) as varchar )
     end as blg_unit_id_2,
     case
-       when trim ( lpaaddr.endunitsfx ) = '0' or lpaaddr.endunitsfx is null then ''
-       else trim ( lpaaddr.endunitsfx )
+        when lpaadfm.tpklpaadfm = 1802 then ''
+        when trim ( lpaaddr.endunitsfx ) = '0' or lpaaddr.endunitsfx is null then ''
+        else trim ( lpaaddr.endunitsfx )
     end as blg_unit_suffix_2,
     case
+        when lpaadfm.tpklpaadfm = 1802 then ''
         when length ( lpaaddr.lvlprefix ) <= 2 then upper ( lpaaddr.lvlprefix )
         when upper ( lpaaddr.lvlprefix ) = 'BASEMENT' then 'B'
         when upper ( lpaaddr.lvlprefix ) = 'LEVEL' then 'L'
@@ -80,12 +97,14 @@ select distinct
     end as floor_type,
     '' as floor_prefix_1,
     case
+        when lpaadfm.tpklpaadfm = 1802 then ''
         when lpaaddr.strlvlnum = 0 or lpaaddr.strlvlnum is null then ''
         else cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
     end as floor_no_1,
     '' as floor_suffix_1,
     '' as floor_prefix_2,
     case
+        when lpaadfm.tpklpaadfm = 1802 then ''
         when lpaaddr.endlvlnum = 0 or lpaaddr.endlvlnum is null then ''
         else cast ( cast ( lpaaddr.endlvlnum as integer ) as varchar )
     end as floor_no_2,
@@ -148,7 +167,8 @@ from
     pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join
     pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
-    pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
+    pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop left join
+    pathway_lpaadfm as lpaadfm on lpaadpr.tfklpaadfm = lpaadfm.tpklpaadfm
 where
     lpaprop.status in ( 'A', 'C' ) and
     lpaaddr.addrtype = 'P' and
