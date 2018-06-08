@@ -67,12 +67,12 @@ Include only properties that 1) already exist in Vicmap; 2) will appear in a P e
   propnum in ( select propnum from m1_a_edits ) )
 ```
 
-Exclude properties where the only difference between the Council and Vicmap address is a hyphen or an apostrophe.
+Include only properties where there is a difference between the Council and Vicmap address (apart from a hyphen or an apostrophe), or if it's a new hotel style address.
 
-```sql
-not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , '' )
 ```
-
+( not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , '' ) or
+  ( cpa.hsa_flag = 'Y' and vpa.hsa_flag = 'N' ) )
+```
 Include only properties where the council address has a valid road name.
 
 ```sql

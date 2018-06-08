@@ -104,6 +104,10 @@ select
             else ''
         end ||
         case
+            when cpa.hsa_flag = 'Y' and vpa.hsa_flag = 'N' then ' (**NOTE**: new hotel style address)'
+            else ''
+        end ||
+        case
             when length ( cpa.building_name ) > 45 then ' (**WARNING**: building name exceeds limit of 45 characters)'
             else ''
         end ||
@@ -123,7 +127,8 @@ where
     cpa.propnum not in ( select vpax.propnum from pc_vicmap_property_address vpax, m1_r_edits r where vpax.property_pfi = r.property_pfi ) and
     ( cpa.propnum in ( select propnum from pc_vicmap_property_address ) or
       cpa.propnum in ( select propnum from m1_p_edits ) ) and
-    not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , '' ) and
+    ( not replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) = ifnull ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , '' ) or
+      ( cpa.hsa_flag = 'Y' and vpa.hsa_flag = 'N' ) ) and
     not replace ( cpa.num_road_address , 'MT ' , 'MOUNT ' ) = ifnull ( replace ( vpa.num_road_address , 'MT ' , 'MOUNT ' ) , '' ) and
     cpa.road_name <> '' and
     not ( select count(*) from ( select distinct ezi_address from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum ) ) > 1
