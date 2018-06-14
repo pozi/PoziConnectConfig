@@ -44,4 +44,4 @@ select
 from
     vmprop_parcel_mp parcel left join
     ( select * from vmprop_parcel_property parcel_property join
-      vmprop_property_mp property on parcel_property.pr_pfi = property.prop_pfi and property.pr_ptype = 'O' ) property_lut on parcel.parcel_pfi = property_lut.parcel_pfi
+      vmprop_property_mp property on parcel_property.pr_pfi = property.prop_pfi ) property_lut on parcel.parcel_pfi = property_lut.parcel_pfi
