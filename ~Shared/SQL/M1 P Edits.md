@@ -42,10 +42,10 @@ Include only parcels that are not multi-assessments. (Multi-assessment edits are
 vp.multi_assessment <> 'Y'
 ```
 
-Include only one property per parcel. Sometimes a non-multi-assessment parcel has multiple properties because it is linked to both approved (A) and proposed (P) properties. DELWP's advice is to target the proposed one, so we select the property with the maximum value in the property status field.
+Include only one property per parcel. Sometimes a non-multi-assessment parcel has multiple properties because it is linked to both approved (A) and proposed (P) properties. DELWP's advice is to target the proposed one, so we select the property with the maximum value in the property status field for that particular parcel.
 
 ```sql
-vp.property_pfi in ( select property_pfi from ( select property_pfi, max ( property_status ) from pc_vicmap_parcel group by spi ) ) and
+vp.property_pfi in ( select property_pfi from ( select property_pfi, max ( property_status ) from pc_vicmap_parcel vpx where vpx.spi = vp.spi group by spi ) )
 ```
 
 Include only valid council property numbers.
