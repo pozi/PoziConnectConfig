@@ -79,7 +79,7 @@ where
     propnum <> 'NCPR' and
     (
         (
-            vp.spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum in ( select propnum from pc_council_parcel cpx where cpx.spi = vp.spi ) ) and
+            vp.spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum = vp.propnum and vpx.propnum in ( select propnum from pc_council_parcel cpx where cpx.spi = vp.spi ) ) and
             case cast ( strftime ( '%m' , 'now' ) as integer ) % 2
                 when 0 then property_pfi not in ( select min ( t.property_pfi ) from pc_vicmap_parcel t group by t.parcel_pfi )
                 when 1 then property_pfi not in ( select max ( t.property_pfi ) from pc_vicmap_parcel t group by t.parcel_pfi )
@@ -93,4 +93,5 @@ where
         vp.propnum not in ( select propnum from pc_council_property_address )
     )
 group by property_pfi
+order by property_view_pfi, plan_number, cast ( lot_number as integer )
 )

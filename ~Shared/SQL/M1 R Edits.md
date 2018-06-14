@@ -38,8 +38,12 @@ propnum <> 'NCPR'
 
 Include only parcels where the property number is not a correct match for one of the property's parcels. (Introduced after Baw Baw discovered a property (18153) being removed even though one of its parcels was correctly matched to one of the multi-assessment's parcels.)...
 
+*Update, March 2018*
+
+This query has been updated to include `vpx.propnum = vp.propnum` in order to force more multi-assessment retirements. It's been tested at South Gippsland Shire, and the results appear to include edits that are needed. It's not clear exactly how this works, or whether it includes edits that are not needed. It's possible that multi-assessments that are retired may reappear later. Ideally, this part of the query should be simplified to be more understandable which will make it easier to test.
+
 ```sql
-spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum in ( select propnum from pc_council_parcel cpx where cpx.spi = vp.spi ) )
+vp.spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum = vp.propnum and vpx.propnum in ( select propnum from pc_council_parcel cpx where cpx.spi = vp.spi ) )
 ```
 
 ...or where every parcel in the multi-assessment only belongs to one property.
