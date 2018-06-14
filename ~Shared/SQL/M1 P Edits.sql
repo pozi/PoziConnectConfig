@@ -101,7 +101,7 @@ from
 where
     vp.spi <> '' and
     vp.multi_assessment <> 'Y' and
-    vp.property_pfi in ( select property_pfi from ( select property_pfi, max ( property_status ) from pc_vicmap_parcel group by spi ) ) and
+    vp.property_pfi in ( select property_pfi from ( select property_pfi, max ( property_status ) from pc_vicmap_parcel vpx where vpx.spi = vp.spi group by spi ) ) and
     cp.propnum <> '' and
     cp.propnum in ( select propnum from pc_council_property_address ) and
     vp.spi = cp.spi and
