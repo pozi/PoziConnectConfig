@@ -140,7 +140,7 @@ from
 where
     A.association_type = 'PropLand' and
     A.date_ended is null and
-    P.status = 'C'
+    P.status in ( 'C' , 'F' )
 )
 )
 )
