@@ -89,7 +89,8 @@ from
 where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status <> '9' and
-    Assessment.Assess_Number < 999999999999
+    Assessment.Assess_Number < 999999999999 and
+    ifnull ( Title.Title_Plan_Number , '' ) <> 'zz--Obsolete/History'
 order by propnum, crefno
 )
 )
