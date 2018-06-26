@@ -28,7 +28,12 @@ select
 from (
 
 select distinct
-    printf ( "%.4f" , Assess_Number ) as propnum,
+    case
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.?' then cast ( Assessment.Assess_Number as varchar ) || '000'
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.??' then cast ( Assessment.Assess_Number as varchar ) || '00'
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.???' then cast ( Assessment.Assess_Number as varchar ) || '0'
+        when cast ( Assessment.Assess_Number as varchar ) glob '*.????' then cast ( Assessment.Assess_Number as varchar )
+    end as propnum,
     case Assessment.Assessment_Status
         when '25' then 'P'
         else ''
