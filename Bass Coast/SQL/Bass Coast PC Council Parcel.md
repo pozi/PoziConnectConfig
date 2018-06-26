@@ -4,19 +4,6 @@
 
 ### Attributes
 
-#### PropNum
-
-Pad the property number with the appropriate number of zeros.
-
-```sql
-case
-	when cast ( Assessment.Assess_Number as varchar ) glob '*.?' then cast ( Assessment.Assess_Number as varchar ) || '000'
-	when cast ( Assessment.Assess_Number as varchar ) glob '*.??' then cast ( Assessment.Assess_Number as varchar ) || '00'
-	when cast ( Assessment.Assess_Number as varchar ) glob '*.???' then cast ( Assessment.Assess_Number as varchar ) || '0'
-	when cast ( Assessment.Assess_Number as varchar ) glob '*.????' then cast ( Assessment.Assess_Number as varchar )
-end as propnum
-```
-
 #### Township Code
 
 ```sql
