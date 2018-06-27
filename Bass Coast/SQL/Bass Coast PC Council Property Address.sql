@@ -38,7 +38,15 @@ select distinct
         when '25' then 'P'
         else ''
     end as status,
-    '' as base_propnum,
+    case
+        when Assessment_Attributes.[Mapping Parent Assess No] = '' then ''
+        when cast ( trim ( Assessment_Attributes.[Mapping Parent Assess No] ) as float ) = Assessment.Assess_Number then ''
+        when trim ( Assessment_Attributes.[Mapping Parent Assess No] ) glob '*.?' then trim ( Assessment_Attributes.[Mapping Parent Assess No] ) || '000'
+        when trim ( Assessment_Attributes.[Mapping Parent Assess No] ) glob '*.??' then trim ( Assessment_Attributes.[Mapping Parent Assess No] ) || '00'
+        when trim ( Assessment_Attributes.[Mapping Parent Assess No] ) glob '*.???' then trim ( Assessment_Attributes.[Mapping Parent Assess No] ) || '0'
+        when trim ( Assessment_Attributes.[Mapping Parent Assess No] ) glob '*.????' then trim ( Assessment_Attributes.[Mapping Parent Assess No] )
+        else trim ( Assessment_Attributes.[Mapping Parent Assess No] ) || '.0000'
+    end as base_propnum,
     case
         when Address.Addr_Is_Primary_Address = '0' then 'N'
         when
@@ -147,7 +155,8 @@ from
     propertygov_street_locality as Street_Locality on Address.Street_Locality_Id = Street_Locality.Street_Locality_Id inner join
     propertygov_street as Street on Street_Locality.Street_Id = Street.Street_Id inner join
     propertygov_locality as Locality on Street_Locality.Locality_Id = Locality.Locality_Id left join
-    propertygov_street_type as Street_Type on Street.Street_Type_Abbreviation = Street_Type.Street_Type_Abbreviation
+    propertygov_street_type as Street_Type on Street.Street_Type_Abbreviation = Street_Type.Street_Type_Abbreviation left join
+    propertygov_v_assessment_w_attributes as Assessment_Attributes on Assessment.Assess_Number = Assessment_Attributes.Assess_Number
 where
     Parcel.Parcel_Status = 0 and
     Assessment.Assessment_Status <> '9' and
