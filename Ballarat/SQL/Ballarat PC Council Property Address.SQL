@@ -82,13 +82,13 @@ select distinct
     end as floor_type,
     '' as floor_prefix_1,
     case
-        when upper ( lpaaddr.lvlprefix ) in ( 'FLOOR' , 'LEVEL' ) then trim ( lpaaddr.strlvlnum )
+        when upper ( lpaaddr.lvlprefix ) in ( 'FLOOR' , 'LEVEL' ) then cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
         else ''
     end as floor_no_1,
     '' as floor_suffix_1,
     '' as floor_prefix_2,
     case
-        when upper ( lpaaddr.lvlprefix ) in ( 'FLOOR' , 'LEVEL' ) and trim ( lpaaddr.endlvlnum ) <> '0' then trim ( lpaaddr.endlvlnum )
+        when upper ( lpaaddr.lvlprefix ) in ( 'FLOOR' , 'LEVEL' ) and lpaaddr.endlvlnum <> 0 then cast ( cast ( lpaaddr.endlvlnum as integer ) as varchar )
         else ''
     end as floor_no_2,
     '' as floor_suffix_2,
