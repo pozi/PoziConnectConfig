@@ -40,6 +40,7 @@ select distinct
     end as status,
     case
         when Assessment_Attributes.[Mapping Parent Assess No] = '' then ''
+        when ( select x.Assessment_Status from propertygov_assessment x where x.Assess_Number = Assessment_Attributes.[Mapping Parent Assess No] ) = 9 then ''
         when cast ( trim ( Assessment_Attributes.[Mapping Parent Assess No] ) as float ) = Assessment.Assess_Number then ''
         when trim ( Assessment_Attributes.[Mapping Parent Assess No] ) glob '*.?' then trim ( Assessment_Attributes.[Mapping Parent Assess No] ) || '000'
         when trim ( Assessment_Attributes.[Mapping Parent Assess No] ) glob '*.??' then trim ( Assessment_Attributes.[Mapping Parent Assess No] ) || '00'
