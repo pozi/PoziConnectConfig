@@ -56,7 +56,30 @@ select distinct
     '' as block,
     '' as portion,
     '' as subdivision,
-    ifnull ( cnacomp.descrsrch , '' ) as parish_code,
+    case ( select x.tfklpadesc from pathway_lpadepa x where x.tfklpaparc = lpaparc.tpklpaparc and x.tfklpadetp = 21 )
+        when 60 then '2002'
+        when 61 then '2028'
+        when 62 then '2046'
+        when 63 then '2224'
+        when 64 then '2279'
+        when 65 then '2287'
+        when 66 then '2305'
+        when 67 then '2344'
+        when 68 then '2387'
+        when 69 then '2391'
+        when 70 then '2464'
+        when 71 then '2542'
+        when 72 then '2592'
+        when 73 then '2597'
+        when 74 then '2671'
+        when 75 then '2740'
+        when 76 then '3495'
+        when 77 then '3638'
+        when 78 then '3760'
+        when 79 then '3832'
+        when 80 then '3971'
+        else ''
+    end as parish_code,
     case ( select x.tfklpadesc from pathway_lpadepa x where x.tfklpaparc = lpaparc.tpklpaparc and x.tfklpadetp = 22 )
         when 81 then '5030'
         when 82 then '5031'
@@ -78,7 +101,6 @@ from
     pathway_lpaprop as lpaprop left join
     pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
     pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join
-    pathway_cnacomp as cnacomp on lpaaddr.tfkcnacomp = cnacomp.tpkcnacomp left join
     pathway_lpaprti_mod as lpaprti_mod on lpaprop.tpklpaprop = lpaprti_mod.tfklpaprop left join
     pathway_lpatitl as lpatitl on lpaprti_mod.tfklpatitl = lpatitl.tpklpatitl left join
     pathway_lpatipa as lpatipa on lpatitl.tpklpatitl = lpatipa.tfklpatitl left join
