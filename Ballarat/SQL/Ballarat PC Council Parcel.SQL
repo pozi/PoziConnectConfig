@@ -44,14 +44,34 @@ select distinct
         when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 )
         else ''        
     end as plan_numeral,
-    ifnull ( lpaparc.parcelnum , '' ) as lot_number,
-    ifnull ( lpaparc.parcelnum , '' ) as allotment,
+    case
+        when lpaparc.plancode is not null then replace ( ifnull ( lpaparc.parcelnum , '' ) , ' ' , '' )
+        else ''
+    end as lot_number,
+    case
+        when lpaparc.plancode is null then ifnull ( lpaparc.parcelnum , '' )
+        else ''
+    end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
     ifnull ( cnacomp.descrsrch , '' ) as parish_code,
-    '' as township_code,
+    case ( select x.tfklpadesc from pathway_lpadepa x where x.tfklpaparc = lpaparc.tpklpaparc and x.tfklpadetp = 22 )
+        when 81 then '5030'
+        when 82 then '5031'
+        when 83 then '5032'
+        when 84 then '5531'
+        when 85 then '5457'
+        when 86 then '5134'
+        when 87 then '5259'
+        when 88 then '5362'
+        when 89 then '5585'
+        when 90 then '5707'
+        when 91 then '5840'
+        when 92 then '2287A'
+        else ''
+    end as township_code,
     '302' as lga_code,
     cast ( lpaprop.tpklpaprop as varchar ) as assnum
 from
