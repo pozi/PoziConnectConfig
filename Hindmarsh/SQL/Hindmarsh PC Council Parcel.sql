@@ -151,11 +151,6 @@ select
         when auprparc.uda_cd3 = 'SB' then '5696'
         when auprparc.uda_cd3 = 'TG' then '5766'
         when auprparc.uda_cd3 = 'YS' then '5895'
-        when auprparc.ttl_cde = 4 then
-            case auprparc.uda_cd1
-                when 'WP' then '5664'
-                else ''
-            end
         else ''
     end as township_code,
     case
