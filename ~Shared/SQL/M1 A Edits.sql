@@ -114,3 +114,4 @@ where
     ( select vp.property_view_pfi from pc_vicmap_parcel vp where vp.spi = cp.spi ) not in ( select property_view_pfi from pc_vicmap_property_address vpa where property_pfi in ( select property_pfi from m1_r_edits ) )
 ) as cpx
 group by property_pfi, propnum
+order by cast ( property_pfi as integer ) desc
