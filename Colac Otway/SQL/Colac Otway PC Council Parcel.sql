@@ -92,10 +92,11 @@ select
     end as portion,
     '' as subdivision,
     case
-        when auprparc.ttl_cde = 9 then ifnull ( auprparc.udn_cd1 , '' )
+        when auprparc.ttl_cde = 9 and auprparc.udn_cd1 < 5000 then cast ( auprparc.udn_cd1 as varchar )
         else ''
     end as parish_code,
     case
+        when auprparc.ttl_cde = 9 and auprparc.udn_cd1 > 5000 then cast ( auprparc.udn_cd1 as varchar )
         when auprparc.ttl_cde = 9 and auprparc.udn_cd1 = 2405 then '5186'
         else ''
     end as township_code,
