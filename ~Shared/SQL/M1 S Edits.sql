@@ -112,7 +112,7 @@ select
             else ''
         end ||
         case
-            when replace ( cpa.road_locality , '-' , ' ' ) not in ( select replace ( road_locality , '-' , ' ' ) from pc_vicmap_property_address ) then ' (**WARNING**: new road name)'
+            when replace ( cpa.road_locality , '-' , ' ' ) not in ( select replace ( road_locality , '-' , ' ' ) from pc_vicmap_property_address ) and vpa.road_locality not like '%(%' then ' (**WARNING**: new road name)'
             else ''
         end as comments,
     centroid ( vpa.geometry ) as geometry
