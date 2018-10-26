@@ -139,7 +139,7 @@ select
         when upper (S.street_name) = 'CRANBOURNE PARK S/CENTRE' then 'GREAVES'
         when upper (S.street_name) = 'WESTFIELD F/GATE' then 'PRINCES'
         when upper ( substr ( S.street_name , -4 ) ) in ( ' END' , ' ROW' , ' RUN', ' KEY', ' WAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
-        when upper ( substr ( S.street_name , -5 ) ) in ( ' BEND', ' BRAE', ' COVE', ' DENE', ' EDGE', ' GLEN', ' HILL', ' LANE', ' LINK', ' MEWS', ' NOOK' , ' QUAY', ' PATH', ' RISE', ' ROAD', ' TURN', ' VIEW', ' WALK', ' WYND' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
+        when upper ( substr ( S.street_name , -5 ) ) in ( ' BEND', ' BRAE', ' COVE', ' DENE', ' EDGE', ' GLEN', ' HILL', ' LANE', ' LINK', ' LOOP', ' MEWS', ' NOOK' , ' QUAY', ' PATH', ' RISE', ' ROAD', ' TURN', ' VIEW', ' WALK', ' WYND' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
         when upper ( substr ( S.street_name , -6 ) ) in ( ' ALLEY', ' CHASE', ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA', ' GREEN' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 6 ) )
         when upper ( substr ( S.street_name , -7 ) ) in ( ' ACCESS', ' ARCADE', ' AVENUE', ' BYPASS', ' CIRCLE', ' DIVIDE', ' GRANGE', ' PARADE', ' SQUARE', ' STREET', ' WATERS' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 7 ) )
         when upper ( substr ( S.street_name , -8 ) ) in ( ' BY-PASS', ' CIRCUIT', ' CUTTING', ' FREEWAY', ' GARDENS', ' HIGHWAY', ' PARKWAY', ' RETREAT', ' TERRACE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 8 ) )
@@ -194,6 +194,7 @@ select
         when S.street_name like '% HILL' then 'HILL'
         when S.street_name like '% LANE%' then 'LANE'
         when S.street_name like '% LINK%' then 'LINK'
+        when S.street_name like '% LOOP%' then 'LOOP'
         when S.street_name like '% MEWS%' then 'MEWS'
         when S.street_name like '% NOOK%' then 'NOOK'
         when S.street_name like '% PARADE%' then 'PARADE'
