@@ -156,11 +156,11 @@ select
     case
         when upper (S.street_name) = 'WESTFIELD F/GATE' then 'HIGHWAY'
         when upper (S.street_name) = 'CRANBOURNE PARK S/CENTRE' then 'STREET'
+        when S.street_name like '% AVENUE%' then 'AVENUE'
         when S.street_name like '% ROAD%' then 'ROAD'
         when S.street_name like '% ACCESS%' then 'ACCESS'
         when S.street_name like '% ALLEY%' then 'ALLEY'
         when S.street_name like '% ARCADE%' then 'ARCADE'
-        when S.street_name like '% AVENUE%' then 'AVENUE'
         when S.street_name like '% BEND%' then 'BEND'
         when S.street_name like '% BOULEVARDE%' then 'BOULEVARDE'
         when S.street_name like '% BOULEVARD%' then 'BOULEVARD'
