@@ -120,6 +120,15 @@ select
     '' as building_name,
     case
         when upper (S.street_name) = 'WESTFIELD F/GATE' then 'WESTFIELD FOUNTAIN GATE SHOPPING CENTRE'
+        when A.property_name like '%Amberley Park S/C' then 'AMBERLEY PARK SHOPPING CENTRE'
+        when A.property_name like '%Casey Central S/C' then 'CASEY CENTRAL SHOPPING CENTRE'
+        when A.property_name like '%Clarinda Village S/C' then 'CLARINDA VILLAGE SHOPPING CENTRE'
+        when A.property_name like '%Cranbourne Park S/C' then 'CRANBOURNE PARK SHOPPING CENTRE'
+        when A.property_name like '%C''bourne Park S/C' then 'CRANBOURNE PARK SHOPPING CENTRE'
+        when A.property_name like '%Eden Rise S/C' then 'EDEN RISE SHOPPING CENTRE'
+        when A.property_name like '%F/Gate S/C' then 'WESTFIELD FOUNTAIN GATE SHOPPING CENTRE'
+        when A.property_name like '%Hunt Club S/C' then 'HUNT CLUB SHOPPING CENTRE'
+        when A.property_name like '%Selandra Rise S/C' then 'SELANDRA RISE SHOPPING CENTRE'
         else ''
     end as complex_name,
     '' as house_prefix_1,
