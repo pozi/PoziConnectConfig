@@ -43,6 +43,9 @@ select
         when A.unit_no is not null and A.unit_no <> 0 then
             case upper ( A.unit_desc )
                 when 'FACTORY' then 'FCTY'
+                when 'FC' then 'SHOP'
+                when 'FY' then 'FCTY'
+                when 'KIOSK' then 'KSK'
                 when 'OFFICE' then 'OFFC'
                 else ifnull ( upper ( A.unit_desc ) , '' )
             end
@@ -102,7 +105,11 @@ select
         else ifnull ( A.unit_no_to , '' )
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
-    ifnull ( replace ( upper ( A.floor_desc ) , 'FLOOR' , 'FL' ) , '' ) as floor_type,
+    case upper ( A.floor_desc )
+        when 'FLOOR' then 'FL'
+        when 'LEVEL' then 'L'
+        else ifnull ( upper ( A.floor_desc ) , '' )
+    end as floor_type,
     '' as floor_prefix_1,
     case
         when A.floor_no = 0 then ''
