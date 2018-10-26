@@ -55,8 +55,8 @@ select
     cast ( A.key1 as varchar) as assnum
 from
     techone_nucland L
-    join techone_nucassociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F')
-    join techone_nucproperty P on A.Key1 = P.Property_no
+    join techone_nucassociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F' )
+    join techone_nucproperty P on A.Key1 = P.Property_no and P.status in ( 'C' , 'F' )
     left join techone_nucassociation T on A.Key1 = T.Key1 and A.key2 = t.key2 and
     T.association_type = 'TransPRLD' and A.date_ended is null
 where
