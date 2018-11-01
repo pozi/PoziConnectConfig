@@ -92,7 +92,7 @@ select distinct
         else ''
     end as floor_no_2,
     '' as floor_suffix_2,
-    ifnull ( upper ( lpapnam.propname ) , '' ) as building_name,
+    '' as building_name,
     '' as complex_name,
     case
         when upper ( lpaaddr.prefix ) in ( 'ABOVE' ) then 'ABOVE'
