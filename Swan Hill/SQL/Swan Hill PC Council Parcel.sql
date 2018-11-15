@@ -6,6 +6,18 @@ from
 select
     *,
     case
+        when internal_spi <> '' then internal_spi
+        else constructed_spi
+    end as spi,
+    case
+        when internal_spi <> '' then 'council_spi'
+        else 'council_attributes'
+    end as spi_source
+from
+(
+select
+    *,
+    case
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
@@ -21,7 +33,7 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as spi
+    end as constructed_spi
 from
 (
 select distinct
@@ -32,7 +44,7 @@ select distinct
         else ''
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
-    ttl_nme as internal_spi,
+    ifnull ( ttl_nme , '' ) as internal_spi,
     case
         when auprparc.ttl_cde in ( 10 , 19 , 20 ) then 'P'
         else ''
@@ -128,5 +140,6 @@ where
     auprparc.ttl_cde not in ( 12 , 13 , 14 , 15 , 16 , 17 )
 order by
     ass_num
+)
 )
 )
