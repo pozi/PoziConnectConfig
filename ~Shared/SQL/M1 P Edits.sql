@@ -89,10 +89,6 @@ select
             when ( select locality_name from pc_vicmap_property_address where property_pfi = vp.property_pfi ) <> ( select locality_name from pc_council_property_address where propnum = cp.propnum ) then ' (**WARNING**: conflicting localities)'
             when ( vp.primary_address_pfi in ( select address_pfi from pc_vicmap_property_address where distance_related_flag = 'Y' ) and vp.propnum in ( select propnum from pc_vicmap_property_parcel_count where propnum not in ( '' , 'NCPR' ) and num_parcels > 1 ) ) then ' (**WARNING**: transfer of parcel includes existing primary distance-based address)'
             else ''
-        end ||
-        case
-            when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then ' (**NOTE**: parcel is linked to multiple properties)'
-            else ''
         end as comments,
     centroid ( vp.geometry ) as geometry
 from
