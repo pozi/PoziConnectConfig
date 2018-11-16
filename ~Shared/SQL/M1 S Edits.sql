@@ -100,7 +100,7 @@ select
             else ''
         end ||
         case
-            when vpa.locality_name <> cpa.locality_name then ' (**WARNING**: different locality)'
+            when vpa.locality_name <> cpa.locality_name and vpa.locality_name not like '%(%' then ' (**WARNING**: different locality)'
             else ''
         end ||
         case
