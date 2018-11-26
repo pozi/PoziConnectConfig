@@ -70,7 +70,7 @@ select
         when Parcel.Lot = 'CROWN LAND' then ''
         when Parcel.Lot glob '?(*' then substr ( Parcel.Lot , 1 , 1 )
         when Parcel.Lot glob '??(*' then substr ( Parcel.Lot , 1 , 2 )
-        else Parcel.Lot
+        else upper ( Parcel.Lot )
     end as lot_number,
     Parcel.CrownAllotment as allotment,
     case
