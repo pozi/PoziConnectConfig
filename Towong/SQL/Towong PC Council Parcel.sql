@@ -38,7 +38,10 @@ select
 from
 (
 select
-    cast ( Parcel.PropertyNumber as varchar ) as propnum,
+    case
+        when Parcel.Lot like 'CM%' then 'NCPR'
+        else cast ( Parcel.PropertyNumber as varchar )
+    end as propnum,
     '' as status,
     cast ( Parcel.LandParcelNumber as varchar ) as crefno,
     ifnull ( Parcel.StandardParcelId , '' ) as internal_spi,
