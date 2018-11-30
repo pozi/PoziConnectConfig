@@ -44,7 +44,7 @@ select
                     end
                 else ''
             end    
-        when auprparc.ttl_cde in ( 11 , 12 ) then 'P'
+        when auprparc.ttl_cde = 11 then 'P'
         else ''
     end as part,
     case auprparc.ttl_cde
@@ -89,7 +89,8 @@ select
         else ''
     end as lot_number,    
     case
-        when auprparc.ttl_cde in ( 9 , 10 , 11 , 12 ) then ifnull ( trim ( auprparc.ttl_no1 ) , '' )
+        when auprparc.ttl_cde in ( 9 , 10 , 11 ) then ifnull ( trim ( auprparc.ttl_no1 ) , '' )
+        when auprparc.ttl_cde = 12 and ifnull ( auprparc.ttl_no1 , '' ) not in ( '' , '9999' ) then trim ( auprparc.ttl_no1 )
         else ''
     end as allotment,
     case
@@ -98,7 +99,15 @@ select
         else ''
     end as sec,
     '' as block,
-    '' as portion,
+    case
+        when auprparc.ttl_cde = 12 then
+            case 
+                when ifnull ( auprparc.ttl_no4 , '' ) not in ( '' , 'NONE' , '9999' ) then trim ( auprparc.ttl_no4 )
+                when ifnull ( auprparc.ttl_no1 , '' ) not in ( '' , 'NONE' , '9999' ) then trim ( auprparc.ttl_no1 )
+                else ''
+            end
+        else ''
+    end as portion,
     case
         when ( auprparc.ttl_cde = 16 ) then trim ( auprparc.ttl_in5 )
         else ''
@@ -129,7 +138,7 @@ select
         when 9 then '5791'
         else ''
     end as township_code,
-    fmt_ttl as summary,
+    ifnull ( fmt_ttl , '' ) as summary,
     '344' as lga_code,
     cast ( auprparc.ass_num as varchar ) as assnum
 from
