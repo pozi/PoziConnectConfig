@@ -240,6 +240,7 @@ select
         when S.street_name like '% VISTA%' then 'VISTA'
         when S.street_name like '% WALK%' then 'WALK'
         when S.street_name like '% WATERS%' then 'WATERS'
+        when S.street_name like '% WATERWAY%' then 'WATERWAY'
         when S.street_name like '% WAY%' then 'WAY'
         when S.street_name like '% WYND%' then 'WYND'
         when S.street_name like '% ACCESS%' then 'ACCESS'
