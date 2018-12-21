@@ -58,8 +58,8 @@ select
     end  as blg_unit_prefix_1,
     case
         when A.modifier_desc = 'BTSD' then ifnull ( A.house_no , '' )
-        when A.unit_no = '0' then ''
-        else ifnull ( A.unit_no , '' )
+        when A.unit_no = 0 then ''
+        else cast ( ifnull ( A.unit_no , '' ) as varchar )
     end as blg_unit_id_1,
     case
         when A.modifier_desc = 'BTSD' then upper ( ifnull ( A.house_no_suffix , '' ) )
@@ -68,21 +68,21 @@ select
     '' as blg_unit_prefix_2,
     case
         when A.modifier_desc = 'BTSD' then ifnull ( A.house_no_to , '' )
-        when A.unit_no_to = '0' then ''
-        else ifnull ( A.unit_no_to , '' )
+        when A.unit_no_to = 0 then ''
+        else cast ( ifnull ( A.unit_no_to , '' ) as varchar )
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
     '' as floor_type,
     '' as floor_prefix_1,
     case
-        when A.floor_no = '0' then ''
-        else ifnull ( A.floor_no , '' )
+        when A.floor_no = 0 then ''
+        else cast ( ifnull ( A.floor_no , '' ) as varchar )
     end as floor_no_1,
     upper ( ifnull ( A.floor_suffix , '' ) ) as floor_suffix_1,
     '' as floor_prefix_2,
     case
-        when A.floor_no_to = '0' then ''
-        else ifnull ( A.floor_no_to , '' )
+        when A.floor_no_to = 0 then ''
+        else cast ( ifnull ( A.floor_no_to , '' ) as varchar )
     end as floor_no_2,
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
     upper ( ifnull ( A.property_name , '' ) ) as building_name,
@@ -120,8 +120,8 @@ select
     '' as house_prefix_1,
     case
         when A.modifier_desc = 'BTSD' then ''
-        when A.house_no = '0' then ''
-        else ifnull ( A.house_no , '' )
+        when A.house_no = 0 then ''
+        else cast ( ifnull ( A.house_no , '' ) as varchar )
     end as house_number_1,
     case
         when A.modifier_desc = 'BTSD' then ''
@@ -130,8 +130,8 @@ select
     '' as house_prefix_2,
     case
         when A.modifier_desc = 'BTSD' then ''
-        when A.house_no_to = '0' then ''
-        else ifnull ( A.house_no_to , '' )
+        when A.house_no_to = 0 then ''
+        else cast ( ifnull ( A.house_no_to , '' ) as varchar )
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
     case
