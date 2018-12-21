@@ -57,7 +57,11 @@ select
         else ifnull ( A.unit_desc , '' )
     end  as blg_unit_prefix_1,
     case
-        when A.modifier_desc = 'BTSD' then ifnull ( A.house_no , '' )
+        when A.modifier_desc = 'BTSD' then
+            case
+                when A.house_no = 0 then ''
+                else cast ( ifnull ( A.house_no , '' ) as varchar )
+            end
         when A.unit_no = 0 then ''
         else cast ( ifnull ( A.unit_no , '' ) as varchar )
     end as blg_unit_id_1,
@@ -67,7 +71,11 @@ select
     end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
-        when A.modifier_desc = 'BTSD' then ifnull ( A.house_no_to , '' )
+        when A.modifier_desc = 'BTSD' then
+            case
+                when A.house_no_to = 0 then ''
+                else cast ( ifnull ( A.house_no_to , '' ) as varchar )
+            end
         when A.unit_no_to = 0 then ''
         else cast ( ifnull ( A.unit_no_to , '' ) as varchar )
     end as blg_unit_id_2,
