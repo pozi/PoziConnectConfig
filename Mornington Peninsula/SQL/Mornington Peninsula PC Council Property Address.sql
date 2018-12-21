@@ -143,6 +143,7 @@ select
     end as house_number_2,
     upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
     case
+        when upper ( S.street_name ) = 'A''BECKETT CLOSE' then 'ABECKETT'
         when upper ( S.street_name ) = 'TANKERTON ESTATE' then ''
         when S.street_name like 'THE %' then
             case upper ( S.street_name )
