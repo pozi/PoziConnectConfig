@@ -39,7 +39,7 @@ from
 select
     cast ( Parcel.PropertyNumber as varchar ) as propnum,
     '' as status,
-    '' as crefno,
+    cast ( Parcel.LandParcelNumber as varchar ) as crefno,
     case
         when Parcel.StandardParcelId = '' then ''
         when Parcel.StandardParcelId like '%\%' then Parcel.StandardParcelId
