@@ -132,7 +132,7 @@ where
     Street.Type = StreetType.ID and
     Street.Locality = Locality.ID and
     Property.Type not in ( 0 , 672 ) and
-    Property.Property in ( select PropertyNumber from lynx_vwlandparcel )
+    Property.Property in ( select PropertyNumber from lynx_vwlandparcel where Ended is null )
 )
 )
 )
