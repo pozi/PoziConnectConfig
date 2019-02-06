@@ -78,7 +78,13 @@ select
                     else ''
                 end
         end ||
-        ' with ' || cp.crefno || ' (propnum ' || cp.propnum || ifnull ( ', ' || ( select cpa.ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum limit 1 ) , '' ) || ')' as comments,
+        ' with ' || cp.crefno ||
+        case cp.status
+            when 'P' then ' (proposed)'
+            else ''
+        end ||
+        ' (propnum ' || cp.propnum ||
+        ifnull ( ', ' || ( select cpa.ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum limit 1 ) , '' ) || ')' as comments,
     centroid ( vp.geometry ) as geometry
 from
     pc_vicmap_parcel vp,
