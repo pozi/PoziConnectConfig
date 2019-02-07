@@ -94,8 +94,12 @@ select
         else cast ( ifnull ( A.floor_no_to , '' ) as varchar )
     end as floor_no_2,
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
-    upper ( ifnull ( A.property_name , '' ) ) as building_name,
     case
+        when upper ( A.property_name ) in ( 'THE VILLAGE GLEN', 'ST JOHNS RETIREMENT VILLAGE', 'HASTINGS COVE RETIREMENT VILLAGE', 'ROSEBUD RETIREMENT VILLAGE', 'MORVEN MANOR', 'WESTERNPORT GARDENS RETIRE VLG', 'BALNARRING VILLAGE SHOPPING CENTRE' ) then ''
+        else upper ( ifnull ( A.property_name , '' ) )
+    end as building_name,
+    case
+        when upper ( A.property_name ) in ( 'THE VILLAGE GLEN', 'ST JOHNS RETIREMENT VILLAGE', 'HASTINGS COVE RETIREMENT VILLAGE', 'ROSEBUD RETIREMENT VILLAGE', 'MORVEN MANOR', 'WESTERNPORT GARDENS RETIRE VLG', 'BALNARRING VILLAGE SHOPPING CENTRE' ) then upper ( A.property_name )
         when upper ( S.street_name ) = 'TANKERTON ESTATE' then 'TANKERTON ESTATE'
         when upper ( A.formatted_address ) like '%CANADIAN BAY FORESHORE%' then 'CANADIAN BAY FORESHORE'
         when upper ( A.formatted_address ) like '%CAPEL SOUND FORESHORE%' then 'CAPEL SOUND FORESHORE'
