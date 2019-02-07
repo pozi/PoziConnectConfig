@@ -80,7 +80,7 @@ select
         else cast ( ifnull ( A.unit_no_to , '' ) as varchar )
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
-    '' as floor_type,
+    upper ( ifnull ( substr ( A.floor_desc , 1 , 1 ) , '' ) ) as floor_type,
     '' as floor_prefix_1,
     case
         when A.floor_no = 0 then ''
