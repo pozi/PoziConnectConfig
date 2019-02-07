@@ -49,11 +49,12 @@ select
         when upper ( A.unit_desc ) in ( 'FLAT' , 'SHOP' ) then upper ( A.unit_desc )
         when upper ( A.unit_desc ) = 'KIOSK' then 'KSK'
         when upper ( A.unit_desc ) = 'OFFICE' then 'OFFC'
+        when upper ( A.unit_desc ) = 'STORE' then 'STOR'
         when upper ( A.unit_desc ) = 'SUITE' then 'SE'
         else ''
     end as blg_unit_type,
     case
-        when upper ( A.unit_desc ) in ( 'FLAT' , 'KIOSK' , 'OFFICE' , 'REAR' , 'SHOP' , 'SUITE' ) then ''
+        when upper ( A.unit_desc ) in ( 'FLAT' , 'KIOSK' , 'OFFICE' , 'REAR' , 'SHOP' , 'STORE' , 'SUITE' ) then ''
         else ifnull ( A.unit_desc , '' )
     end  as blg_unit_prefix_1,
     case
