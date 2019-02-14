@@ -146,13 +146,15 @@ from
     pathway_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpacrwn.tfklpaparc left join
     pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left join
     pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
-    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm
+    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm left join
+    pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp
 where
     lpaprop.status <> 'H' and
     lpaparc.status <> 'H' and
     lpatipa.status <> 'H' and
     lpaprti.status <> 'H' and
     lpatitl.status <> 'H' and
-    ifnull ( lpaparc.plancode , '' ) in ( '' , 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' )
+    ifnull ( lpaparc.plancode , '' ) in ( '' , 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) and
+    lpaprtp.tpklpaprtp not in ( 15 , 16 )
 )
 )
