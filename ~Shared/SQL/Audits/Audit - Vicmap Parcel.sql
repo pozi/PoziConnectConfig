@@ -1,7 +1,7 @@
 select
     spi as spi,
     parcel_pfi as parcel_pfi,
-    '=hyperlink("https://vicmap.pozi.com/?parcelpfi=' || parcel_pfi || '","Click here for Pozi map")' as pozi_map,
+    '=hyperlink("https://vicmap.pozi.com/?parcelpfi=' || parcel_pfi || '","https://vicmap.pozi.com/?parcelpfi=' || parcel_pfi || '")' as pozi_map,
     crefno as crefno,
     status as status,
     crown_status as crown_status,
