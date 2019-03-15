@@ -54,10 +54,10 @@ Include only valid council property numbers.
 cp.propnum <> ''
 ```
 
-Include only parcels whose property number has a corresponding record in the Council property table. (Ideally the council data extract would include only these parcels anyway.)
+Include only parcels whose property number has a corresponding record in the Council property table or is populated with 'NCPR'. (Ideally the council data extract would include only these parcels anyway.)
 
 ```sql
-cp.propnum in ( select propnum from pc_council_property_address )
+cp.propnum in ( select propnum from ( cp.propnum in ( select propnum from pc_council_property_address ) or cp.propnum = 'NCPR' )pc_council_property_address )
 ```
 
 Include only parcels where Vicmap and Council agree on the parcel description.

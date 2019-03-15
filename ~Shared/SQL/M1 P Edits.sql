@@ -99,7 +99,7 @@ where
     vp.multi_assessment <> 'Y' and
     vp.property_pfi in ( select property_pfi from ( select property_pfi, max ( property_status ) from pc_vicmap_parcel vpx where vpx.spi = vp.spi group by spi ) ) and
     cp.propnum <> '' and
-    cp.propnum in ( select propnum from pc_council_property_address ) and
+    ( cp.propnum in ( select propnum from pc_council_property_address ) or cp.propnum = 'NCPR' ) and
     vp.spi = cp.spi and
     vp.spi not in ( select spi from pc_council_parcel where propnum = vp.propnum ) and
     vp.propnum <> cp.propnum and
