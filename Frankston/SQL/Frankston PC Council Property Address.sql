@@ -42,6 +42,7 @@ select
         when lpaaddr.unitprefix is null then ''
         when lpaaddr.unitprefix = 'Com Prop' then ''
         when upper ( lpaaddr.unitprefix ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.unitprefix )
+        when lpaaddr.unitprefix = 'Apartment' then 'APT'
         when lpaaddr.unitprefix = 'BathingBox' then 'BBOX'
         when lpaaddr.unitprefix = 'Car Wash' then 'CARW'
         when lpaaddr.unitprefix = 'Carpark' then 'CARP'
