@@ -120,10 +120,10 @@ Exclude matches where the Vicmap parcel type is 13 (ie, road parcel) and there i
 not ( vp.desc_type = '13' and vp.parcel_pfi not in ( select parcel_pfi from vmprop_parcel_property ) )
 ```
 
-Exclude matches where the existing property is NCPR which has an house number. (This is an interim measure to consider the possibility to exclude all NCPR from being replaced.)
+Exclude matches where the existing property is NCPR which has a different address to the council's address.
 
 ```sql
-not ( vp.propnum = 'NCPR' and ( select num_address from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi and vpa.is_primary <> 'N' ) <> '' )
+not ( vp.propnum = 'NCPR' and ( select ezi_address from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi and vpa.is_primary <> 'N' ) <> ( select ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum and cpa.is_primary <> 'N' ) )
 ```
 
 Return only one record per parcel.
