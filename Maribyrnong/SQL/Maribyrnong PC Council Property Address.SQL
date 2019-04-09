@@ -36,27 +36,35 @@ select distinct
         else 'N'
     end as is_primary,
     '' as distance_related_flag,
-    '' as hsa_flag,
-    '' as hsa_unit_id,
-    '' as blg_unit_type,
     case
-        when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then 'G'
+        when auprstad.pcl_unt > 100 and auprstad.pcl_unt < 2000 then 'Y'
+        when length ( replace ( auprstad.flo_num , '/' , '' ) ) = 3 then 'Y'
         else ''
-    end as blg_unit_prefix_1,
+    end as hsa_flag,
     case
-        when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then replace ( replace ( auprstad.unt_alp , 'G0' , '') , 'G' , '' )
-        else ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' )
+        when auprstad.pcl_unt > 100 and auprstad.pcl_unt < 2000 then cast ( auprstad.pcl_unt as varchar ) || ifnull ( auprstad.unt_alp , '' )
+        when length ( replace ( auprstad.flo_num , '/' , '' ) ) = 3 then replace ( auprstad.flo_num , '/' , '' )
+        else ''
+    end as hsa_unit_id,
+    '' as blg_unit_type,
+    '' as blg_unit_prefix_1,
+    case
+        when auprstad.pcl_unt <= 100 or auprstad.pcl_unt >= 2000 then cast ( auprstad.pcl_unt as varchar )
+        else ''
     end as blg_unit_id_1,
     case
-        when ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) = '' and auprstad.unt_alp <> '' then ''
-        else ifnull ( auprstad.unt_alp , '' )
+        when auprstad.pcl_unt <= 100 or auprstad.pcl_unt >= 2000 then ifnull ( auprstad.unt_alp , '' )
+        else ''
     end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     ifnull ( auprstad.unt_end , '' ) as blg_unit_id_2,
     '' as blg_unit_suffix_2,
     '' as floor_type,
     ifnull ( auprstad.flo_pre , '' ) as floor_prefix_1,
-    ifnull ( replace ( auprstad.flo_num , '/' , '' ) , '' ) as floor_no_1,
+    case
+        when length ( replace ( auprstad.flo_num , '/' , '' ) ) < 3 then auprstad.flo_num
+        else ''
+    end as floor_no_1,
     '' as floor_suffix_1,
     '' as floor_prefix_2,
     '' as floor_no_2,
