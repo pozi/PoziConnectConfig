@@ -76,6 +76,7 @@ from
     pc_vicmap_parcel vp
 where
     multi_assessment = 'Y' and
+    propnum <> 'NCPR' and
     (
         (
             ( vp.spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum in ( select propnum from pc_council_parcel cpx where cpx.spi = vp.spi ) ) or
