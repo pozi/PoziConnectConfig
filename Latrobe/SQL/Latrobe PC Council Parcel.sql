@@ -158,6 +158,6 @@ where
     lpatipa.status <> 'H' and
     lpaprti.status <> 'H' and
     lpatitl.status <> 'H' and
-    ifnull ( lpadesc.tfklpadetp , '' ) <> 20
+    not ( lpadesc.tfklpadetp = 20 and lpaparc.plancode in ( 'CA' , 'PTCA' ) )
 )
 )
