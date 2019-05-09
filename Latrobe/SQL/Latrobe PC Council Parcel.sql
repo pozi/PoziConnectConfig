@@ -157,7 +157,6 @@ where
     lpaparc.status <> 'H' and
     lpatipa.status <> 'H' and
     lpaprti.status <> 'H' and
-    lpatitl.status <> 'H' and
-    ifnull ( lpadesc.tfklpadetp , '' ) <> 20
+    lpatitl.status <> 'H'
 )
 )
