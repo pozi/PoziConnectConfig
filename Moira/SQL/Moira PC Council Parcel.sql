@@ -86,9 +86,10 @@ select
     end as sec,
     case
         when auprparc.ttl_cde = 5 and ttl_no1 like '%BLK%' then substr ( ttl_no1 , -1 , 1 )
+        when length ( auprparc.ttl_no4 ) < 4 and auprparc.ttl_no4 <> '\' then ifnull ( auprparc.ttl_no4 , '' )
         else ''
     end as block,
-    case when length ( auprparc.ttl_no4 ) < 4 and auprparc.ttl_no4 <> '\' then ifnull ( auprparc.ttl_no4 , '' ) else '' end as portion,
+    '' as portion,
     '' as subdivision,
     case when auprparc.ttl_cde in ( 7 , 8 ) then
         case upper ( auprparc.uda_cd2 )
