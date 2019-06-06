@@ -44,6 +44,7 @@ select
                 else ''
             end
         when auprparc.ttl_cde = 3 then 'LP'
+        when auprparc.ttl_cde = 4 then 'CP'
         when auprparc.ttl_cde = 5 then 'CS'
         when auprparc.ttl_cde = 6 then 'TP'
         when auprparc.ttl_cde = 7 then 'RP'
