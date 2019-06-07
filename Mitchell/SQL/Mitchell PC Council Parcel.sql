@@ -140,7 +140,8 @@ from
 where
     A.association_type = 'PropLand' and
     ifnull ( A.date_ended , '' ) = '' and
-    P.status in ( 'C' , 'F' )
+    P.status in ( 'C' , 'F' ) and
+    ifnull ( P.rate_notice_desc , '' ) <> 'ExGratia'
 )
 )
 )
