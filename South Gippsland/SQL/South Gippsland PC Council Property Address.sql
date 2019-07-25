@@ -93,6 +93,7 @@ select
     upper ( ifnull ( lpapnam.propname , '' ) ) as building_name,
     '' as complex_name,
     case
+        when lpaaddr.prefix like '%-%' then ''
         when upper ( lpaaddr.prefix ) = 'REAR OF' then 'REAR'
         when upper ( lpaaddr.prefix ) = 'CNR' then 'CORNER'
         when upper ( lpaaddr.prefix ) in ( 'ACCESS' , 'M' , 'SHOP' , 'UPSTAIRS' ) then ''
