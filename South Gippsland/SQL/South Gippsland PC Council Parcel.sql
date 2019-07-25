@@ -152,6 +152,6 @@ where
     lpaparc.status = 'C' and
     lpaprop.tfklpacncl = 13 and
     ifnull ( lpaparc.plancode , '' ) <> 'AG' and
-    ifnull ( lpaparc.parcelcode , '' ) not in ( 'RDR' , 'VR' , 'E' )
+    ifnull ( lpaparc.parcelcode , '' ) not in ( 'VR' , 'E' )
 )
 )
