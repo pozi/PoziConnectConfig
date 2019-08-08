@@ -66,7 +66,7 @@ select distinct
         when auprstad.str_typ in ( 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) THEN 'AVENUE'
         when auprstad.str_typ in ( 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) THEN 'ROAD'
         when auprstad.str_typ in ( 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) THEN 'STREET'
-        else upper ( aualrefs.dsc_no3 )
+        else upper ( ifnull ( aualrefs.dsc_no3 , '' ) )
     end as road_type,
     case
         when upper ( auprstad.str_typ ) in ( 'AVEN' , 'RDN' , 'STN' ) then 'N'
@@ -85,7 +85,7 @@ select distinct
     '' as outside_property,
     '300' as lga_code,
     cast ( auprparc.pcl_num as varchar ) as crefno,
-    auprparc.ttl_nme as summary
+    '' as summary
 from
     authority_auprparc auprparc join
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num join
