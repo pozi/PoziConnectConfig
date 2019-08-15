@@ -37,7 +37,11 @@ select distinct
         when 'A' then 'P'
     end as status,
     cast ( lpaparc.tpklpaparc as varchar ) as crefno,
-    ifnull ( lpaparc.spi , '' ) as internal_spi,
+    case
+        when substr ( lpaparc.spi , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then lpaparc.spi
+        when substr ( lpaparc.spi , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( lpaparc.spi , 1 , length ( lpaparc.spi ) - 1 )
+        else ''
+    end as internal_spi,
     case
         when lpaparc.parcelcode = 'PT L' then 'P'
         else ''
