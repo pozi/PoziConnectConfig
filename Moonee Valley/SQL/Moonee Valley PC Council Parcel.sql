@@ -64,7 +64,11 @@ select distinct
         when lpaparc.plancode is null then ifnull ( lpaparc.parcelnum , '' )
         else ''
     end as allotment,
-    ifnull ( lpasect.parcelsect , '' ) as sec,
+    case
+        when ifnull ( lpaparc.plancode , '' ) in ( 'CP' , 'CS' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then ''
+        when lpasect.parcelsect = '0' then ''
+        else ifnull ( lpasect.parcelsect , '' )
+    end as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
