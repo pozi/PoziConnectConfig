@@ -61,7 +61,7 @@ select distinct
     end as plan_numeral,
     case
         when lpaparc.plancode is null then ''
-        when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
+        when lpaparc.parcelcode = 'RES' and ( lpaparc.parcelnum not like 'RES%' or lpaparc.parcelnum is null ) then 'RES' || ifnull ( lpaparc.parcelnum , '' )
         else ifnull ( lpaparc.parcelnum , '' )
     end as lot_number,
     case
