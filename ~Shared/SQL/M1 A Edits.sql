@@ -109,7 +109,7 @@ where
     cp.spi in ( select vp.spi from pc_vicmap_parcel vp where vp.propnum in ( select propnum from pc_council_parcel ) ) and
     cp.propnum not in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) and
     cp.propnum not in ( select vp.propnum from pc_vicmap_parcel vp where property_view_pfi in ( select vp.property_view_pfi from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) and
-    cp.plan_number <> '' and
+    cp.spi not like '%PP2%' and cp.spi not like '%PP3%' and
     cp.spi in ( select vp.spi from pc_vicmap_parcel vp where vp.spi in ( select cpy.spi from pc_council_parcel cpy where cpy.spi = vp.spi and cpy.propnum = vp.propnum ) ) and
     ( select vp.property_view_pfi from pc_vicmap_parcel vp where vp.spi = cp.spi ) not in ( select property_view_pfi from pc_vicmap_property_address vpa where property_pfi in ( select property_pfi from m1_r_edits ) )
 ) as cpx
