@@ -160,7 +160,7 @@ from
     propertygov_v_assessment_w_attributes as Assessment_Attributes on Assessment.Assess_Number = Assessment_Attributes.Assess_Number
 where
     Parcel.Parcel_Status = 0 and
-    Assessment.Assessment_Status <> '9' and
+    Assessment.Assessment_Status not in ( '9' , '21' , '25' ) and
     Assessment.Assess_Number < 999999999999 and
     ifnull ( Street.Street_Name , '' ) <> 'zzz - - Obsolete/Historical Assessment'
 )

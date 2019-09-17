@@ -88,7 +88,7 @@ from
     propertygov_township as Township on Title.Township_Id = Township.Township_Id
 where
     Parcel.Parcel_Status = 0 and
-    Assessment.Assessment_Status <> '9' and
+    Assessment.Assessment_Status not in ( '9' , '21' , '25' ) and
     Assessment.Assess_Number < 999999999999 and
     ifnull ( Title.Title_Plan_Number , '' ) <> 'zz--Obsolete/History'
 order by propnum, crefno
