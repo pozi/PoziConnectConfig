@@ -28,6 +28,7 @@ select distinct
     assess as propnum,
     '' as status,
     dola_pin as crefno,
+    '' as internal_spi,
     case
         when [pt_lot/ca] like 'P%T%' then 'P'
         else ''

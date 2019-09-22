@@ -31,6 +31,7 @@ select
         when 'P' then 'P'
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
+    '' as internal_spi,
     case
         when auprparc.ttl_no2 is null and auprparc.ttl_no3 not null then 'P'
         when auprparc.ttl_no1 like 'PT%' then 'P'

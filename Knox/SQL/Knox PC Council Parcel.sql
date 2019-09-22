@@ -31,6 +31,7 @@ select distinct
         when 'A' then 'P'
     end as status,
     '' as crefno,
+    '' as internal_spi,
     case lpaparc.parcelcode
         when 'LOT PT' then 'P'
         else ''

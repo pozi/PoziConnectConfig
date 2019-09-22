@@ -28,6 +28,7 @@ select
     cast ( cast ( lraassm.assmnumber as integer ) as varchar ) as propnum,
     '' as status,
     cast ( lpaparc.tpklpaparc as varchar ) as crefno,
+    '' as internal_spi,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     ifnull ( lpaparc.plancode , '' ) ||
         case

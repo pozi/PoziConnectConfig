@@ -30,6 +30,7 @@ select
     P.ASSESSMENT_ID as propnum,
     P.PROPERTY_TYPE as status,
     '' as crefno,
+    '' as internal_spi,
     ifnull ( L.DESCRIPTION_1 || '; ' , '' ) || P.ASSESS_DESCRIPTION as summary,
     ifnull ( upper ( L.PART_PARCEL ) , '' ) as part,
     case

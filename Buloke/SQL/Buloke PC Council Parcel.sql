@@ -28,6 +28,7 @@ select
     cast ( Parcel.PropertyNumber as varchar ) as propnum,
     '' as status,
     cast ( Parcel.LandParcelNumber as varchar ) as crefno,
+    '' as internal_spi,
     case
         when Parcel.StandardParcelId = '' then ''
         when Parcel.StandardParcelId like '%\%' then Parcel.StandardParcelId

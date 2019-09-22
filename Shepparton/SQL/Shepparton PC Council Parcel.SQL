@@ -31,6 +31,7 @@ select distinct
         when 'A' then 'P'
     end as status,
     cast ( lpaparc.tpklpaparc as varchar ) as crefno,
+    '' as internal_spi,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     ifnull ( lpaparc.plancode , '' ) ||
         case

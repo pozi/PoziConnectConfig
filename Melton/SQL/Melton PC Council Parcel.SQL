@@ -34,6 +34,7 @@ select
         when 'P' then 'P'        
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
+    '' as internal_spi,
     case
         when auprparc.ttl_cde in ( 1 , 5 , 51 , 99 ) then
             case

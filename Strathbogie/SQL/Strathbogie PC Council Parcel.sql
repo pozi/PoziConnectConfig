@@ -35,6 +35,7 @@ select
         end as propnum,
     '' as status,
     cast ( Title.Title_Id as varchar ) as crefno,
+    '' as internal_spi,
     Title.Title_Legal_Description as summary,
     case when Title_Is_Part_of_Lot = 1 then 'P' else '' end as part,
     ifnull ( Plan_Type.Plan_Type_Code , '' ) ||

@@ -34,6 +34,7 @@ select distinct
         when 'A' then 'P'
     end as status,
     '' as crefno,
+    '' as internal_spi,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     ifnull ( lpaparc.plancode , '' ) ||
         case

@@ -34,6 +34,7 @@ select
         when ttl_no1 like 'CM%' then ''
         else cast ( auprparc.pcl_num as varchar(10) )
     end as crefno,
+    '' as internal_spi,
     case
         when auprparc.ttl_no2 in ( 'P' , 'PT' ) then 'P'
         else ''

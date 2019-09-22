@@ -31,6 +31,7 @@ select distinct
         when 'A' then 'P'
     end as status,
     cast ( lpaparc.tpklpaparc as varchar ) as crefno,
+    '' as internal_spi,
     case
         when lpaparc.parcelcode in ( 'PT' , 'PT L' ) then 'P'
         else ''

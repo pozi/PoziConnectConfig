@@ -35,6 +35,7 @@ select
         when auprparc.pcl_flg = 'U' then ''
         else cast ( auprparc.pcl_num as varchar )
     end as crefno,
+    '' as internal_spi,
     case
         when auprparc.ttl_cde > 10 and auprparc.ttl_cde < 20 then 'P'
         else ''

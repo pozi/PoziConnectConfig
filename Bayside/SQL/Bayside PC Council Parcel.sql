@@ -31,6 +31,7 @@ select
         when 'P' then 'P'
     end as status,
     '' as crefno,
+    '' as internal_spi,
     case
         when auprparc.ttl_no1 like '%PT%' then 'P'
         else ''
