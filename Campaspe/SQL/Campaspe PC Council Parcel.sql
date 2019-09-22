@@ -7,12 +7,12 @@ select
     *,
     case
         when internal_spi <> '' then 'council_spi'
-        when generated_spi <> '' then 'council_attributes'
+        when constructed_spi <> '' then 'council_attributes'
         else ''
     end as source,
     case
         when internal_spi <> '' then internal_spi
-        else generated_spi
+        else constructed_spi
     end as spi
 from
 (
@@ -34,7 +34,7 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as generated_spi
+    end as constructed_spi
 from
 (
 select
