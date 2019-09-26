@@ -55,7 +55,7 @@ from (
 select
     lga_code as lga_code,
     case
-        when ( select num_parcels_in_prop from pc_vicmap_parcel_property_parcel_count vpppc where vpppc.spi = vp.spi ) > 1 then property_pfi
+        when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = vp.spi ) > 1 then property_pfi
         else ''
     end as property_pfi,
     case
