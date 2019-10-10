@@ -43,11 +43,16 @@ Include only records where:
 1. none of the addresses for this property match the Vicmap address
 2. or whose building_name doesn't match the Vicmap building_name
 
-*Note: This complex query caters for systems such as Property.Gov where there can be multiple records per council property, each with different addresses If any one of them match the Vicmap address, it would not warrant an update.*
+*Note: This complex query caters for systems such as Property.Gov where there can be multiple records per council property, each with different addresses. If any one of them match the Vicmap address, it would not warrant an update.*
 
 ```sql
-( propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum and vpax.is_primary = 'Y' ) ) or
-  building_name <> '' and building_name not in ( ifnull ( ( select building_name from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum and vpax.is_primary = 'Y' ) , '' ) ) ) )
+(
+    ( select cpc.num_records from pc_council_property_count cpc where cpc.propnum = cpa.propnum ) = 1 or
+    (
+        cpa.propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum and vpax.is_primary = 'Y' ) ) or
+        ( cpa.building_name <> '' and cpa.building_name not in ( ifnull ( ( select building_name from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum and vpax.is_primary = 'Y' ) , '' ) ) )
+    )
+)
 ```
 
 Exclude properties that will be retired.

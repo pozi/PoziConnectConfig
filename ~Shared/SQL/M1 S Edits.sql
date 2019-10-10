@@ -122,8 +122,13 @@ from
 where
     cpa.propnum not in ( '' , 'NCPR' ) and
     ( cpa.is_primary <> 'N' or ( select cpc.num_records from pc_council_property_count cpc where cpc.propnum = cpa.propnum ) = 1 ) and
-    ( cpa.propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum and vpax.is_primary = 'Y' ) ) or
-      ( cpa.building_name <> '' and cpa.building_name not in ( ifnull ( ( select building_name from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum and vpax.is_primary = 'Y' ) , '' ) ) ) ) and
+    (
+        ( select cpc.num_records from pc_council_property_count cpc where cpc.propnum = cpa.propnum ) = 1 or
+        (
+            cpa.propnum not in ( select propnum from pc_council_property_address where num_road_address in ( select num_road_address from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum and vpax.is_primary = 'Y' ) ) or
+            ( cpa.building_name <> '' and cpa.building_name not in ( ifnull ( ( select building_name from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum and vpax.is_primary = 'Y' ) , '' ) ) )
+        )
+    ) and
     cpa.propnum not in ( select vpax.propnum from pc_vicmap_property_address vpax, m1_r_edits r where vpax.property_pfi = r.property_pfi ) and
     ( cpa.propnum in ( select propnum from pc_vicmap_property_address ) or
       cpa.propnum in ( select propnum from m1_p_edits ) ) and
