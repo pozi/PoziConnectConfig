@@ -108,6 +108,10 @@ select
             else ''
         end ||
         case
+            when cpa.distance_related_flag = 'Y' and vpa.distance_related_flag = 'N' then ' (**NOTE**: new distance-based address)'
+            else ''
+        end ||
+        case
             when length ( cpa.building_name ) > 45 then ' (**WARNING**: building name exceeds limit of 45 characters)'
             else ''
         end ||
@@ -133,7 +137,8 @@ where
     ( cpa.propnum in ( select propnum from pc_vicmap_property_address ) or
       cpa.propnum in ( select propnum from m1_p_edits ) ) and
     ( not replace ( replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) , 'MT ' , 'MOUNT ' ) = ifnull ( replace ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , 'MT ' , 'MOUNT ' ) , '' ) or
-      ( cpa.hsa_flag = 'Y' and vpa.hsa_flag = 'N' ) ) and
+      ( cpa.hsa_flag = 'Y' and vpa.hsa_flag = 'N' ) or
+      ( cpa.distance_related_flag = 'Y' and vpa.distance_related_flag = 'N' ) ) and
     cpa.road_name <> '' and
     not ( select count(*) from ( select distinct ezi_address from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum ) ) > 1
 group by cpa.propnum, vpa.property_pfi
