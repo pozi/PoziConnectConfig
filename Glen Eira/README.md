@@ -7,7 +7,7 @@ Import of lparole table from Pathway takes a long time (several minutes). The ta
 We now apply a filter during the import to reduce the time taken for the import:
 
 ```sql
-SELECT * FROM {Pathway_Table_Prefix}lparole WITH (NOLOCK) WHERE fklparolta = 'LRA' AND fklparoltn = 0
+SELECT * FROM {Table_Prefix}lparole WITH (NOLOCK) WHERE fklparolta = 'LRA' AND fklparoltn = 0
 ```
 
 The imported table now contains only 67K records.
