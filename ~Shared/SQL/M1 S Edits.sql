@@ -90,10 +90,10 @@ select
             else ''
         end || ': ' ||
         case
-            when cpa.propnum = vpa.propnum then 'replacing address ' || vpa.ezi_address || ' with '
+            when cpa.propnum = vpa.propnum then 'replacing address ' || trim ( vpa.blg_unit_type || ' ' || vpa.ezi_address ) || ' with '
             else 'assigning new address '
         end ||
-        cpa.ezi_address ||
+        trim ( cpa.blg_unit_type || ' ' || cpa.ezi_address ) ||
         case
             when vpa.house_number_1 <> 0 and vpa.house_number_1 <> '' and cpa.house_number_1 = '' then ' (**WARNING**: house number is being removed)'
             when vpa.distance_related_flag = 'Y' and cpa.distance_related_flag <> 'Y' then ' (**NOTE**: address update will maintain the existing location of distance-based address)'
@@ -105,6 +105,18 @@ select
         end ||
         case
             when cpa.hsa_flag = 'Y' and vpa.hsa_flag = 'N' then ' (**NOTE**: new hotel style address)'
+            else ''
+        end ||
+        case
+            when cpa.blg_unit_type <> vpa.blg_unit_type and cpa.blg_unit_type <> '' then ' (**NOTE**: new building type ' || cpa.blg_unit_type || ')'
+            else ''
+        end ||
+        case
+            when cpa.floor_type <> vpa.floor_type then ' (**NOTE**: new floor type ' || cpa.floor_type || ')'
+            else ''
+        end ||
+        case
+            when cast ( cpa.floor_no_1 as float ) <> vpa.floor_no_1 or cast ( cpa.floor_no_2 as float ) <> vpa.floor_no_2 then ' (**NOTE**: new floor number)'
             else ''
         end ||
         case
@@ -138,6 +150,10 @@ where
       cpa.propnum in ( select propnum from m1_p_edits ) ) and
     ( not replace ( replace ( replace ( cpa.num_road_address , '-' , ' ' ) , '''' , '' ) , 'MT ' , 'MOUNT ' ) = ifnull ( replace ( replace ( replace ( vpa.num_road_address , '-' , ' ' ) , '''' , '' ) , 'MT ' , 'MOUNT ' ) , '' ) or
       ( cpa.hsa_flag = 'Y' and vpa.hsa_flag = 'N' ) or
+      ( cpa.blg_unit_type <> vpa.blg_unit_type and cpa.blg_unit_type in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') ) or
+      ( cpa.floor_type <> vpa.floor_type and cpa.floor_type in ('B','FL','G','L','LG','M','UG','RT','PD','LB','LL','OD','P','PF','SB') ) or
+      ( cast ( cpa.floor_no_1 as float ) <> vpa.floor_no_1 and cast ( cpa.floor_no_1 as float ) <> 0 ) or
+      ( cast ( cpa.floor_no_2 as float ) <> vpa.floor_no_2 and cast ( cpa.floor_no_2 as float ) <> 0 ) or
       ( cpa.distance_related_flag = 'Y' and vpa.distance_related_flag = 'N' ) ) and
     cpa.road_name <> '' and
     not ( select count(*) from ( select distinct ezi_address from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum ) ) > 1
