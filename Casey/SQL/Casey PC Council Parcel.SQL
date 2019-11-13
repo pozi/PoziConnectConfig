@@ -1,7 +1,5 @@
 select
     *,
-    spi as constructed_spi,
-    'council_attributes' as spi_source,
     replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' ) as simple_spi
 from
 (
@@ -23,13 +21,15 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as spi
+    end as constructed_spi,
+    internal_spi as spi,
+    'council_attributes' as spi_source
 from
 (
 select
     cast ( A.key1 as varchar) as propnum,
     cast ( L.land_no as varchar ) as crefno,
-    '' as internal_spi,
+    ifnull ( L.text10 , '' ) as internal_spi,
     '' as summary,
     case L.status
         when 'F' then 'P'
