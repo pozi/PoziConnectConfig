@@ -41,12 +41,11 @@ select
         else ifnull ( trim ( L.plan_desc ) || substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_number,
     ifnull ( L.plan_desc , '' ) as plan_prefix,
-    ifnull ( upper ( replace ( lot , ' ' , '' ) ) , '' ) as lot_number,
     case
         when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
         else ifnull ( substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
     end as plan_numeral,
-    ifnull ( L.lot , '' ) as lot_number,
+    ifnull ( upper ( replace ( lot , ' ' , '' ) ) , '' ) as lot_number,
 	ifnull (L.text3,'') as allotment,
     ifnull ( L.parish_section , '' ) as sec,
     '' as block,
