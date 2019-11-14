@@ -115,6 +115,9 @@ select
         when A.floor_no = 0 then ''
         when A.property_name like '1-%' then '1'
         when A.property_name like '2-%' then '2'
+        when A.property_name like '3-%' then '3'
+        when A.property_name like '4-%' then '4'
+        when A.property_name like '5-%' then '5'
         else ifnull ( A.floor_no , '' )
     end as floor_no_1,
     upper ( ifnull ( A.floor_suffix , '' ) ) as floor_suffix_1,
