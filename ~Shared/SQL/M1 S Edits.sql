@@ -108,10 +108,6 @@ select
             else ''
         end ||
         case
-            when cpa.blg_unit_type <> vpa.blg_unit_type and cpa.blg_unit_type <> '' then ' (**NOTE**: new building type ' || cpa.blg_unit_type || ')'
-            else ''
-        end ||
-        case
             when cpa.floor_type <> vpa.floor_type then ' (**NOTE**: new floor type ' || cpa.floor_type || ')'
             else ''
         end ||
