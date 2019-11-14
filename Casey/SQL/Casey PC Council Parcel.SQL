@@ -23,7 +23,7 @@ select
         else ''
     end as constructed_spi,
     internal_spi as spi,
-    'council_attributes' as spi_source
+    'council_spi' as spi_source
 from
 (
 select
