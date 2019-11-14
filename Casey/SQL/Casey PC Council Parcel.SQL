@@ -64,7 +64,6 @@ from
 where
     A.association_type = 'PropLand' and
     A.date_ended is null AND
-    L.plan_desc in ( 'TP' , 'LP' , 'PS' , 'PC' , 'CP' , 'SP' , 'CS' , 'RP' , 'CG' ) and
     t.key1 is null
 )
 )
