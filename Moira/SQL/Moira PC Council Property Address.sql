@@ -55,10 +55,7 @@ select distinct
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    case
-        when auprparc.ttl_nme is null or upper ( auprparc.ttl_nme ) in ( 'FLAT' , 'SHOP' , 'UNIT' ) then ''
-        else upper ( auprparc.ttl_nme )
-    end as building_name,
+    '' as building_name,
     '' as complex_name,
     '' as location_descriptor,
     '' as house_prefix_1,
