@@ -43,7 +43,7 @@ select distinct
         when 'A' then 'P'
     end as status,
     cast ( lpaparc.tpklpaparc as varchar ) as crefno,
-    ifnull ( lpaparc.spi , '' ) as internal_spi,
+    ifnull ( replace ( lpaparc.spi , '/' , '\' ) , '' ) as internal_spi,
     ifnull ( lpaparc.plancode || ': ' , '' ) || ifnull ( trim ( lpaparc.fmtparcel ) , '' ) as summary,
     case
         when lpaparc.plancode is null or lpaparc.plancode in ( 'PT-CA' , 'PP' ) then ''
@@ -71,7 +71,7 @@ select distinct
     ifnull ( lpasect.parcelsect , '' ) as sec,
     ifnull ( lpapabl.block , '' ) as block,
     case
-        when lpaparc.parcelcode = 'CP' then ifnull ( lpaparc.parcelnum , '' )
+        when lpaparc.parcelcode = 'CP' then ifnull ( trim ( replace ( lpaparc.parcelnum , 'PT' , '' ) ) , '' )
         else ''
     end as portion,
     '' as subdivision,
