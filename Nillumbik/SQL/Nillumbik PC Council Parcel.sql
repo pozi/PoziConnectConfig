@@ -127,6 +127,7 @@ from
     pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
     pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm
 where
+    lpaprop.tfklpacncl = 12 and
     lpaprop.status <> 'H' and
     lpaparc.status <> 'H' and
     lpatipa.status <> 'H' and
