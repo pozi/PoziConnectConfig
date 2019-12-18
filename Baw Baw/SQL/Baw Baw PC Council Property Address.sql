@@ -30,7 +30,11 @@ from (
 select
     cast ( P.property_no as varchar ) as propnum,
     '' as status,
-    '' as base_propnum,
+    case
+        when P.text3 is null then ''
+        when P.text3 <> cast ( P.property_no as varchar ) then P.text3
+        else ''
+    end as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
