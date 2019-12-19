@@ -38,7 +38,7 @@ select
     cast ( L.land_no as varchar ) as crefno,
     ifnull ( L.text5 , '' ) as internal_spi,
     ifnull ( substr ( P.override_legal_description , 1 , 99 ) , '' ) as summary,
-    case P.status
+    case upper ( P.status )
         when 'F' then 'P'
         else ''
     end as status,
@@ -154,12 +154,12 @@ select
     cast ( P.property_no as varchar ) as assnum
 from
     techone_nucland L
-    join techone_nucassociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F')
+    join techone_nucassociation A on L.land_no = A.key2 and upper ( L.status ) in ( 'C' , 'F')
     join techone_nucproperty P on A.key1 = P.property_no
 where
     A.association_type = 'PropLand' and
     A.date_ended is null and
-    P.status in ( 'C' , 'F' )
+    upper ( P.status ) in ( 'C' , 'F' )
 )
 )
 )
