@@ -29,7 +29,10 @@ from (
 
 select
     cast ( P.property_no as varchar ) as propnum,
-    '' as status,
+    case P.status
+        when 'F' then 'P'
+        else ''
+    end as status,
     case
         when P.text3 is null then ''
         when P.text3 <> cast ( P.property_no as varchar ) then P.text3
