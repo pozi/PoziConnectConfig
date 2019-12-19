@@ -5,6 +5,12 @@ from
 (
 select
     *,
+    constructed_spi as spi,
+    'council_attributes' as spi_source
+from
+(
+select
+    *,
     case
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
@@ -21,7 +27,7 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as spi
+    end as constructed_spi
 from
 (
 select
@@ -154,5 +160,6 @@ where
     A.association_type = 'PropLand' and
     A.date_ended is null and
     P.status in ( 'C' , 'F' )
+)
 )
 )
