@@ -170,6 +170,18 @@ where
                 techone_nucland Lx join
                 techone_nucassociation Ax on Lx.land_no = Ax.key2 and upper ( Lx.status ) = 'F'
         )
+    ) and
+    not (
+        upper ( P.status ) = 'C' and
+        upper ( L.status ) = 'F' and
+        P.property_no in (
+            select Ax.key1
+            from
+                techone_nucland Lx join
+                techone_nucassociation Ax on Lx.land_no = Ax.key2 and upper ( Lx.status ) = 'C'
+            where
+                Lx.plan_desc in ( 'CS' , 'LP' , 'PS' , 'RP' , 'SP' , 'TP' )
+        )
     )
 )
 )
