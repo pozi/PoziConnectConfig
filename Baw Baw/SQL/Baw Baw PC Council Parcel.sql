@@ -38,7 +38,7 @@ select
     cast ( L.land_no as varchar ) as crefno,
     ifnull ( L.text5 , '' ) as internal_spi,
     ifnull ( substr ( P.override_legal_description , 1 , 99 ) , '' ) as summary,
-    case upper ( P.status )
+    case upper ( L.status )
         when 'F' then 'P'
         else ''
     end as status,
@@ -160,7 +160,17 @@ where
     A.association_type = 'PropLand' and
     A.date_ended is null and
     upper ( ifnull ( P.rate_analysis_desc , '' ) ) <> 'COMMPROP' and
-    upper ( P.status ) in ( 'C' , 'F' )
+    upper ( P.status ) in ( 'C' , 'F' ) and
+    not (
+        upper ( P.status ) = 'F' and
+        upper ( L.status ) = 'C' and
+        P.property_no in (
+            select Ax.key1
+            from
+                techone_nucland Lx join
+                techone_nucassociation Ax on Lx.land_no = Ax.key2 and upper ( Lx.status ) = 'F'
+        )
+    )
 )
 )
 )
