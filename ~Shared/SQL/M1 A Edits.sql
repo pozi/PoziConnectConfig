@@ -111,7 +111,12 @@ where
     cp.propnum not in ( select vp.propnum from pc_vicmap_parcel vp where property_view_pfi in ( select vp.property_view_pfi from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) and
     cp.spi not like '%PP2%' and cp.spi not like '%PP3%' and
     cp.spi in ( select vp.spi from pc_vicmap_parcel vp where vp.spi in ( select cpy.spi from pc_council_parcel cpy where cpy.spi = vp.spi and cpy.propnum = vp.propnum ) ) and
-    ( select vp.property_view_pfi from pc_vicmap_parcel vp where vp.spi = cp.spi ) not in ( select property_view_pfi from pc_vicmap_property_address vpa where property_pfi in ( select property_pfi from m1_r_edits ) )
+    ( select vp.property_view_pfi from pc_vicmap_parcel vp where vp.spi = cp.spi ) not in ( select property_view_pfi from pc_vicmap_property_address vpa where property_pfi in ( select property_pfi from m1_r_edits ) ) and
+    not ( cp.propnum in ( select base_propnum from pc_council_property_address ) ) and
+    not ( cpa.base_propnum in ( select propnum from pc_vicmap_property_address where propnum <> '' ) ) and
+    not ( cp.spi in ( select spi from pc_vicmap_parcel where status = 'A' ) and cp.propnum in ( select propnum from pc_vicmap_parcel where status = 'P' ) ) and
+    not ( cp.status = 'P' and cp.propnum in ( select propnum from pc_vicmap_parcel where status = 'A' ) ) and
+    not ( cp.propnum in ( select propnum from pc_vicmap_property_address ) and not ( cp.propnum in ( select propnum from pc_council_parcel where status = 'P' ) and cp.propnum in ( select propnum from pc_council_parcel where status <> 'P' ) ) )
 ) as cpx
 group by property_pfi, propnum
 order by cast ( property_pfi as integer ) desc

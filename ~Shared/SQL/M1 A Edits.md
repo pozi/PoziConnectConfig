@@ -90,6 +90,22 @@ Include only properties that aren't associated (via the `property_view_pfi`) to 
 ( select vp.property_view_pfi from pc_vicmap_parcel vp where vp.spi = cp.spi ) not in ( select property_view_pfi from pc_vicmap_property_address vpa where property_pfi in ( select property_pfi from m1_r_edits ) )
 ```
 
+Exclude records where:
+
+* property number belongs to a base property
+* base property number exists in Vicmap `propnum` field
+* parcel description is associated with an approved parcel in Vicmap and the property number is associated with a proposed parcel in Vicmap
+* parcel is considered by Council as proposed and the property number is associated with an approved parcel in Vicmap
+* property number already exists in Vicmap, except where propnum exists both as proposed and approved in Council
+
+```sql
+not ( cp.propnum in ( select base_propnum from pc_council_property_address ) ) and
+not ( cpa.base_propnum in ( select propnum from pc_vicmap_property_address where propnum <> '' ) ) and
+not ( cp.spi in ( select spi from pc_vicmap_parcel where status = 'A' ) and cp.propnum in ( select propnum from pc_vicmap_parcel where status = 'P' ) ) and
+not ( cp.status = 'P' and cp.propnum in ( select propnum from pc_vicmap_parcel where status = 'A' ) ) and
+not ( cp.propnum in ( select propnum from pc_vicmap_property_address ) and not ( cp.propnum in ( select propnum from pc_council_parcel where status = 'P' ) and cp.propnum in ( select propnum from pc_council_parcel where status <> 'P' ) ) )
+```
+
 ## Old
 
 This section shows the previous logic and SQL used to solve the A edits.
