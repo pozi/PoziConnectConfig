@@ -39,7 +39,7 @@ select
         else ''
     end as status,
     cast ( Title.Title_Id as varchar ) as crefno,
-    '' as internal_spi,
+    Title.Title_SPI_Reference as internal_spi,
     Title.Title_Legal_Description as summary,
     case when Title_Is_Part_of_Lot = 1 or Title.Title_Crown_Allotment like '% PT' then 'P' else '' end as part,
     case    
