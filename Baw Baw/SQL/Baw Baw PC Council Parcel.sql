@@ -159,7 +159,6 @@ from
 where
     A.association_type = 'PropLand' and
     A.date_ended is null and
-    upper ( ifnull ( P.rate_analysis_desc , '' ) ) <> 'COMMPROP' and
     upper ( P.status ) in ( 'C' , 'F' ) and
     not (
         upper ( P.status ) = 'F' and

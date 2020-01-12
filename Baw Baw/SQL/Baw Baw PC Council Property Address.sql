@@ -170,7 +170,6 @@ from
     join techone_nucstreet S on S.street_no = A.street_no
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
-    upper ( ifnull ( P.rate_analysis_desc , '' ) ) <> 'COMMPROP' and
     upper ( P.status ) in ( 'C' , 'F' )
 )
 )
