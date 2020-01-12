@@ -66,6 +66,12 @@ Include only parcels where Vicmap and Council agree on the parcel description.
 vp.spi = cp.spi
 ```
 
+Add seemingly redundant filter to improve performance. Testing on Mornington Peninsula data shows 900x speed improvement when adding this filter, and 4x improvement on Casey, Stonnington and Monash. It seems that the other filters in this query that start with `vp.spi not in...` cause the query to slow down significantly unless this `vp.spi in...` filter is in place.
+
+```sql
+vp.spi in ( select spi from pc_vicmap_parcel )
+```
+
 Include only parcels from Vicmap whose `spi` is not in Council with the same `propnum`.
 
 ```sql

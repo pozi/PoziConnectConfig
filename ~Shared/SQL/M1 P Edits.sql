@@ -101,6 +101,7 @@ where
     cp.propnum <> '' and
     ( cp.propnum in ( select propnum from pc_council_property_address ) or cp.propnum = 'NCPR' ) and
     vp.spi = cp.spi and
+    vp.spi in ( select spi from pc_vicmap_parcel ) and
     vp.spi not in ( select spi from pc_council_parcel where propnum = vp.propnum ) and
     vp.propnum <> cp.propnum and
     not ( vp.status = 'P' and ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cp.propnum ) > 1 ) and
