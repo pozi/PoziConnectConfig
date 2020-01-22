@@ -81,7 +81,8 @@ select
         when substr ( properties.house_no , 4 , 1 ) = '-' and substr ( properties.house_no , 3 , 1 ) in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then ''
         when substr ( properties.house_no , -1 , 1 ) not in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then substr ( properties.house_no , -1 , 1 )
         else ''
-    end as house_suffix_1,    '' as house_prefix_2,
+    end as house_suffix_1,
+    '' as house_prefix_2,
     case
         when house_no = 'NULL' then ''
         when properties.house_no not like '%-%' then ''
