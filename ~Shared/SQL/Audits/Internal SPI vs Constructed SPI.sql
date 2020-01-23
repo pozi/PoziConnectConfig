@@ -29,5 +29,5 @@ select
         when constructed_spi in ( select spi from pc_vicmap_parcel where spi <> '' ) then 'Y'
         else 'N'
     end as constructed_spi_in_vicmap,
-    ifnull ( ( select '=HYPERLINK("https://vicmap.pozi.com/?parcelspi=' || spi || '" , "' || spi || '")' from pc_vicmap_parcel vp where vp.crefno = x.crefno and vp.spi <> internal_spi and vp.spi <> constructed_spi ) , '' ) as alt_spi
+    ifnull ( ( select '=HYPERLINK("https://vicmap.pozi.com/?parcelspi=' || spi || '" , "' || spi || '")' from pc_vicmap_parcel vp where vp.crefno <> '' and vp.crefno = x.crefno and vp.spi <> internal_spi and vp.spi <> constructed_spi ) , '' ) as alt_spi
 from pc_council_parcel x
