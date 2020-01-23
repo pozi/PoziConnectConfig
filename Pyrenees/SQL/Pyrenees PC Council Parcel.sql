@@ -39,19 +39,13 @@ from
 select
     properties.vg_number as propnum,
     '' as crefno,
-    case
-        when parcels.survey_no = 'NULL' then ''
-        else parcels.survey_no
-    end as internal_spi,
-    case
-        when parcels.spi_number = 'NULL' then ''
-        else parcels.spi_number
-    end as internal_spi_2,
+    ifnull ( parcels.survey_no , '' ) as internal_spi,
+    ifnull ( parcels.spi_number , '' ) as internal_spi_2,
     parcels.land_parcel as summary,
     '' as status,
     '' as part,
     case
-        when parcels.parcel_type in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then part_location
+        when parcels.parcel_type in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then parcels.part_location
         else ''
     end as plan_number,
     case
@@ -64,7 +58,7 @@ select
     end as plan_numeral,
     case
         when parcels.parcel_type not in ( 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then ''
-        when parcels.lot_no = 'NULL' then ''
+        when parcels.lot_no is null then ''
         when substr ( parcels.lot_no , 2 , 1 ) in ( ' ' ) then substr ( parcels.lot_no , 1 , 1 )
         when substr ( parcels.lot_no , 3 , 1 ) in ( ' ' ) then substr ( parcels.lot_no , 1 , 2 )
         when substr ( parcels.lot_no , 4 , 1 ) in ( ' ' ) then substr ( parcels.lot_no , 1 , 3 )
@@ -72,14 +66,14 @@ select
   		else trim ( ifnull ( parcels.lot_no , '' ) )
   	end as lot_number,
     case
-        when parcels.lot_no = 'NULL' then ''
+        when parcels.lot_no is null then ''
         when parcels.lot_no like '%PORTION%' then ''
         else replace ( replace ( replace ( parcels.lot_no , 'CA ', '' ) , ' SUBDIVISION A' , '' ) , ' SUBDIVISION B' , '' )
     end as allotment,
     case
         when parcels.parcel_type in ( 'CP' , 'CS' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) then ''
-        when location = 'NULL' then ''
-        else ifnull ( location , '' )
+        when parcels.location is null then ''
+        else ifnull ( parcels.location , '' )
   	end as sec,
     '' as block,
     case
@@ -91,7 +85,7 @@ select
         when parcels.lot_no like '%SUBDIVISION B%' then 'B'
         else ''
     end as subdivision,
-    case district
+    case parcels.district
         when 'P/AMPHITHEATRE' then '2013'
         when 'P/ARGYLE' then '2027'
         when 'P/AVOCA' then '2032'
@@ -149,7 +143,7 @@ select
         when 'P/YEHRIP' then '3983'
         else ''
     end as parish_code,
-    case district
+    case parcels.district
         when 'T/AMPHITHEATRE' then '5010'
         when 'T/AVOCA' then '5023'
         when 'T/BARKLY' then '5043'
@@ -183,7 +177,7 @@ from
     synergysoft_properties as properties on properties.assess_no = parcel_index.assess_no
 where
   	properties.rate_code <> '98' and
-    ( parcels.parcel_type in ( 'CA' , 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) or parcels.survey_no <> 'NULL' )
+    ( parcels.parcel_type in ( 'CA' , 'CP' , 'CS' , 'LP' , 'PC' , 'PS' , 'RP' , 'SP' , 'TP' ) or parcels.survey_no is not null )
 )
 )
 )

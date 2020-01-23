@@ -44,7 +44,7 @@ select
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
-        when properties.unit_no = 'NULL' then ''
+        when properties.unit_no is null then ''
         when properties.unit_no = '.' then ''
         else ifnull ( properties.unit_no , '' )
     end as blg_unit_id_1,
@@ -63,17 +63,17 @@ select
     '' as complex_name,
     '' as house_prefix_1,
     case
-        when house_no = 'NULL' then ''
+        when properties.house_no is null then ''
         when upper ( properties.house_no ) = 'OFF' then ''
         when properties.house_no like 'REAR %' then substr ( properties.house_no , 6 , 99 )
         when substr ( properties.house_no , 2 , 1 ) = '-' then substr ( properties.house_no , 1 , 1 )
         when substr ( properties.house_no , 3 , 1 ) = '-' then substr ( properties.house_no , 1 , 2 )
         when substr ( properties.house_no , 4 , 1 ) = '-' then substr ( properties.house_no , 1 , 3 )
         when substr ( properties.house_no , -1 , 1 ) not in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then substr ( properties.house_no , 1 , length ( properties.house_no ) -1 )
-        else house_no
+        else properties.house_no
     end as house_number_1,
     case
-        when house_no = 'NULL' then ''
+        when properties.house_no is null then ''
         when upper ( properties.house_no ) = 'OFF' then ''
         when substr ( properties.house_no , 3 , 1 ) = '-' and substr ( properties.house_no , 2 , 1 ) not in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then substr ( properties.house_no , 2 , 1 )
         when substr ( properties.house_no , 3 , 1 ) = '-' and substr ( properties.house_no , 2 , 1 ) in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then ''
@@ -84,7 +84,7 @@ select
     end as house_suffix_1,
     '' as house_prefix_2,
     case
-        when house_no = 'NULL' then ''
+        when properties.house_no is null then ''
         when properties.house_no not like '%-%' then ''
         when properties.house_no like '%-%' and substr ( properties.house_no , -1 , 1 ) not in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then
             case
@@ -95,7 +95,7 @@ select
         when substr ( properties.house_no , 3 , 1 ) = '-' then substr ( properties.house_no , 4 , 99 )
         when substr ( properties.house_no , 4 , 1 ) = '-' then substr ( properties.house_no , 5 , 99 )
         when substr ( properties.house_no , -1 , 1 ) not in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then substr ( properties.house_no , 1 , length ( properties.house_no ) -1 )
-        else house_no
+        else ''
     end as house_number_2,
     case
         when properties.house_no like '%-%' and substr ( properties.house_no , -1 , 1 ) not in ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ) then substr ( properties.house_no , -1 , 1 )
