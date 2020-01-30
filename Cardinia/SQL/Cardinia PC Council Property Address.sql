@@ -89,8 +89,14 @@ select distinct
     upper ( ifnull ( Address.Addr_Floor_Prefix_2 , '' ) ) as floor_prefix_2,
     cast ( ifnull ( Address.Addr_Floor_Number_2 , '' ) as varchar ) as floor_no_2,
     upper ( ifnull ( Address.Addr_Floor_Suffix_2 , '' ) ) as floor_suffix_2,
-    upper ( ifnull ( Unique_Assessment.Assess_Property_Name , '' ) ) as building_name,
-    '' as complex_name,
+    case
+        when upper ( Unique_Assessment.Assess_Property_Name ) in ( 'CARDINIA WATERS - RETIREMENT VILLAGE' , 'EVERGREEN RETIREMENT VILLAGE' , 'HERITAGE VILLAS' , 'SOUTHEAST BUSINESS PARK' , 'VILLAGE LAKESIDE' ) then ''
+        else upper ( ifnull ( Unique_Assessment.Assess_Property_Name , '' ) )
+    end as building_name,
+    case
+        when upper ( Unique_Assessment.Assess_Property_Name ) in ( 'CARDINIA WATERS - RETIREMENT VILLAGE' , 'EVERGREEN RETIREMENT VILLAGE' , 'HERITAGE VILLAS' , 'SOUTHEAST BUSINESS PARK' , 'VILLAGE LAKESIDE' ) then upper ( Unique_Assessment.Assess_Property_Name )
+        else ''
+    end as complex_name,
     case
         when upper ( Street.Street_Name ) like 'OFF %' then 'OFF'
         else ''
