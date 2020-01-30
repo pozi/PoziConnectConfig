@@ -30,7 +30,7 @@ select
     cast ( cast ( Assessment.Assess_Number as integer ) as varchar ) as propnum,
     '' as status,
     cast ( Title.Title_Id as varchar ) as crefno,
-    Title.Title_SPI_Reference as internal_spi,
+    ifnull ( Title.Title_SPI_Reference , '' ) as internal_spi,
     Title.Title_Legal_Description as summary,
     case when Title_Is_Part_of_Lot = 1 then 'P' else '' end as part,
     ifnull ( Plan_Type.Plan_Type_Code || Title.Title_Plan_Number , '' ) as plan_number,
