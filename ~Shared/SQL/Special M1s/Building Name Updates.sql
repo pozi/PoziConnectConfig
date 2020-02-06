@@ -99,7 +99,8 @@ from
     pc_council_property_address cpa left join
     pc_vicmap_property_address vpa on cpa.propnum = vpa.propnum and vpa.is_primary = 'Y'
 where
-    replace ( cpa.building_name , '&' , 'AND' ) <> vpa.building_name
+    replace ( cpa.building_name , '&' , 'AND' ) <> vpa.building_name or
+    replace ( cpa.complex_name , '&' , 'AND' ) <> vpa.complex_name
 group by
     cpa.propnum, vpa.property_pfi
 order by
