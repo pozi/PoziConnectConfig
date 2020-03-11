@@ -172,7 +172,6 @@ from
 where
     lpaprop.status in ( 'A', 'C' ) and
     lpaaddr.addrtype = 'P' and
-    lpaprop.fmtowner is not null and
     lpaprop.tfklpacncl = 12
 )
 )
