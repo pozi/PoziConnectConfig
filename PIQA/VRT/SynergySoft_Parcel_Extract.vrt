@@ -1,6 +1,0 @@
-<OGRVRTDataSource>
-    <OGRVRTLayer name="SynergySoft_Parcel_Extract">
-        <SrcDataSource relativeToVRT="1">SynergySoft_Parcel_Extract.csv</SrcDataSource>
-        <SrcLayer>SynergySoft_Parcel_Extract</SrcLayer>       
-    </OGRVRTLayer>
-</OGRVRTDataSource>
