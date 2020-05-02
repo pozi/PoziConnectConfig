@@ -112,6 +112,7 @@ select
         else cast ( lpaaddr.endunitsfx as varchar )
     end as blg_unit_suffix_2,
     case
+        when lpaadfm.tpklpaadfm = 1803 then ''
         when lpaaddr.lvlprefix = 'Carpark' then 'P'
         when lpaaddr.lvlprefix = 'G0' then 'G'
         when lpaaddr.lvlprefix = 'Ground' then 'G'
