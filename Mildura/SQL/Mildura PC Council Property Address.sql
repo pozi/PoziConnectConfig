@@ -71,21 +71,17 @@ select distinct
     ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
     replace ( upper ( replace ( auprstad.str_nme , '''' , '' ) )  , '.' , '' ) as road_name,
     case
-        when auprstad.str_typ in ( 'Av' , 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) then 'AVENUE'
-        when auprstad.str_typ in ( 'Cl' ) then 'CLOSE'
-        when auprstad.str_typ in ( 'Ct' ) then 'COURT'
-        when auprstad.str_typ in ( 'Dr' ) then 'DRIVE'
-        when auprstad.str_typ in ( 'La' ) then 'LANE'
-        when auprstad.str_typ in ( 'Pl' ) then 'PLACE'
-        when auprstad.str_typ in ( 'Rd' , 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) then 'ROAD'
-        when auprstad.str_typ in ( 'St' , 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) then 'STREET'
+        when upper ( auprstad.str_typ ) in ( 'AV' , 'AVEX' ) then 'AVENUE'
+        when upper ( auprstad.str_typ ) in ( 'CL' ) then 'CLOSE'
+        when upper ( auprstad.str_typ ) in ( 'CT' ) then 'COURT'
+        when upper ( auprstad.str_typ ) in ( 'DR' ) then 'DRIVE'
+        when upper ( auprstad.str_typ ) in ( 'LA' ) then 'LANE'
+        when upper ( auprstad.str_typ ) in ( 'PL' ) then 'PLACE'
+        when upper ( auprstad.str_typ ) in ( 'RD' , 'RDX' ) then 'ROAD'
+        when upper ( auprstad.str_typ ) in ( 'ST' , 'STX' ) then 'STREET'
         else upper ( ifnull ( aualrefs.dsc_no3 , '' ) )
     end as road_type,
     case
-        when upper ( auprstad.str_typ ) in ( 'AVEN' , 'RDN' , 'STN' ) then 'N'
-        when upper ( auprstad.str_typ ) in ( 'AVES' , 'RDS' , 'STS' ) then 'S'
-        when upper ( auprstad.str_typ ) in ( 'AVEE' , 'RDE' , 'STE' ) then 'E'
-        when upper ( auprstad.str_typ ) in ( 'AVEW' , 'RDW' , 'STW' ) then 'W'
         when upper ( auprstad.str_typ ) in ( 'AVEX' , 'RDX' , 'STX' ) then 'EX'
         else upper ( ifnull ( ausrmast.str_suf , '' ) )
     end as road_suffix,
