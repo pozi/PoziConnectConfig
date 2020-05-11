@@ -4,7 +4,7 @@ select
         when propnum in ( select propnum from pc_vicmap_property_address ) then '=HYPERLINK("https://vicmap.pozi.com/?propertypfi=' || ( select property_pfi from pc_vicmap_property_address vpa where vpa.propnum = x.propnum ) || '" , "' || propnum || ' map' || '")'
         else ''
     end as property_map,
-    ifnull ( ( select ezi_address from pc_vicmap_property_address where propnum = x.propnum ) , '' ) as address,
+    ifnull ( ( select ezi_address from pc_council_property_address where propnum = x.propnum ) , '' ) as address,
     case
         when propnum in ( select propnum from pc_vicmap_property_address ) or propnum in ( select propnum from m1 ) then 'Y'
         else 'N'
