@@ -87,7 +87,7 @@ select distinct
         when upper ( auprstad.str_typ ) in ( 'AVEE' , 'RDE' , 'STE' ) then 'E'
         when upper ( auprstad.str_typ ) in ( 'AVEW' , 'RDW' , 'STW' ) then 'W'
         when upper ( auprstad.str_typ ) in ( 'AVEX' , 'RDX' , 'STX' ) then 'EX'
-        else ''
+        else upper ( ifnull ( ausrmast.str_suf , '' ) )
     end as road_suffix,
     upper ( auprstad.sbr_nme ) as locality_name,
     '' as postcode,
@@ -102,7 +102,8 @@ select distinct
 from
     authority_auprparc auprparc join
     authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num left join
-    authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ'
+    authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ' left join
+    authority_ausrmast ausrmast on auprstad.str_num = ausrmast.str_num
 where
     auprparc.pcl_flg in ( 'R' , 'P' , 'U' ) and
     auprparc.ass_num is not null and
