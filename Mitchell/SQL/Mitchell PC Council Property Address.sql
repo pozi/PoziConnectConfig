@@ -138,6 +138,7 @@ select
         when S.street_name like '% ST %' then 'STREET'
         when S.street_name like '% TERRACE%' then 'TERRACE'
         when S.street_name like '% TRACK%' then 'TRACK'
+        when S.street_name like '% VIEW%' then 'VIEW'
         when S.street_name like '% VISTA%' then 'VISTA'
         when S.street_name like '% WALK%' then 'WALK'
         when S.street_name like '% WAY%' then 'WAY'
