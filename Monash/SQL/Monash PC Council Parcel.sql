@@ -5,8 +5,8 @@ from
 (
 select
     *,
-    constructed_spi as spi,
-    'council_attributes' as spi_source
+    internal_spi as spi,
+    'council_spi' as spi_source
 from
 (
 select
