@@ -96,7 +96,14 @@ select
         when lpaaddr.endhoussfx = '0' or lpaaddr.endhoussfx is null then ''
         else cast ( lpaaddr.endhoussfx as varchar )
     end as house_suffix_2,
-    replace ( replace ( upper ( cnacomp.descr ) , '&' , 'AND' ) , '''' , '' ) as road_name,
+    case upper ( cnacomp.descr )
+        when 'BOOLARRA MIRBOO NORTH' then 'BOOLARRA-MIRBOO NORTH'
+        when 'MOE WALHALLA' then 'MOE-WALHALLA'
+        when 'MORWELL THORPDALE' then 'MORWELL-THORPDALE'
+        when 'TRARALGON MAFFRA' then 'TRARALGON-MAFFRA'
+        when 'YINNAR DRIFFIELD' then 'YINNAR-DRIFFIELD'
+        else replace ( replace ( upper ( cnacomp.descr ) , '&' , 'AND' ) , '''' , '' )
+    end as road_name,
     case
         when
             cnaqual.descr like '% NORTH' or
