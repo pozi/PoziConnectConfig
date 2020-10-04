@@ -1,8 +1,12 @@
 select
     *,
-    spi as constructed_spi,
-    'council_attributes' as spi_source,
     replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' ) as simple_spi
+from
+(
+select
+    *,
+    constructed_spi as spi,
+    'council_attributes' as spi_source
 from
 (
 select
@@ -23,7 +27,7 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as spi
+    end as constructed_spi
 from
 (
 select distinct
@@ -33,7 +37,7 @@ select distinct
         when 'A' then 'P'
     end as status,
     cast ( lpaparc.tpklpaparc as varchar ) as crefno,
-    '' as internal_spi,
+    ifnull ( lpaparc.spi , '' ) as internal_spi,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     case lpaparc.plancode
         when 'PP' then ''
@@ -86,5 +90,6 @@ where
     lpatipa.status <> 'H' and
     lpaprti.status <> 'H' and
     lpatitl.status <> 'H'
+)
 )
 )
