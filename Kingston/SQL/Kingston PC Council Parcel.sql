@@ -5,8 +5,16 @@ from
 (
 select
     *,
-    constructed_spi as spi,
-    'council_attributes' as spi_source
+    case
+        when constructed_spi like '%_\%' and internal_spi not like '%_\%' then constructed_spi
+        when internal_spi = '' and constructed_spi <> '' then constructed_spi
+        else internal_spi
+    end as spi,
+    case
+        when constructed_spi like '%_\%' and internal_spi not like '%_\%' then 'council_attributes'
+        when internal_spi = '' and constructed_spi <> '' then 'council_attributes'
+        else 'council_spi'
+    end as spi_source
 from
 (
 select
