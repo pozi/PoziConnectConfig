@@ -73,6 +73,7 @@ select distinct
         else case upper ( auprstad.str_typ )
             when 'AV' then 'AVENUE'
             when 'CH' then 'CHASE'
+            when 'CCT' then 'CIRCUIT'
             when 'CL' then 'CLOSE'
             when 'CR' then 'CRESCENT'
             when 'CT' then 'COURT'
