@@ -89,7 +89,7 @@ select
         when upper ( S.street_name ) like 'THE %' then upper ( S.street_name )
         when upper ( substr ( S.street_name , -3 ) ) in ( ' CL' , ' CT' , ' DR' , ' GR' , ' RD' , ' PL' , ' SQ' , ' ST' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 3 ) )
         when upper ( substr ( S.street_name , -4 ) ) in ( ' AVE' , ' BVD' , ' HWY' , ' PDE' , ' TCE' , ' TRL' , ' WAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 4 ) )
-        when upper ( substr ( S.street_name , -5 ) ) in ( ' CRES' , ' LANE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
+        when upper ( substr ( S.street_name , -5 ) ) in ( ' CRES' , ' LANE' , ' MEWS' , ' RISE' , ' VIEW' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
         else upper ( S.street_name )
     end , '`' , '' ) , '''' , '' ) as road_name,
     case
@@ -104,13 +104,16 @@ select
         when S.street_name like '% GR' then 'GROVE'
         when S.street_name like '% HWY' then 'HIGHWAY'
         when S.street_name like '% LANE' then 'LANE'
+        when S.street_name like '% MEWS' then 'MEWS'
         when S.street_name like '% PDE' then 'PARADE'
         when S.street_name like '% PL' then 'PLACE'
         when S.street_name like '% RD' then 'ROAD'
+        when S.street_name like '% RISE' then 'RISE'
         when S.street_name like '% ST%' then 'STREET'
         when S.street_name like '% SQ' then 'SQUARE'
         when S.street_name like '% TCE' then 'TERRACE'
         when S.street_name like '% TRL%' then 'TRAIL'
+        when S.street_name like '% VIEW' then 'VIEW'
         when S.street_name like '% WAY' then 'WAY'
         else ''
     end as road_type,
