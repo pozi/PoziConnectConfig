@@ -111,7 +111,7 @@ select
         when S.street_name like '% SQ' then 'SQUARE'
         when S.street_name like '% TCE' then 'TERRACE'
         when S.street_name like '% TRL%' then 'TRAIL'
-        when S.street_name like '% WAY%' then 'WAY'
+        when S.street_name like '% WAY' then 'WAY'
         else ''
     end as road_type,
     '' as road_suffix,
