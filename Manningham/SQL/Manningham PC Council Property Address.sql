@@ -86,9 +86,6 @@ select
         when upper ( A.floor_desc ) in ( 'G' , 'GRD' ) then 'G'
         when upper ( A.floor_desc ) in ( 'LL' , 'LOWER' ) then 'LL'
         when upper ( ifnull ( A.floor_desc , '' ) ) = '' and ifnull ( A.floor_no , '' ) not in ( '' , 0 ) then 'FL'
-        when A.property_name like '%ground floor%' then 'G'
-        when A.property_name like '%floor%' then 'FL'
-        when A.property_name like '%level%' then 'L'
         else ''
     end as floor_type,
     '' as floor_prefix_1,
