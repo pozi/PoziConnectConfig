@@ -96,12 +96,6 @@ select
         when A.floor_no is not null and A.floor_no <> '0' then A.floor_no
         when upper ( A.floor_desc ) = '1ST' then '1'
         when upper ( A.floor_desc ) = '2ND' then '2'
-        when A.property_name like '%level 1%' or A.property_name like '%first%floor%' or A.property_name like '%1st%floor%' then '1'
-        when A.property_name like '%level 2%' or A.property_name like '%second%floor%' or A.property_name like '%2nd%floor%' then '2'
-        when A.property_name like '%level 3%' or A.property_name like '%third%floor%' or A.property_name like '%3rd%floor%' then '3'
-        when A.property_name like '%level 4%' or A.property_name like '%fourth%floor%' or A.property_name like '%4th%floor%' then '4'
-        when A.property_name like '%level 5%' or A.property_name like '%fifth%floor%' or A.property_name like '%5th%floor%' then '4'
-        when A.property_name like '%level 6%' or A.property_name like '%sixth%floor%' or A.property_name like '%6th%floor%' then '4'
         else ''
     end as floor_no_1,
     upper ( ifnull ( A.floor_suffix , '' ) ) as floor_suffix_1,
