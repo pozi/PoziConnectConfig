@@ -88,7 +88,7 @@ from
     join techone_nucassociation A on L.land_no = A.key2 and L.status in ( 'C' , 'F')
     join techone_nucproperty P on A.key1 = P.property_no
 where
-    L.plan_desc <> 'PA' and
+    ifnull ( L.plan_desc , '' ) <> 'PA' and
     A.association_type = 'PropLand' and
     A.date_ended is null and
     P.status in ( 'C' , 'F' ) and
