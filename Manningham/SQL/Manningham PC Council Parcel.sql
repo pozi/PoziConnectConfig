@@ -28,7 +28,7 @@ from
 (
 select
     cast ( P.property_no as varchar ) as propnum,
-    cast ( L.land_no as varchar ) as crefno,
+    '' as crefno,
     '' as internal_spi,
     ifnull ( P.override_legal_description , '' ) as summary,
     case P.status
