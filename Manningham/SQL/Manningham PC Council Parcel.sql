@@ -72,7 +72,7 @@ select
     '' as subdivision,
     case upper ( L.parish_desc )
         when 'BULLEEN' then '2264'
-        when 'NUDAWAD' then '3337'
+        when 'NUNAWAD' then '3337'
         when 'WARRA' then '3753'
         else ''
     end as parish_code,
