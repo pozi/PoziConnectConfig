@@ -37,16 +37,17 @@ select
     end as status,
     case
         when ifnull ( upper ( L.part_lot ) , '' ) = 'Y' then 'P'
-        else  ifnull ( upper ( L.part_lot ) , '' )
+        else ifnull ( upper ( L.part_lot ) , '' )
     end as part,
     case
         when upper ( L.plan_desc ) = 'SEC' then ''
         when substr ( L.plan_no , 1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then ''
-        when substr ( ifnull ( L.plan_no , '' ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then ifnull ( L.plan_desc , '' ) || ifnull ( L.plan_no , '' )
-        else ifnull ( L.plan_desc , '' ) || substr ( ifnull ( L.plan_no , '' ) , 1 , length ( ifnull ( L.plan_no , '' ) ) - 1 )
+        when substr ( ifnull ( L.plan_no , '' ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then ifnull ( replace ( L.plan_desc , 'Pre Cert' , 'PS' ) , '' ) || ifnull ( L.plan_no , '' )
+        else ifnull ( replace ( L.plan_desc , 'Pre Cert' , 'PS' ) , '' ) || substr ( ifnull ( L.plan_no , '' ) , 1 , length ( ifnull ( L.plan_no , '' ) ) - 1 )
     end as plan_number,
     case
         when upper ( L.plan_desc ) = 'SEC' then ''
+        when L.plan_desc = 'Pre Cert' then 'PS'
         else ifnull ( L.plan_desc , '' )
     end as plan_prefix,
     case
