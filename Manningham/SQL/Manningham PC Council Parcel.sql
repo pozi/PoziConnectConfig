@@ -42,8 +42,8 @@ select
     case
         when upper ( L.plan_desc ) = 'SEC' then ''
         when substr ( L.plan_no , 1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then ''
-        when substr ( trim ( ifnull ( L.plan_no , '' ) ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then trim ( ifnull ( L.plan_desc , '' ) ) || ifnull ( L.plan_no , '' )
-        else trim ( ifnull ( L.plan_desc , '' ) ) || substr ( trim ( ifnull ( L.plan_no , '' ) ) , 1 , length ( trim ( ifnull ( L.plan_no , '' ) ) ) - 1 )
+        when substr ( ifnull ( L.plan_no , '' ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then ifnull ( L.plan_desc , '' ) || ifnull ( L.plan_no , '' )
+        else ifnull ( L.plan_desc , '' ) || substr ( ifnull ( L.plan_no , '' ) , 1 , length ( ifnull ( L.plan_no , '' ) ) - 1 )
     end as plan_number,
     case
         when upper ( L.plan_desc ) = 'SEC' then ''
@@ -52,8 +52,8 @@ select
     case
         when upper ( L.plan_desc ) = 'SEC' then ''
         when substr ( L.plan_no , 1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then ''
-        when substr ( trim ( L.plan_no ) , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
-        else ifnull (substr ( trim ( L.plan_no ) , 1 , length ( trim ( L.plan_no ) ) - 1 ) , '' )
+        when substr ( L.plan_no , -1 ) in ( '1','2','3','4','5','6','7','8','9','0' ) then L.plan_no
+        else ifnull ( substr ( L.plan_no , 1 , length ( L.plan_no ) - 1 ) , '' )
     end as plan_numeral,
     case
         when L.parish_desc <> '' then ''
