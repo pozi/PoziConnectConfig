@@ -78,8 +78,8 @@ select
         else ''
     end as parish_code,
     case
-        when P.override_legal_description like '%Town%' and upper ( L.parish_desc ) = 'TEMPLE' then '5776'
-        when P.override_legal_description like '%Town%' and upper ( L.parish_desc ) = 'WARRA' then '5837'
+        when P.override_legal_description like '%Township of Templestowe%' then '5776'
+        when P.override_legal_description like '%Township of Warrandyte%' then '5837'
         else ''
     end as township_code,
     '340' as lga_code,
