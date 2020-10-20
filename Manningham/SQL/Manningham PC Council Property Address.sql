@@ -103,7 +103,10 @@ select
         when A.property_name like '%reserve%' then upper ( A.property_name )
         else ''
     end as building_name,
-    '' as complex_name,
+    case
+        when A.property_name in ( 'Applewood Retirement Village', 'Baptcare', 'Bulleen Plaza', 'Devon Plaza', 'Domaine Chaise', 'Domaine Village', 'Doncaster Retirement Village', 'Donvale Retirement Village', 'Goldfields Plaza', 'Jackson Court Shopping Centre', 'Macedon Plaza', 'Macedon Square Shopping Centre', 'Pinetree Retirement Village', 'Roseville Retirement Village', 'Sul Mondo', 'Templestowe Manor', 'Templestowe Retirement Village', 'The Crest', 'The Gardens', 'The Pines', 'The Ridge', 'Tunstall Square Shopping Centre', 'Westfield Doncaster' ) then upper ( A.property_name )
+        else ''
+    end as complex_name,
     '' as house_prefix_1,
     case
         when A.house_no = '0' then replace ( A.house_no , '0' , '' )
