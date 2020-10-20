@@ -36,8 +36,14 @@ select
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
-    '' as hsa_flag,
-    '' as hsa_unit_id,
+    case
+        when upper ( A.unit_desc ) like 'APT %' then 'Y'
+		else ''
+	end as hsa_flag,
+    case
+        when upper ( A.unit_desc ) like 'APT %' then replace ( upper ( A.unit_desc ) , 'APT ' , '' ) || A.unit_no
+		else ''
+	end as hsa_unit_id,
     case
         when A.property_name like '%FRONT%' then 'FRONT'
         when A.property_name like '%REAR%' then 'REAR'
@@ -45,46 +51,37 @@ select
     end as location_descriptor,
     case
         when upper ( A.unit_desc ) = 'ATM' then 'ATM'
-        when upper ( A.unit_desc ) = 'APARTMENT' then 'APT'
-        when upper ( A.unit_desc ) = 'BUILDING' then 'BLDG'
-        when upper ( A.unit_desc ) = 'CAR SPACE' then 'CARS'
-        when upper ( A.unit_desc ) = 'FACTORY' then 'FCTY'
-        when upper ( A.unit_desc ) = 'KIOSK' then 'KSK'
+        when upper ( A.unit_desc ) = 'CARWASH' then 'CARW'
         when upper ( A.unit_desc ) = 'OFFICE' then 'OFFC'
-        when upper ( A.unit_desc ) = 'RESERVE' then 'RESV'
-        when upper ( A.unit_desc ) = 'ROOM' then 'ROOM'
-        when upper ( A.unit_desc ) = 'SHOP' then 'SHOP'
-        when upper ( A.unit_desc ) = 'SIGN' then 'SIGN'
+        when upper ( A.unit_desc ) = 'STORE' then 'STOR'
         when upper ( A.unit_desc ) = 'SUITE' then 'SE'
-        when upper ( A.unit_desc ) = 'TOWER' then 'TWR'
-        when upper ( A.unit_desc ) = 'UNIT' then 'UNIT'
-        when upper ( A.unit_desc ) = 'WAREHOUSE' then 'WHSE'
-        when upper ( A.unit_desc ) = 'WHSE' then 'WHSE'
+        when upper ( A.unit_desc ) in ('APT','APT B','APT B0','APT G','APT G0','APT LG','APT LG0','APT UG') then 'APT'
+        when upper ( A.unit_desc ) like '%KIOSK%' then 'KSK'
+        when upper ( A.unit_desc ) like '%SHOP%' then 'SHOP'
         else ''
     end as blg_unit_type,
+    '' as blg_unit_prefix_1,
     case
-        when length ( A.unit_desc ) = 1 then upper ( A.unit_desc )
-        else ''
-    end as blg_unit_prefix_1,
-    case
+        when upper ( A.unit_desc ) like 'APT %' then ''
         when A.unit_no = '0' then replace ( A.unit_no , '0' , '' )
         else ifnull ( A.unit_no , '' )
     end as blg_unit_id_1,
     case
-    when upper ( ifnull ( A.unit_no_suffix , '' ) ) = '&' then ''
-    else upper ( ifnull ( A.unit_no_suffix , '' ) )
+        when upper ( ifnull ( A.unit_no_suffix , '' ) ) = '&' then ''
+        else upper ( ifnull ( A.unit_no_suffix , '' ) )
     end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
+        when upper ( A.unit_desc ) like 'APT %' then ''
         when cast ( A.unit_no_to as varchar ) = '0' then replace ( cast ( A.unit_no_to as varchar ) , '0' , '' )
         else ifnull ( cast ( A.unit_no_to as varchar ) , '' )
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
     case
-        when upper ( A.floor_desc ) in ( 'FL' , 'FLOOR' , 'FLR' , '1ST' , '2ND' ) then 'FL'
-        when upper ( A.floor_desc ) in ( 'L' , 'LVL' , 'LEVEL' , 'LEV' ) then 'L'
-        when upper ( A.floor_desc ) in ( 'G' , 'GRD' ) then 'G'
-        when upper ( A.floor_desc ) in ( 'LL' , 'LOWER' ) then 'LL'
+        when upper ( A.floor_desc ) in ( 'FLOOR' , 'FLR' , '1ST' , '2ND' ) then 'FL'
+        when upper ( A.floor_desc ) = 'LEV' then 'L'
+        when upper ( A.floor_desc ) = 'GRD' then 'G'
+        when upper ( A.floor_desc ) = 'LOWER' then 'LL'
         when upper ( ifnull ( A.floor_desc , '' ) ) = '' and ifnull ( A.floor_no , '' ) not in ( '' , 0 ) then 'FL'
         else ''
     end as floor_type,
@@ -103,7 +100,6 @@ select
     end as floor_no_2,
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
     case
-        when A.property_name like '%communication%tower%' then upper ( A.property_name )
         when A.property_name like '%reserve%' then upper ( A.property_name )
         else ''
     end as building_name,
