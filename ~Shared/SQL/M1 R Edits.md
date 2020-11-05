@@ -20,7 +20,7 @@ Note: This will not remove incorrectly matched properties - only ones that do no
 
 ### Complete SQL
 
-[M1 R Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20R%20Edits.sql)
+[M1 R Edits.sql](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20R%20Edits.sql)
 
 ### Explanation
 
@@ -99,7 +99,7 @@ Retire any multi-assessment associated with Vicmap Parcels where Vicmap `propnum
 
 ## SQL
 
-[M1 R Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/99b5717932971dfe1676319670c6d1fc57008030/~Shared/SQL/M1%20R%20Edits.sql) as at 04 Sep 2013
+[M1 R Edits.sql](https://github.com/pozi/PoziConnectConfig/blob/99b5717932971dfe1676319670c6d1fc57008030/~Shared/SQL/M1%20R%20Edits.sql) as at 04 Sep 2013
 
 ### Explanation
 

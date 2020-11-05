@@ -12,14 +12,14 @@ DELWP provides the following summary of the edit codes. Each code letter links t
 
 Edit Code | Description
 :--------:|------------
-[**B**](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20B%20Edits.md/) | Only to be used when removing a primary property from the base or retiring the whole base. Refer to the worked examples on conditions for use.
-[**C**](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20C%20Edits.md/) | Only updating the parcel based Council Reference number (Crefno). This edit code can be used to populate or null a Crefno.
-[**E**](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20E%20Edits.md/) | Updates both property and address details for a given record. It requires that the Property Details and Address – Road and Locality Information columns are populated as required.
-[**P**](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20P%20Edits.md/) | Updates property details for a given record. It requires that the Property Details are populated as required including propnum and Crefno (if used by LGA). If Crefno is left blank the existing CREFNO value in the parcel table will be retained.
-[**S**](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20S%20Edits.md/) | Updates address details for a given record. It requires that the Address – Road and Locality Information columns are populated as required including the Address – Location attributes for creating spatially located address points.
-[**Z**](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20Z%20Edits.md/) | Only used to remove secondary addresses. It will not remove a primary distance based address. Refer to the worked examples on conditions for use.
-[**A**](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20A%20Edits.md/) | Only used to add a property to either create a Multi Assessment or add a further multi assessment record.
-[**R**](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20R%20Edits.md/) | Only used to remove a property from a Multi Assessment. The last record on a multi assessment cannot be retired.
+[**B**](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20B%20Edits.md/) | Only to be used when removing a primary property from the base or retiring the whole base. Refer to the worked examples on conditions for use.
+[**C**](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20C%20Edits.md/) | Only updating the parcel based Council Reference number (Crefno). This edit code can be used to populate or null a Crefno.
+[**E**](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20E%20Edits.md/) | Updates both property and address details for a given record. It requires that the Property Details and Address – Road and Locality Information columns are populated as required.
+[**P**](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20P%20Edits.md/) | Updates property details for a given record. It requires that the Property Details are populated as required including propnum and Crefno (if used by LGA). If Crefno is left blank the existing CREFNO value in the parcel table will be retained.
+[**S**](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20S%20Edits.md/) | Updates address details for a given record. It requires that the Address – Road and Locality Information columns are populated as required including the Address – Location attributes for creating spatially located address points.
+[**Z**](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20Z%20Edits.md/) | Only used to remove secondary addresses. It will not remove a primary distance based address. Refer to the worked examples on conditions for use.
+[**A**](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20A%20Edits.md/) | Only used to add a property to either create a Multi Assessment or add a further multi assessment record.
+[**R**](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20R%20Edits.md/) | Only used to remove a property from a Multi Assessment. The last record on a multi assessment cannot be retired.
 
 ## Preparing the Data
 

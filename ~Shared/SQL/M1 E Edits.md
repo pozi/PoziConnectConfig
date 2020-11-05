@@ -24,7 +24,7 @@ Note: the second part deliberately checks for the existence of the propnum in th
 
 ### Complete SQL
 
-[M1 E Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20E%20Edits.sql)
+[M1 E Edits.sql](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20E%20Edits.sql)
 
 ### Explanation
 

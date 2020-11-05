@@ -6,7 +6,7 @@ Edit Code S updates address details for a given record. It requires that the Add
 
 ## SQL
 
-[M1 S Proposed Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20S%20Proposed%20Edits.sql)
+[M1 S Proposed Edits.sql](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20S%20Proposed%20Edits.sql)
 
 Limit results to only one per property number. If there is more than one property that matches, give preference to the one whose address doesn't already appear in Vicmap. (This query has been written to avoid using 'order by' due to a syntax error that's specific to Pozi Connect.)
 

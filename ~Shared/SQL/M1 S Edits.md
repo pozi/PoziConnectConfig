@@ -24,7 +24,7 @@ This part adds addresses for proposed parcels where the council uses the same pr
 
 ## SQL
 
-[M1 S Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20S%20Edits.sql)
+[M1 S Edits.sql](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20S%20Edits.sql)
 
 ### Part 1
 
