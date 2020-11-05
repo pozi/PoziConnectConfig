@@ -22,7 +22,7 @@ Note this will never replace an existing Vicmap `crefno` with a blank one, even 
 
 ### Complete SQL
 
-[M1 C Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20C%20Edits.sql)
+[M1 C Edits.sql](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20C%20Edits.sql)
 
 ### Explanation
 
@@ -60,7 +60,7 @@ Include only parcels where the Vicmap `crefno` value is blank or does not exist 
 Include only parcels where the Vicmap `plan_number` field is populated (due to the higher standard of plan descriptions rather then crown description) OR where the Vicmap and Council `propnum` values already match (which is a good indicator that the correct parcel is matched, despite it being only a crown description).
 
 ```sql
-( vp.plan_number <> '' or    
+( vp.plan_number <> '' or
   vp.propnum = cp.propnum )
 ```
 

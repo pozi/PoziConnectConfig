@@ -28,7 +28,7 @@ Selecting all multi-property council parcels where the parcel description matche
 
 ## SQL
 
-[M1 A Edits.sql](https://github.com/groundtruth/PoziConnectConfig/blob/master/~Shared/SQL/M1%20A%20Edits.sql)
+[M1 A Edits.sql](https://github.com/pozi/PoziConnectConfig/blob/master/~Shared/SQL/M1%20A%20Edits.sql)
 
 Include only parcels that have a valid property number.
 
@@ -122,7 +122,7 @@ Comparing Vicmap Parcel against Council Parcel based on a common `spi` value:
 
 ### SQL
 
-[M1 A Edits.sql at 26 Aug 2013](https://github.com/groundtruth/PoziConnectConfig/blob/cd27392f9b25ed644bc80417f1ab4394f349414e/~Shared/SQL/M1%20A%20Edits.sql)
+[M1 A Edits.sql at 26 Aug 2013](https://github.com/pozi/PoziConnectConfig/blob/cd27392f9b25ed644bc80417f1ab4394f349414e/~Shared/SQL/M1%20A%20Edits.sql)
 
 Include only parcels that have a valid parcel description.
 

@@ -7,7 +7,7 @@ This repository contains the configuration files used by Pozi Connect for many o
 #### Links
 
 * Pozi Connect [overview](https://www.pozi.com/pozi-connect/)
-* Pozi Connect [documentation](http://groundtruth.viewdocs.io/poziconnect)
+* Pozi Connect [documentation](http://pozi.viewdocs.io/poziconnect)
 * Pozi Connect Config change history
-  * [shared](https://github.com/groundtruth/PoziConnectConfig/commits/master/~Shared) (typically includes updates of general M1 configuration)
-  * [all](https://github.com/groundtruth/PoziConnectConfig/commits/master) (includes updates for individual clients)
+  * [shared](https://github.com/pozi/PoziConnectConfig/commits/master/~Shared) (typically includes updates of general M1 configuration)
+  * [all](https://github.com/pozi/PoziConnectConfig/commits/master) (includes updates for individual clients)

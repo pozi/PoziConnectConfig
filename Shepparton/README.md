@@ -30,8 +30,8 @@ Parcel query adapted from Ballarat Parcel query, substituting references to `pat
 
 ## Configuration Update
 
-* update default Vicmap data location and set spatial output to TAB [[link]](https://github.com/groundtruth/PoziConnectConfig/commit/8c379ad723d2e71691d0de7b59d67a8b08f4c5b6)
-* update configuration to recognise floor type values from Pathway [[link]](https://github.com/groundtruth/PoziConnectConfig/commit/b6ac439e7d8a4ebc9ada5f21a2b7842622a68669)
+* update default Vicmap data location and set spatial output to TAB [[link]](https://github.com/pozi/PoziConnectConfig/commit/8c379ad723d2e71691d0de7b59d67a8b08f4c5b6)
+* update configuration to recognise floor type values from Pathway [[link]](https://github.com/pozi/PoziConnectConfig/commit/b6ac439e7d8a4ebc9ada5f21a2b7842622a68669)
 
 ## Custom Reports
 
@@ -68,6 +68,6 @@ Pozi Connect is confirmed to be interpreting Pathway correctly and has generated
 
 ## Parent/Child Ambiguity
 
-Last year, I started an update ([[link]](https://github.com/groundtruth/PoziConnectConfig/commit/0fe17975c78b8449707162ed2e60caca45755eeb) , [[link]](https://github.com/groundtruth/PoziConnectConfig/commit/c008ed9523f1ad32abbcd4096324972ac3a14e08)) to help Pozi Connect establish the correct relationship between parent and child properties. Today we reviewed the status of this update, and found that it was still awaiting feedback from Justin about the initial results.
+Last year, I started an update ([[link]](https://github.com/pozi/PoziConnectConfig/commit/0fe17975c78b8449707162ed2e60caca45755eeb) , [[link]](https://github.com/pozi/PoziConnectConfig/commit/c008ed9523f1ad32abbcd4096324972ac3a14e08)) to help Pozi Connect establish the correct relationship between parent and child properties. Today we reviewed the status of this update, and found that it was still awaiting feedback from Justin about the initial results.
 
 After discussing with Rates, this is still an issue that will affect multi-assessments. I've re-sent the initial results to Nick to review and/or discuss with Rates. If all is OK, I'll continue with integrating the new logic into the main configuration.
