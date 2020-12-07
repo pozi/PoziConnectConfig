@@ -226,7 +226,8 @@ from
 where
     P.status in ( 'C' , 'F' ) and
     P.property_type_desc not in ( 'Header' , 'Plan App' ) and
-    ( P.property_no < 550000 or P.property_no >= 700000 )
+    ( P.property_no < 550000 or P.property_no >= 700000 ) and
+    P.property_no <> 5255
 )
 )
 )
