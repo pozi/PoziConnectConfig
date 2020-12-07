@@ -45,7 +45,6 @@ select
 		else ''
 	end as hsa_unit_id,
     case
-        when A.property_name like '%FRONT%' then 'FRONT'
         when A.property_name like '%REAR%' then 'REAR'
         else ''
     end as location_descriptor,
@@ -100,8 +99,8 @@ select
     end as floor_no_2,
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
     case
-        when A.property_name like '%reserve%' then upper ( A.property_name )
-        else ''
+        when A.property_name in ( 'Rear', 'Rear Of', 'Applewood Retirement Village', 'Baptcare', 'Bulleen Plaza', 'Devon Plaza', 'Domaine Chaise', 'Domaine Village', 'Doncaster Retirement Village', 'Donvale Retirement Village', 'Goldfields Plaza', 'Jackson Court Shopping Centre', 'Macedon Plaza', 'Macedon Square Shopping Centre', 'Pinetree Retirement Village', 'Roseville Retirement Village', 'Sul Mondo', 'Templestowe Manor', 'Templestowe Retirement Village', 'The Crest', 'The Gardens', 'The Pines', 'The Ridge', 'Tunstall Square Shopping Centre', 'Westfield Doncaster' ) then ''
+        else ifnull ( upper ( A.property_name ) , '' )
     end as building_name,
     case
         when A.property_name in ( 'Applewood Retirement Village', 'Baptcare', 'Bulleen Plaza', 'Devon Plaza', 'Domaine Chaise', 'Domaine Village', 'Doncaster Retirement Village', 'Donvale Retirement Village', 'Goldfields Plaza', 'Jackson Court Shopping Centre', 'Macedon Plaza', 'Macedon Square Shopping Centre', 'Pinetree Retirement Village', 'Roseville Retirement Village', 'Sul Mondo', 'Templestowe Manor', 'Templestowe Retirement Village', 'The Crest', 'The Gardens', 'The Pines', 'The Ridge', 'Tunstall Square Shopping Centre', 'Westfield Doncaster' ) then upper ( A.property_name )
