@@ -93,22 +93,18 @@ select
         when lpaaddr.unitprefix = 'Level' and lpaaddr.strunitnum <> 0 then cast ( cast ( lpaaddr.strunitnum as integer ) as varchar)
         else ''
     end as floor_no_1,
-    case
-        when lpaaddr.lvlprefix = 'Floor' and lpaaddr.strlvlsfx is not null then cast (lpaaddr.strlvlsfx as varchar)
-        when lpaaddr.lvlprefix = 'Level' and lpaaddr.strlvlsfx is not null then cast (lpaaddr.strlvlsfx as varchar)
-        when lpaaddr.unitprefix = 'Floor' and lpaaddr.strunitsfx is not null then cast (lpaaddr.strunitsfx as varchar)
-        when lpaaddr.unitprefix = 'Level' and lpaaddr.strunitsfx is not null then cast (lpaaddr.strunitsfx as varchar)
-        else ''
-    end as floor_suffix_1,
+    '' as floor_suffix_1,
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
     case
-        when upper ( lpaaddr.lvlprefix ) in ( 'ATM' , 'FLOOR' , 'KIOSK' , 'LEVEL' , 'OFFICE' , 'REAR' , 'SHOP' , 'SIGN' , 'SUITE' ) then upper ( ifnull ( lpapnam.propname , '' ) )
-        when upper ( lpaaddr.prefix ) in ( 'ATM' , 'FLOOR' , 'KIOSK' , 'LEVEL' , 'OFFICE' , 'REAR' , 'SHOP' , 'SIGN' , 'SUITE' ) then upper ( ifnull ( lpapnam.propname , '' ) )
-        else upper ( ifnull ( lpapnam.propname , ifnull ( lpaaddr.prefix || ' ' , '' ) || ifnull ( lpaaddr.lvlprefix , '' ) ) )
+        when upper ( lpapnam.propname ) in ( 'BRIGHTON CLASSIC RESIDENCES-INDEPENDENT LIVING APT', 'BRIGHTON CLASSIC RESIDENCES - SERVICED APARTMENTS', 'BENTLEIGH GRANGE RETIREMENT VILLAGE', 'HEATHLANDS HOSTEL', 'GRACELAND MANOR AGED CARE', 'G2 APARTMENTS', 'ELSTERNWICK POLICE STATION', 'WHITE LODGE RETIREMENT COMMUNITY', 'SHERIDAN HALL RETIREMENT ACCOMMODATION - CAULFIELD', 'CATHOLIC HOMES - ORRONG ROAD', 'BRIGHTON CLASSIC RESIDENCES - VILLA UNIT', 'CURRAWEENA RD - INDEPENDENT LIVING UNITS', 'STATION AVE - INDEPENDENT LIVING UNITS', 'CATHOLIC HOMES - BALACLAVA ROAD', 'BRIGHTON CLASSIC RESIDENCES - VILLA UNITS', 'BELSIZE AVE - INDEPENDENT LIVING UNITS', 'PALMYRA SHERIDAN HALL AGED CARE FACILITY', 'EMMY MONASH HOME FOR THE AGED', 'ROYAL DISTRICT NURSIUNG SERVICE', 'VALKSTONE INDEPENDENT LIVING UNITS', 'ST MARYS TENNIS CLUB', '''BOYD COURT'' RESIDENTIAL AGED CARE UNITS', 'KIRKSIDE HOSTEL', 'CATHOLIC HOMES - ELIZABETH STREET', 'CARNEGIE / MURRUMBEENA SENIOR CITIZENS CLUB', 'EAST BENTLEIGH PUBLIC HALL', 'CAULFIELD PLAZA', 'CATHOLIC HOMES - GLEN ORME AVENUE', 'BETHANY CLOSE RETIREMENT VILLAGE UNITS', 'TRINITY COURT RETIREMENT COMMUNITY', 'JASPER RD - INDEPENDENT LIVING UNITS' ) then ''
+        else substr ( upper ( lpapnam.propname ) , 1 , 45 )
     end as building_name,
-    '' as complex_name,
+    case
+        when upper ( lpapnam.propname ) in ( 'BRIGHTON CLASSIC RESIDENCES-INDEPENDENT LIVING APT', 'BRIGHTON CLASSIC RESIDENCES - SERVICED APARTMENTS', 'BENTLEIGH GRANGE RETIREMENT VILLAGE', 'HEATHLANDS HOSTEL', 'GRACELAND MANOR AGED CARE', 'G2 APARTMENTS', 'ELSTERNWICK POLICE STATION', 'WHITE LODGE RETIREMENT COMMUNITY', 'SHERIDAN HALL RETIREMENT ACCOMMODATION - CAULFIELD', 'CATHOLIC HOMES - ORRONG ROAD', 'BRIGHTON CLASSIC RESIDENCES - VILLA UNIT', 'CURRAWEENA RD - INDEPENDENT LIVING UNITS', 'STATION AVE - INDEPENDENT LIVING UNITS', 'CATHOLIC HOMES - BALACLAVA ROAD', 'BRIGHTON CLASSIC RESIDENCES - VILLA UNITS', 'BELSIZE AVE - INDEPENDENT LIVING UNITS', 'PALMYRA SHERIDAN HALL AGED CARE FACILITY', 'EMMY MONASH HOME FOR THE AGED', 'ROYAL DISTRICT NURSIUNG SERVICE', 'VALKSTONE INDEPENDENT LIVING UNITS', 'ST MARYS TENNIS CLUB', '''BOYD COURT'' RESIDENTIAL AGED CARE UNITS', 'KIRKSIDE HOSTEL', 'CATHOLIC HOMES - ELIZABETH STREET', 'CARNEGIE / MURRUMBEENA SENIOR CITIZENS CLUB', 'EAST BENTLEIGH PUBLIC HALL', 'CAULFIELD PLAZA', 'CATHOLIC HOMES - GLEN ORME AVENUE', 'BETHANY CLOSE RETIREMENT VILLAGE UNITS', 'TRINITY COURT RETIREMENT COMMUNITY', 'JASPER RD - INDEPENDENT LIVING UNITS' ) then substr ( upper ( lpapnam.propname ) , 1 , 45 )
+        else ''
+    end as complex_name,
     case
         when upper ( lpaaddr.prefix ) = 'REAR' then upper ( lpaaddr.prefix )
         else ''
