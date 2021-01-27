@@ -64,6 +64,7 @@ where
     cpa.distance_related_flag <> 'N' and
     vp.spi not in ( select spi from pc_council_parcel cp where cp.propnum = vp.propnum ) and
     vp.spi in ( select spi from pc_council_parcel cp where cp.propnum <> vp.propnum ) and
-	vp.propnum in ( select propnum from pc_vicmap_property_address vpa where vpa.distance_related_flag = 'Y' )
+	vp.propnum in ( select propnum from pc_vicmap_property_address vpa where vpa.distance_related_flag = 'Y' ) and
+	vp.spi in ( select spi from m1 where comments like '%warning%' )
 group by
     cpa.propnum
