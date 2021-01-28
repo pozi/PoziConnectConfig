@@ -39,7 +39,7 @@ select
     '' as internal_spi,
     case
         when auprparc.ttl_no2 in ( 'P' , 'PT' ) then 'P'
-        when auprparc.ttl_cde = 15 then 'P'
+        when auprparc.ttl_cde in ( 15 , 16 ) then 'P'
         else ''
     end as part,
     substr ( case
@@ -51,6 +51,7 @@ select
         when auprparc.ttl_cde = 13 then 'PS' || auprparc.ttl_no5
         when auprparc.ttl_cde = 14 then 'PC' || auprparc.ttl_no5
         when auprparc.ttl_cde = 15 then 'PS' || auprparc.ttl_no5
+        when auprparc.ttl_cde = 16 then 'TP' || auprparc.ttl_no5
         else ''
     end , 1 , 8 ) as plan_number,
     case
@@ -62,14 +63,15 @@ select
         when auprparc.ttl_cde = 13 then 'PS'
         when auprparc.ttl_cde = 14 then 'PC'
         when auprparc.ttl_cde = 15 then 'PS'
+        when auprparc.ttl_cde = 16 then 'TP'
         else ''
     end as plan_prefix,
     case
-        when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 , 14 , 15 ) then ifnull ( substr ( auprparc.ttl_no5 , 1 , 6 ) , '' )
+        when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 , 14 , 15 , 16 ) then ifnull ( substr ( auprparc.ttl_no5 , 1 , 6 ) , '' )
         else ''
     end as plan_numeral,
     case
-        when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 , 14 , 15 ) then replace ( upper ( ifnull ( auprparc.ttl_no1 , '' ) ) , ' ' , '' )
+        when auprparc.ttl_cde in ( 1 , 2 , 5 , 7 , 12 , 13 , 14 , 15 , 16 ) then replace ( upper ( ifnull ( auprparc.ttl_no1 , '' ) ) , ' ' , '' )
         else ''
     end as lot_number,
     case
