@@ -65,16 +65,19 @@ select
         else ''
     end as is_primary,
     case
+        when cpa.house_number_1 = '' then ''
         when cast ( cpa.easting as varchar ) not in ( '' , '0' ) then cast ( cpa.easting as varchar )
         when vpa.distance_related_flag = 'Y' then vpa.address_x_proj
         else ''
     end as easting,
     case
+        when cpa.house_number_1 = '' then ''
         when cast ( cpa.northing as varchar ) not in ( '' , '0' ) then cast ( cpa.northing as varchar )
         when vpa.distance_related_flag = 'Y' then vpa.address_y_proj
         else ''
     end as northing,
     case
+        when cpa.house_number_1 = '' then ''
         when cpa.datum_proj <> '' then cpa.datum_proj
         when vpa.distance_related_flag = 'Y' then vpa.address_datum_proj
         else ''
@@ -96,6 +99,7 @@ select
         end ||
         trim ( cpa.blg_unit_type || ' ' || cpa.ezi_address ) ||
         case
+            when vpa.distance_related_flag = 'Y' and cpa.house_number_1 = '' then ' (**WARNING**: distance-based address is being removed)'
             when vpa.house_number_1 <> 0 and vpa.house_number_1 <> '' and cpa.house_number_1 = '' then ' (**WARNING**: house number is being removed)'
             when vpa.distance_related_flag = 'Y' and cpa.distance_related_flag <> 'Y' then ' (**NOTE**: address update will maintain the existing location of distance-based address)'
             else ''
