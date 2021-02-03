@@ -2,7 +2,7 @@ select
     lga_code as lga_code,
     '' as new_sub,
     property_pfi as property_pfi,
-    '' as parcel_pfi,
+    parcel_pfi as parcel_pfi,
     '' as address_pfi,
     spi as spi,
     plan_number as plan_number,
@@ -58,6 +58,10 @@ select
         when ( select num_props from pc_vicmap_parcel_property_count vppc where vppc.spi = cp.spi ) > 1 then vp.property_pfi
         else ''
     end as property_pfi,
+    case vp.status
+        when 'P' then vp.parcel_pfi
+        else ''
+    end as parcel_pfi,
     vp.spi as spi,
     vp.plan_number as plan_number,
     vp.lot_number as lot_number,
