@@ -68,7 +68,7 @@ select
         case
             when propnum in ( select propnum from pc_council_property_address ) then
             ' so it can be later matched to ' ||
-            ( select group_concat (spi) from pc_vicmap_parcel vpx where vpx.spi in ( select spi from pc_council_parcel pc where pc.propnum = vp.propnum ) group by propnum )
+            ( select group_concat ( spi , ', ' ) from pc_vicmap_parcel vpx where vpx.spi in ( select spi from pc_council_parcel pc where pc.propnum = vp.propnum ) group by propnum )
            else ''
         end as comments,
     centroid ( vp.geometry ) as geometry
