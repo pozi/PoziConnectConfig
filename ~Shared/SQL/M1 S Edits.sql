@@ -51,7 +51,13 @@ select
         when replace ( replace ( cpa.road_locality , '''' , '' ) , '-' , ' ' ) not in ( select replace ( road_locality , '-' , ' ' ) from pc_vicmap_property_address ) then 'Y'
         else ''
     end as new_road,
-    cpa.road_name as road_name,
+    case
+        when
+            cpa.road_name <> vpa.road_name and
+            replace ( replace ( cpa.road_name , '''' , '' ) , '-' , ' ' ) = replace ( replace ( vpa.road_name , '''' , '' ) , '-' , ' ' ) and
+            cpa.road_locality not in ( select road_locality from pc_vicmap_property_address ) then vpa.road_name
+        else cpa.road_name
+    end as road_name,
     cpa.road_type as road_type,
     cpa.road_suffix as road_suffix,
     cpa.locality_name as locality_name,
