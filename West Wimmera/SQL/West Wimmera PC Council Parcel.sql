@@ -78,11 +78,11 @@ select
         else auprparc.ttl_no5
     end as plan_numeral,
     case
-        when auprparc.ttl_cde not in ( 7 , 8 ) then ifnull ( upper ( ttl_no1 ) , '' )
+        when auprparc.ttl_cde not in ( 7 , 8 ) then ifnull ( upper ( auprparc.ttl_no1 ) , '' )
         else ''
     end as lot_number,
-    case when auprparc.ttl_cde in ( 7 , 8 ) then ifnull ( upper ( ttl_no1 ) , '' ) else '' end as allotment,
-    ifnull ( ttl_no3 , '' ) as sec,
+    case when auprparc.ttl_cde in ( 7 , 8 ) then ifnull ( upper ( auprparc.ttl_no1 ) , '' ) else '' end as allotment,
+    ifnull ( auprparc.ttl_no3 , '' ) as sec,
     '' as block,
     '' as portion,
     '' as subdivision,
@@ -159,20 +159,20 @@ select
             end
     end as parish_code,
     case
-        when mem_txt like '%APSLEY%T%SHIP%' or mem_txt like '%T%SHIP%APSLEY%' then '5015'
-        when mem_txt like '%CHETWYND%T%SHIP%' or mem_txt like '%T%SHIP%CHETWYND%' then '5171'
-        when mem_txt like '%EDENHOPE%T%SHIP%' or mem_txt like '%T%SHIP%EDENHOPE%' then '5266'
-        when mem_txt like '%GOROKE%T%SHIP%' or mem_txt like '%T%SHIP%GOROKE%' then '5339'
-        when mem_txt like '%HARROW%T%SHIP%' or mem_txt like '%T%SHIP%HARROW%' then '5368'
-        when mem_txt like '%KANIVA%T%SHIP%' or mem_txt like '%T%SHIP%KANIVA%' then '5404'
-        when mem_txt like '%KONNEPRA%T%SHIP%' or mem_txt like '%T%SHIP%KONNEPRA%' then '5870'
-        when mem_txt like '%SERVICETON%T%SHIP%' or mem_txt like '%T%SHIP%SERVICETON%' then '5709'
-        when mem_txt like '%SOUTH%LILLIMUR%T%SHIP%' or mem_txt like '%T%SHIP%SOUTH LILLIMUR%' then '5464'
-        when mem_txt like '%LILLIMUR%T%SHIP%' or mem_txt like '%T%SHIP%LILLIMUR%' then '5463'
+        when aumememo.mem_txt like '%APSLEY%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%APSLEY%' then '5015'
+        when aumememo.mem_txt like '%CHETWYND%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%CHETWYND%' then '5171'
+        when aumememo.mem_txt like '%EDENHOPE%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%EDENHOPE%' then '5266'
+        when aumememo.mem_txt like '%GOROKE%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%GOROKE%' then '5339'
+        when aumememo.mem_txt like '%HARROW%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%HARROW%' then '5368'
+        when aumememo.mem_txt like '%KANIVA%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%KANIVA%' then '5404'
+        when aumememo.mem_txt like '%KONNEPRA%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%KONNEPRA%' then '5870'
+        when aumememo.mem_txt like '%SERVICETON%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%SERVICETON%' then '5709'
+        when aumememo.mem_txt like '%SOUTH%LILLIMUR%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%SOUTH LILLIMUR%' then '5464'
+        when aumememo.mem_txt like '%LILLIMUR%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%LILLIMUR%' then '5463'
         else ''
     end as township_code,
-    fmt_ttl as summary,
-    ifnull ( mem_txt , '' ) as memo,
+    auprparc.fmt_ttl as summary,
+    ifnull ( aumememo.mem_txt , '' ) as memo,
     '371' as lga_code,
     cast ( auprparc.ass_num as varchar ) as assnum
 from
