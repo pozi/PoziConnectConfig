@@ -1,7 +1,23 @@
 select
     *,
+    replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' ) as simple_spi
+from
+(
+select
+    *,
     case
-        when internal_spi <> '' and internal_spi not like '% %' then internal_spi
+        when internal_spi <> '' then internal_spi
+        else constructed_spi
+    end as spi,
+    case
+        when internal_spi <> '' then 'council_spi'
+        else 'council_attributes'
+    end as spi_source
+from
+(
+select
+    *,
+    case
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
@@ -17,29 +33,7 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as spi,
-    case
-        when internal_spi <> '' and internal_spi not like '% %' then replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( internal_spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' )
-        when plan_numeral <> '' and lot_number = '' then plan_numeral
-        when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_numeral
-        when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_numeral
-        when plan_numeral <> '' then lot_number || '\' || plan_numeral
-        when ( parish_code <> '' or township_code <> '' ) then
-            subdivision ||
-            case when subdivision <> '' and ( portion <> '' or allotment <> '' ) then '~' else '' end ||
-            portion ||
-            case when portion <> '' and allotment <> '' then '~' else '' end ||
-            allotment ||
-            case when sec <> '' and ( portion <> '' or allotment <> '' ) then '~' else '' end ||
-            sec ||
-            '\' ||
-            case when township_code <> '' then township_code else parish_code end
-        else ''
-    end as simple_spi,
-    case
-        when internal_spi <> '' and internal_spi not like '% %' then 'council_spi'
-        else 'council_attributes'
-    end as source
+    end as constructed_spi
 from
 (
 select
@@ -126,4 +120,6 @@ where
     auprparc.ass_num not in ( '' , '0' )
 order by
     ass_num
+)
+)
 )
