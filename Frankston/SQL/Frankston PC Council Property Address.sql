@@ -100,12 +100,12 @@ select
     '' as floor_suffix_2,
     case
         when lpapnam.propname is null then ''
-        when upper ( lpapnam.propname ) = 'PENINSULA ON THE BAY' then ''
+        when upper ( lpapnam.propname ) in ( 'AMBASSADOR STUDIO', 'BAYVIEW WATERS NURSING HOME', 'CARRUM DOWNS RETIREMENT VILLAGE', 'LONG ISLAND RETIREMENT VILLAGE', 'OAK TREE RETIREMENT VILLAGE', 'PENINSULA ON THE BAY', 'RSL VILLAGE' ) then ''
         else upper ( lpapnam.propname )
     end as building_name,
     case
         when lpapnam.propname is null then ''
-        when upper ( lpapnam.propname ) = 'PENINSULA ON THE BAY' then upper ( lpapnam.propname )
+        when upper ( lpapnam.propname ) in ( 'AMBASSADOR STUDIO', 'BAYVIEW WATERS NURSING HOME', 'CARRUM DOWNS RETIREMENT VILLAGE', 'LONG ISLAND RETIREMENT VILLAGE', 'OAK TREE RETIREMENT VILLAGE', 'PENINSULA ON THE BAY', 'RSL VILLAGE' ) then upper ( lpapnam.propname )
         else ''
     end as complex_name,
     case
