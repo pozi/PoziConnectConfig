@@ -160,15 +160,25 @@ select
     end as parish_code,
     case
         when aumememo.mem_txt like '%APSLEY%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%APSLEY%' then '5015'
+        when aumememo.mem_txt like '%BOOROOPKI%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%BOOROOPKI%' then '5101'
         when aumememo.mem_txt like '%CHETWYND%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%CHETWYND%' then '5171'
+        when aumememo.mem_txt like '%DERGHOLM%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%DERGHOLM%' then '5238'
+        when aumememo.mem_txt like '%DOUGLAS%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%DOUGLAS%' then '5249'
         when aumememo.mem_txt like '%EDENHOPE%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%EDENHOPE%' then '5266'
         when aumememo.mem_txt like '%GOROKE%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%GOROKE%' then '5339'
         when aumememo.mem_txt like '%HARROW%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%HARROW%' then '5368'
         when aumememo.mem_txt like '%KANIVA%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%KANIVA%' then '5404'
+        when aumememo.mem_txt like '%KARNAK%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%KARNAK%' then '5408'
+        when aumememo.mem_txt like '%LAWLOIT%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%LAWLOIT%' then '5455'
         when aumememo.mem_txt like '%KONNEPRA%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%KONNEPRA%' then '5870'
+        when aumememo.mem_txt like '%MINIMAY%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%MINIMAY%' then '5532'
+        when aumememo.mem_txt like '%MIRAM%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%MIRAM%' then '5535'
+        when aumememo.mem_txt like '%NEUARPUR%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%NEUARPUR%' then '5587'
         when aumememo.mem_txt like '%SERVICETON%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%SERVICETON%' then '5709'
-        when aumememo.mem_txt like '%SOUTH%LILLIMUR%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%SOUTH LILLIMUR%' then '5464'
+        when aumememo.mem_txt like '%SOUTH%LILLIMUR%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%SOUTH%LILLIMUR%' then '5464'
         when aumememo.mem_txt like '%LILLIMUR%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%LILLIMUR%' then '5463'
+        when aumememo.mem_txt like '%TELOPEA%DOWNS%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%TELOPEA%DOWNS%' then '5775'
+        when aumememo.mem_txt like '%WOMBELANO%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%WOMBELANO%' then '5870'
         else ''
     end as township_code,
     auprparc.fmt_ttl as summary,
