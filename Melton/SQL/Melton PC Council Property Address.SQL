@@ -126,7 +126,7 @@ select distinct
         when trim ( auprstad.str_typ ) in ( 'PKY' , 'PKWY' ) then 'PARKWAY'
         when trim ( auprstad.str_typ ) in ( 'PL' ) then 'PLACE'
         when trim ( auprstad.str_typ ) in ( 'PNT' ) then 'POINT'
-        when trim ( auprstad.str_typ ) in ( 'PROM' ) then 'PROMENADE'
+        when trim ( auprstad.str_typ ) in ( 'PROM' , 'PRM' ) then 'PROMENADE'
         when trim ( auprstad.str_typ ) in ( 'PU' ) then 'PURSUIT'
         when trim ( auprstad.str_typ ) in ( 'QY' ) then 'QUAY'
         when trim ( auprstad.str_typ ) in ( 'RD' , 'ROAD' ) then 'ROAD'
