@@ -120,8 +120,8 @@ select
             else ''
         end ||
         case
-            when vpa.floor_no_1 <> 0 and cast ( cpa.floor_no_1 as float ) = 0 then ' (**WARNING**: floor number is being removed)'
-            when cast ( cpa.floor_no_1 as float ) <> vpa.floor_no_1 or cast ( cpa.floor_no_2 as float ) <> vpa.floor_no_2 then ' (**NOTE**: new floor number)'
+            when cast ( vpa.floor_no_1 as float ) <> 0 and cast ( cpa.floor_no_1 as float ) = 0 then ' (**WARNING**: floor number is being removed)'
+            when cast ( cpa.floor_no_1 as float ) <> cast ( vpa.floor_no_1 as float ) or cast ( cpa.floor_no_2 as float ) <> cast ( vpa.floor_no_2 as float ) then ' (**NOTE**: new floor number)'
             when cpa.floor_type <> vpa.floor_type then ' (**NOTE**: new floor type ' || cpa.floor_type || ')'
             else ''
         end ||
