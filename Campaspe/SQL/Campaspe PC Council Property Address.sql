@@ -170,7 +170,15 @@ from
     join techone_nucstreet S on S.street_no = A.street_no
     join techone_nuclocality L on L.locality_ctr = S.locality_ctr
 where
-    P.status in ( 'C' , 'F' )
+    P.status in ( 'C' , 'F' ) and
+    P.property_no in (
+	    select key1
+		from
+		    techone_nucassociation A join
+			techone_nucland Land on A.key2 = Land.land_no
+		where
+			A.association_type = 'PropLand' and
+		    Land.status in ( 'C' , 'F') )
 )
 )
 )
