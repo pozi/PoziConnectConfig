@@ -48,6 +48,7 @@ select
     address.address_class as address_class,
     address.add_access_type as access_type,
     address.outside_property as outside_property,
+    address.complex_site as complex_site,
     road_name || rtrim ( ' ' || road_type ) || rtrim ( ' ' || road_suffix ) as road_name_combined,
     road_name || rtrim ( ' ' || road_type ) || rtrim ( ' ' || road_suffix ) || rtrim ( ' ' || locality_name ) as road_locality,
     replace ( pfi_created_char , '/' , '-' ) as address_pfi_created,
