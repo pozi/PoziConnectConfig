@@ -104,7 +104,7 @@ select
             when cpa.propnum = vpa.propnum then 'replacing address ' || trim ( vpa.blg_unit_type || ' ' || vpa.ezi_address ) || ' with '
             else 'assigning new address '
         end ||
-        trim ( cpa.blg_unit_type || ' ' || cpa.ezi_address ) ||
+        ifnull ( trim ( cpa.blg_unit_type || ' ' || cpa.ezi_address ) , '(UNKNOWN)' ) ||
         case
             when vpa.distance_related_flag = 'Y' and cpa.house_number_1 = '' then ' (**WARNING**: distance-based address is being removed)'
             when vpa.house_number_1 <> 0 and vpa.house_number_1 <> '' and cpa.house_number_1 = '' then ' (**WARNING**: house number is being removed)'
