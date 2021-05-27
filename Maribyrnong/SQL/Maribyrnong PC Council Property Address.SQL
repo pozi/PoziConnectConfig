@@ -98,11 +98,13 @@ select distinct
         when trim ( upper ( auprstad.str_typ ) ) in ( 'DR' , 'DVE' ) then 'DRIVE'
         when trim ( upper ( auprstad.str_typ ) ) in ( 'GR' , 'GV' , 'GVE' ) then 'GROVE'
         when trim ( upper ( auprstad.str_typ ) ) in ( 'LA' , 'LN' , 'LNE' , 'LANE' ) then 'LANE'
+        when trim ( upper ( auprstad.str_typ ) ) in ( 'PATH' ) then 'PATH'
         when trim ( upper ( auprstad.str_typ ) ) in ( 'PDE' ) then 'PARADE'
-        when trim ( upper ( auprstad.str_typ ) ) in ( 'PKY' , 'PKWY' ) then 'PARKWAY'
+        when trim ( upper ( auprstad.str_typ ) ) in ( 'PKY' , 'PKWY' , 'PWY' ) then 'PARKWAY'
         when trim ( upper ( auprstad.str_typ ) ) in ( 'PL' ) then 'PLACE'
         when trim ( upper ( auprstad.str_typ ) ) in ( 'RD' , 'ROAD' ) then 'ROAD'
-        when trim ( upper ( auprstad.str_typ ) ) in ( 'RI' ) then 'RISE'
+        when trim ( upper ( auprstad.str_typ ) ) in ( 'RES' ) then 'RESERVE'
+        when trim ( upper ( auprstad.str_typ ) ) in ( 'RI' , 'RISE' ) then 'RISE'
         when trim ( upper ( auprstad.str_typ ) ) in ( 'SQ' ) then 'SQUARE'
         when trim ( upper ( auprstad.str_typ ) ) in ( 'ST' , 'SS' , 'SN' ) then 'STREET'
         when trim ( upper ( auprstad.str_typ ) ) in ( 'TCE' ) then 'TERRACE'
@@ -113,6 +115,7 @@ select distinct
         when upper ( auprstad.str_nme ) like 'ORDNANCE RES%' then 'RESERVE'
         when upper ( auprstad.str_nme ) like 'MAGNOLIA PATH%' then 'PATH'
         when upper ( auprstad.str_nme ) like 'THE %' then ''
+		else ifnull ( auprstad.str_typ , '' )
     end as road_type,
     case
         when auprstad.str_nme like '% N' then 'N'
