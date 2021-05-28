@@ -92,6 +92,7 @@ select
             else ' as new multi-assessment to property ' || ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) || ' (' || ifnull ( ( select ezi_address from pc_council_property_address cpax where propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) , '???' ) || ')'
         end ||
         case
+		    when ( select vpa.propnum from pc_vicmap_property_address vpa where vpa.propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) is null then ''
             when cpa.locality_name not in ( select vpa.locality_name from pc_vicmap_property_address vpa where vpa.propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) then ' (**WARNING**: properties have different localities)'
             when cpa.road_name not in ( select vpa.road_name from pc_vicmap_property_address vpa where vpa.propnum in ( select vp.propnum from pc_vicmap_parcel vp where vp.spi = cp.spi ) ) then ' (**WARNING**: properties have different road names)'
             else ''
