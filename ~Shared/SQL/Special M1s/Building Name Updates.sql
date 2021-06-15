@@ -85,22 +85,37 @@
     end as outside_property,
     'S' as edit_code,
     'property ' || cpa.propnum ||
-        ': update building name from ' ||
         case
-            when vpa.building_name = '' then '(blank)'
-            else vpa.building_name
-        end
-        || ' to ' ||
-        case
-            when cpa.building_name = '' then '(blank)'
-            else replace ( cpa.building_name , '&' , 'AND' )
+            when replace ( cpa.building_name , '&' , 'AND' ) <> vpa.building_name then
+                ': update building name from ' ||
+                case
+                    when vpa.building_name = '' then '(blank)'
+                    else vpa.building_name
+                end
+                || ' to ' ||
+                case
+                    when cpa.building_name = '' then '(blank)'
+                    else replace ( cpa.building_name , '&' , 'AND' )
+                end
+            when replace ( cpa.complex_name , '&' , 'AND' ) <> vpa.complex_name then
+                ': update complex name from ' ||
+                case
+                    when vpa.complex_name = '' then '(blank)'
+                    else vpa.complex_name
+                end
+                || ' to ' ||
+                case
+                    when cpa.complex_name = '' then '(blank)'
+                    else replace ( cpa.complex_name , '&' , 'AND' )
+                end
+            else ''
         end as comments
 from
     pc_council_property_address cpa left join
     pc_vicmap_property_address vpa on cpa.propnum = vpa.propnum and vpa.is_primary = 'Y'
 where
     replace ( cpa.building_name , '&' , 'AND' ) <> vpa.building_name or
-    replace ( cpa.complex_name , '&' , 'AND' ) <> vpa.complex_name
+    ( replace ( cpa.complex_name , '&' , 'AND' ) <> vpa.complex_name and cpa.complex_name <> '' )
 group by
     cpa.propnum, vpa.property_pfi
 order by
