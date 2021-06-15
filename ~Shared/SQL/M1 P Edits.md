@@ -114,6 +114,12 @@ Exclude matches where the existing property is NCPR which has a different addres
 not ( vp.propnum = 'NCPR' and ( select ezi_address from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi and vpa.is_primary <> 'N' ) <> ( select ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum and cpa.is_primary <> 'N' ) )
 ```
 
+Exclude matches where the existing property address is a complex site or otherwise has a source of 'VAC'
+
+```sql
+vp.property_pfi not in ( select property_pfi from pc_vicmap_property_address vpa where complex_site = 'Y' or source = 'VAC' )
+```
+
 Return only one record per parcel.
 
 ```sql
