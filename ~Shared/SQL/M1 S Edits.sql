@@ -25,7 +25,13 @@ select
     cpa.blg_unit_prefix_2 as blg_unit_prefix_2,
     cpa.blg_unit_id_2 as blg_unit_id_2,
     cpa.blg_unit_suffix_2 as blg_unit_suffix_2,
-    cpa.floor_type as floor_type,
+    case
+        when cpa.floor_no_1 = '' then ''
+        else case
+            when cpa.floor_type <> '' then cpa.floor_type
+            else 'FL'
+        end
+    end as floor_type,
     cpa.floor_prefix_1 as floor_prefix_1,
     cpa.floor_no_1 as floor_no_1,
     cpa.floor_suffix_1 as floor_suffix_1,
