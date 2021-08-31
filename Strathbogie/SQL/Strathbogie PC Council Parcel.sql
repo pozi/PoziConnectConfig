@@ -35,7 +35,10 @@ select
             when 12 then '0'
             when 13 then ''
         end as propnum,
-    '' as status,
+    case Title.Title_Status_Id
+        when 0 then 'A'
+        when 3 then 'P'
+    end as status,
     cast ( Title.Title_Id as varchar ) as crefno,
     ifnull ( Title.Title_SPI_Reference , '' ) as internal_spi,
     ifnull ( Title.Title_Legal_Description , '' ) as summary,
@@ -75,7 +78,7 @@ from
     propertygov_township as Township on Title.Township_Id = Township.Township_Id
 where
     Parcel.Parcel_Status = 0 and
-    Title.Title_Status_Id = 0
+    Title.Title_Status_Id in ( 0, 3 )
 order by propnum, crefno
 )
 )
