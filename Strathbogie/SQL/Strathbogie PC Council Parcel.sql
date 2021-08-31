@@ -74,7 +74,8 @@ from
     propertygov_parish as Parish on Title.Parish_Id = Parish.Parish_Id left join
     propertygov_township as Township on Title.Township_Id = Township.Township_Id
 where
-    Parcel.Parcel_Status = 0
+    Parcel.Parcel_Status = 0 and
+    Title.Title_Status_Id = 0
 order by propnum, crefno
 )
 )
