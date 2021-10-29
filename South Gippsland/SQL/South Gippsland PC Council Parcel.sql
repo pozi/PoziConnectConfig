@@ -43,11 +43,11 @@ select distinct
         when 'A' then 'P'
     end as status,
     cast ( lpaparc.tpklpaparc as varchar ) as crefno,
-    lpaparc.spi as internal_spi,
+    ifnull ( lpaparc.spi , '' ) as internal_spi,
     ifnull ( lpaparc.fmtparcel , '' ) as summary,
     case
-        when lpaparc.plannum is null then cast (null as varchar)
-        else cast ( trim (lpaparc.plancode ) ||
+        when lpaparc.plannum is null then ''
+        else cast ( trim ( lpaparc.plancode ) ||
             case
                 when substr ( trim ( lpaparc.plannum ) , -1 ) > '9' and substr ( trim ( lpaparc.plannum ) , 1 ) <> '0' then substr ( lpaparc.plannum , 1 , ( length ( trim ( plannum ) ) -1 ) )
                 when substr ( trim ( lpaparc.plannum ) , 2 ) = '00'  then substr ( lpaparc.plannum , 3 , 99 )
@@ -57,6 +57,7 @@ select distinct
     end as plan_number,
     ifnull ( lpaparc.plancode , '' ) as plan_prefix,
     case
+	    when lpaparc.plannum is null then ''
         when substr ( trim ( lpaparc.plannum ) , -1 ) > '9' and substr ( trim ( lpaparc.plannum ) , 1 ) <> '0' then substr ( lpaparc.plannum , 1 , ( length ( trim ( plannum ) ) -1 ) )
         when substr ( trim ( lpaparc.plannum ) , 2 ) = '00'  then substr ( lpaparc.plannum , 3 , 99 )
         when substr ( trim ( lpaparc.plannum ) , 1 ) = '0'  then substr ( lpaparc.plannum , 2 , 99 )
