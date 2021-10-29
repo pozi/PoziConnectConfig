@@ -69,7 +69,7 @@ select distinct
     end as lot_number,
     case
         when ifnull ( lpaparc.parcelnum , '' ) <> '' and ifnull ( lpaparc.plannum , '' ) = '' then ifnull ( lpaparc.parcelnum , '' )
-        else ifnull ( lpacrwn.crownallot , '' )
+        else ifnull ( replace ( lpacrwn.crownallot , 'PT' , '' ) , '' )
     end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
     '' as block,
