@@ -35,7 +35,22 @@ select distinct
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    upper ( ifnull ( Address.Building_Unit_Abbreviation , '' ) ) as blg_unit_type,
+    case
+        when Address.Building_Unit_Abbreviation = 'FY' then 'FCTY'
+        when Address.Building_Unit_Abbreviation = 'U' then 'UNIT'
+        when Address.Building_Unit_Abbreviation not null then upper ( Address.Building_Unit_Abbreviation )
+        when Assessment.Property_Name_Address_Locality like 'FLAT %' then 'FLAT'
+        when Assessment.Property_Name_Address_Locality like '% FLAT %' then 'FLAT'
+        when Assessment.Property_Name_Address_Locality like 'OFFICE %' then 'OFFC'
+        when Assessment.Property_Name_Address_Locality like '% OFFICE %' then 'OFFC'
+        when Assessment.Property_Name_Address_Locality like 'SHOP %' then 'SHOP'
+        when Assessment.Property_Name_Address_Locality like '% SHOP %' then 'SHOP'
+        when Assessment.Property_Name_Address_Locality like 'U %' then 'UNIT'
+        when Assessment.Property_Name_Address_Locality like '% U %' then 'UNIT'
+        when Assessment.Property_Name_Address_Locality like 'UNIT %' then 'UNIT'
+        when Assessment.Property_Name_Address_Locality like '% UNIT %' then 'UNIT'
+        else ''
+    end as blg_unit_type,
     upper ( ifnull ( replace ( Address.Addr_Building_Unit_Prefix_1 , '-' , '' ) , '' ) ) as blg_unit_prefix_1,
     cast ( ifnull ( Address.Addr_Building_Unit_Number_1 , '' ) as varchar ) as blg_unit_id_1,
     upper ( ifnull ( Address.Addr_Building_Unit_Suffix_1 , '' ) ) as blg_unit_suffix_1,
