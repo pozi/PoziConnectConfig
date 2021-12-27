@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OGRVRTDataSource>
+    <OGRVRTLayer name="Central Goldfields PC Council Rural Address">
+        <SrcDataSource>http://dservices7.arcgis.com/fVJQ0uhT9L4zp35f/arcgis/services/CentralGoldFields_M1_Addressing/WFSServer?service=wfs&amp;request=GetFeature&amp;typeNames=MCGM1Addresses&amp;outputFormat=geojson</SrcDataSource>
+        <SrcSQL dialect="sqlite">
+            select
+                *
+            from
+                OGRGeoJSON
+        </SrcSQL>
+    </OGRVRTLayer>
+</OGRVRTDataSource>
