@@ -167,6 +167,6 @@ where
       ( cast ( cpa.floor_no_1 as float ) <> vpa.floor_no_1 and cast ( cpa.floor_no_1 as float ) <> 0 ) or
       ( cast ( cpa.floor_no_2 as float ) <> vpa.floor_no_2 and cast ( cpa.floor_no_2 as float ) <> 0 ) or
       ( cpa.distance_related_flag = 'Y' and vpa.distance_related_flag = 'N' ) ) and
-    cpa.road_name <> '' and
+    cpa.road_name not in ( '' , 'UNNAMED' ) and
     not ( select count(*) from ( select distinct ezi_address from pc_vicmap_property_address vpax where vpax.propnum = cpa.propnum ) ) > 1
 group by cpa.propnum, vpa.property_pfi
