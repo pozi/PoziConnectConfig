@@ -36,11 +36,24 @@ select
         else 'N'
     end as is_primary,
     '' as distance_related_flag,
-    '' as hsa_flag,
-    '' as hsa_unit_id,
-    '' as blg_unit_type,
-    upper ( ifnull ( lpaaddr.unitprefix , '' ) ) as blg_unit_prefix_1,
+    case lpaadfm.tpklpaadfm
+        when 1805 then 'Y'
+        else ''
+    end as hsa_flag,
     case
+        when ifnull ( lpaadfm.tpklpaadfm , '' ) <> 1805 then ''
+        when ifnull ( lpaaddr.unitprefix , '' ) like 'B%' then 'B' || cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
+        when ifnull ( lpaaddr.unitprefix , '' ) like 'G%' then 'G' || substr ( '00' || cast ( cast ( lpaaddr.strunitnum as integer ) as varchar ) , -2 )
+        when ifnull ( lpaaddr.unitprefix , '' ) like 'LG%' then 'LG' || substr ( '00' || cast ( cast ( lpaaddr.strunitnum as integer ) as varchar ) , -2 )
+        else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
+    end as hsa_unit_id,
+    '' as blg_unit_type,
+    case
+        when lpaadfm.tpklpaadfm = 1805 then ''
+        else upper ( ifnull ( lpaaddr.unitprefix , '' ) )
+    end as blg_unit_prefix_1,
+    case
+        when lpaadfm.tpklpaadfm = 1805 then ''
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
         else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
     end as blg_unit_id_1,
@@ -126,7 +139,8 @@ from
     pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join
     pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join
     pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
-    pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
+    pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop left join
+    pathway_lpaadfm as lpaadfm on lpaadpr.tfklpaadfm = lpaadfm.tpklpaadfm
 where
     lpaprop.status <> 'H' and
     lpaprop.tfklpacncl = 12 and
