@@ -38,7 +38,7 @@ select
     end as constructed_spi
 from
 (
-select 
+select distinct
     cast ( Assessment.Assess_Number as varchar ) as propnum,
     '' as status,
     '' as crefno,
