@@ -19,25 +19,43 @@ select
     ifnull ( address.hsa_flag , '' ) as hsa_flag,
     ifnull ( address.hsa_unit_id , '' ) as hsa_unit_id,
     ifnull ( address.blg_unit_prefix_1 , '' ) as blg_unit_prefix_1,
-    address.blg_unit_id_1 as blg_unit_id_1,
+    case
+        when address.blg_unit_id_1 = -9999 then 0
+        else address.blg_unit_id_1
+    end as blg_unit_id_1,
     ifnull ( address.blg_unit_suffix_1 , '' ) as blg_unit_suffix_1,
     ifnull ( address.blg_unit_prefix_2 , '' ) as blg_unit_prefix_2,
-    address.blg_unit_id_2 as blg_unit_id_2,
+    case
+        when address.blg_unit_id_2 = -9999 then 0
+        else address.blg_unit_id_2
+    end as blg_unit_id_2,
     ifnull ( address.blg_unit_suffix_2 , '' ) as blg_unit_suffix_2,
     ifnull ( address.floor_type , '' ) as floor_type,
     ifnull ( address.floor_prefix_1 , '' ) as floor_prefix_1,
-    address.floor_no_1 as floor_no_1,
+    case
+        when address.floor_no_1 = -9999 then 0
+        else address.floor_no_1
+    end as floor_no_1,
     ifnull ( address.floor_suffix_1 , '' ) as floor_suffix_1,
     ifnull ( address.floor_prefix_2 , '' ) as floor_prefix_2,
-    address.floor_no_2 as floor_no_2,
+    case
+        when address.floor_no_2 = -9999 then 0
+        else address.floor_no_2
+    end as floor_no_2,
     ifnull ( address.floor_suffix_2 , '' ) as floor_suffix_2,
     ifnull ( address.building_name , '' ) as building_name,
     ifnull ( address.complex_name , '' ) as complex_name,
     ifnull ( address.house_prefix_1 , '' ) as house_prefix_1,
-    address.house_number_1 as house_number_1,
+    case
+        when address.house_number_1 = -9999 then 0
+        else address.house_number_1
+    end as house_number_1,
     ifnull ( address.house_suffix_1 , '' ) as house_suffix_1,
     ifnull ( address.house_prefix_2 , '' ) as house_prefix_2,
-    address.house_number_2 as house_number_2,
+    case
+        when address.house_number_2 = -9999 then 0
+        else address.house_number_2
+    end as house_number_2,
     ifnull ( address.house_suffix_2 , '' ) as house_suffix_2,
     ifnull ( address.road_name , '' ) as road_name,
     ifnull ( address.road_type , '' ) as road_type,
