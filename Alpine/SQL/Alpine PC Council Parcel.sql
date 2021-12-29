@@ -6,6 +6,18 @@ from
 select
     *,
     case
+        when internal_spi <> '' then internal_spi
+        else constructed_spi
+    end as spi,
+    case
+        when internal_spi <> '' then 'council_spi'
+        else 'council_attributes'
+    end as spi_source
+from
+(
+select
+    *,
+    case
         when plan_number <> '' and lot_number = '' then plan_number
         when plan_number <> '' and sec <> '' then lot_number || '~' || sec || '\' || plan_number
         when plan_number <> '' and block <> '' then lot_number || '~' || block || '\' || plan_number
@@ -21,133 +33,104 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as spi
+    end as constructed_spi
 from
 (
 select
-    cast ( auprparc.ass_num as varchar ) as propnum,
-    case auprparc.pcl_flg
-        when 'R' then 'A'
-        when 'P' then 'P'
-    end as status,
-    cast ( auprparc.pcl_num as varchar ) as crefno,
-    '' as part,
+    cast ( propertyNumber as varchar ) as propnum,
+    '' as status,
+    cast ( parcelId as varchar ) as crefno,
     case
-        when auprparc.ttl_cde = 3 then ''
-        else case
-            when auprparc.ttl_cde = 1 then 'PS'
-            when auprparc.ttl_cde = 2 then 'PC'
-            when auprparc.ttl_cde = 4 then 'CP'
-            when auprparc.ttl_cde = 5 then 'SP'
-            when auprparc.ttl_cde = 6 then 'LP'
-            when auprparc.ttl_cde = 7 then 'RP'
-            when auprparc.ttl_cde = 8 then 'CS'
-            when auprparc.ttl_cde = 10 then 'PS'
-            when auprparc.ttl_cde = 15 then 'TP'
-            when auprparc.ttl_cde = 20 then 'PS'
-        end || auprparc.ttl_no5
+        when planPrefix = 'CA' then ''
+        else ifnull ( vicParcelSpi , '' )
+    end as internal_spi,
+    case
+        when isPartOfLot = 'Yes' then 'P'
+        else ''
+    end as part,
+    case
+        when planPrefix = 'CA' then ''
+        else planPrefix || cast ( planNo as varchar )
     end as plan_number,
     case
-        when auprparc.ttl_cde = 3 then ''
-        when auprparc.ttl_cde = 1 then 'PS'
-        when auprparc.ttl_cde = 2 then 'PC'
-        when auprparc.ttl_cde = 4 then 'CP'
-        when auprparc.ttl_cde = 5 then 'SP'
-        when auprparc.ttl_cde = 6 then 'LP'
-        when auprparc.ttl_cde = 7 then 'RP'
-        when auprparc.ttl_cde = 8 then 'CS'
-        when auprparc.ttl_cde = 10 then 'PS'
-        when auprparc.ttl_cde = 15 then 'TP'
-        when auprparc.ttl_cde = 20 then 'PS'
+        when planPrefix = 'CA' then ''
+        else planPrefix
     end as plan_prefix,
+    ifnull ( planNo , '' ) as plan_numeral,
+    ifnull ( lot , '' ) as lot_number,
+    ifnull ( crownAllotment , '' ) as allotment,
     case
-        when auprparc.ttl_cde = 3 then ''
-        else auprparc.ttl_no5
-    end as plan_numeral,
-    case
-        when auprparc.ttl_cde = 3 then ''
-        else ifnull ( auprparc.ttl_no1 , '' )
-    end as lot_number,
-    case
-        when auprparc.ttl_cde = 3 then auprparc.ttl_no5
+        when planPrefix = 'CA' then ifnull ( section , '' )
         else ''
-    end as allotment,
-    case
-        when auprparc.ttl_cde <> 3 then ''
-        else ifnull ( ttl_no4 , '' )
     end as sec,
-    '' as block,
-    '' as portion,
-    '' as subdivision,
+    ifnull ( block , '' ) as block,
+    ifnull ( portion , '' ) as portion,
+    ifnull ( subdivision , '' ) as subdivision,
     case
-        when auprparc.ttl_cde <> 3 then ''
-        else
-            case auprparc.ttl_no6
-                when 'BARROWORN' then '2084'
-                when 'BARWIDGEE' then '2085'
-                when 'BRIGHT' then '2227'
-                when 'BRUARONG' then '2239'
-                when 'BUCKLAND' then '2247'
-                when 'BULGABACK' then '2256'
-                when 'BUNGAMERO' then '2277'
-                when 'CARRUNO' then '2361'
-                when 'COOLUMBOOKA' then '2430'
-                when 'COOMA' then '2433'
-                when 'DANDONGADALE' then '2484'
-                when 'DARBALANG' then '2486'
-                when 'DEDERANG' then '2505'
-                when 'EURANDELONG' then '2606'
-                when 'FREEBURGH' then '2620'
-                when 'GUNDOWRING' then '2734'
-                when 'HARRIETVILLE' then '2744'
-                when 'HOTHAM' then '2765'
-                when 'KERGUNYAH' then '2863'
-                when 'MAHARATTA' then '3034'
-                when 'MATONG NORTH' then '3075'
-                when 'MOROCKDONG' then '3191'
-                when 'MUDGEGONGA' then '3210'
-                when 'MULLAGONG' then '3213'
-                when 'MULLAWYE' then '3214'
-                when 'MULLINDOLINGONG' then '3215'
-                when 'MURMUNGEE' then '3227'
-                when 'MYRTLEFORD' then '3249'
-                when 'PANBULLA' then '3366'
-                when 'POREPUNKAH' then '3413'
-                when 'TAWANGA' then '3568'
-                when 'THEDDORA' then '3583'
-                when 'TOWAMBA' then '3639'
-                when 'WANDILIGONG' then '3720'
-                when 'WERMATONG' then '3795'
-                when 'WHOROULY' then '3810'
-                when 'WINTERIGA' then '3842'
-                when 'YERTOO' then '3989'
-                else ''
-            end
+        when planPrefix <> 'CA' then ''
+        when upper ( parish ) = 'BARROWORN' then '2084'
+        when upper ( parish ) = 'BARWIDGEE' then '2085'
+        when upper ( parish ) = 'BRIGHT' then '2227'
+        when upper ( parish ) = 'BRUARONG' then '2239'
+        when upper ( parish ) = 'BUCKLAND' then '2247'
+        when upper ( parish ) = 'BULGABACK' then '2256'
+        when upper ( parish ) = 'BUNGAMERO' then '2277'
+        when upper ( parish ) = 'CARRUNO' then '2361'
+        when upper ( parish ) = 'COOLUMBOOKA' then '2430'
+        when upper ( parish ) = 'COOMA' then '2433'
+        when upper ( parish ) = 'DANDONGADALE' then '2484'
+        when upper ( parish ) = 'DARBALANG' then '2486'
+        when upper ( parish ) = 'DEDERANG' then '2505'
+        when upper ( parish ) = 'EURANDELONG' then '2606'
+        when upper ( parish ) = 'FREEBURGH' then '2620'
+        when upper ( parish ) = 'GUNDOWRING' then '2734'
+        when upper ( parish ) = 'HARRIETVILLE' then '2744'
+        when upper ( parish ) = 'HOTHAM' then '2765'
+        when upper ( parish ) = 'KERGUNYAH' then '2863'
+        when upper ( parish ) = 'MAHARATTA' then '3034'
+        when upper ( parish ) = 'MATONG NORTH' then '3075'
+        when upper ( parish ) = 'MOROCKDONG' then '3191'
+        when upper ( parish ) = 'MUDGEGONGA' then '3210'
+        when upper ( parish ) = 'MULLAGONG' then '3213'
+        when upper ( parish ) = 'MULLAWYE' then '3214'
+        when upper ( parish ) = 'MULLINDOLINGONG' then '3215'
+        when upper ( parish ) = 'MURMUNGEE' then '3227'
+        when upper ( parish ) = 'MYRTLEFORD' then '3249'
+        when upper ( parish ) = 'PANBULLA' then '3366'
+        when upper ( parish ) = 'POREPUNKAH' then '3413'
+        when upper ( parish ) = 'TAWANGA' then '3568'
+        when upper ( parish ) = 'THEDDORA' then '3583'
+        when upper ( parish ) = 'TOWAMBA' then '3639'
+        when upper ( parish ) = 'WANDILIGONG' then '3720'
+        when upper ( parish ) = 'WERMATONG' then '3795'
+        when upper ( parish ) = 'WHOROULY' then '3810'
+        when upper ( parish ) = 'WINTERIGA' then '3842'
+        when upper ( parish ) = 'YERTOO' then '3989'
+        else ''
     end as parish_code,
     case
-        when auprparc.ttl_cde <> 3 then ''
-        else
-            case auprparc.ttl_no6
-                when 'BRIGHT (T)' then '5110'
-                when 'DEDERANG (T)' then '5234'
-                when 'FREEBURGH (T)' then '5302'
-                when 'HARRIETVILLE (T)' then '5367'
-                when 'MUDGEGONGA (T)' then '5558'
-                when 'MYRTLEFORD (T)' then '5568'
-                when 'POREPUNKAH (T)' then '5645'
-                when 'WANDILIGONG (T)' then '5826'
-                else ''
-            end
+        when planPrefix <> 'CA' then ''
+        when upper ( parish ) = 'BRIGHT (T)' then '5110'
+        when upper ( parish ) = 'DEDERANG (T)' then '5234'
+        when upper ( parish ) = 'FREEBURGH (T)' then '5302'
+        when upper ( parish ) = 'HARRIETVILLE (T)' then '5367'
+        when upper ( parish ) = 'MUDGEGONGA (T)' then '5558'
+        when upper ( parish ) = 'MYRTLEFORD (T)' then '5568'
+        when upper ( parish ) = 'POREPUNKAH (T)' then '5645'
+        when upper ( parish ) = 'WANDILIGONG (T)' then '5826'
+        else ''
     end as township_code,
-    fmt_ttl as summary,
-    '300' as lga_code,
-    cast ( auprparc.ass_num as varchar ) as assnum
+    ifnull ( legacyData1 , '' ) as summary,
+    case upper ( suburb )
+        when 'FALLS CREEK' then '386'
+        when 'HOTHAM HEIGHTS' then '388'
+        else '300'
+    end as lga_code,
+    '' as assnum
 from
-    authority_auprparc as auprparc join
-    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num join
-    authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num
+    councilwise_parcels
 where
-    auprparc.pcl_flg in ( 'R' , 'P' ) and
-    upper ( auprstad.sbr_nme ) not in ( 'HOTHAM HEIGHTS' , 'FALLS CREEK' )
+    parcelStatus = 1
+)
 )
 )
