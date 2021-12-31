@@ -161,7 +161,7 @@ select
         when upper ( substr ( S.street_name , -5 ) ) in ( ' BEND', ' BRAE', ' COVE', ' DENE', ' EDGE', ' GLEN', ' HILL', ' LANE', ' LINK', ' LOOP', ' MEWS', ' NOOK' , ' QUAY', ' PATH', ' RISE', ' ROAD', ' TURN', ' VIEW', ' WALK', ' WYND' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 5 ) )
         when upper ( substr ( S.street_name , -6 ) ) in ( ' ALLEY', ' CHASE', ' CLOSE' , ' COURT' , ' CREST' , ' DRIVE', ' GLADE', ' GROVE', ' HEATH', ' PLACE', ' PLAZA', ' POINT', ' RIDGE', ' ROUND', ' SLOPE' , ' STRIP', ' TRACK', ' VISTA', ' GREEN' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 6 ) )
         when upper ( substr ( S.street_name , -7 ) ) in ( ' ACCESS', ' ARCADE', ' AVENUE', ' BYPASS', ' CIRCLE', ' DIVIDE', ' GRANGE', ' PARADE', ' SQUARE', ' STREET', ' WATERS' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 7 ) )
-        when upper ( substr ( S.street_name , -8 ) ) in ( ' BY-PASS', ' CIRCUIT', ' CUTTING', ' FREEWAY', ' GARDENS', ' HIGHWAY', ' PARKWAY', ' RETREAT', ' TERRACE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 8 ) )
+        when upper ( substr ( S.street_name , -8 ) ) in ( ' BY-PASS', ' CIRCUIT', ' CUTTING', ' FREEWAY', ' GARDENS', ' HIGHWAY', ' PARKWAY', ' PASSAGE', ' RETREAT', ' TERRACE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 8 ) )
         when upper ( substr ( S.street_name , -9 ) ) in ( ' CRESCENT', ' QUADRANT' , ' WATERWAY' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 9 ) )
         when upper ( substr ( S.street_name , -10 ) ) in ( ' BOULEVARD', ' ESPLANADE', ' PROMENADE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 10 ) )
         when upper ( substr ( S.street_name , -11 ) ) in ( ' BOULEVARDE' ) then upper ( substr ( S.street_name , 1 , length ( S.street_name ) - 11 ) )
@@ -218,6 +218,7 @@ select
         when S.street_name like '% NOOK%' then 'NOOK'
         when S.street_name like '% PARADE%' then 'PARADE'
         when S.street_name like '% PARKWAY%' then 'PARKWAY'
+        when S.street_name like '% PASSAGE%' then 'PASSAGE'
         when S.street_name like '% PATH%' then 'PATH'
         when S.street_name like '% PLACE%' then 'PLACE'
         when S.street_name like '% PLAZA%' then 'PLAZA'
