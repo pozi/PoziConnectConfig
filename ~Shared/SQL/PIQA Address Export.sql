@@ -1,5 +1,7 @@
 select distinct
     propnum as propnum,
+    hsa_flag as hsa_flag,
+    hsa_unit_id as hsa_unit_id,
     blg_unit_type as blg_unit_type,
     blg_unit_prefix_1 as blg_unit_prefix_1,
     blg_unit_id_1 as blg_unit_id_1,
