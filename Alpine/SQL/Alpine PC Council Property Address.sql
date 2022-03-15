@@ -85,12 +85,11 @@ select distinct
         when 'HOTHAM HEIGHTS' then '388'
         else '300'
     end as lga_code,
-    cast ( parcelId as varchar ) as crefno,
-    '' as summary
+    '' as crefno,
+    ifnull ( formattedAddress , '' ) as summary
 from
-    councilwise_parcels
-where
-    parcelStatus = 1
+    councilwise_properties
+
 )
 )
 )
