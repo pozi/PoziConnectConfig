@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <OGRVRTDataSource>
     <OGRVRTLayer name="Moorabool PC Council Rural Address">
-        <SrcDataSource>http://dservices8.arcgis.com/LhxDRRTcDHsigpYl/arcgis/services/POZI_Connect_Address_Points_Public/WFSServer?service=wfs&amp;VERSION=2.0.0&amp;REQUEST=GetFeature&amp;typeNames=POZI_Connect_Address_Points&amp;srsName=EPSG:4326&amp;outputFormat=geojson</SrcDataSource>
-        <SrcSQL dialect="sqlite">
-            select
-                *
-            from
-                OGRGeoJSON
+        <SrcDataSource>/vsicurl/https://services8.arcgis.com/LhxDRRTcDHsigpYl/arcgis/rest/services/POZI_Connect_Address_Points_Public/FeatureServer/0/query?f=geojson&amp;outFields=*&amp;returnGeometry=true&amp;inSR=4326&amp;where=1=1</SrcDataSource>
+        <SrcSQL>
+            select *
+            from "query?f=geojson&amp;outFields=*&amp;returnGeometry=true&amp;inSR=4326&amp;where=1=1"
         </SrcSQL>
         <GeometryType>wkbPoint</GeometryType>
     </OGRVRTLayer>
