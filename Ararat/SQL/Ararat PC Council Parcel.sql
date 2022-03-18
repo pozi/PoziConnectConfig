@@ -1,8 +1,18 @@
 select
     *,
-    spi as constructed_spi,
-    'council_attributes' as spi_source,
     replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' ) as simple_spi
+from
+(
+select
+    *,
+    case
+        when internal_spi <> '' then internal_spi
+        else constructed_spi
+    end as spi,
+    case
+        when internal_spi <> '' then 'council_spi'
+        else 'council_attributes'
+    end as spi_source
 from
 (
 select
@@ -23,48 +33,131 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as spi
+    end as constructed_spi
 from
 (
 select
-    cast ( Assessment.Assess_Number as varchar ) ||
+    cast ( propertyNumber as varchar ) ||
         case
-            when substr ( Assessment.Assess_Number , -7 , 1 ) = '.' then ''
-            when substr ( Assessment.Assess_Number , -6 , 1 ) = '.' then '0'
-            when substr ( Assessment.Assess_Number , -5 , 1 ) = '.' then '00'
-            when substr ( Assessment.Assess_Number , -4 , 1 ) = '.' then '000'
-            when substr ( Assessment.Assess_Number , -3 , 1 ) = '.' then '0000'
-            when substr ( Assessment.Assess_Number , -2 , 1 ) = '.' then '00000'
+            when substr ( propertyNumber , -7 , 1 ) = '.' then ''
+            when substr ( propertyNumber , -6 , 1 ) = '.' then '0'
+            when substr ( propertyNumber , -5 , 1 ) = '.' then '00'
+            when substr ( propertyNumber , -4 , 1 ) = '.' then '000'
+            when substr ( propertyNumber , -3 , 1 ) = '.' then '0000'
+            when substr ( propertyNumber , -2 , 1 ) = '.' then '00000'
+            else '.000000'
         end as propnum,
     '' as status,
-    '' as crefno,
-    Title.Title_SPI_Reference as internal_spi,
-    Title.Title_Legal_Description as summary,
-    case when Title_Is_Part_of_Lot = 1 then 'P' else '' end as part,
-    ifnull ( Plan_Type.Plan_Type_Code , '' ) || ifnull ( Title.Title_Plan_Number , '' ) as plan_number,
-    ifnull ( Plan_Type.Plan_Type_Code , '' ) as plan_prefix,
-    ifnull ( Title.Title_Plan_Number , '' ) as plan_numeral,
-    ifnull ( replace ( upper ( Title_Lot ) , ' ' , '' ) , '' ) as lot_number,
-    ifnull ( upper ( Title.Title_Crown_Allotment ) , '' ) as allotment,
-    ifnull ( Title.Title_Section , '' ) as sec,
-    ifnull ( Title.Title_Block , '' ) as block,
-    ifnull ( Title.Title_Portion , '' ) as portion,
-    ifnull ( Title.Title_Subdivision , '' ) as subdivision,
-    ifnull ( Parish.Parish_Code , '' ) as parish_code,
-    ifnull ( Township.Township_Code , '' ) as township_code,
+    cast ( parcelId as varchar ) as crefno,
+    ifnull ( vicParcelSpi , '' ) as internal_spi,
+    case
+        when isPartOfLot = 'Yes' then 'P'
+        else ''
+    end as part,
+    ifnull ( planPrefix || cast ( planNo as varchar ) , '' ) as plan_number,
+    ifnull ( planPrefix , '' ) as plan_prefix,
+    ifnull ( planNo , '' ) as plan_numeral,
+    ifnull ( lot , '' ) as lot_number,
+    ifnull ( crownAllotment , '' ) as allotment,
+    ifnull ( section , '' ) as sec,
+    ifnull ( block , '' ) as block,
+    ifnull ( portion , '' ) as portion,
+    ifnull ( subdivision , '' ) as subdivision,
+    case
+        when upper ( parish ) = 'ADZAR' then '2004'
+        when upper ( parish ) = 'ARARAT' then '2020'
+        when upper ( parish ) = 'BALLYROGAN' then '2051'
+        when upper ( parish ) = 'BELLELLEN' then '2108'
+        when upper ( parish ) = 'BOROKA' then '2208'
+        when upper ( parish ) = 'BUANGOR' then '2243'
+        when upper ( parish ) = 'BUCKERAN YARRACK' then '2246'
+        when upper ( parish ) = 'BULGANA' then '2257'
+        when upper ( parish ) = 'BUNNUGAL' then '2288'
+        when upper ( parish ) = 'BURRAH BURRAH' then '2297'
+        when upper ( parish ) = 'BURRUMBEEP' then '2304'
+        when upper ( parish ) = 'CARAMBALLUC NORTH' then '2334'
+        when upper ( parish ) = 'CARAMBALLUC SOUTH' then '2335'
+        when upper ( parish ) = 'CHATSWORTH WEST' then '2375'
+        when upper ( parish ) = 'COLVINSBY' then '2415'
+        when upper ( parish ) = 'CONCONGELLA SOUTH' then '2419'
+        when upper ( parish ) = 'CROWLANDS' then '2468'
+        when upper ( parish ) = 'DUNNEWORTHY' then '2566'
+        when upper ( parish ) = 'EILYAR' then '2581'
+        when upper ( parish ) = 'EURAMBEEN' then '2605'
+        when upper ( parish ) = 'EVERSLEY' then '2609'
+        when upper ( parish ) = 'GLENPATRICK' then '2684'
+        when upper ( parish ) = 'GORRINN' then '2710'
+        when upper ( parish ) = 'HELENDOITE' then '2751'
+        when upper ( parish ) = 'JALLUKAR' then '2778'
+        when upper ( parish ) = 'JALUR' then '2779'
+        when upper ( parish ) = 'KALYMNA' then '2824'
+        when upper ( parish ) = 'KIORA' then '2886'
+        when upper ( parish ) = 'KORNONG' then '2923'
+        when upper ( parish ) = 'LALKALDARNO' then '2958'
+        when upper ( parish ) = 'LANGI LOGAN' then '2966'
+        when upper ( parish ) = 'LANGI-GHIRAN' then '2964'
+        when upper ( parish ) = 'LEXINGTON' then '2988'
+        when upper ( parish ) = 'MELLIER' then '3086'
+        when upper ( parish ) = 'MERRYMBUELA' then '3097'
+        when upper ( parish ) = 'MININERA' then '3112'
+        when upper ( parish ) = 'MIRRANATWA' then '3124'
+        when upper ( parish ) = 'MOALLAACK' then '3131'
+        when upper ( parish ) = 'MOKEPILLY' then '3140'
+        when upper ( parish ) = 'MOUNT COLE' then '3198'
+        when upper ( parish ) = 'MOUTAJUP' then '3200'
+        when upper ( parish ) = 'MOYSTON' then '3207'
+        when upper ( parish ) = 'MOYSTON WEST' then '3208'
+        when upper ( parish ) = 'NANAPUNDAH' then '3253'
+        when upper ( parish ) = 'NEKEEYA' then '3295'
+        when upper ( parish ) = 'NERRIN NERRIN' then '3302'
+        when upper ( parish ) = 'PANYYABYR' then '3371'
+        when upper ( parish ) = 'PARRIE YALLOAK' then '3373'
+        when upper ( parish ) = 'PARUPA' then '3374'
+        when upper ( parish ) = 'RAGLAN WEST' then '3440'
+        when upper ( parish ) = 'SHIRLEY' then '3488'
+        when upper ( parish ) = 'STREATHAM' then '3508'
+        when upper ( parish ) = 'TARA' then '3546'
+        when upper ( parish ) = 'TATYOON' then '3567'
+        when upper ( parish ) = 'TOWANWAY' then '3642'
+        when upper ( parish ) = 'WALLA WALLA' then '3708'
+        when upper ( parish ) = 'WARRAK' then '3750'
+        when upper ( parish ) = 'WATGANIA' then '3774'
+        when upper ( parish ) = 'WATGANIA WEST' then '3775'
+        when upper ( parish ) = 'WICKLIFFE NORTH' then '3814'
+        when upper ( parish ) = 'WICKLIFFE SOUTH' then '3815'
+        when upper ( parish ) = 'WILLAM' then '3822'
+        when upper ( parish ) = 'WILLAURA' then '3825'
+        when upper ( parish ) = 'WONGAN' then '3860'
+        when upper ( parish ) = 'WOODNAGGERAK' then '3873'
+        when upper ( parish ) = 'WOORNDOO' then '3890'
+        when upper ( parish ) = 'YALLA-Y-POORA' then '3934'
+        when upper ( parish ) = 'YUPPECKIAR' then '4004'
+        else ''
+    end as parish_code,
+    case
+        when upper ( township ) = 'ARARAT' then '5017'
+        when upper ( township ) = 'BALLYROGAN' then '5034'
+        when upper ( township ) = 'BUANGOR' then '5121'
+        when upper ( township ) = 'ELMHURST' then '5276'
+        when upper ( township ) = 'LAKE BOLAC' then '5444'
+        when upper ( township ) = 'MAFEKING' then '5489'
+        when upper ( township ) = 'MAROONA' then '5506'
+        when upper ( township ) = 'MOYSTON' then '5556'
+        when upper ( township ) = 'PURA PURA' then '5656'
+        when upper ( township ) = 'ROSSBRIDGE' then '5684'
+        when upper ( township ) = 'STREATHAM' then '5741'
+        when upper ( township ) = 'WARRAK' then '5836'
+        when upper ( township ) = 'WESTMERE' then '5851'
+        when upper ( township ) = 'WICKLIFFE' then '5858'
+        else ''
+    end as township_code,
+    ifnull ( legalDescription , '' ) as summary,
     '301' as lga_code,
-    cast ( Assessment.Assess_Number as varchar ) as assnum
+    '' as assnum
 from
-    propertygov_parcel as Parcel join
-    propertygov_parcel_title as Parcel_Title on Parcel.Parcel_Id = Parcel_Title.Parcel_Id join
-    propertygov_title as Title on Parcel_Title.Title_Id = Title.Title_Id join
-    propertygov_assessment_parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id join
-    propertygov_assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id left join
-    propertygov_plan_type as Plan_Type on Title.Plan_Type = Plan_Type.Plan_Type left join
-    propertygov_parish as Parish on Title.Parish_Id = Parish.Parish_Id left join
-    propertygov_township as Township on Title.Township_Id = Township.Township_Id
+    councilwise_parcels
 where
-    Parcel.Parcel_Status = 0
-order by propnum, crefno
+    parcelStatus = 1
+)
 )
 )
