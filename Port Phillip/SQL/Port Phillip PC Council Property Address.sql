@@ -44,17 +44,24 @@ select
         when a.fmt_address like 'REAR %' then 'REAR'
         else ''
     end as location_descriptor,
-    '' as blg_unit_type,
+    case
+        when upper ( a.unit_desc ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( a.unit_desc )
+        else ''
+    end as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
         when A.unit_no = '0' then ''
         else ifnull ( A.unit_no , '' )
     end as blg_unit_id_1,
-    upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
+    case
+        when A.unit_no = '0' then ''
+        when A.property_text_1 like '-%' then ''
+		else upper ( ifnull ( A.property_text_1 , '' ) )
+	end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
-        when A.unit_no_to = '0' then ''
-        else ifnull ( A.unit_no_to , '' )
+        when A.property_text_1 like '-%' then replace ( A.property_text_1 , '-' , '' )
+        else ''
     end as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
     '' as floor_type,
@@ -72,18 +79,18 @@ select
     upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
     '' as building_name,
     '' as complex_name,
-    '' as house_prefix_1,
+    ifnull ( A.property_text_3 , '' ) as house_prefix_1,
     case
         when A.house_no = '0' then ''
         else ifnull ( A.house_no , '' )
     end as house_number_1,
-    upper ( ifnull ( A.house_no_suffix , '' ) ) as house_suffix_1,
+    upper ( ifnull ( A.property_text_4 , '' ) ) as house_suffix_1,
     '' as house_prefix_2,
     case
         when A.house_no_to = '0' then ''
         else ifnull ( A.house_no_to , '' )
     end as house_number_2,
-    upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
+    upper ( ifnull ( A.property_text_6 , '' ) ) as house_suffix_2,
     street_comp_desc_1 as road_name,
     street_comp_desc_2 as road_type,
     street_comp_desc_3 as road_suffix,
