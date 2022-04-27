@@ -39,13 +39,13 @@ select
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
-        when a.fmt_address like 'ABOVE %' then 'ABOVE'
-        when a.fmt_address like 'BELOW %' then 'BELOW'
-        when a.fmt_address like 'REAR %' then 'REAR'
+        when A.fmt_address like 'ABOVE %' then 'ABOVE'
+        when A.fmt_address like 'BELOW %' then 'BELOW'
+        when A.fmt_address like 'REAR %' then 'REAR'
         else ''
     end as location_descriptor,
     case
-        when upper ( a.unit_desc ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( a.unit_desc )
+        when upper ( A.unit_desc ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( a.unit_desc )
         else ''
     end as blg_unit_type,
     '' as blg_unit_prefix_1,
@@ -91,11 +91,11 @@ select
         else ifnull ( A.house_no_to , '' )
     end as house_number_2,
     upper ( ifnull ( A.property_text_6 , '' ) ) as house_suffix_2,
-    street_comp_desc_1 as road_name,
-    street_comp_desc_2 as road_type,
-    street_comp_desc_3 as road_suffix,
-    street_comp_desc_4 as locality_name,
-    street_comp_desc_5 as postcode,
+    S.street_comp_desc_1 as road_name,
+    S.street_comp_desc_2 as road_type,
+    S.street_comp_desc_3 as road_suffix,
+    S.street_comp_desc_4 as locality_name,
+    S.street_comp_desc_5 as postcode,
     '' as access_type,
     '' as easting,
     '' as northing,
@@ -103,7 +103,7 @@ select
     '' as outside_property,
     '358' as lga_code,
     '' as crefno,
-    a.fmt_address as summary
+    A.fmt_address as summary
 from
     techone_nucproperty P
     join techone_nucaddress A on A.prop_id = P.prop_id
