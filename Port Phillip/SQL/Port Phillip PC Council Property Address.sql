@@ -36,9 +36,16 @@ select
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
-    '' as hsa_flag,
-    '' as hsa_unit_id,
     case
+        when unit_desc in ( 'G0' , 'DB0' ) then 'Y'
+        else 'N'
+    end as hsa_flag,
+    case
+        when unit_desc in ( 'G0' , 'DB0' ) then unit_desc || unit_no || replace ( A.property_text_1 , '-' , '' )
+        else ''
+    end as hsa_unit_id,
+    case
+        when upper ( A.unit_desc ) in ( 'ABOVE' , 'BELOW' , 'REAR' ) then upper ( A.unit_desc )
         when A.fmt_address like 'ABOVE %' then 'ABOVE'
         when A.fmt_address like 'BELOW %' then 'BELOW'
         when A.fmt_address like 'REAR %' then 'REAR'
@@ -46,20 +53,26 @@ select
     end as location_descriptor,
     case
         when upper ( A.unit_desc ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( a.unit_desc )
+        when upper ( A.unit_desc ) = 'SUITE' then 'SE'
         else ''
     end as blg_unit_type,
-    '' as blg_unit_prefix_1,
+    case
+        when unit_desc in ( 'G0' , 'DB0' ) then ''
+        when length ( A.unit_desc ) <= 2 then A.unit_desc
+        else ''
+    end as blg_unit_prefix_1,
     case
         when A.unit_no = '0' then ''
+        when unit_desc in ( 'G0' , 'DB0' ) then ''
         else ifnull ( A.unit_no , '' )
     end as blg_unit_id_1,
     case
-        when A.unit_no = '0' then ''
         when A.property_text_1 like '-%' then ''
-		else upper ( ifnull ( A.property_text_1 , '' ) )
-	end as blg_unit_suffix_1,
+        else upper ( ifnull ( A.property_text_1 , '' ) )
+    end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
     case
+        when unit_desc in ( 'G0' , 'DB0' ) then ''
         when A.property_text_1 like '-%' then replace ( A.property_text_1 , '-' , '' )
         else ''
     end as blg_unit_id_2,
@@ -93,7 +106,7 @@ select
     upper ( ifnull ( A.property_text_6 , '' ) ) as house_suffix_2,
     S.street_comp_desc_1 as road_name,
     S.street_comp_desc_2 as road_type,
-    S.street_comp_desc_3 as road_suffix,
+    substr ( S.street_comp_desc_3 , 1 , 1 ) as road_suffix,
     S.street_comp_desc_4 as locality_name,
     S.street_comp_desc_5 as postcode,
     '' as access_type,
