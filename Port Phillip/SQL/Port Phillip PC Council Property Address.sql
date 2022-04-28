@@ -122,7 +122,8 @@ from
     join techone_nucaddress A on A.prop_id = P.prop_id
     join techone_nucstreet S on S.street_id = A.street_id
 where
-    P.prop_status_ind in ( 'C' , 'F' )
+    P.prop_status_ind in ( 'C' , 'F' ) and
+    P.property_type not in ( 'OUTCOPPB' , 'SNPP' )
 )
 )
 )
