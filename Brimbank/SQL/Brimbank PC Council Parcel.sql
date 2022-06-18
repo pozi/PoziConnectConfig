@@ -37,10 +37,7 @@ select
 from
 (
 select
-    case
-        when auprparc.ttl_no1 like 'CM%' then 'NCPR'
-        else cast ( auprparc.ass_num as varchar )
-    end as propnum,
+    cast ( auprparc.ass_num as varchar ) as propnum,
     case
         when auprparc.pcl_flg = 'R' then 'A'
         when auprparc.pcl_flg = 'P' then 'P'
@@ -97,23 +94,17 @@ select
         else ''
     end as portion,
     '' as subdivision,
-    case
-        when auprparc.ttl_cde in ( 7 , 8 , 9 , 10 ) then '2478'
-        else ''
-    end as parish_code,
-    case
-        when auprparc.ttl_no5 in ( '2478A' , '2478B' , '2478C' , '2478D' , '5106' , '5502' ) then auprparc.ttl_no5
-        else ''
-    end as township_code,
+    ifnull ( auprparc.udn_cd1 , '' ) as parish_code,
+    '' as township_code,
     auprparc.fmt_ttl as summary,
     '341' as lga_code,
     cast ( auprparc.ass_num as varchar ) as assnum
 from
-    authority_auprparc as auprparc join
+    authority_auprparc as auprparc left join
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
-    auprparc.ass_num not in ( '' , '0' )
+	ifnull ( propnum , '' ) not in ( '' , '0' )
 order by
     auprparc.ass_num
 )
