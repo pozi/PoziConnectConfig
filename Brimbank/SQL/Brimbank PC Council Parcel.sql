@@ -48,59 +48,48 @@ select
     cast ( auprparc.pcl_num as varchar ) as crefno,
     ifnull ( auprparc.ttl_nme , '' ) as internal_spi,
     case
-        when auprparc.ttl_cde in ( 2 , 4 , 6 , 8 , 12 , 14 ) then 'P'
+        when auprparc.ttl_no2 = 'PT' then 'P'
         else ''
     end as part,
     case
-        when auprparc.ttl_cde in ( 1 , 2 ) then 'TP'
-        when auprparc.ttl_cde in ( 3 , 4 , 50 ) then 'PS'
-        when auprparc.ttl_cde in ( 5 , 6 ) then 'LP'
-        when auprparc.ttl_cde in ( 11 , 12 ) then 'PC'
-        when auprparc.ttl_cde in ( 13 , 14 ) then 'RP'
-        when auprparc.ttl_cde = 15 then 'SP'
-        when auprparc.ttl_cde = 16 then 'CS'
-        when auprparc.ttl_cde = 17 then 'CP'
+        when auprparc.ttl_cde = 1 then 'PS'
+        when auprparc.ttl_cde = 2 then 'CP'
+        when auprparc.ttl_cde = 3 then 'SP'
+        when auprparc.ttl_cde = 4 then 'RP'
+        when auprparc.ttl_cde = 5 then 'LP'
+        when auprparc.ttl_cde = 6 then 'TP'
+        when auprparc.ttl_cde = 7 then 'CS'
         else ''
-    end ||
-        case
-            when auprparc.ttl_cde in ( 7 , 8 , 9 , 10 ) then ''
-            when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
-            when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
-            else ''
-        end as plan_number,
+    end || ifnull ( auprparc.ttl_no5 , '' ) as plan_number,
     case
-        when auprparc.ttl_cde in ( 1 , 2 ) then 'TP'
-        when auprparc.ttl_cde in ( 3 , 4 , 50 ) then 'PS'
-        when auprparc.ttl_cde in ( 5 , 6 ) then 'LP'
-        when auprparc.ttl_cde in ( 11 , 12 ) then 'PC'
-        when auprparc.ttl_cde in ( 13 , 14 ) then 'RP'
-        when auprparc.ttl_cde = 15 then 'SP'
-        when auprparc.ttl_cde = 16 then 'CS'
-        when auprparc.ttl_cde = 17 then 'CP'
+        when auprparc.ttl_cde = 1 then 'PS'
+        when auprparc.ttl_cde = 2 then 'CP'
+        when auprparc.ttl_cde = 3 then 'SP'
+        when auprparc.ttl_cde = 4 then 'RP'
+        when auprparc.ttl_cde = 5 then 'LP'
+        when auprparc.ttl_cde = 6 then 'TP'
+        when auprparc.ttl_cde = 7 then 'CS'
         else ''
     end as plan_prefix,
+    ifnull ( auprparc.ttl_no5 , '' ) as plan_numeral,
     case
-        when auprparc.ttl_cde in ( 7 , 8 , 9 , 10 ) then ''
-        when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( auprparc.ttl_no5 )
-        when substr ( trim ( auprparc.ttl_no5 ) , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then trim ( substr ( trim ( auprparc.ttl_no5 ) , 1 , length ( trim ( auprparc.ttl_no5 ) ) - 1 ) )
-        else ''
-    end as plan_numeral,
-    case
-        when auprparc.ttl_no1 = '0' then ''
-        when auprparc.ttl_cde not in ( 7 , 8 , 9 , 10 ) then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
+        when auprparc.ttl_cde in ( 1,2,3,4,5,6,7 ) then ifnull ( auprparc.ttl_no1 , '' )
         else ''
     end as lot_number,
     case
-        when auprparc.ttl_no1 = '0' then ''
-        when auprparc.ttl_cde in ( 7 , 8 , 9, 10 ) then ifnull ( trim ( replace ( auprparc.ttl_no1 , 'PT' , '' ) ) , '' )
+        when auprparc.ttl_cde = 8 then ifnull ( auprparc.ttl_no1 , '' )
         else ''
     end as allotment,
     case
-        when auprparc.ttl_cde in ( 7 , 8 , 9, 10 ) then ifnull ( trim ( auprparc.ttl_no3 ) , '' )
+        when auprparc.ttl_cde = 8 then ifnull ( auprparc.ttl_no3 , '' )
+        when auprparc.ttl_cde <> 8 then ifnull ( auprparc.ttl_no6 , '' )
         else ''
     end as sec,
     '' as block,
-    '' as portion,
+    case
+        when auprparc.ttl_cde = 8 then ifnull ( auprparc.ttl_no5 , '' )
+        else ''
+    end as portion,
     '' as subdivision,
     case
         when auprparc.ttl_cde in ( 7 , 8 , 9 , 10 ) then '2478'
