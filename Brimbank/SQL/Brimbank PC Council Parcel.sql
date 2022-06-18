@@ -46,7 +46,13 @@ select
         when auprparc.pcl_flg = 'P' then 'P'
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
-    ifnull ( auprparc.ttl_nme , '' ) as internal_spi,
+    case
+        when aurtmast.val_num like '%-%' or aurtmast.val_num like '%.%' or aurtmast.val_num like '%*%' or aurtmast.val_num like '% %' then ''
+        when substr ( aurtmast.val_num , -1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then ''
+        when aurtmast.val_num like '%\%' then upper ( aurtmast.val_num )
+        when ( aurtmast.val_num like 'PC%' or aurtmast.val_num like 'CP%' ) and aurtmast.val_num not like '%/%' then upper ( aurtmast.val_num )
+    	else ''
+    end as internal_spi,
     case
         when auprparc.ttl_no2 = 'PT' then 'P'
         else ''
@@ -103,12 +109,13 @@ select
     '341' as lga_code,
     cast ( auprparc.ass_num as varchar ) as assnum
 from
-    authority_auprparc as auprparc
+    authority_auprparc as auprparc join
+    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
     auprparc.ass_num not in ( '' , '0' )
 order by
-    ass_num
+    auprparc.ass_num
 )
 )
 )
