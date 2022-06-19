@@ -33,7 +33,7 @@ select
         when 'F' then 'P'
         else ''
     end as status,
-    '' as base_propnum,
+    ifnull ( A.key1 , '' ) as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
     case
@@ -121,6 +121,7 @@ from
     techone_nucproperty P
     join techone_nucaddress A on A.prop_id = P.prop_id
     join techone_nucstreet S on S.street_id = A.street_id
+    left join techone_nucassociation A on A.association_type = '$CHILDPROP' and P.prop_id = A.key2
 where
     P.prop_status_ind in ( 'C' , 'F' ) and
     P.property_type not in ( 'OUTCOPPB' , 'SNPP' )
