@@ -60,7 +60,6 @@ select distinct
     ifnull ( cast ( toStreetNumberSuffix as varchar ) , '' ) as house_suffix_2,
     ifnull ( case upper ( streetNameOnly )
         when 'POWERS CREEK-BOURKES BRID' then 'POWERS CREEK-BOURKES BRIDGE'
-        when 'SERVICETON N TELOPEA DWNS' then 'SERVICETON NORTH TELOPEA DOWNS'
         else upper ( replace ( replace ( streetNameOnly , '''' , '' ) , '&' , 'AND' ) )
     end, '' ) as road_name,
     case
