@@ -1,8 +1,18 @@
 select
     *,
-    spi as constructed_spi,
-    'council_attributes' as spi_source,
     replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' ) as simple_spi
+from
+(
+select
+    *,
+    case
+        when internal_spi <> '' then internal_spi
+        else constructed_spi
+    end as spi,
+    case
+        when internal_spi <> '' then 'council_spi'
+        else 'council_attributes'
+    end as spi_source
 from
 (
 select
@@ -23,152 +33,117 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as spi
+    end as constructed_spi
 from
 (
 select
-    cast ( Parcel.PropertyNumber as varchar ) as propnum,
+    cast ( propertyNumber as varchar ) as propnum,
     '' as status,
-    cast ( Parcel.LandParcelNumber as varchar ) as crefno,
-    '' as internal_spi,
+    cast ( parcelId as varchar ) as crefno,
     case
-        when Parcel.StandardParcelId = '' then ''
-        when Parcel.StandardParcelId like '%\%' then Parcel.StandardParcelId
-        when Parcel.StandardParcelId like '%/%' then replace ( Parcel.StandardParcelId , '/' , '\' )
-        when Parcel.StandardParcelId like '%CS%' then replace ( Parcel.StandardParcelId , 'CS' , '\CS' )
-        when Parcel.StandardParcelId like '%LP%' then replace ( Parcel.StandardParcelId , 'LP' , '\LP' )
-        when Parcel.StandardParcelId like '%RP%' then replace ( Parcel.StandardParcelId , 'RP' , '\RP' )
-        when Parcel.StandardParcelId like '%PS%' then replace ( Parcel.StandardParcelId , 'PS' , '\PS' )
-        when Parcel.StandardParcelId like '%SP%' then replace ( Parcel.StandardParcelId , 'SP' , '\SP' )
-        when Parcel.StandardParcelId like '%TP%' then replace ( Parcel.StandardParcelId , 'TP' , '\TP' )
-        when Parcel.StandardParcelId like '%PP%' then replace ( Parcel.StandardParcelId , 'PP' , '\PP' )
-        when Parcel.StandardParcelId like '%CP%' then Parcel.StandardParcelId
-        when Parcel.StandardParcelId like '%PC%' then Parcel.StandardParcelId
-        else ''
+        when planPrefix = 'CA' then ''
+        else replace ( ifnull ( vicParcelSpi , '' ), '/' , '\' )
     end as internal_spi,
-    Property.Lot as summary,
-    '' as part,
-    case Parcel.Type
-        when 'Lodged Plan' then 'LP'
-        when 'Title Plan' then 'TP'
-        when 'Plan of Subdivision' then 'PS'
-        when 'Consolidation Plan' then 'CP'
-        when 'Plan of Consolidation' then 'PC'
-        when 'Strata Plan' then 'RP'
-        when 'Stratum Plan' then 'SP'
+    case
+        when isPartOfLot = 'Yes' then 'P'
         else ''
-    end || case
-            when ifnull ( Parcel.PlanNo , '' ) = '' then ''
-            when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
-            when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
-            else ''
-        end as plan_number,
-    case Parcel.Type
-        when 'Lodged Plan' then 'LP'
-        when 'Title Plan' then 'TP'
-        when 'Plan of Subdivision' then 'PS'
-        when 'Consolidation Plan' then 'CP'
-        when 'Plan of Consolidation' then 'PC'
-        when 'Strata Plan' then 'RP'
-        when 'Stratum Plan' then 'SP'
-        else ''
+    end as part,
+    case
+        when planPrefix = 'CA' then ''
+        else planPrefix || cast ( planNo as varchar )
+    end as plan_number,
+    case
+        when planPrefix = 'CA' then ''
+        else planPrefix
     end as plan_prefix,
+    ifnull ( planNo , '' ) as plan_numeral,
+    ifnull ( lot , '' ) as lot_number,
+    ifnull ( crownAllotment , '' ) as allotment,
     case
-        when ifnull ( Parcel.PlanNo , '' ) = '' then ''
-        when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
-        when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
+        when planPrefix = 'CA' then ifnull ( section , '' )
         else ''
-    end as plan_numeral,
-    case
-        when ifnull ( Parcel.PlanNo , '' ) = '' then ''
-        else Parcel.Lot
-    end as lot_number,
-    Parcel.CrownAllotment as allotment,
-    case
-        when Parcel.Type = 'Crown Description' and ifnull ( Parcel.PlanNo , '' ) <> '' then ''
-        when ifnull ( Parcel.PlanNo , '' ) <> '' and Parcel.CrownAllotment <> '' then ''
-        else Parcel.Section
     end as sec,
-    '' as block,
-    Parcel.CrownPortion as portion,
-    '' as subdivision,
-    case upper ( Parcel.Parish )
-        when 'BALLAPUR' then '2045'
-        when 'BANGERANG' then '2062'
-        when 'BANYENONG' then '2066'
-        when 'BERRIWILLOCK' then '2128'
-        when 'BEYAL' then '2138'
-        when 'BIMBOURIE' then '2147'
-        when 'BOIGBEAT' then '2167'
-        when 'BOORONG' then '2195'
-        when 'BOURKA' then '2213'
-        when 'BUCKRABANYULE' then '2248'
-        when 'BUNGULUKE' then '2285'
-        when 'BURUPGA' then '2309'
-        when 'CARAPUGNA' then '2341'
-        when 'CARRON' then '2359'
-        when 'CHARLTON EAST' then '2372'
-        when 'CHARLTON WEST' then '2373'
-        when 'CHINANGIN' then '2384'
-        when 'COONOOER EAST' then '2438'
-        when 'COONOOER WEST' then '2439'
-        when 'COOROOPAJERRUP' then '2445'
-        when 'CORACK' then '2447'
-        when 'CORACK EAST' then '2448'
-        when 'CURYO' then '2477'
-        when 'DONALD' then '2532'
-        when 'DOOBOOBETIC' then '2529'
-        when 'GLENLOTH' then '2677'
-        when 'JEFFCOTT' then '2789'
-        when 'JERUK' then '2795'
-        when 'JIL JIL' then '2797'
-        when 'KALPIENUNG' then '2823'
-        when 'KANEIRA' then '2829'
-        when 'KARYRIE' then '2848'
-        when 'KINNABULLA' then '2880'
-        when 'KINABULLA' then '2880'
-        when 'LAEN' then '2954'
-        when 'LALBERT' then '2957'
-        when 'LIANIDUCK' then '2990'
-        when 'MARLBED' then '3063'
-        when 'MOAH' then '3130'
-        when 'MOORTWORRA' then '3180'
-        when 'MURNUNGIN' then '3229'
-        when 'NARRAPORT' then '3276'
-        when 'NARREWILLOCK' then '3280'
-        when 'NINYEUNOOK' then '3314'
-        when 'NULLAWIL' then '3334'
-        when 'PERRIT PERRIT' then '3388'
-        when 'PIER MILLAN' then '3394'
-        when 'RICH AVON EAST' then '3450'
-        when 'SWANWATER' then '3515'
-        when 'TEDDYWADDY' then '3571'
-        when 'TERRAPPEE' then '3577'
-        when 'THALIA' then '3581'
-        when 'TITTYBONG' then '3600'
-        when 'TOORT' then '3635'
-        when 'TOWANINNY' then '3641'
-        when 'TOWMA' then '3643'
-        when 'TUNGIE' then '3658'
-        when 'TYENNA' then '3671'
-        when 'TYRRELL' then '3678'
-        when 'WANGIE' then '3728'
-        when 'WARMUR' then '3742'
-        when 'WATCHEM' then '3771'
-        when 'WATCHUPGA' then '3772'
-        when 'WHIRILY' then '3805'
-        when 'WILKUR' then '3820'
-        when 'WILLANGIE' then '3823'
-        when 'WIRMBIRCHIP' then '3848'
-        when 'WITCHIPOOL' then '3852'
-        when 'WOOROONOOK' then '3892'
-        when 'WOOSANG' then '3895'
-        when 'WORTONGIE' then '3905'
-        when 'WYCHEPROOF' then '3916'
-        when 'YEUNGROON' then '3991'
+    ifnull ( block , '' ) as block,
+    ifnull ( portion , '' ) as portion,
+    ifnull ( subdivision , '' ) as subdivision,
+    case
+        when planPrefix <> 'CA' then ''
+        when upper ( parish ) = 'BALLAPUR' then '2045'
+        when upper ( parish ) = 'BANGERANG' then '2062'
+        when upper ( parish ) = 'BANYENONG' then '2066'
+        when upper ( parish ) = 'BERRIWILLOCK' then '2128'
+        when upper ( parish ) = 'BEYAL' then '2138'
+        when upper ( parish ) = 'BIMBOURIE' then '2147'
+        when upper ( parish ) = 'BOIGBEAT' then '2167'
+        when upper ( parish ) = 'BOORONG' then '2195'
+        when upper ( parish ) = 'BOURKA' then '2213'
+        when upper ( parish ) = 'BUCKRABANYULE' then '2248'
+        when upper ( parish ) = 'BUNGULUKE' then '2285'
+        when upper ( parish ) = 'BURUPGA' then '2309'
+        when upper ( parish ) = 'CARAPUGNA' then '2341'
+        when upper ( parish ) = 'CARRON' then '2359'
+        when upper ( parish ) = 'CHARLTON EAST' then '2372'
+        when upper ( parish ) = 'CHARLTON WEST' then '2373'
+        when upper ( parish ) = 'CHINANGIN' then '2384'
+        when upper ( parish ) = 'COONOOER EAST' then '2438'
+        when upper ( parish ) = 'COONOOER WEST' then '2439'
+        when upper ( parish ) = 'COOROOPAJERRUP' then '2445'
+        when upper ( parish ) = 'CORACK' then '2447'
+        when upper ( parish ) = 'CORACK EAST' then '2448'
+        when upper ( parish ) = 'CURYO' then '2477'
+        when upper ( parish ) = 'DONALD' then '2532'
+        when upper ( parish ) = 'DOOBOOBETIC' then '2529'
+        when upper ( parish ) = 'GLENLOTH' then '2677'
+        when upper ( parish ) = 'JEFFCOTT' then '2789'
+        when upper ( parish ) = 'JERUK' then '2795'
+        when upper ( parish ) = 'JIL JIL' then '2797'
+        when upper ( parish ) = 'KALPIENUNG' then '2823'
+        when upper ( parish ) = 'KANEIRA' then '2829'
+        when upper ( parish ) = 'KARYRIE' then '2848'
+        when upper ( parish ) = 'KINNABULLA' then '2880'
+        when upper ( parish ) = 'KINABULLA' then '2880'
+        when upper ( parish ) = 'LAEN' then '2954'
+        when upper ( parish ) = 'LALBERT' then '2957'
+        when upper ( parish ) = 'LIANIDUCK' then '2990'
+        when upper ( parish ) = 'MARLBED' then '3063'
+        when upper ( parish ) = 'MOAH' then '3130'
+        when upper ( parish ) = 'MOORTWORRA' then '3180'
+        when upper ( parish ) = 'MURNUNGIN' then '3229'
+        when upper ( parish ) = 'NARRAPORT' then '3276'
+        when upper ( parish ) = 'NARREWILLOCK' then '3280'
+        when upper ( parish ) = 'NINYEUNOOK' then '3314'
+        when upper ( parish ) = 'NULLAWIL' then '3334'
+        when upper ( parish ) = 'PERRIT PERRIT' then '3388'
+        when upper ( parish ) = 'PIER MILLAN' then '3394'
+        when upper ( parish ) = 'RICH AVON EAST' then '3450'
+        when upper ( parish ) = 'SWANWATER' then '3515'
+        when upper ( parish ) = 'TEDDYWADDY' then '3571'
+        when upper ( parish ) = 'TERRAPPEE' then '3577'
+        when upper ( parish ) = 'THALIA' then '3581'
+        when upper ( parish ) = 'TITTYBONG' then '3600'
+        when upper ( parish ) = 'TOORT' then '3635'
+        when upper ( parish ) = 'TOWANINNY' then '3641'
+        when upper ( parish ) = 'TOWMA' then '3643'
+        when upper ( parish ) = 'TUNGIE' then '3658'
+        when upper ( parish ) = 'TYENNA' then '3671'
+        when upper ( parish ) = 'TYRRELL' then '3678'
+        when upper ( parish ) = 'WANGIE' then '3728'
+        when upper ( parish ) = 'WARMUR' then '3742'
+        when upper ( parish ) = 'WATCHEM' then '3771'
+        when upper ( parish ) = 'WATCHUPGA' then '3772'
+        when upper ( parish ) = 'WHIRILY' then '3805'
+        when upper ( parish ) = 'WILKUR' then '3820'
+        when upper ( parish ) = 'WILLANGIE' then '3823'
+        when upper ( parish ) = 'WIRMBIRCHIP' then '3848'
+        when upper ( parish ) = 'WITCHIPOOL' then '3852'
+        when upper ( parish ) = 'WOOROONOOK' then '3892'
+        when upper ( parish ) = 'WOOSANG' then '3895'
+        when upper ( parish ) = 'WORTONGIE' then '3905'
+        when upper ( parish ) = 'WYCHEPROOF' then '3916'
+        when upper ( parish ) = 'YEUNGROON' then '3991'
         else ''
     end as parish_code,
-    case upper ( Parcel.Township )
+    case upper ( township )
         when 'BERRIWILLOCK' then '5075'
         when 'BIRCHIP' then '5084'
         when 'CHARLTON' then '5166'
@@ -182,14 +157,13 @@ select
         when 'WYCHEPROOF' then '5889'
         else ''
     end as township_code,
+    ifnull ( legacyData1 , '' ) as summary,
     '309' as lga_code,
-    cast ( Parcel.PropertyNumber as varchar ) as assnum
+    '' as assnum
 from
-    lynx_vwlandparcel Parcel join
-    lynx_propertys Property on Parcel.PropertyNumber = Property.Property
+    councilwise_parcels
 where
-    Parcel.Status = 'Active' and
-    Parcel.Ended is null and
-    Property.Type not in ( 672 , 700 )
+    parcelStatus = 1
+)
 )
 )

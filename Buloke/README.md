@@ -1,3 +1,3 @@
 # Buloke
 
-Configuration copied from Indigo, then customised for Buloke.
+Configuration copied from Alpine, then customised for Buloke.
