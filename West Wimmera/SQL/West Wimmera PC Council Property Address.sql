@@ -28,26 +28,23 @@ select
 from (
 
 select distinct
-    cast ( auprparc.ass_num as varchar ) as propnum,
+    cast ( propertyNumber as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
-    case
-        when auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
-        else 'N'
-    end as is_primary,
+    '' as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
-    ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) as blg_unit_id_1,
-    ifnull ( auprstad.unt_alp , '' ) as blg_unit_suffix_1,
+    ifnull ( cast ( unitNumber as varchar ) , '' ) as blg_unit_id_1,
+    '' as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
-    ifnull ( auprstad.unt_end , '' ) as blg_unit_id_2,
-    ifnull ( auprstad.una_end , '' ) as blg_unit_suffix_2,
+    '' as blg_unit_id_2,
+    '' as blg_unit_suffix_2,
     '' as floor_type,
-    ifnull ( auprstad.flo_pre , '' ) as floor_prefix_1,
-    ifnull ( auprstad.flo_num , '' ) as floor_no_1,
+    '' as floor_prefix_1,
+    '' as floor_no_1,
     '' as floor_suffix_1,
     '' as floor_prefix_2,
     '' as floor_no_2,
@@ -56,36 +53,32 @@ select distinct
     '' as complex_name,
     '' as location_descriptor,
     '' as house_prefix_1,
-    case
-        when auprstad.hou_num is null then ''
-        when auprstad.hou_num = 0 then ''
-        else cast ( auprstad.hou_num as varchar )
-    end as house_number_1,
-    ifnull ( upper ( auprstad.hou_alp ) , '' ) as house_suffix_1,
+    ifnull ( cast ( fromStreetNumber as varchar ) , '' ) as house_number_1,
+    ifnull ( cast ( fromStreetNumberSuffix as varchar ) , '' ) as house_suffix_1,
     '' as house_prefix_2,
-    ifnull ( cast ( auprstad.hou_end as varchar ) , '' ) as house_number_2,
-    ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
-    case upper ( auprstad.str_nme )
+    ifnull ( cast ( toStreetNumber as varchar ) , '' ) as house_number_2,
+    ifnull ( cast ( toStreetNumberSuffix as varchar ) , '' ) as house_suffix_2,
+    ifnull ( case upper ( streetNameOnly )
         when 'POWERS CREEK-BOURKES BRID' then 'POWERS CREEK-BOURKES BRIDGE'
-        when 'SERVICETON NORTH TELOPEA' then 'SERVICETON NORTH TELOPEA DOWNS'
-        when 'SERVICETON NORTH-TELOPEA' then 'SERVICETON NORTH-TELOPEA DOWNS'
-        else upper ( replace ( replace ( auprstad.str_nme , '''' , '' ) , '&' , 'AND' ) )
-    end as road_name,
+        when 'SERVICETON N TELOPEA DWNS' then 'SERVICETON NORTH TELOPEA DOWNS'
+        else upper ( replace ( replace ( streetNameOnly , '''' , '' ) , '&' , 'AND' ) )
+    end, '' ) as road_name,
     case
-        when auprstad.str_typ in ( 'AVEN' , 'AVES' , 'AVEE' , 'AVEW' , 'AVEX' ) THEN 'AVENUE'
-        when auprstad.str_typ in ( 'RDN' , 'RDS' , 'RDE' , 'RDW' , 'RDX' ) THEN 'ROAD'
-        when auprstad.str_typ in ( 'STN' , 'STS' , 'STE' , 'STW' , 'STX' ) THEN 'STREET'
-        else upper ( aualrefs.dsc_no3 )
+        when streetType like '% North' then replace ( upper ( streetType ) , ' NORTH' , '' )
+        when streetType like '% South' then replace ( upper ( streetType ) , ' SOUTH' , '' )
+        when streetType like '% East' then replace ( upper ( streetType ) , ' EAST' , '' )
+        when streetType like '% West' then replace ( upper ( streetType ) , ' WEST' , '' )
+        else ifnull ( upper ( streetType ) , '' )
     end as road_type,
     case
-        when upper ( auprstad.str_typ ) in ( 'AVEN' , 'RDN' , 'STN' ) then 'N'
-        when upper ( auprstad.str_typ ) in ( 'AVES' , 'RDS' , 'STS' ) then 'S'
-        when upper ( auprstad.str_typ ) in ( 'AVEE' , 'RDE' , 'STE' ) then 'E'
-        when upper ( auprstad.str_typ ) in ( 'AVEW' , 'RDW' , 'STW' ) then 'W'
-        when upper ( auprstad.str_typ ) in ( 'AVEX' , 'RDX' , 'STX' ) then 'EX'
+        when streetType like '% North' then 'N'
+        when streetType like '% South' then 'S'
+        when streetType like '% East' then 'E'
+        when streetType like '% West' then 'W'
+                                                                               
         else ''
     end as road_suffix,
-    upper ( auprstad.sbr_nme ) as locality_name,
+    upper ( suburb ) as locality_name,
     '' as postcode,
     '' as access_type,
     '' as easting,
@@ -93,17 +86,11 @@ select distinct
     '' as datum_proj,
     '' as outside_property,
     '371' as lga_code,
-    cast ( auprparc.pcl_num as varchar ) as crefno,
-    '' as summary
+    '' as crefno,
+    ifnull ( formattedAddress , '' ) as summary
 from
-    authority_auprparc auprparc join
-    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num join
-    authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num left join
-    authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ'
-where
-    auprparc.pcl_flg in ( 'R' , 'P' ) and
-    auprparc.ass_num is not null and
-    aurtmast.rte_cls <> 'CA'
+    councilwise_properties
+
 )
 )
 )

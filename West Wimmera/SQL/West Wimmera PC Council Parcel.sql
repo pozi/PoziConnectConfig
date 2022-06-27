@@ -37,168 +37,135 @@ select
 from
 (
 select
-    cast ( auprparc.ass_num as varchar ) as propnum,
-    case auprparc.pcl_flg
-        when 'R' then 'A'
-        when 'P' then 'P'
-    end as status,
-    cast ( auprparc.pcl_num as varchar ) as crefno,
-    ifnull ( auprparc.ttl_nme , '' ) as internal_spi,
+    cast ( propertyNumber as varchar ) as propnum,
+    '' as status,
+    cast ( parcelId as varchar ) as crefno,
     case
-        when auprparc.ttl_cde = 4 then 'P'
-        when auprparc.ttl_cde = 6 then 'P'
+        when planPrefix = 'CA' then ''
+        else replace ( ifnull ( vicParcelSpi , '' ), '/' , '\' )
+    end as internal_spi,
+    case
+        when isPartOfLot = 'Yes' then 'P'
         else ''
     end as part,
     case
-        when auprparc.ttl_cde = 1 then 'TP' || auprparc.ttl_no5
-        when auprparc.ttl_cde = 3 then 'PS' || auprparc.ttl_no5
-        when auprparc.ttl_cde = 4 then 'PS' || auprparc.ttl_no5
-        when auprparc.ttl_cde = 5 then 'LP' || auprparc.ttl_no5
-        when auprparc.ttl_cde = 6 then 'LP' || auprparc.ttl_no5
-        when auprparc.ttl_cde = 7 then ''
-        when auprparc.ttl_cde = 8 then ''
-        when auprparc.ttl_cde = 9 then 'CP' || auprparc.ttl_no5
-        when auprparc.ttl_cde = 11 then 'PC' || auprparc.ttl_no5
-        when auprparc.ttl_cde = 12 then 'SP' || auprparc.ttl_no5
+        when planPrefix = 'CA' then ''
+        else planPrefix || cast ( planNo as varchar )
     end as plan_number,
     case
-        when auprparc.ttl_cde = 1 then 'TP'
-        when auprparc.ttl_cde = 3 then 'PS'
-        when auprparc.ttl_cde = 4 then 'PS'
-        when auprparc.ttl_cde = 5 then 'LP'
-        when auprparc.ttl_cde = 6 then 'LP'
-        when auprparc.ttl_cde = 7 then ''
-        when auprparc.ttl_cde = 8 then ''
-        when auprparc.ttl_cde = 9 then 'CP'
-        when auprparc.ttl_cde = 11 then 'PC'
-        when auprparc.ttl_cde = 12 then 'SP'
+        when planPrefix = 'CA' then ''
+        else planPrefix
     end as plan_prefix,
+    ifnull ( planNo , '' ) as plan_numeral,
+    ifnull ( lot , '' ) as lot_number,
+    ifnull ( crownAllotment , '' ) as allotment,
     case
-        when auprparc.ttl_cde in ( 7 , 8 ) then ''
-        else auprparc.ttl_no5
-    end as plan_numeral,
-    case
-        when auprparc.ttl_cde not in ( 7 , 8 ) then ifnull ( upper ( auprparc.ttl_no1 ) , '' )
+        when planPrefix = 'CA' then ifnull ( section , '' )
         else ''
-    end as lot_number,
-    case when auprparc.ttl_cde in ( 7 , 8 ) then ifnull ( upper ( auprparc.ttl_no1 ) , '' ) else '' end as allotment,
-    ifnull ( auprparc.ttl_no3 , '' ) as sec,
-    '' as block,
-    '' as portion,
-    '' as subdivision,
-    case auprparc.uda_cd1
-        when 'AWO' then '2033'
-        when 'BAM' then '2058'
-        when 'BEE' then '2104'
-        when 'BEN' then '2115'
-        when 'BOG' then '2163'
-        when 'BOI' then '2168'
-        when 'BOO' then '2197'
-        when 'BRI' then '2233'
-        when 'CHA' then '2371'
-        when 'CON' then '2426'
-        when 'COO' then '2427'
-        when 'CUR' then '2476'
-        when 'DAD' then '2525'
-        when 'DER' then '2512'
-        when 'DIN' then '2527'
-        when 'DOP' then '2538'
-        when 'DRG' then '2570'
-        when 'DUR' then '2569'
-        when 'EDE' then '2575'
-        when 'GAN' then '2634'
-        when 'GOR' then '2708'
-        when 'GYM' then '2739'
-        when 'HAR' then '2745'
-        when 'JAL' then '2777'
-        when 'JUN' then '2812'
-        when 'KAD' then '2815'
-        when 'KAL' then '2818'
-        when 'KAN' then '2833'
-        when 'KAR' then '2842'
-        when 'KNW' then '2827'
-        when 'KON' then '2902'
-        when 'KOO' then '2910'
-        when 'KOU' then '2933'
-        when 'LAN' then '2967'
-        when 'LAW' then '2981'
-        when 'LEE' then '2985'
-        when 'LIL' then '2995'
-        when 'MAG' then '3032'
-        when 'MAH' then '3036'
-        when 'MEE' then '3079'
-        when 'MIN' then '3111'
-        when 'MIR' then '3118'
-        when 'MOO' then '3169'
-        when 'MOR' then '3187'
-        when 'MRD' then '3233'
-        when 'MRT' then '3194'
-        when 'MUR' then '3234'
-        when 'NAT' then '3284'
-        when 'NEU' then '3303'
-        when 'NUR' then '3342'
-        when 'ROS' then '3458'
-        when 'TAL' then '3526'
-        when 'TLG' then '3620'
-        when 'TOO' then '3625'
-        when 'TUR' then '3659'
-        when 'WAL' then '3710'
-        when 'WIL' then '3827'
-        when 'WOM' then '3858'
-        when 'WYT' then '3923'
-        when 'YAL' then '3933'
-        when 'YAN' then '3952'
-        when 'YAR' then '3969'
-        when 'YEA' then '3980'
-        when 'YGK' then '3965'
-        when 'YOU' then '3998'
-        else
-            case
-                when substr ( auprparc.uda_cd1 , 1 , 3 ) = 'COO' then '2427'
-                else ''
-            end
+    end as sec,
+    ifnull ( block , '' ) as block,
+    ifnull ( portion , '' ) as portion,
+    ifnull ( subdivision , '' ) as subdivision,
+    case
+        when planPrefix <> 'CA' then ''
+        when upper ( parish ) = 'AWONGA' then '2033'
+        when upper ( parish ) = 'BAMBADIN' then '2058'
+        when upper ( parish ) = 'BEEWAR' then '2104'
+        when upper ( parish ) = 'BENAYEO' then '2115'
+        when upper ( parish ) = 'BOGALARA' then '2163'
+        when upper ( parish ) = 'BOIKERBERT' then '2168'
+        when upper ( parish ) = 'BOOROOPKI' then '2197'
+        when upper ( parish ) = 'BRINGALBART' then '2233'
+        when upper ( parish ) = 'CHARAM' then '2371'
+        when upper ( parish ) = 'CONNEWIRRECOO' then '2426'
+        when upper ( parish ) = 'COOACK' then '2427'
+        when upper ( parish ) = 'CURTAYNE' then '2476'
+        when upper ( parish ) = 'DING-A-DING' then '2525'
+        when upper ( parish ) = 'DERGHOLM' then '2512'
+        when upper ( parish ) = 'DINYARRAK' then '2527'
+        when upper ( parish ) = 'DOPEWORA' then '2538'
+        when upper ( parish ) = 'DURONG' then '2570'
+        when upper ( parish ) = 'DURNDAL' then '2569'
+        when upper ( parish ) = 'EDENHOPE' then '2575'
+        when upper ( parish ) = 'GANOO GANOO' then '2634'
+        when upper ( parish ) = 'GOROKE' then '2708'
+        when upper ( parish ) = 'GYMBOWEN' then '2739'
+        when upper ( parish ) = 'HARROW' then '2745'
+        when upper ( parish ) = 'JALLAKIN' then '2777'
+        when upper ( parish ) = 'JUNGKUM' then '2812'
+        when upper ( parish ) = 'KADNOOK' then '2815'
+        when upper ( parish ) = 'KALINGUR' then '2818'
+        when upper ( parish ) = 'KANIVA' then '2833'
+        when upper ( parish ) = 'KARNAK' then '2842'
+        when upper ( parish ) = 'KANAWINKA' then '2827'
+        when upper ( parish ) = 'KONNEPRA' then '2902'
+        when upper ( parish ) = 'KOONIK KOONIK' then '2910'
+        when upper ( parish ) = 'KOUT NARIN' then '2933'
+        when upper ( parish ) = 'LANGKOOP' then '2967'
+        when upper ( parish ) = 'LAWLOIT' then '2981'
+        when upper ( parish ) = 'LEEOR' then '2985'
+        when upper ( parish ) = 'LILLIMUR' then '2995'
+        when upper ( parish ) = 'MAGEPPA' then '3032'
+        when upper ( parish ) = 'MAHRONG' then '3036'
+        when upper ( parish ) = 'MEEREEK' then '3079'
+        when upper ( parish ) = 'MINIMAY' then '3111'
+        when upper ( parish ) = 'MIRAMPIRAM' then '3118'
+        when upper ( parish ) = 'MOOREE' then '3169'
+        when upper ( parish ) = 'MOREA' then '3187'
+        when upper ( parish ) = 'MURRANDARRA' then '3233'
+        when upper ( parish ) = 'MORTAT' then '3194'
+        when upper ( parish ) = 'MURRAWONG' then '3234'
+        when upper ( parish ) = 'NATEYIP' then '3284'
+        when upper ( parish ) = 'NEUARPUR' then '3303'
+        when upper ( parish ) = 'NURCOUNG' then '3342'
+        when upper ( parish ) = 'ROSENEATH' then '3458'
+        when upper ( parish ) = 'TALLAGEIRA' then '3526'
+        when upper ( parish ) = 'TOOLONGROOK' then '3620'
+        when upper ( parish ) = 'TOONAMBOOL' then '3625'
+        when upper ( parish ) = 'TURANDUREY' then '3659'
+        when upper ( parish ) = 'WALLOWA' then '3710'
+        when upper ( parish ) = 'WILLOBY' then '3827'
+        when upper ( parish ) = 'WOMBELANO' then '3858'
+        when upper ( parish ) = 'WYTWARRONE' then '3923'
+        when upper ( parish ) = 'YALLAKAR' then '3933'
+        when upper ( parish ) = 'YANIPY' then '3952'
+        when upper ( parish ) = 'YARROCK' then '3969'
+        when upper ( parish ) = 'YEARINGA' then '3980'
+        when upper ( parish ) = 'YARRANGOOK' then '3965'
+        when upper ( parish ) = 'YOUPAYANG' then '3998'
+        when upper ( parish ) = 'COOACK' then '2427'
+        else ''
     end as parish_code,
     case
-        when aumememo.mem_txt like '%APSLEY%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%APSLEY%' then '5015'
-        when aumememo.mem_txt like '%BOOROOPKI%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%BOOROOPKI%' then '5101'
-        when aumememo.mem_txt like '%CHETWYND%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%CHETWYND%' then '5171'
-        when aumememo.mem_txt like '%DERGHOLM%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%DERGHOLM%' then '5238'
-        when aumememo.mem_txt like '%DOUGLAS%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%DOUGLAS%' then '5249'
-        when aumememo.mem_txt like '%EDENHOPE%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%EDENHOPE%' then '5266'
-        when aumememo.mem_txt like '%GOROKE%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%GOROKE%' then '5339'
-        when aumememo.mem_txt like '%HARROW%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%HARROW%' then '5368'
-        when aumememo.mem_txt like '%KANIVA%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%KANIVA%' then '5404'
-        when aumememo.mem_txt like '%KARNAK%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%KARNAK%' then '5408'
-        when aumememo.mem_txt like '%LAWLOIT%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%LAWLOIT%' then '5455'
-        when aumememo.mem_txt like '%KONNEPRA%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%KONNEPRA%' then '5870'
-        when aumememo.mem_txt like '%MINIMAY%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%MINIMAY%' then '5532'
-        when aumememo.mem_txt like '%MIRAM%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%MIRAM%' then '5535'
-        when aumememo.mem_txt like '%NEUARPUR%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%NEUARPUR%' then '5587'
-        when aumememo.mem_txt like '%SERVICETON%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%SERVICETON%' then '5709'
-        when aumememo.mem_txt like '%SOUTH%LILLIMUR%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%SOUTH%LILLIMUR%' then '5464'
-        when aumememo.mem_txt like '%LILLIMUR%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%LILLIMUR%' then '5463'
-        when aumememo.mem_txt like '%TELOPEA%DOWNS%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%TELOPEA%DOWNS%' then '5775'
-        when aumememo.mem_txt like '%WOMBELANO%T%SHIP%' or aumememo.mem_txt like '%T%SHIP%WOMBELANO%' then '5870'
+        when upper ( township ) = 'APSLEY' then '5015'
+        when upper ( township ) = 'BOOROOPKI' then '5101'
+        when upper ( township ) = 'CHETWYND' then '5171'
+        when upper ( township ) = 'DERGHOLM' then '5238'
+        when upper ( township ) = 'DOUGLAS' then '5249'
+        when upper ( township ) = 'EDENHOPE' then '5266'
+        when upper ( township ) = 'GOROKE' then '5339'
+        when upper ( township ) = 'HARROW' then '5368'
+        when upper ( township ) = 'KANIVA' then '5404'
+        when upper ( township ) = 'KARNAK' then '5408'
+        when upper ( township ) = 'LAWLOIT' then '5455'
+        when upper ( township ) = 'KONNEPRA' then '5870'
+        when upper ( township ) = 'MINIMAY' then '5532'
+        when upper ( township ) = 'MIRAM' then '5535'
+        when upper ( township ) = 'NEUARPUR' then '5587'
+        when upper ( township ) = 'SERVICETON' then '5709'
+        when upper ( township ) = 'SOUTH LILLIMUR' then '5464'
+        when upper ( township ) = 'LILLIMUR' then '5463'
+        when upper ( township ) = 'TELOPEA DOWNS' then '5775'
+        when upper ( township ) = 'WOMBELANO' then '5870'
         else ''
     end as township_code,
-    auprparc.fmt_ttl as summary,
-    ifnull ( aumememo.mem_txt , '' ) as memo,
+    ifnull ( legacyData1 , '' ) as summary,
     '371' as lga_code,
-    cast ( auprparc.ass_num as varchar ) as assnum
+    '' as assnum
 from
-    authority_auprparc as auprparc left join
-    authority_aumememo as aumememo on
-        auprparc.ass_num = aumememo.mdu_acc and
-        aumememo.mem_typ = 1 and
-        aumememo.seq_num = 1 and
-        aumememo.mem_txt is not null join
-    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
+    councilwise_parcels
 where
-    auprparc.pcl_flg in ( 'R' , 'P' ) and
-    auprparc.ttl_cde not in ( 99 , 999 ) and
-    auprparc.ass_num is not null and
-    aurtmast.rte_cls <> 'CA'
-group by auprparc.pcl_num
+    parcelStatus = 1
 )
 )
 )
