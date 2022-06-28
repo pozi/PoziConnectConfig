@@ -58,12 +58,8 @@ select distinct
     '' as house_prefix_2,
     ifnull ( cast ( toStreetNumber as varchar ) , '' ) as house_number_2,
     ifnull ( cast ( toStreetNumberSuffix as varchar ) , '' ) as house_suffix_2,
-    ifnull ( case upper ( streetNameOnly )
-        when 'JEFFCOTT SOUTH SCHOOL BUS' then 'JEFFCOTT SOUTH SCHOOL BUS ROUTE'
-        else upper ( replace ( replace ( streetNameOnly , '''' , '' ) , '&' , 'AND' ) )
-    end, '' ) as road_name,
+    upper ( replace ( streetNameOnly , '´' , '' ) ) as road_name,
     case
-        when streetType = 'Route Road' then 'ROAD'
         when streetType like 'Road %' then 'ROAD'
         when streetType like 'Street %' then 'STREET'
         else ifnull ( upper ( streetType ) , '' )
@@ -72,8 +68,7 @@ select distinct
         when streetType like '% North' then 'N'
         when streetType like '% South' then 'S'
         when streetType like '% East' then 'E'
-        when streetType like '% West' then 'W'
-                                                                               
+        when streetType like '% West' then 'W'                                                 
         else ''
     end as road_suffix,
     upper ( suburb ) as locality_name,
