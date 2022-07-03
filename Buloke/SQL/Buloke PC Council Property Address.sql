@@ -58,7 +58,7 @@ select distinct
     '' as house_prefix_2,
     ifnull ( cast ( toStreetNumber as varchar ) , '' ) as house_number_2,
     ifnull ( cast ( toStreetNumberSuffix as varchar ) , '' ) as house_suffix_2,
-    upper ( replace ( streetNameOnly , '´' , '' ) ) as road_name,
+    upper ( streetNameOnly ) as road_name,
     case
         when streetType like 'Road %' then 'ROAD'
         when streetType like 'Street %' then 'STREET'
