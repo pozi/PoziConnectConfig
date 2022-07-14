@@ -140,7 +140,7 @@ select distinct
     '' as northing,
     '' as datum_proj,
     '' as outside_property,
-    '341' as lga_code,
+    '308' as lga_code,
     cast ( auprparc.pcl_num as varchar ) as crefno,
     '' as summary
 from
@@ -149,6 +149,7 @@ from
     authority_ausrsubr ausrsubr ON auprstad.sbr_nme = ausrsubr.sbr_nme
 where
     auprparc.pcl_flg in ( 'R' , 'U' , 'P' ) and
+    auprparc.uda_cd2 <> 5 and
     auprparc.ass_num not in ( '' , '0' ) and
     auprstad.seq_num = 0
 )

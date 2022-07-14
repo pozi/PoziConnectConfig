@@ -97,14 +97,15 @@ select
     ifnull ( auprparc.udn_cd1 , '' ) as parish_code,
     '' as township_code,
     auprparc.fmt_ttl as summary,
-    '341' as lga_code,
+    '308' as lga_code,
     cast ( auprparc.ass_num as varchar ) as assnum
 from
     authority_auprparc as auprparc left join
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
-	ifnull ( propnum , '' ) not in ( '' , '0' )
+    auprparc.uda_cd2 <> 5 and
+    ifnull ( propnum , '' ) not in ( '' , '0' )
 order by
     auprparc.ass_num
 )
