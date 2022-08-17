@@ -83,6 +83,8 @@ select distinct
     ifnull ( formattedAddress , '' ) as summary
 from
     councilwise_properties
+where
+    upper ( cast ( propertyNumber as varchar ) ) <> 'SUSPENSE'
 
 )
 )
