@@ -27,27 +27,20 @@ select
         rtrim ( ' ' || road_suffix ) ) as road_name_combined
 from (
 
-select
-    cast ( Property.Property as varchar ) as propnum,
+select distinct
+    cast ( propertyNumber as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    '' as location_descriptor,
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
-    case
-        when substr ( Property.UnitNo , 2 , 1 ) = '-' then ifnull ( substr ( Property.UnitNo , 1 , 1 ) , '' )
-        else ifnull ( Property.UnitNo , '' )
-    end as blg_unit_id_1,
+    ifnull ( cast ( unitNumber as varchar ) , '' ) as blg_unit_id_1,
     '' as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
-    case
-        when substr ( Property.UnitNo , 2 , 1 ) = '-' then ifnull ( substr ( Property.UnitNo , 3 , 99 ) , '' )
-        else ''
-    end as blg_unit_id_2,
+    '' as blg_unit_id_2,
     '' as blg_unit_suffix_2,
     '' as floor_type,
     '' as floor_prefix_1,
@@ -56,45 +49,30 @@ select
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
-    ifnull ( Property.Name , '' ) as building_name,
+    '' as building_name,
     '' as complex_name,
+    '' as location_descriptor,
     '' as house_prefix_1,
-    case
-        when substr ( Property.StreetNofrom , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        when substr ( Property.StreetNofrom , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then Property.StreetNofrom
-        else ifnull ( substr ( Property.StreetNofrom , 1 , length ( Property.StreetNofrom ) - 1 ) , '' ) 
-    end as house_number_1,
-    case
-        when substr ( Property.StreetNofrom , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        when substr ( Property.StreetNofrom , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        else ifnull ( upper ( substr ( Property.StreetNofrom , -1 , 1 ) ) , '' )
-    end as house_suffix_1,
+    ifnull ( cast ( fromStreetNumber as varchar ) , '' ) as house_number_1,
+    ifnull ( cast ( fromStreetNumberSuffix as varchar ) , '' ) as house_suffix_1,
     '' as house_prefix_2,
+    ifnull ( cast ( toStreetNumber as varchar ) , '' ) as house_number_2,
+    ifnull ( cast ( toStreetNumberSuffix as varchar ) , '' ) as house_suffix_2,
+    replace ( upper ( streetNameOnly ) , ' - ' , '-' ) as road_name,
     case
-        when substr ( Property.StreetNoTo , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        when substr ( Property.StreetNoTo , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then Property.StreetNoTo 
-        else ifnull ( substr ( Property.StreetNoTo , 1 , length ( Property.StreetNoTo ) - 1 ) , '' ) 
-    end as house_number_2,
-    case
-        when substr ( Property.StreetNoTo , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        when substr ( Property.StreetNoTo , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        else ifnull ( upper ( substr ( Property.StreetNoTo , -1 , 1 ) ) , '' )
-    end as house_suffix_2,
-    replace ( upper ( Street.Name ) , ' - ' , '-' ) as road_name,
-    case
-        when StreetType.Type like 'Road %' then 'ROAD'
-        when StreetType.Type like 'Street %' then 'STREET'
-        else upper ( StreetType.Type )
+        when streetType like 'Road %' then 'ROAD'
+        when streetType like 'Street %' then 'STREET'
+        else upper ( streetType )
     end as road_type, 
     case
-        when StreetType.Type like '% North' then 'N'
-        when StreetType.Type like '% South' then 'S'
-        when StreetType.Type like '% East' then 'E'
-        when StreetType.Type like '% West' then 'W'
+        when streetType like '% North' then 'N'
+        when streetType like '% South' then 'S'
+        when streetType like '% East' then 'E'
+        when streetType like '% West' then 'W'
         else ''
     end as road_suffix,
-    upper ( Locality.Locality ) as locality_name,
-    Locality.Postcode as postcode,
+    upper ( suburb ) as locality_name,
+    '' as postcode,
     '' as access_type,
     '' as easting,
     '' as northing,
@@ -102,20 +80,10 @@ select
     '' as outside_property,
     '367' as lga_code,
     '' as crefno,
-    '' as summary
+    ifnull ( formattedAddress , '' ) as summary
 from
-    lynx_vwpropertyclassification Classification,
-    lynx_propertys Property,
-    lynx_streets Street,
-    lynx_streettype StreetType,
-    lynx_localities Locality
-where
-    Classification.PropertyNumber = Property.Property and
-    Property.StreetID = Street.ID and
-    Street.Type = StreetType.ID and
-    Street.Locality = Locality.ID and
-    Property.Type not in ( 672 , 700 ) and
-    Classification.LandClassificationCode <> 010
+    councilwise_properties
+
 )
 )
 )
