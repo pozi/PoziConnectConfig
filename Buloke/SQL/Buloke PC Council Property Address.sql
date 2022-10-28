@@ -58,17 +58,21 @@ select distinct
     '' as house_prefix_2,
     ifnull ( cast ( toStreetNumber as varchar ) , '' ) as house_number_2,
     ifnull ( cast ( toStreetNumberSuffix as varchar ) , '' ) as house_suffix_2,
-    upper ( streetNameOnly ) as road_name,
     case
-        when streetType like 'Road %' then 'ROAD'
-        when streetType like 'Street %' then 'STREET'
+        when streetNameOnly like '% Road' then upper ( substr ( streetNameOnly, 1, length ( streetNameOnly ) - 5 ) )
+        when streetNameOnly like '% Street' then upper ( substr ( streetNameOnly, 1, length ( streetNameOnly ) - 7 ) )
+        else ifnull ( upper ( streetNameOnly ) , '' )
+    end as road_name,
+    case
+        when streetNameOnly like '% Road' then 'ROAD'
+        when streetNameOnly like '% Street' then 'STREET'
         else ifnull ( upper ( streetType ) , '' )
     end as road_type,
     case
-        when streetType like '% North' then 'N'
-        when streetType like '% South' then 'S'
-        when streetType like '% East' then 'E'
-        when streetType like '% West' then 'W'                                                 
+        when streetType like 'North' then 'N'
+        when streetType like 'South' then 'S'
+        when streetType like 'East' then 'E'
+        when streetType like 'West' then 'W'
         else ''
     end as road_suffix,
     upper ( suburb ) as locality_name,
