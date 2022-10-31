@@ -59,9 +59,9 @@ select distinct
     ifnull ( cast ( toStreetNumber as varchar ) , '' ) as house_number_2,
     ifnull ( cast ( toStreetNumberSuffix as varchar ) , '' ) as house_suffix_2,
     case
-        when streetNameOnly like '% Road' then upper ( substr ( streetNameOnly, 1, length ( streetNameOnly ) - 5 ) )
-        when streetNameOnly like '% Street' then upper ( substr ( streetNameOnly, 1, length ( streetNameOnly ) - 7 ) )
-        else ifnull ( upper ( streetNameOnly ) , '' )
+        when streetNameOnly like '% Road' then upper ( substr ( replace ( streetNameOnly , '´' , '' ), 1, length ( streetNameOnly ) - 5 ) )
+        when streetNameOnly like '% Street' then upper ( substr ( replace ( streetNameOnly , '´' , '' ), 1, length ( streetNameOnly ) - 7 ) )
+        else ifnull ( upper ( replace ( streetNameOnly , '´' , '' ) ) , '' )
     end as road_name,
     case
         when streetNameOnly like '% Road' then 'ROAD'
