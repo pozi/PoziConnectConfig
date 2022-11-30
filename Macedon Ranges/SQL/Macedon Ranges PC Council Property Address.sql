@@ -45,7 +45,10 @@ select distinct
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
-        when lpaaddr.prefix is null then upper ( ifnull ( lpaaddr.unitprefix , '' ) )
+        when upper ( lpaaddr.prefix ) = 'FACTORY' or upper ( lpaaddr.unitprefix ) = 'FACTORY' then 'FCTY'
+        when upper ( lpaaddr.prefix ) = 'OFFICE' or upper ( lpaaddr.unitprefix ) = 'OFFICE' then 'OFFC'
+        when upper ( lpaaddr.unitprefix ) in ( 'BLDG','CARP','FCTY','FLAT','HSE','OFFC','RESV','SHOP','SITE','UNIT' ) then upper ( lpaaddr.unitprefix )
+        when upper ( lpaaddr.prefix ) in ( 'BLDG','CARP','FCTY','FLAT','HSE','OFFC','RESV','SHOP','SITE','UNIT' ) then upper ( lpaaddr.prefix )
         else upper ( ifnull ( lpaaddr.unitprefix , '' ) )
     end as blg_unit_type,
     '' as blg_unit_prefix_1,
