@@ -99,29 +99,45 @@ select distinct
     ifnull ( lpaaddr.endhoussfx , '' ) as house_suffix_2,
     case
         when cnacomp.descr like '% AVE OFF' then replace ( upper ( cnacomp.descr ) , ' AVE OFF' , '' )
+        when cnacomp.descr like '% AVENUE OFF' then replace ( upper ( cnacomp.descr ) , ' AVENUE OFF' , '' )
         when cnacomp.descr like '% CRES OFF' then replace ( upper ( cnacomp.descr ) , ' CRES OFF' , '' )
+        when cnacomp.descr like '% CRESCENT OFF' then replace ( upper ( cnacomp.descr ) , ' CRESCENT OFF' , '' )
+        when cnacomp.descr like '% COURT OFF' then replace ( upper ( cnacomp.descr ) , ' COURT OFF' , '' )
         when cnacomp.descr like '% CT WEST OFF' then replace ( upper ( cnacomp.descr ) , ' CT WEST OFF' , '' )
         when cnacomp.descr like '% CT OFF' then replace ( upper ( cnacomp.descr ) , ' CT OFF' , '' )
         when cnacomp.descr like '% DR OFF' then replace ( upper ( cnacomp.descr ) , ' DR OFF' , '' )
+        when cnacomp.descr like '% DRIVE OFF' then replace ( upper ( cnacomp.descr ) , ' DRIVE OFF' , '' )
         when cnacomp.descr like '% LANE OFF' then replace ( upper ( cnacomp.descr ) , ' LANE OFF' , '' )
         when cnacomp.descr like '% PL OFF' then replace ( upper ( cnacomp.descr ) , ' PL OFF' , '' )
+        when cnacomp.descr like '% PLACE OFF' then replace ( upper ( cnacomp.descr ) , ' PLACE OFF' , '' )
         when cnacomp.descr like '% RD OFF' then replace ( upper ( cnacomp.descr ) , ' RD OFF' , '' )
-        when cnacomp.descr like '% STREET OFF' then replace ( upper ( cnacomp.descr ) , ' STREET OFF' , '' )
+        when cnacomp.descr like '% ROAD OFF' then replace ( upper ( cnacomp.descr ) , ' ROAD OFF' , '' )
         when cnacomp.descr like '% ST OFF' then replace ( upper ( cnacomp.descr ) , ' ST OFF' , '' )
+        when cnacomp.descr like '% STREET EAST OFF' then replace ( upper ( cnacomp.descr ) , ' STREET EAST OFF' , '' )
+        when cnacomp.descr like '% STREET OFF' then replace ( upper ( cnacomp.descr ) , ' STREET OFF' , '' )
+        when cnacomp.descr like '% TRACK OFF' then replace ( upper ( cnacomp.descr ) , ' TRACK OFF' , '' )
         when cnacomp.descr like '% TRK OFF' then replace ( upper ( cnacomp.descr ) , ' TRK OFF' , '' )
         else upper ( replace ( replace ( cnacomp.descr , '&' , 'AND' ) , '''' , '' ) )
     end as road_name,
     case
         when cnacomp.descr like '% AVE OFF' then 'AVENUE'
+        when cnacomp.descr like '% AVENUE OFF' then 'AVENUE'
         when cnacomp.descr like '% CRES OFF' then 'CRESCENT'
+        when cnacomp.descr like '% CRESCENT OFF' then 'CRESCENT'
         when cnacomp.descr like '% CT WEST OFF' then 'COURT'
         when cnacomp.descr like '% CT OFF' then 'COURT'
+        when cnacomp.descr like '% COURT OFF' then 'COURT'
         when cnacomp.descr like '% DR OFF' then 'DRIVE'
+        when cnacomp.descr like '% DRIVE OFF' then 'DRIVE'
         when cnacomp.descr like '% LANE OFF' then 'LANE'
         when cnacomp.descr like '% PL OFF' then 'PLACE'
+        when cnacomp.descr like '% PLACE OFF' then 'PLACE'
         when cnacomp.descr like '% RD OFF' then 'ROAD'
+        when cnacomp.descr like '% ROAD OFF' then 'ROAD'
         when cnacomp.descr like '% STREET OFF' then 'STREET'
+        when cnacomp.descr like '% STREET EAST OFF' then 'STREET'
         when cnacomp.descr like '% ST OFF' then 'STREET'
+        when cnacomp.descr like '% TRACK OFF' then 'TRACK'
         when cnacomp.descr like '% TRK OFF' then 'TRACK'
         when
             cnaqual.descr like '% NORTH' or
