@@ -38,10 +38,7 @@ select distinct
         when 'P' then 'Y'
         else 'N'
     end as is_primary,
-    case
-        when lpaprop.tpklpaprop in ( select tfklpaprop from pathway_lpaprgp where tfklpapgrp = 1751 ) then 'Y'
-        else ''
-    end as distance_related_flag,
+    '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
     case
