@@ -178,7 +178,8 @@ where
     lpaprop.status in ('A', 'C') and
     lpaaddr.addrtype <> 'H' and
     lpaprtp.abbrev <> 'BASE' and
-    lpaprop.tfklpacncl = 12
+    lpaprop.tfklpacncl = 12 and
+    lpaprtp.tpklpaprtp not in ( 33 , 35 )
 )
 )
 )
