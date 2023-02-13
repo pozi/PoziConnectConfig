@@ -1,14 +1,14 @@
 SPI_CODE,SPI,DESCRIPTION,UFI,UFI_CREATED
-101,VALIDATED,SPI has been validated against VOTS,10083707,2011/08/19
-102,AUTO GENERATED,SPI has been automatically generated from Vicmap Property,10083708,2011/08/19
-103,MORNINTON,Mornington Peninsula area where old parcel descriptors were loaded back. There are no occurrences of parcels with this SPI code in the data any more.,10083709,2011/08/19
-110,FORMERLY VERIFIE,Formerly verified (101) and now not present in VOTS,10083710,2011/08/19
-201,UNVALIDATED DUPE,Unvalidated duplicate SPIs exist,10083711,2011/08/19
-202,FAIL VALIDATION,SPI not present in VOTS,10083712,2011/08/19
-500,TRANSFER BALANCE,Balance of parcel created as a result of a part-parcel transfer.,10083713,2011/08/19
-105,NON-VOTS,"Parcel description has been validated against Land Registry parcel records but does not exist in VOTS, eg, Common Property in Strata Plans, and NUA parcels.",10083714,2011/08/19
-111,VALIDATED DUPE,"SPI has been validated against VOTS but exists as two PARCEL records; not one.  Polygons, and associated records, will be merged to form one instance, only once both polygons have the same CREFNO.",10083715,2011/08/19
-106,NON-MERGE DUPE,"This includes any valid non-mergeable duplicate parcels. Examples include Balance-of-Title, which refers to the land remaining in a title.  For example, the night cart lanes which are in the original title and a TP will not be drawn for them.  These will",10083716,2011/08/19
-107,PARCEL MISMATCH,"SPI does not match parcel identifier, eg, in Echuca township",10083717,2011/08/19
-100,SPATIALLY VALID,"Parcel is correct shape, has correct relative position and SPI has been validated against VOTS",10083718,2011/08/19
-200,MULTI-LOT VALID,"Desc_type 12 (mulit-lot) has correct external boundary, correct relative position and SPI has been validated against VOTS. No internal linework though.",10083719,2011/08/19
+"101",VALIDATED,SPI has been validated against VOTS,10083707,2011/08/19
+"102",AUTO GENERATED,SPI has been automatically generated from Vicmap Property,10083708,2011/08/19
+"103",MORNINTON,Mornington Peninsula area where old parcel descriptors were loaded back. There are no occurrences of parcels with this SPI code in the data any more.,10083709,2011/08/19
+"110",FORMERLY VERIFIE,Formerly verified (101) and now not present in VOTS,10083710,2011/08/19
+"201",UNVALIDATED DUPE,Unvalidated duplicate SPIs exist,10083711,2011/08/19
+"202",FAIL VALIDATION,SPI not present in VOTS,10083712,2011/08/19
+"500",TRANSFER BALANCE,Balance of parcel created as a result of a part-parcel transfer.,10083713,2011/08/19
+"105",NON-VOTS,"Parcel description has been validated against Land Registry parcel records but does not exist in VOTS, eg, Common Property in Strata Plans, and NUA parcels.",10083714,2011/08/19
+"111",VALIDATED DUPE,"SPI has been validated against VOTS but exists as two PARCEL records; not one.  Polygons, and associated records, will be merged to form one instance, only once both polygons have the same CREFNO.",10083715,2011/08/19
+"106",NON-MERGE DUPE,"This includes any valid non-mergeable duplicate parcels. Examples include Balance-of-Title, which refers to the land remaining in a title.  For example, the night cart lanes which are in the original title and a TP will not be drawn for them.  These will",10083716,2011/08/19
+"107",PARCEL MISMATCH,"SPI does not match parcel identifier, eg, in Echuca township",10083717,2011/08/19
+"100",SPATIALLY VALID,"Parcel is correct shape, has correct relative position and SPI has been validated against VOTS",10083718,2011/08/19
+"200",MULTI-LOT VALID,"Desc_type 12 (mulit-lot) has correct external boundary, correct relative position and SPI has been validated against VOTS. No internal linework though.",10083719,2011/08/19
