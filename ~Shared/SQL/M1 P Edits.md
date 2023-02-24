@@ -102,10 +102,10 @@ Include only parcels whose SPI is not already matched to the same property numbe
 vp.spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum = cp.propnum )
 ```
 
-Exclude matches where the Vicmap parcel type is 13 (ie, road parcel) and there is no record in the Vicmap parcel-property look-up table (because DELWP has indicated that they will not create new property polygons for these parcels).
+Exclude matches where the Vicmap parcel type is a road parcel and there is no record in the Vicmap parcel-property look-up table (because DELWP has indicated that they will not create new property polygons for these parcels).
 
 ```sql
-not ( vp.desc_type = '13' and vp.parcel_pfi not in ( select parcel_pfi from vmprop_parcel_property ) )
+not ( vp.road = 'Y' and vp.parcel_pfi not in ( select parcel_pfi from vmprop_parcel_property ) )
 ```
 
 Exclude matches where the existing property is NCPR which has a different address to the council's address.

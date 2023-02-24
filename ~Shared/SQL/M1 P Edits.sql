@@ -111,7 +111,7 @@ where
     not ( vp.status = 'P' and ( select cppc.num_parcels from pc_council_property_parcel_count cppc where cppc.propnum = cp.propnum ) > 1 ) and
     not ( vp.status = 'A' and cp.propnum in ( select propnum from pc_vicmap_parcel vpx where vpx.status = 'P' ) ) and
     vp.spi not in ( select spi from pc_vicmap_parcel vpx where vpx.propnum = cp.propnum ) and
-    not ( vp.desc_type = '13' and vp.parcel_pfi not in ( select parcel_pfi from vmprop_parcel_property ) ) and
+    not ( vp.road = 'Y' and vp.parcel_pfi not in ( select parcel_pfi from vmprop_parcel_property ) ) and
     not ( vp.propnum = 'NCPR' and ( select ezi_address from pc_vicmap_property_address vpa where vpa.property_pfi = vp.property_pfi and vpa.is_primary <> 'N' ) <> ( select ezi_address from pc_council_property_address cpa where cpa.propnum = cp.propnum and cpa.is_primary <> 'N' ) ) and
     vp.property_pfi not in ( select property_pfi from pc_vicmap_property_address vpa where complex_site = 'Y' or source = 'VAC' )
 group by vp.spi
