@@ -5,8 +5,16 @@ from
 (
 select
     *,
-    constructed_spi as spi,
-    'council_attributes' as spi_source
+    case
+        when constructed_spi <> '' then constructed_spi
+        when internal_spi <> '' then internal_spi
+        else ''
+    end as spi,
+    case
+        when constructed_spi <> '' then 'council_attributes'
+        when internal_spi <> '' then 'council_spi'
+        else ''
+    end as spi_source
 from
 (
 select
@@ -39,30 +47,51 @@ select distinct
     '' as crefno,
     ifnull ( lpaparc.spi , '' ) as internal_spi,
     case
-        when lpaparc.parcelcode = 'P L' then 'P'
+        when lpaparc.parcelcode like 'PT%' then 'P'
         else ''
     end as part,
     ifnull ( lpaparc.plancode || ': ' , '' ) || ifnull ( trim ( lpaparc.fmtparcel ) , '' ) as summary,
     case
-        when lpaparc.plancode = 'PP' then ''
-        else ifnull ( lpaparc.plancode || lpaparc.plannum , '' )
-    end as plan_number,
+        when lpaparc.parcelcode = 'CA' then ''
+        when lpaparc.plancode in ( '1PS' , 'PS' , 'SUBDV' ) then 'PS'
+        when lpaparc.plancode in ( '2TP' , 'TP' , 'TITLE' ) then 'TP'
+        when lpaparc.plancode in ( '3LP' , 'LP' , 'LODGED' ) then 'LP'
+        when lpaparc.plancode in ( '4PC' , 'PC' , 'CONSOL' ) then 'PC'
+        when lpaparc.plancode in ( '5RP' , 'RP' , 'REGIST' ) then 'RP'
+        when lpaparc.plancode in ( '6SP' , 'SP' , 'STRAT1' , 'STRATA' ) then 'SP'
+        when lpaparc.plancode in ( '7CP' , 'CP' ) then 'CP'
+        else ifnull ( lpaparc.plancode , '' )
+    end ||
+        case
+            when lpaparc.parcelcode = 'CA' then ''
+            when substr ( lpaparc.plannum , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then cast ( cast ( lpaparc.plannum as integer ) as varchar )
+            when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then cast ( cast ( substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 ) as integer ) as varchar )
+        else ifnull ( lpaparc.plannum , '' )
+        end as plan_number,
     case
-        when lpaparc.plancode = 'PP' then ''
+        when lpaparc.parcelcode = 'CA' then ''
+        when lpaparc.plancode in ( '1PS' , 'PS' , 'SUBDV' ) then 'PS'
+        when lpaparc.plancode in ( '2TP' , 'TP' , 'TITLE' ) then 'TP'
+        when lpaparc.plancode in ( '3LP' , 'LP' , 'LODGED' ) then 'LP'
+        when lpaparc.plancode in ( '4PC' , 'PC' , 'CONSOL' ) then 'PC'
+        when lpaparc.plancode in ( '5RP' , 'RP' , 'REGIST' ) then 'RP'
+        when lpaparc.plancode in ( '6SP' , 'SP' , 'STRAT1' , 'STRATA' ) then 'SP'
+        when lpaparc.plancode in ( '7CP' , 'CP' ) then 'CP'
         else ifnull ( lpaparc.plancode , '' )
     end as plan_prefix,
     case
-        when lpaparc.plancode = 'PP' then ''
+        when lpaparc.parcelcode = 'CA' then ''
+        when substr ( lpaparc.plannum , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then cast ( cast ( lpaparc.plannum as integer ) as varchar )
+        when substr ( lpaparc.plannum , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then cast ( cast ( substr ( lpaparc.plannum , 1 , length ( lpaparc.plannum ) - 1 ) as integer ) as varchar )
         else ifnull ( lpaparc.plannum , '' )
     end as plan_numeral,
     case
-        when lpaparc.plancode = 'PP' then ''
-        when lpaparc.parcelcode = 'CM' then 'CM' || ifnull ( lpaparc.parcelnum , '' )
-        when lpaparc.parcelcode = 'RES' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
+        when lpaparc.parcelcode = 'CA' then ''
+        when lpaparc.parcelcode = 'RES NO' then 'RES' || ifnull ( lpaparc.parcelnum , '' )
         else ifnull ( lpaparc.parcelnum , '' )
     end as lot_number,
     case
-        when lpaparc.plancode = 'PP' then ifnull ( lpaparc.parcelnum , '' )
+        when lpaparc.parcelcode = 'CA' then ifnull ( lpaparc.parcelnum , '' )
         else ''
     end as allotment,
     ifnull ( lpasect.parcelsect , '' ) as sec,
@@ -70,14 +99,14 @@ select distinct
     '' as portion,
     '' as subdivision,
     case
-        when lpaparc.plancode = 'PP' and substr ( lpaparc.plannum , 1 , 1 ) in ( '2' , '3' ) then ifnull ( lpaparc.plannum , '' )
+        when lpaparc.parcelcode = 'CA' and substr ( lpaparc.plannum , 1 , 1 ) in ( '2' , '3' ) then ifnull ( lpaparc.plannum , '' )
         else ''
     end as parish_code,
     case
-        when lpaparc.plancode = 'PP' and substr ( lpaparc.plannum , 1 , 1 ) in ( '5' ) then ifnull ( lpaparc.plannum , '' )
+        when lpaparc.parcelcode = 'CA' and substr ( lpaparc.plannum , 1 , 1 ) in ( '5' ) then ifnull ( lpaparc.plannum , '' )
         else ''
     end as township_code,
-    '351' as lga_code,
+    '316' as lga_code,
     ifnull ( cast ( cast ( lraassm.assmnumber as integer ) as varchar ) , '' ) as assnum
 from
     pathway_lpaprop as lpaprop left join
@@ -99,8 +128,7 @@ where
     lpaparc.status <> 'H' and
     lpatipa.status <> 'H' and
     lpaprti.status <> 'H' and
-    lpatitl.status <> 'H' and
-    ifnull ( lpaparc.plancode , '' ) <> 'FP'
+    lpatitl.status <> 'H'
 )
 )
 )

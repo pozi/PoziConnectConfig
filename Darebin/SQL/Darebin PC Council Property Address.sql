@@ -129,7 +129,7 @@ select
     '' as northing,
     '' as datum_proj,
     '' as outside_property,
-    '351' as lga_code,
+    '316' as lga_code,
     '' as crefno,
     '' as summary
 from
@@ -147,8 +147,7 @@ from
     pathway_lpaadfm as lpaadfm on lpaadpr.tfklpaadfm = lpaadfm.tpklpaadfm
 where
     lpaprop.status <> 'H' and
-    lpaaddr.addrtype = 'P' and
-    lpaprop.tfklpacncl = 12
+    lpaaddr.addrtype = 'P'
 )
 )
 )
