@@ -29,7 +29,10 @@ from (
 
 select
     cast ( cast ( lpaprop.tpklpaprop as integer ) as varchar ) as propnum,
-    '' as status,
+    case lpaprop.status
+        when 'C' then 'A'
+        when 'A' then 'P'
+    end as status,
     '' as base_propnum,
     '' as is_primary,
     '' as distance_related_flag,
@@ -64,10 +67,13 @@ select
         else cast ( lpaaddr.endunitsfx as varchar )
     end as blg_unit_suffix_2,
     case
-        when lpaaddr.lvlprefix is null then ''
-        when lpaaddr.lvlprefix = 'Level' then 'L'
-        when lpaaddr.lvlprefix in ( 'A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'G' ) then ''
-        else lpaaddr.lvlprefix
+        when upper ( lpaaddr.lvlprefix ) in ( 'B','FL','G','L','LG','M','UG','RT','PD','LB','LL','OD','P','PF','SB' ) then upper ( lpaaddr.lvlprefix )
+        when upper ( lpaaddr.lvlprefix ) = 'BASEMENT' then 'B'
+        when upper ( lpaaddr.lvlprefix ) = 'FLOOR' then 'FL'
+        when upper ( lpaaddr.lvlprefix ) = 'GROUND' then 'G'
+        when upper ( lpaaddr.lvlprefix ) = 'LEVEL' then 'L'
+        when upper ( lpaaddr.lvlprefix ) = 'LWR GROUND' then 'LG'
+        else ''
     end as floor_type,
     '' as floor_prefix_1,
     case
@@ -85,15 +91,20 @@ select
     '' as complex_name,
     case
         when lpaaddr.prefix is null then ''
+        when lpaaddr.prefix = 'Rear of' then 'REAR'
         when upper ( lpaaddr.prefix ) in ('','ABOVE','ADJACENT','BELOW','BETWEEN','CORNER','EAST','FRONT','NORTH','OFF','OPPOSITE','PART','REAR','ROOFTOP','SOUTH','WEST') then upper ( lpaaddr.prefix )
         else ''
     end as location_descriptor,
-    '' as house_prefix_1,
+    case
+        when upper ( lpaaddr.prefix ) in ('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z') then upper ( lpaaddr.prefix )
+        else ''
+    end as house_prefix_1,
     case
         when lpaaddr.strhousnum = 0 or lpaaddr.strhousnum is null then ''
         else cast ( cast ( lpaaddr.strhousnum as integer ) as varchar )
     end as house_number_1,
     case
+        when lpaaddr.prefix in ( 'AA','GX','GZ' ) then lpaaddr.prefix
         when lpaaddr.strhoussfx = '0' or lpaaddr.strhoussfx is null then ''
         else cast ( lpaaddr.strhoussfx as varchar )
     end as house_suffix_1,
@@ -106,7 +117,12 @@ select
         when lpaaddr.endhoussfx = '0' or lpaaddr.endhoussfx is null then ''
         else cast ( lpaaddr.endhoussfx as varchar )
     end as house_suffix_2,
-    replace ( replace ( upper ( cnacomp.descr ) , '''' , '' ) , 'MC ' , 'MC' ) as road_name,
+    case
+        when upper ( cnacomp.descr ) = 'JV SMITH' then 'J V SMITH'
+        when cnacomp.descr like '%''%' then replace ( upper ( cnacomp.descr ) , '''' , '' )
+        when cnacomp.descr like '%MC %' then replace ( upper ( cnacomp.descr ) , 'MC ' , 'MC' )
+        else upper ( cnacomp.descr )
+    end as road_name,
     case
         when
             cnaqual.descr like '% NORTH' or
@@ -147,7 +163,9 @@ from
     pathway_lpaadfm as lpaadfm on lpaadpr.tfklpaadfm = lpaadfm.tpklpaadfm
 where
     lpaprop.status <> 'H' and
-    lpaaddr.addrtype = 'P'
+    lpaaddr.addrtype = 'P' and
+    lpaprop.tfklpacncl = 14 and
+    lpaprtp.abbrev <> 'MASTER'
 )
 )
 )
