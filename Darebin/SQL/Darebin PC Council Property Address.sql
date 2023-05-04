@@ -41,19 +41,29 @@ select
     case
         when upper ( lpaaddr.unitprefix ) is null then ''
         when upper ( lpaaddr.unitprefix ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.unitprefix )
+		when upper ( lpaaddr.unitprefix ) = 'OFFICE' then 'OFFC'
+		when upper ( lpaaddr.unitprefix ) = 'SUITE' then 'SE'
+        when upper ( lpaaddr.prefix ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.prefix )
+        when upper ( lpaaddr.prefix ) = 'BUILDING' then 'BLDG'
+        when upper ( lpaaddr.prefix ) = 'ADV SIGN' then 'SIGN'
+        when upper ( lpaaddr.prefix ) = 'KIOSK' then 'KSK'
         else ''
     end as blg_unit_type,
     case
-        when lpaaddr.lvlprefix in ( 'A' , 'B' , 'C' , 'D' , 'E' , 'F' , 'G' ) then lpaaddr.lvlprefix
+        when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) and length ( lpaaddr.prefix ) in ( 1 , 2 ) then upper ( lpaaddr.prefix )
+        when length ( lpaaddr.lvlprefix ) in ( 1 , 2 ) then upper ( lpaaddr.lvlprefix )
         when upper ( lpaaddr.unitprefix ) is null then ''
         when upper ( lpaaddr.unitprefix ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then ''
-        else upper ( lpaaddr.unitprefix )
+        when length ( lpaaddr.unitprefix ) = 1 then upper ( lpaaddr.unitprefix )
+        else ''
     end as blg_unit_prefix_1,
     case
+        when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) and lpaaddr.strhousnum <> 0 then cast ( cast ( lpaaddr.strhousnum as integer ) as varchar )
         when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
         else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
     end as blg_unit_id_1,
     case
+        when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) and ifnull ( lpaaddr.strhoussfx , '' ) <> '' then upper ( ifnull ( lpaaddr.strhoussfx , '' ) )
         when lpaaddr.strunitsfx = '0' or lpaaddr.strunitsfx is null then ''
         else cast ( lpaaddr.strunitsfx as varchar )
     end as blg_unit_suffix_1,
@@ -88,28 +98,37 @@ select
     end as floor_no_2,
     '' as floor_suffix_2,
     upper ( ifnull ( lpapnam.propname , '' ) ) as building_name,
-    '' as complex_name,
+    case
+        when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) then upper ( cnacomp.descr )
+        when upper ( cnacomp.descr ) = 'THE AGORA LA TROBE UNIVERSITY' then 'LA TROBE UNIVERSITY'
+        else ''
+    end as complex_name,
     case
         when lpaaddr.prefix is null then ''
-        when lpaaddr.prefix = 'Rear of' then 'REAR'
+        when upper ( lpaaddr.prefix ) = 'FRONT OF' then 'FRONT'
+        when upper ( lpaaddr.prefix ) = 'REAR OF' then 'REAR'
         when upper ( lpaaddr.prefix ) in ('','ABOVE','ADJACENT','BELOW','BETWEEN','CORNER','EAST','FRONT','NORTH','OFF','OPPOSITE','PART','REAR','ROOFTOP','SOUTH','WEST') then upper ( lpaaddr.prefix )
         else ''
     end as location_descriptor,
     case
-        when upper ( lpaaddr.prefix ) in ('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z') then upper ( lpaaddr.prefix )
+        when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) then ''
+        when length ( lpaaddr.prefix ) in ( 1 , 2 ) then upper ( lpaaddr.prefix )
         else ''
     end as house_prefix_1,
     case
+        when upper ( cnacomp.descr ) = 'NORTHLAND SHOPPING CENTRE' then '2'
+        when upper ( cnacomp.descr ) = 'PRESTON MARKET' then '20'
         when lpaaddr.strhousnum = 0 or lpaaddr.strhousnum is null then ''
         else cast ( cast ( lpaaddr.strhousnum as integer ) as varchar )
     end as house_number_1,
     case
-        when lpaaddr.prefix in ( 'AA','GX','GZ' ) then lpaaddr.prefix
+        when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) then ''
         when lpaaddr.strhoussfx = '0' or lpaaddr.strhoussfx is null then ''
         else cast ( lpaaddr.strhoussfx as varchar )
     end as house_suffix_1,
     '' as house_prefix_2,
     case
+        when upper ( cnacomp.descr ) = 'NORTHLAND SHOPPING CENTRE' then '50'
         when lpaaddr.endhousnum = 0 or lpaaddr.endhousnum is null then ''
         else cast ( cast ( lpaaddr.endhousnum as integer ) as varchar )
     end as house_number_2,
@@ -119,11 +138,16 @@ select
     end as house_suffix_2,
     case
         when upper ( cnacomp.descr ) = 'JV SMITH' then 'J V SMITH'
+        when upper ( cnacomp.descr ) = 'NORTHLAND SHOPPING CENTRE' then 'MURRAY'
+        when upper ( cnacomp.descr ) = 'PRESTON MARKET' then 'CRAMER'
+        when upper ( cnacomp.descr ) = 'THE AGORA LA TROBE UNIVERSITY' then 'THE AGORA'
         when cnacomp.descr like '%''%' then replace ( upper ( cnacomp.descr ) , '''' , '' )
         when cnacomp.descr like '%MC %' then replace ( upper ( cnacomp.descr ) , 'MC ' , 'MC' )
         else upper ( cnacomp.descr )
     end as road_name,
     case
+        when upper ( cnacomp.descr ) = 'NORTHLAND SHOPPING CENTRE' then 'ROAD'
+        when upper ( cnacomp.descr ) = 'PRESTON MARKET' then 'STREET'
         when
             cnaqual.descr like '% NORTH' or
             cnaqual.descr like '% SOUTH' or
