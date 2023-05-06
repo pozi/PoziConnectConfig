@@ -134,6 +134,7 @@ select
     '' as house_prefix_2,
     case
         when upper ( cnacomp.descr ) = 'NORTHLAND SHOPPING CENTRE' then '50'
+        when upper ( cnacomp.descr ) = 'PRESTON MARKET' then ''
         when lpaaddr.endhousnum = 0 or lpaaddr.endhousnum is null then ''
         else cast ( cast ( lpaaddr.endhousnum as integer ) as varchar )
     end as house_number_2,
