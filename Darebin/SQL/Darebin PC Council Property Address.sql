@@ -40,10 +40,10 @@ select
     '' as hsa_unit_id,
     case
         when upper ( lpaaddr.unitprefix ) is null then ''
-        when upper ( lpaaddr.unitprefix ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.unitprefix )
+        when upper ( lpaaddr.unitprefix ) in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.unitprefix )
 		when upper ( lpaaddr.unitprefix ) = 'OFFICE' then 'OFFC'
 		when upper ( lpaaddr.unitprefix ) = 'SUITE' then 'SE'
-        when upper ( lpaaddr.prefix ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.prefix )
+        when upper ( lpaaddr.prefix ) in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.prefix )
         when upper ( lpaaddr.prefix ) = 'BUILDING' then 'BLDG'
         when upper ( lpaaddr.prefix ) = 'ADV SIGN' then 'SIGN'
         when upper ( lpaaddr.prefix ) = 'KIOSK' then 'KSK'
@@ -51,9 +51,10 @@ select
     end as blg_unit_type,
     case
         when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) and length ( lpaaddr.prefix ) in ( 1 , 2 ) then upper ( lpaaddr.prefix )
+        when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) and substr ( lpaaddr.prefix , 1 , 2 ) in ( 'C ' , 'E ' , 'N ' , 'NN' ) then trim ( substr ( lpaaddr.prefix , 1 , 2 ) )
         when length ( lpaaddr.lvlprefix ) in ( 1 , 2 ) then upper ( lpaaddr.lvlprefix )
         when upper ( lpaaddr.unitprefix ) is null then ''
-        when upper ( lpaaddr.unitprefix ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then ''
+        when upper ( lpaaddr.unitprefix ) in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then ''
         when length ( lpaaddr.unitprefix ) = 1 then upper ( lpaaddr.unitprefix )
         else ''
     end as blg_unit_prefix_1,
@@ -107,11 +108,12 @@ select
         when lpaaddr.prefix is null then ''
         when upper ( lpaaddr.prefix ) = 'FRONT OF' then 'FRONT'
         when upper ( lpaaddr.prefix ) = 'REAR OF' then 'REAR'
-        when upper ( lpaaddr.prefix ) in ('','ABOVE','ADJACENT','BELOW','BETWEEN','CORNER','EAST','FRONT','NORTH','OFF','OPPOSITE','PART','REAR','ROOFTOP','SOUTH','WEST') then upper ( lpaaddr.prefix )
+        when upper ( lpaaddr.prefix ) in ('ABOVE','ADJACENT','BELOW','BETWEEN','CORNER','EAST','FRONT','NORTH','OFF','OPPOSITE','PART','REAR','ROOFTOP','SOUTH','WEST') then upper ( lpaaddr.prefix )
         else ''
     end as location_descriptor,
     case
         when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) then ''
+		when upper ( lpaaddr.prefix ) in ( 'GX' , 'GZ' ) then ''
         when length ( lpaaddr.prefix ) in ( 1 , 2 ) then upper ( lpaaddr.prefix )
         else ''
     end as house_prefix_1,
@@ -123,6 +125,7 @@ select
     end as house_number_1,
     case
         when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) then ''
+		when upper ( lpaaddr.prefix ) in ( 'GX' , 'GZ' ) then upper ( lpaaddr.prefix )
         when lpaaddr.strhoussfx = '0' or lpaaddr.strhoussfx is null then ''
         else cast ( lpaaddr.strhoussfx as varchar )
     end as house_suffix_1,
