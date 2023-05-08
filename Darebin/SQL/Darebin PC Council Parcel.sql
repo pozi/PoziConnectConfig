@@ -127,8 +127,7 @@ where
     lpaprop.status <> 'H' and
     lpaparc.status <> 'H' and
     lpatipa.status <> 'H' and
-    lpaprti.status <> 'H' and
-    lpatitl.status <> 'H'
+    lpaprti.status <> 'H'
 )
 )
 )
