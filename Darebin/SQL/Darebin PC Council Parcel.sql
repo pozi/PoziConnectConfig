@@ -127,7 +127,8 @@ where
     lpaprop.status <> 'H' and
     lpaparc.status <> 'H' and
     lpatipa.status <> 'H' and
-    lpaprti.status <> 'H'
+    lpaprti.status <> 'H' and
+    ifnull ( upper ( lpaaddr.prefix ) , '' ) <> 'ADV SIGN'
 )
 )
 )

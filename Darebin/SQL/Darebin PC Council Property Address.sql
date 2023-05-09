@@ -45,7 +45,6 @@ select
         when upper ( lpaaddr.unitprefix ) = 'SUITE' then 'SE'
         when upper ( lpaaddr.prefix ) in ('ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( lpaaddr.prefix )
         when upper ( lpaaddr.prefix ) = 'BUILDING' then 'BLDG'
-        when upper ( lpaaddr.prefix ) = 'ADV SIGN' then 'SIGN'
         when upper ( lpaaddr.prefix ) = 'KIOSK' then 'KSK'
         else ''
     end as blg_unit_type,
@@ -195,7 +194,8 @@ where
     lpaprop.status <> 'H' and
     lpaaddr.addrtype = 'P' and
     lpaprop.tfklpacncl = 14 and
-    lpaprtp.abbrev <> 'MASTER'
+    lpaprtp.abbrev <> 'MASTER' and
+    ifnull ( upper ( lpaaddr.prefix ) , '' ) <> 'ADV SIGN'
 )
 )
 )
