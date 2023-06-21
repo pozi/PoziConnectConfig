@@ -27,142 +27,93 @@ select
         rtrim ( ' ' || road_suffix ) ) as road_name_combined
 from (
 
-select distinct
-    case
-        when cast ( Assessment.Assess_Number as varchar ) glob '*.?' then cast ( Assessment.Assess_Number as varchar ) || '000'
-        when cast ( Assessment.Assess_Number as varchar ) glob '*.??' then cast ( Assessment.Assess_Number as varchar ) || '00'
-        when cast ( Assessment.Assess_Number as varchar ) glob '*.???' then cast ( Assessment.Assess_Number as varchar ) || '0'
-        when cast ( Assessment.Assess_Number as varchar ) glob '*.????' then cast ( Assessment.Assess_Number as varchar )
-    end as propnum,
-    case Assessment.Assessment_Status
-        when '25' then 'P'
+select
+    cast ( P.prop_id as varchar ) as propnum,
+    case P.prop_status_ind
+        when 'F' then 'P'
         else ''
     end as status,
-    case
-        when Assessment_Attributes.[Mapping Parent Assess No] = '' then ''
-        when ( select x.Assessment_Status from propertygov_assessment x where x.Assess_Number = Assessment_Attributes.[Mapping Parent Assess No] ) = 9 then ''
-        when cast ( trim ( Assessment_Attributes.[Mapping Parent Assess No] ) as float ) = Assessment.Assess_Number then ''
-        when trim ( Assessment_Attributes.[Mapping Parent Assess No] ) glob '*.?' then trim ( Assessment_Attributes.[Mapping Parent Assess No] ) || '000'
-        when trim ( Assessment_Attributes.[Mapping Parent Assess No] ) glob '*.??' then trim ( Assessment_Attributes.[Mapping Parent Assess No] ) || '00'
-        when trim ( Assessment_Attributes.[Mapping Parent Assess No] ) glob '*.???' then trim ( Assessment_Attributes.[Mapping Parent Assess No] ) || '0'
-        when trim ( Assessment_Attributes.[Mapping Parent Assess No] ) glob '*.????' then trim ( Assessment_Attributes.[Mapping Parent Assess No] )
-        else trim ( Assessment_Attributes.[Mapping Parent Assess No] ) || '.0000'
-    end as base_propnum,
-    case
-        when Address.Addr_Is_Primary_Address = '0' then 'N'
-        when
-            (
-                Assessment.Property_Name_Address_Locality not like
-                    '%' ||
-                    cast ( ifnull ( Address.Addr_Building_Unit_Number_1 , '' ) as varchar ) ||
-                    '%' ||
-                    cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) ||
-                    '%' or
-                ifnull ( Address.Addr_House_Number_1 , '' ) = ''
-            )
-            and
-                ( Assessment.Property_Name_Address_Locality like '%1%' or
-                  Assessment.Property_Name_Address_Locality like '%2%' or
-                  Assessment.Property_Name_Address_Locality like '%3%' or
-                  Assessment.Property_Name_Address_Locality like '%4%' or
-                  Assessment.Property_Name_Address_Locality like '%5%' or
-                  Assessment.Property_Name_Address_Locality like '%6%' or
-                  Assessment.Property_Name_Address_Locality like '%7%' or
-                  Assessment.Property_Name_Address_Locality like '%8%' or
-                  Assessment.Property_Name_Address_Locality like '%9%' ) then 'N'
-        when
-            Assessment.Property_Name_Address_Locality like '%-' || cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) || ' %' and
-            Assessment.Property_Name_Address_Locality not like cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) || '-%' then 'N'
-        when
-            Assessment.Property_Name_Address_Locality like '%' ||
-            ifnull ( Address.Addr_Building_Unit_Number_1 || ifnull ( Address.Addr_Building_Unit_Suffix_1 , '' ) || ifnull ( '-' || Address.Addr_Building_Unit_Number_2  || ifnull ( Address.Addr_Building_Unit_Suffix_2 , '' ) , '' ) || '/' , '' ) ||
-            ifnull ( Address.Addr_House_Prefix_1 , '' ) || ifnull ( Address.Addr_House_Number_1 , '' ) || ifnull ( Address.Addr_House_Suffix_1 , '' ) ||
-            ifnull ( '-' || ifnull ( Address.Addr_House_Prefix_2 , '' ) || Address.Addr_House_Number_2 , '' ) || ifnull ( Address.Addr_House_Suffix_2 , '' ) || ' ' ||
-            ifnull ( Street.Street_Name , '' ) || '%' then 'Y'
-        when
-            Address.Addr_House_Number_1 is null and Assessment.Property_Name_Address_Locality like Street.Street_Name || '%' then 'Y'
-        else ''
-    end as is_primary,
+    '' as base_propnum,
+    '' as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
+    '' as location_descriptor,
     case
-        when upper ( Address.Building_Unit_Abbreviation ) = 'U' then 'UNIT'
-        when upper ( Address.Building_Unit_Abbreviation ) = 'P' then ''
-        when upper ( Address.Building_Unit_Abbreviation ) = 'REAR' then ''
-        else upper ( ifnull ( Address.Building_Unit_Abbreviation , '' ) )
+        when upper ( A.unit_desc ) in ('','ANT','APT','ATM','BBOX','BBQ','BERT','BLDG','BNGW','BTSD','CAGE','CARP','CARS','CARW','CHAL','CLUB','COOL','CTGE','CTYD','DUPL','FCTY','FLAT','GATE','GRGE','HALL','HELI','HNGR','HOST','HSE','JETY','KSK','LBBY','LOFT','LOT','LSE','MBTH','MSNT','OFFC','PSWY','PTHS','REST','RESV','ROOM','RPTN','SAPT','SE','SHCS','SHED','SHOP','SHRM','SIGN','SITE','STLL','STOR','STR','STU','SUBS','TNCY','TNHS','TWR','UNIT','VLLA','VLT','WARD','WC','WHSE','WKSH') then upper ( a.unit_desc )
+        when upper ( A.unit_desc ) = 'F' then 'FLAT'
+        when upper ( A.unit_desc ) = 'FY' then 'FCTY'
+        when upper ( A.unit_desc ) = 'OFF' then 'OFFC'
+        when upper ( A.unit_desc ) = 'U' then 'UNIT'
+        else ''
     end as blg_unit_type,
-    upper ( ifnull ( Address.Addr_Building_Unit_Prefix_1 , '' ) ) as blg_unit_prefix_1,
-    cast ( ifnull ( Address.Addr_Building_Unit_Number_1 , '' ) as varchar ) as blg_unit_id_1,
-    upper ( ifnull ( Address.Addr_Building_Unit_Suffix_1 , '' ) ) as blg_unit_suffix_1,
-    upper ( ifnull ( Address.Addr_Building_Unit_Prefix_2 , '' ) ) as blg_unit_prefix_2,
-    cast ( ifnull ( Address.Addr_Building_Unit_Number_2 , '' ) as varchar ) as blg_unit_id_2,
-    upper ( ifnull ( Address.Addr_Building_Unit_Suffix_2 , '' ) ) as blg_unit_suffix_2,
-    upper ( ifnull ( Address.Address_Floor_Type_Abbrev , '' ) ) as floor_type,
-    upper ( ifnull ( Address.Addr_Floor_Prefix_1 , '' ) ) as floor_prefix_1,
-    cast ( ifnull ( Address.Addr_Floor_Number_1 , '' ) as varchar ) as floor_no_1,
-    upper ( ifnull ( Address.Addr_Floor_Suffix_1 , '' ) )  as floor_suffix_1,
-    upper ( ifnull ( Address.Addr_Floor_Prefix_2 , '' ) )  as floor_prefix_2,
-    cast ( ifnull ( Address.Addr_Floor_Number_2 , '' ) as varchar ) as floor_no_2,
-    upper ( ifnull ( Address.Addr_Floor_Suffix_2 , '' ) )  as floor_suffix_2,
+    '' as blg_unit_prefix_1,
     case
-        when Assessment.Assess_Property_Name like '%OWNER%' then ''
-        else upper ( ifnull ( Assessment.Assess_Property_Name , '' ) )
-    end as building_name,
+        when A.unit_no = '0' then ''
+        else ifnull ( A.unit_no , '' )
+    end as blg_unit_id_1,
+    upper ( ifnull ( A.unit_no_suffix , '' ) ) as blg_unit_suffix_1,
+    '' as blg_unit_prefix_2,
+    case
+        when A.unit_no_to = '0' then ''
+        else ifnull ( A.unit_no_to , '' )
+    end as blg_unit_id_2,
+    upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
+    ifnull ( A.floor_desc , '' ) as floor_type,
+    '' as floor_prefix_1,
+    case
+        when A.floor_no = '0' then ''
+        else ifnull ( A.floor_no , '' )
+    end as floor_no_1,
+    upper ( ifnull ( A.floor_suffix , '' ) ) as floor_suffix_1,
+    '' as floor_prefix_2,
+    case
+        when A.floor_no_to = '0' then ''
+        else ifnull ( A.floor_no_to , '' )
+    end as floor_no_2,
+    upper ( ifnull ( A.floor_suffix_to , '' ) ) as floor_suffix_2,
+    '' as building_name,
     '' as complex_name,
+    '' as house_prefix_1,
     case
-        when upper ( Street.Street_Name ) like 'OFF %' then 'OFF'
-        when upper ( Address.Building_Unit_Abbreviation ) = 'REAR' then 'REAR'
-        else ''
-    end as location_descriptor,
-    upper ( ifnull ( Address.Addr_House_Prefix_1 , '' ) )  as house_prefix_1,
-    cast ( ifnull ( Address.Addr_House_Number_1 , '' ) as varchar ) as house_number_1,
-    upper ( ifnull ( Address.Addr_House_Suffix_1 , '' ) )  as house_suffix_1,
-    upper ( ifnull ( Address.Addr_House_Prefix_2 , '' ) )  as house_prefix_2,
-    cast ( ifnull ( Address.Addr_House_Number_2 , '' ) as varchar ) as house_number_2,
-    upper ( ifnull ( Address.Addr_House_Suffix_2 , '' ) )  as house_suffix_2,
+        when A.house_no = '0' then ''
+        else ifnull ( A.house_no , '' )
+    end as house_number_1,
+    upper ( ifnull ( A.house_no_suffix , '' ) ) as house_suffix_1,
+    '' as house_prefix_2,
     case
-        when upper ( Street.Street_Name ) like 'OFF %' then substr ( upper ( Street.Street_Name ) , 5 )
-        else upper ( ifnull ( replace ( Street.Street_Name , '`' , '' ) , '' ) )
-    end as road_name,
-    upper ( ifnull ( Street_Type.Street_Type_Name , '' ) )  as road_type,
-    case
-        when upper ( Street.Street_Suffix ) in ( 'NORTH' , 'N' ) then 'N'
-        when upper ( Street.Street_Suffix ) in ( 'SOUTH' , 'S' ) then 'S'
-        when upper ( Street.Street_Suffix ) in ( 'EAST' , 'E' ) then 'E'
-        when upper ( Street.Street_Suffix ) in ( 'WEST' , 'W' ) then 'W'
-        else ''
+        when A.house_no_to = '0' then ''
+        else ifnull ( A.house_no_to , '' )
+    end as house_number_2,
+    upper ( ifnull ( A.house_no_to_suffix , '' ) ) as house_suffix_2,
+    upper ( replace ( S.street_comp_desc_1 , '''' , '' ) ) as road_name,
+	case
+	    when substr ( S.street_comp_code_2 , -4 , 4 ) in ( 'EAST' , 'WEST' ) then substr ( S.street_comp_code_2 , 1 , length ( S.street_comp_code_2 ) - 4 )
+        when S.street_comp_code_2 = 'ESPLANDE' then 'ESPLANADE'
+        when S.street_comp_code_2 = 'ST' then 'STREET'
+		else ifnull ( S.street_comp_code_2 , '' )
+    end as road_type,
+	case
+	    when substr ( S.street_comp_code_2 , -4 , 4 ) in ( 'EAST' , 'WEST' ) then substr ( S.street_comp_code_2 , -4 , 1 )
+		else ''
     end as road_suffix,
-    upper ( ifnull ( Locality.Locality_Name , '' ) )  as locality_name,
-    Locality.Locality_Postcode as postcode,
+    S.street_comp_desc_3 as locality_name,
+    S.street_comp_desc_4 as postcode,
     '' as access_type,
     '' as easting,
     '' as northing,
     '' as datum_proj,
-    case
-        when Address.Addr_Is_Outside_the_Property = '1' then 'Y'
-        else ''
-    end as outside_property,
+    '' as outside_property,
     '304' as lga_code,
-    cast ( Title.Title_Id as varchar ) as crefno,
-    Assessment.Property_Name_Address_Locality as summary
+    '' as crefno,
+    A.fmt_address as summary
 from
-    propertygov_title as Title inner join
-    propertygov_parcel_title as Parcel_Title on Title.Title_Id = Parcel_Title.Title_Id inner join
-    propertygov_parcel as Parcel on Parcel_Title.Parcel_Id = Parcel.Parcel_Id inner join
-    propertygov_assessment_parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
-    propertygov_assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id inner join
-    propertygov_address as Address on Parcel.Address_Id = Address.Address_Id inner join
-    propertygov_street_locality as Street_Locality on Address.Street_Locality_Id = Street_Locality.Street_Locality_Id inner join
-    propertygov_street as Street on Street_Locality.Street_Id = Street.Street_Id inner join
-    propertygov_locality as Locality on Street_Locality.Locality_Id = Locality.Locality_Id left join
-    propertygov_street_type as Street_Type on Street.Street_Type_Abbreviation = Street_Type.Street_Type_Abbreviation left join
-    propertygov_v_assessment_w_attributes as Assessment_Attributes on Assessment.Assess_Number = Assessment_Attributes.Assess_Number
+    techone_property P
+    join techone_prop_location A on A.prop_id = P.prop_id
+    join techone_street S on S.street_id = A.street_id
+    left join techone_association A on A.association_type = '$CHILDPROP' and P.prop_id = A.entity_id2
 where
-    Parcel.Parcel_Status = 0 and
-    Assessment.Assessment_Status not in ( '9' , '21' , '25' ) and
-    Assessment.Assess_Number < 999999999999 and
-    ifnull ( Street.Street_Name , '' ) <> 'zzz - - Obsolete/Historical Assessment'
+    P.prop_status_ind in ( 'C' , 'F' )
 )
 )
 )

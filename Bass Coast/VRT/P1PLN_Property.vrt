@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OGRVRTDataSource>
+    <OGRVRTLayer name="P1PLN_Property">
+        <SrcDataSource relativeToVRT="1">P1PLN_Property.xlsx</SrcDataSource>
+        <!--Header=False-->
+        <SrcSql dialect="sqlite">SELECT * FROM 'Sheet1' LIMIT 999999 OFFSET 5</SrcSql>
+        <Field name="PROP_SYS" src="Field1" type="String"/>
+        <Field name="PROP_ID" src="Field2" type="String"/>
+        <Field name="PROPERTY_TYPE" src="Field3" type="String"/>
+        <Field name="PROP_STATUS_IND" src="Field4" type="String"/>
+        <Field name="DESCRIPTION" src="Field5" type="String"/>
+        <Field name="ASSESSMENT_NO" src="Field6" type="String"/>
+        <Field name="ELECTORATE" src="Field7" type="String"/>
+        <Field name="FMT_LEGAL_DESCR" src="Field8" type="String"/>
+        <Field name="OVERRIDE_LEGAL_DESCRIPTION" src="Field9" type="String"/>
+        <Field name="RATE_ANALYSIS" src="Field10" type="String"/>
+        <Field name="RATEABLE_IND" src="Field11" type="String"/>
+        <Field name="VALUATION_REF_NBR" src="Field12" type="String"/>
+        <Field name="USER_FIELD_TEXT_1" src="Field13" type="String"/>
+        <Field name="USER_FIELD_TEXT_2" src="Field14" type="String"/>
+    </OGRVRTLayer>
+</OGRVRTDataSource>

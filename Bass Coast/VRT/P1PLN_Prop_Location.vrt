@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OGRVRTDataSource>
+    <OGRVRTLayer name="P1PLN_Prop_Location">
+        <SrcDataSource relativeToVRT="1">P1PLN_Prop_Location.xlsx</SrcDataSource>
+        <!--Header=False-->
+        <SrcSql dialect="sqlite">SELECT * FROM 'Sheet1' LIMIT 999999 OFFSET 5</SrcSql>
+        <Field name="PROP_SYS" src="Field1" type="String"/>
+        <Field name="PROP_ID" src="Field2" type="String"/>
+        <Field name="PROP_LAYOUT_TYPE" src="Field3" type="String"/>
+        <Field name="ADDRESS_SORT_ORDER" src="Field4" type="String"/>
+        <Field name="STREET_ID" src="Field5" type="String"/>
+        <Field name="DP_ID" src="Field6" type="String"/>
+        <Field name="FMT_ADDRESS" src="Field7" type="String"/>
+        <Field name="FMT_POSTAL_ADDRESS" src="Field8" type="String"/>
+        <Field name="HOUSE_NO_PREFIX" src="Field9" type="String"/>
+        <Field name="HOUSE_NO" src="Field10" type="String"/>
+        <Field name="HOUSE_NO_SUFFIX" src="Field11" type="String"/>
+        <Field name="HOUSE_NO_TO" src="Field12" type="String"/>
+        <Field name="HOUSE_NO_TO_SUFFIX" src="Field13" type="String"/>
+        <Field name="UNIT_DESC" src="Field14" type="String"/>
+        <Field name="UNIT_NO" src="Field15" type="String"/>
+        <Field name="UNIT_NO_SUFFIX" src="Field16" type="String"/>
+        <Field name="UNIT_NO_TO" src="Field17" type="String"/>
+        <Field name="UNIT_NO_TO_SUFFIX" src="Field18" type="String"/>
+        <Field name="FLOOR_DESC" src="Field19" type="String"/>
+        <Field name="FLOOR_NO" src="Field20" type="String"/>
+        <Field name="FLOOR_SUFFIX" src="Field21" type="String"/>
+        <Field name="FLOOR_TO_DESC" src="Field22" type="String"/>
+        <Field name="FLOOR_NO_TO" src="Field23" type="String"/>
+        <Field name="FLOOR_SUFFIX_TO" src="Field24" type="String"/>
+        <Field name="RURAL_DELIVERY_ID" src="Field25" type="String"/>
+        <Field name="PROPERTY_NAME" src="Field26" type="String"/>
+        <Field name="MODIFIER_DESCR" src="Field27" type="String"/>
+        <Field name="COPY_TO_CHILDREN" src="Field28" type="String"/>
+        <Field name="NOTE" src="Field29" type="String"/>
+    </OGRVRTLayer>
+</OGRVRTDataSource>

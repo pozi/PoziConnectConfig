@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OGRVRTDataSource>
+    <OGRVRTLayer name="P1PRC_Association">
+        <SrcDataSource relativeToVRT="1">P1PRC_Association.xlsx</SrcDataSource>
+        <!--Header=False-->
+        <SrcSql dialect="sqlite">SELECT * FROM 'Sheet1' LIMIT 999999 OFFSET 5</SrcSql>
+        <Field name="MASTER_SYSTEM_CODE" src="Field1" type="String"/>
+        <Field name="ASSOCIATION_ID" src="Field2" type="String"/>
+        <Field name="ASSOCIATION_TYPE" src="Field3" type="String"/>
+        <Field name="ENTITY_SYSTEM1" src="Field4" type="String"/>
+        <Field name="ENTITY_ID1" src="Field5" type="String"/>
+        <Field name="ENTITY_SYSTEM2" src="Field6" type="String"/>
+        <Field name="ENTITY_ID2" src="Field7" type="String"/>
+        <Field name="ASSOCIATION_SEQUENCE" src="Field8" type="String"/>
+        <Field name="ASSOCIATION_PERCENTAGE" src="Field9" type="String"/>
+        <Field name="DATE_EFFECTIVE" src="Field10" type="String"/>
+        <Field name="DATE_ENDED" src="Field11" type="String"/>
+        <Field name="STATUS" src="Field12" type="String"/>
+        <Field name="STATUS_CALC_DATE" src="Field13" type="String"/>
+        <Field name="NOTES" src="Field14" type="String"/>
+        <Field name="CRUSER" src="Field15" type="String"/>
+        <Field name="CRDATEI" src="Field16" type="String"/>
+        <Field name="CRTIMEI" src="Field17" type="String"/>
+        <Field name="CRTERM" src="Field18" type="String"/>
+        <Field name="CRWINDOW" src="Field19" type="String"/>
+        <Field name="LAST_MOD_USER" src="Field20" type="String"/>
+        <Field name="LAST_MOD_DATEI" src="Field21" type="String"/>
+        <Field name="LAST_MOD_TIMEI" src="Field22" type="String"/>
+        <Field name="LAST_MOD_TERM" src="Field23" type="String"/>
+        <Field name="LAST_MOD_WINDOW" src="Field24" type="String"/>
+        <Field name="VERS" src="Field25" type="String"/>
+        <Field name="ASSOCIATION_NUMERATOR" src="Field26" type="String"/>
+        <Field name="ASSOCIATION_DENOMINATOR" src="Field27" type="String"/>
+    </OGRVRTLayer>
+</OGRVRTDataSource>

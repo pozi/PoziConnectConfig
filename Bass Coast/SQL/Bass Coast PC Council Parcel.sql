@@ -1,8 +1,18 @@
 select
     *,
-    spi as constructed_spi,
-    'council_attributes' as spi_source,
     replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( replace ( spi , 'CP' , '' ) , 'CS' , '' ) , 'LP' , '' ) , 'PC' , '' ) , 'PS' , '' ) , 'RP' , '' ) , 'SP' , '' ) , 'TP' , '' ) , 'PP' , '' ) as simple_spi
+from
+(
+select
+    *,
+    case
+        when internal_spi <> '' then internal_spi
+        else constructed_spi
+    end as spi,
+    case
+        when internal_spi <> '' then 'council_spi'
+        else 'council_attributes'
+    end as spi_source
 from
 (
 select
@@ -23,77 +33,93 @@ select
             '\PP' ||
             case when township_code <> '' then township_code else parish_code end
         else ''
-    end as spi
+    end as constructed_spi
 from
 (
 select
+    cast ( P.prop_id as varchar ) as propnum,
+    cast ( L.land_id as varchar ) as crefno,
     case
-        when Title.Title_Lot like 'CM%' then 'NCPR'
-        when cast ( Assessment.Assess_Number as varchar ) glob '*.?' then cast ( Assessment.Assess_Number as varchar ) || '000'
-        when cast ( Assessment.Assess_Number as varchar ) glob '*.??' then cast ( Assessment.Assess_Number as varchar ) || '00'
-        when cast ( Assessment.Assess_Number as varchar ) glob '*.???' then cast ( Assessment.Assess_Number as varchar ) || '0'
-        when cast ( Assessment.Assess_Number as varchar ) glob '*.????' then cast ( Assessment.Assess_Number as varchar )
-    end as propnum,
-    case Assessment.Assessment_Status
-        when '25' then 'P'
+        when L.land_text_3 like '%CA' then ''
+        else ifnull ( L.land_text_3 , '' )
+    end as internal_spi,
+    ifnull ( fmt_legal_desc , '' ) as summary,
+    case L.land_status_ind
+        when 'F' then 'P'
         else ''
     end as status,
-    cast ( Title.Title_Id as varchar ) as crefno,
-    Title.Title_SPI_Reference as internal_spi,
-    Title.Title_Legal_Description as summary,
-    case when Title_Is_Part_of_Lot = 1 or Title.Title_Crown_Allotment like '% PT' then 'P' else '' end as part,
-    case    
-        when Plan_Type.Plan_Type_Code = 'CA' then ''
-        else ifnull ( Plan_Type.Plan_Type_Code || Title.Title_Plan_Number , '' )
+    '' as part,
+    case
+	    when L.parcel_desc = 'CA' then ''
+        else ifnull ( L.plan_desc , '' ) || ifnull ( L.plan_no , '' )
     end as plan_number,
     case
-        when Plan_Type.Plan_Type_Code = 'CA' then ''
-        else ifnull ( Plan_Type.Plan_Type_Code , '' )
+	    when L.parcel_desc = 'CA' then ''
+        else ifnull ( L.plan_desc , '' )
     end as plan_prefix,
-    ifnull ( Title.Title_Plan_Number ,'' ) as plan_numeral,
-    ifnull ( upper ( replace ( Title_Lot , ' ' , '' ) ) , '' ) as lot_number,
     case
-        when Title.Title_Crown_Allotment like '% PT' then substr ( Title.Title_Crown_Allotment , 1 , length ( Title.Title_Crown_Allotment ) - 3 )
-        else ifnull ( Title.Title_Crown_Allotment , '' )
-    end as allotment,
-    ifnull ( Title.Title_Section , '' ) as sec,
-    ifnull ( Title.Title_Block , '' ) as block,
-    ifnull ( Title.Title_Portion , '' ) as portion,
-    ifnull ( Title.Title_Subdivision , '' ) as subdivision,
-    ifnull ( Parish.Parish_Code , '' ) as parish_code,
-    case Township.Township_Code    
-        when 'BTO' then '5053'
-        when 'COTO' then '5198'
-        when 'CTO' then '5204'
-        when 'CTA' then '3389A'
-        when 'GTO' then '5348'
-        when 'ITO' then '5393'
-        when 'JJTO' then '5396'
-        when 'KTO' then '5418'
-        when 'NTO' then '5590'
-        when 'RTO' then '5674'
-        when 'SRTO' then '5699'
-        when 'VTO' then '5814'
-        when 'WTO' then '5871'
-        when 'WOTO' then '5880'
+	    when L.parcel_desc = 'CA' then ''
+        else ifnull ( L.plan_no , '' )
+    end as plan_numeral,
+    case
+	    when L.parcel_desc = 'CA' then ''
+        else ifnull ( upper ( L.lot ) , '' )
+	end as lot_number,
+    case
+	    when L.parcel_desc = 'LOT' then ''
+        else ifnull ( upper ( L.lot ) , '' )
+	end as allotment,
+    ifnull ( upper ( L.section_for_lot ) , '' ) as sec,
+    '' as block,
+    '' as portion,
+    '' as subdivision,
+    case l.parish_desc
+        when 'CORINELLA' then '2453'
+        when 'DRUMDLEMAR' then '2551'
+        when 'FRENCH ISL' then '2621'
+        when 'JEETHO WES' then '2788'
+        when 'JUMBUNNA' then '2809'
+        when 'JUMBUNNA E' then '2810'
+        when 'KIRRAK' then '2889'
+        when 'KONGWAK' then '2901'
+        when 'LANG LANGE' then '2969'
+        when 'LANGLANG' then '2968'
+        when 'PHILLIP IS' then '3389'
+        when 'TARWIN' then '3563'
+        when 'WONTHAGGI' then '3866'
+        when 'WONTHAGGIN' then '3867'
+        when 'WOOLAMAI' then '3878'
         else ''
-    end as township_code,
+	end as parish_code,
+    case l.land_text_1
+        when 'BASS' then '5053'
+        when 'CORINELLA' then '5198'
+        when 'COWES' then '5204'
+        when 'COWES - AT' then '3389A'
+        when 'GRANTVILLE' then '5348'
+        when 'INVERLOCH' then '5393'
+        when 'JAM JERRUP' then '5396'
+        when 'KILCUNDA' then '5418'
+        when 'NEWHAVEN' then '5590'
+        when 'RHYLL' then '5674'
+        when 'SAN REMO' then '5699'
+        when 'VENTNOR' then '5814'
+        when 'WONTHAGGI' then '5871'
+        when 'WOOLAMAI' then '5880'
+		else ''
+	end as township_code,
     '304' as lga_code,
-    cast ( Assessment.Assess_Number as varchar ) as assnum
+    ifnull ( vol , '' ) as volume,
+    ifnull ( folio , '' ) as folio,
+    cast ( P.prop_id as varchar ) as assnum
 from
-    propertygov_parcel as Parcel inner join
-    propertygov_parcel_title as Parcel_Title on Parcel.Parcel_Id = Parcel_Title.Parcel_Id inner join
-    propertygov_title as Title on Parcel_Title.Title_Id = Title.Title_Id inner join
-    propertygov_assessment_parcel as Assessment_Parcel on Parcel.Parcel_Id = Assessment_Parcel.Parcel_Id inner join
-    propertygov_assessment as Assessment on Assessment_Parcel.Assessment_Id = Assessment.Assessment_Id left outer join
-    propertygov_plan_type as Plan_Type on Title.Plan_Type = Plan_Type.Plan_Type left outer join
-    propertygov_parish as Parish on Title.Parish_Id = Parish.Parish_Id left outer join    
-    propertygov_township as Township on Title.Township_Id = Township.Township_Id
+    techone_land L
+    join techone_association A on L.land_id = A.entity_id2 and L.land_status_ind in ( 'C' , 'F')
+    join techone_property P on A.entity_id1 = P.prop_id
 where
-    Parcel.Parcel_Status = 0 and
-    Assessment.Assessment_Status not in ( '9' , '21' , '25' ) and
-    Assessment.Assess_Number < 999999999999 and
-    ifnull ( Title.Title_Plan_Number , '' ) <> 'zz--Obsolete/History'
-order by propnum, crefno
+    A.association_type = '$PROPLAND' and
+    ifnull ( A.date_ended , '' ) in ( '' , '1899/12/31' ) and
+    P.prop_status_ind in ( 'C' , 'F' )
+)
 )
 )

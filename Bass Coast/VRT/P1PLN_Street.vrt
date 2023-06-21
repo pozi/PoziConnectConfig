@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OGRVRTDataSource>
+    <OGRVRTLayer name="P1PLN_Street">
+        <SrcDataSource relativeToVRT="1">P1PLN_Street.xlsx</SrcDataSource>
+        <!--Header=False-->
+        <SrcSql dialect="sqlite">SELECT * FROM 'Sheet1' LIMIT 999999 OFFSET 5</SrcSql>
+        <Field name="PROP_SYS" src="Field1" type="String"/>
+        <Field name="STREET_ID" src="Field2" type="String"/>
+        <Field name="STATUS_IND" src="Field3" type="String"/>
+        <Field name="STREET_DESCR" src="Field4" type="String"/>
+        <Field name="FMT_STREET_DESCR" src="Field5" type="String"/>
+        <Field name="STREET_COMP_TYPE_1" src="Field6" type="String"/>
+        <Field name="STREET_COMP_TYPE_2" src="Field7" type="String"/>
+        <Field name="STREET_COMP_TYPE_3" src="Field8" type="String"/>
+        <Field name="STREET_COMP_TYPE_4" src="Field9" type="String"/>
+        <Field name="STREET_COMP_TYPE_5" src="Field10" type="String"/>
+        <Field name="STREET_COMP_TYPE_6" src="Field11" type="String"/>
+        <Field name="STREET_COMP_TYPE_7" src="Field12" type="String"/>
+        <Field name="STREET_COMP_TYPE_8" src="Field13" type="String"/>
+        <Field name="STREET_COMP_TYPE_9" src="Field14" type="String"/>
+        <Field name="STREET_COMP_TYPE_10" src="Field15" type="String"/>
+        <Field name="STREET_COMP_CODE_1" src="Field16" type="String"/>
+        <Field name="STREET_COMP_CODE_2" src="Field17" type="String"/>
+        <Field name="STREET_COMP_CODE_3" src="Field18" type="String"/>
+        <Field name="STREET_COMP_CODE_4" src="Field19" type="String"/>
+        <Field name="STREET_COMP_CODE_5" src="Field20" type="String"/>
+        <Field name="STREET_COMP_CODE_6" src="Field21" type="String"/>
+        <Field name="STREET_COMP_CODE_7" src="Field22" type="String"/>
+        <Field name="STREET_COMP_CODE_8" src="Field23" type="String"/>
+        <Field name="STREET_COMP_CODE_9" src="Field24" type="String"/>
+        <Field name="STREET_COMP_CODE_10" src="Field25" type="String"/>
+        <Field name="STREET_COMP_DESC_1" src="Field26" type="String"/>
+        <Field name="STREET_COMP_DESC_2" src="Field27" type="String"/>
+        <Field name="STREET_COMP_DESC_3" src="Field28" type="String"/>
+        <Field name="STREET_COMP_DESC_4" src="Field29" type="String"/>
+        <Field name="STREET_COMP_DESC_5" src="Field30" type="String"/>
+        <Field name="STREET_COMP_DESC_6" src="Field31" type="String"/>
+        <Field name="STREET_COMP_DESC_7" src="Field32" type="String"/>
+        <Field name="STREET_COMP_DESC_8" src="Field33" type="String"/>
+        <Field name="STREET_COMP_DESC_9" src="Field34" type="String"/>
+        <Field name="STREET_COMP_DESC_10" src="Field35" type="String"/>
+        <Field name="NOTE" src="Field36" type="String"/>
+        <Field name="CRUSER" src="Field37" type="String"/>
+        <Field name="CRDATEI" src="Field38" type="String"/>
+        <Field name="CRTIMEI" src="Field39" type="String"/>
+        <Field name="CRTERM" src="Field40" type="String"/>
+        <Field name="CRWINDOW" src="Field41" type="String"/>
+        <Field name="LAST_MOD_USER" src="Field42" type="String"/>
+        <Field name="LAST_MOD_DATEI" src="Field43" type="String"/>
+        <Field name="LAST_MOD_TIMEI" src="Field44" type="String"/>
+        <Field name="LAST_MOD_TERM" src="Field45" type="String"/>
+        <Field name="LAST_MOD_WINDOW" src="Field46" type="String"/>
+        <Field name="VERS" src="Field47" type="String"/>
+        <Field name="LEGACY_DATE_MODIFIED" src="Field48" type="String"/>
+        <Field name="GIS_ID" src="Field49" type="String"/>
+    </OGRVRTLayer>
+</OGRVRTDataSource>
