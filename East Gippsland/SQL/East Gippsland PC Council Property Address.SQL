@@ -27,136 +27,131 @@ select
         rtrim ( ' ' || road_suffix ) ) as road_name_combined
 from (
 
-select
-    cast ( cast ( lraassm.assmnumber as integer ) as varchar ) as propnum,
+select distinct
+    cast ( auprparc.ass_num as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
-    case lpaaddr.addrtype
-        when 'P' then 'Y'
+    case
+        when auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
         else 'N'
     end as is_primary,
     '' as distance_related_flag,
-    '' as hsa_flag,
-    '' as hsa_unit_id,
     case
-        when trim ( lpaaddr.prefix ) = 'ATM' then 'ATM'
-        when trim ( lpaaddr.prefix ) = 'CAR PARK' then 'CP'
-        when trim ( lpaaddr.prefix ) = 'FACTORY' then 'FY'
-        when trim ( lpaaddr.prefix ) = 'KIOSK' then 'KSK'
-        when trim ( lpaaddr.prefix ) = 'OFFICE' then 'OFFC'
-        when trim ( lpaaddr.prefix ) = 'SHOP' then 'SHOP'
-        when trim ( lpaaddr.prefix ) = 'SUITE' then 'SE'
-        when trim ( lpaaddr.prefix ) = 'UNIT' then 'U'
-        when trim ( lpaaddr.prefix ) = 'L' then 'LOT'
-        when trim ( lpaaddr.prefix ) = 'ROOM' then 'ROOM'
+        when auprstad.pcl_unt > 100 and auprstad.pcl_unt < 2000 then 'Y'
+        when length ( replace ( auprstad.flo_num , '/' , '' ) ) = 3 then 'Y'
         else ''
-    end as blg_unit_type,
+    end as hsa_flag,
+    case
+        when auprstad.pcl_unt > 100 and auprstad.pcl_unt < 2000 then cast ( auprstad.pcl_unt as varchar ) || ifnull ( auprstad.unt_alp , '' )
+        when length ( replace ( auprstad.flo_num , '/' , '' ) ) = 3 then replace ( auprstad.flo_num , '/' , '' )
+        else ''
+    end as hsa_unit_id,
+    '' as blg_unit_type,
     '' as blg_unit_prefix_1,
     case
-        when lpaaddr.strunitnum = 0 or lpaaddr.strunitnum is null then ''
-        else cast ( cast ( lpaaddr.strunitnum as integer ) as varchar )
+        when auprstad.pcl_unt <= 100 or auprstad.pcl_unt >= 2000 then cast ( auprstad.pcl_unt as varchar )
+        else ''
     end as blg_unit_id_1,
     case
-        when lpaaddr.strunitsfx = '0' or lpaaddr.strunitsfx is null then ''
-        else cast ( lpaaddr.strunitsfx as varchar )
+        when auprstad.pcl_unt <= 100 or auprstad.pcl_unt >= 2000 then ifnull ( auprstad.unt_alp , '' )
+        else ''
     end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
+    ifnull ( auprstad.unt_end , '' ) as blg_unit_id_2,
+    '' as blg_unit_suffix_2,
+    '' as floor_type,
+    ifnull ( auprstad.flo_pre , '' ) as floor_prefix_1,
     case
-        when lpaaddr.endunitnum = 0 or lpaaddr.endunitnum is null then ''
-        else cast ( cast ( lpaaddr.endunitnum as integer ) as varchar )
-    end as blg_unit_id_2,
-    case
-        when lpaaddr.endunitsfx = '0' or lpaaddr.endunitsfx is null then ''
-        else cast ( lpaaddr.endunitsfx as varchar )
-    end as blg_unit_suffix_2,
-    case lpaaddr.lvlprefix
-        when 'LEVEL' then 'L'
-        when 'FLOOR' then 'FL'
+        when length ( replace ( auprstad.flo_num , '/' , '' ) ) < 3 then auprstad.flo_num
         else ''
-    end as floor_type,
-    '' as floor_prefix_1,
-    case
-        when lpaaddr.strlvlnum = 0 then ''
-        else cast ( cast ( lpaaddr.strlvlnum as integer ) as varchar )
     end as floor_no_1,
     '' as floor_suffix_1,
     '' as floor_prefix_2,
-    case
-        when lpaaddr.endlvlnum = 0 then ''
-        else cast ( cast ( lpaaddr.endlvlnum as integer ) as varchar )
-    end as floor_no_2,
+    '' as floor_no_2,
     '' as floor_suffix_2,
-    ifnull ( upper ( lpapnam.propname ) , '' ) as building_name,
+    '' as building_name,
     '' as complex_name,
-    case
-        when trim ( lpaaddr.prefix ) = 'OFF' then 'OFF'
-        when trim ( lpaaddr.prefix ) = 'CENTRE' then 'CENTRE'
-        when trim ( lpaaddr.lvlprefix ) = 'UPSTAIRS' then 'UPSTAIRS'
-        else ''
-    end as location_descriptor,
+    '' as location_descriptor,
     '' as house_prefix_1,
-    case
-        when lpaaddr.strhousnum = 0 or lpaaddr.strhousnum is null then ''
-        else cast ( cast ( lpaaddr.strhousnum as integer ) as varchar )
-    end as house_number_1,
-    case
-        when lpaaddr.strhoussfx = '0' or lpaaddr.strhoussfx is null then ''
-        else cast ( lpaaddr.strhoussfx as varchar )
-    end as house_suffix_1,
+    ifnull ( auprstad.hou_num , '' ) as house_number_1,
+    upper ( ifnull ( auprstad.hou_alp , '' ) ) as house_suffix_1,
     '' as house_prefix_2,
     case
-        when lpaaddr.endhousnum = 0 or lpaaddr.endhousnum is null then ''
-        else cast ( cast ( lpaaddr.endhousnum as integer ) as varchar )
+        when auprstad.hou_num = auprstad.hou_end and ifnull ( auprstad.end_alp , '' ) = '' then ''
+        else ifnull ( auprstad.hou_end , '' )
     end as house_number_2,
+    upper ( ifnull ( auprstad.end_alp , '' ) ) as house_suffix_2,
     case
-        when lpaaddr.endhoussfx = '0' or lpaaddr.endhoussfx is null then ''
-        else cast ( lpaaddr.endhoussfx as varchar )
-    end as house_suffix_2,
-    upper ( cnacomp.descr ) as road_name,
+        when upper ( auprstad.str_nme ) like '% RD NORTH' then replace ( upper ( auprstad.str_nme ) , ' RD NORTH' , '' )
+        when upper ( auprstad.str_nme ) like '% RD SOUTH' then replace ( upper ( auprstad.str_nme ) , ' RD SOUTH' , '' )
+        when upper ( auprstad.str_nme ) like '% RD EAST' then replace ( upper ( auprstad.str_nme ) , ' RD EAST' , '' )
+        when upper ( auprstad.str_nme ) like '% RD WEST' then replace ( upper ( auprstad.str_nme ) , ' RD WEST' , '' )
+        else upper ( auprstad.str_nme )
+    end as road_name,
     case
-        when
-            cnaqual.descr like '% NORTH' or
-            cnaqual.descr like '% SOUTH' or
-            cnaqual.descr like '% EAST' or
-            cnaqual.descr like '% WEST' then upper ( trim ( substr ( cnaqual.descr , 1 , length ( cnaqual.descr ) - 5 ) ) )
-        else ifnull ( upper ( cnaqual.descr ) , '' )
+        when auprstad.str_nme like '% RD %' then 'ROAD'
+        when auprstad.str_typ = '.' then ''
+        when auprstad.str_typ = 'AVE' then 'AVENUE'
+        when auprstad.str_typ = 'BVD' then 'BOULEVARD'
+        when auprstad.str_typ = 'CCT' then 'CIRCUIT'
+        when auprstad.str_typ = 'CH' then 'CHASE'
+        when auprstad.str_typ = 'CIR' then 'CIRCLE'
+        when auprstad.str_typ = 'CL' then 'CLOSE'
+        when auprstad.str_typ = 'CNR' then 'CORNER'
+        when auprstad.str_typ = 'CRES' then 'CRESCENT'
+        when auprstad.str_typ = 'CRSE' then 'COURSE'
+        when auprstad.str_typ = 'CRSS' then 'CROSS'
+        when auprstad.str_typ = 'CT' then 'COURT'
+        when auprstad.str_typ = 'DR' then 'DRIVE'
+        when auprstad.str_typ = 'ENT' then 'ENTRANCE'
+        when auprstad.str_typ = 'FWY' then 'FREEWAY'
+        when auprstad.str_typ = 'GDNS' then 'GARDENS'
+        when auprstad.str_typ = 'GLD' then 'GLADE'
+        when auprstad.str_typ = 'GR' then 'GROVE'
+        when auprstad.str_typ = 'GRA' then 'GRANGE'
+        when auprstad.str_typ = 'GRN' then 'GREEN'
+        when auprstad.str_typ = 'HWY' then 'HIGHWAY'
+        when auprstad.str_typ = 'JNC' then 'JUNCTION'
+        when auprstad.str_typ = 'PDE' then 'PARADE'
+        when auprstad.str_typ = 'PKWY' then 'PARKWAY'
+        when auprstad.str_typ = 'PL' then 'PLACE'
+        when auprstad.str_typ = 'PROM' then 'PROMENADE'
+        when auprstad.str_typ = 'RD' then 'ROAD'
+        when auprstad.str_typ = 'RTT' then 'RETREAT'
+        when auprstad.str_typ = 'SQ' then 'SQUARE'
+        when auprstad.str_typ = 'ST' then 'STREET'
+        when auprstad.str_typ = 'TCE' then 'TERRACE'
+        when auprstad.str_typ = 'TRK' then 'TRACK'
+        when auprstad.str_typ = 'VSTA' then 'VISTA'
+        when auprstad.str_typ = 'WKWY' then 'WALKWAY'
+		else ifnull ( auprstad.str_typ , '' )
     end as road_type,
     case
-        when cnaqual.descr like '% NORTH' then 'N'
-        when cnaqual.descr like '% SOUTH' then 'S'
-        when cnaqual.descr like '% EAST' then 'E'
-        when cnaqual.descr like '% WEST' then 'W'
+        when auprstad.str_nme like '% % NORTH' then 'N'
+        when auprstad.str_nme like '% % SOUTH' then 'S'
+        when auprstad.str_nme like '% % EAST' then 'E'
+        when auprstad.str_nme like '% % WEST' then 'W'
         else ''
     end as road_suffix,
-    upper ( lpasubr.suburbname ) as locality_name,
-    '' as postcode,
+    upper ( trim ( auprstad.sbr_nme ) ) as locality_name,
+    ifnull ( ausrsubr.pst_cde , '' ) as postcode,
     '' as access_type,
     '' as easting,
     '' as northing,
     '' as datum_proj,
     '' as outside_property,
     '319' as lga_code,
-    '' as crefno,
+    cast ( auprparc.pcl_num as varchar ) as crefno,
     '' as summary
 from
-    pathway_lpaprop as lpaprop left join
-    pathway_lpaadpr as lpaadpr on lpaprop.tpklpaprop = lpaadpr.tfklpaprop left join
-    pathway_lpaaddr as lpaaddr on lpaadpr.tfklpaaddr = lpaaddr.tpklpaaddr left join
-    pathway_lpastrt as lpastrt on lpaaddr.tfklpastrt = lpastrt.tpklpastrt left join
-    pathway_cnacomp as cnacomp on lpastrt.tfkcnacomp = cnacomp.tpkcnacomp left join
-    pathway_cnaqual as cnaqual on cnacomp.tfkcnaqual = cnaqual.tpkcnaqual left join
-    pathway_lpaprtp as lpaprtp on lpaprop.tfklpaprtp = lpaprtp.tpklpaprtp left join
-    pathway_lpasubr as lpasubr on lpaaddr.tfklpasubr = lpasubr.tpklpasubr left join
-    pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
-    pathway_lraassm as lraassm on lparole.tfkappl = lraassm.tpklraassm left join
-    pathway_lpapnam as lpapnam on lpaprop.tpklpaprop = lpapnam.tfklpaprop
+    authority_auprparc auprparc inner join
+    authority_auprstad auprstad ON auprparc.pcl_num = auprstad.pcl_num left outer join
+    authority_ausrsubr ausrsubr ON auprstad.sbr_nme = ausrsubr.sbr_nme
 where
-    lpaprop.status <> 'H' and
-    lpaaddr.addrtype <> 'H' and
-    lpaprtp.abbrev <> 'BASE' and
-    lparole.fklparolta = 'LRA' and
-    lparole.fklparoltn = 0 and
-    lraassm.applicatn = 'R'
+    auprparc.pcl_flg in ( 'R' , 'U' , 'P' ) and
+    auprparc.uda_cd2 <> 5 and
+    auprparc.ass_num not in ( '' , '0' ) and
+    auprstad.seq_num = 0
 )
 )
 )
