@@ -82,7 +82,7 @@ select distinct
     end as house_number_2,
     upper ( ifnull ( auprstad.end_alp , '' ) ) as house_suffix_2,
     case
-        when auprstad.str_nme = 'The' and auprstad.str_typ = 'BVD' then 'THE BOULEVARD'
+        when auprstad.str_nme = 'The' and auprstad.str_typ = 'BVD' then 'THE BOULEVARDE'
         when auprstad.str_nme = 'The' and auprstad.str_typ = 'CRES' then 'THE CRESCENT'
         when auprstad.str_nme = 'The' and auprstad.str_typ = 'GRA' then 'THE GRANGE'
         when auprstad.str_nme = 'The' and auprstad.str_typ = 'PNT' then 'THE POINT'
@@ -96,7 +96,9 @@ select distinct
         when auprstad.str_nme = 'The' and auprstad.str_typ = 'PNT' then ''
         when auprstad.str_nme = 'The' and auprstad.str_typ = 'TCE' then ''
         when auprstad.str_typ = 'AVE' then 'AVENUE'
+        when auprstad.str_typ = 'BRK' then 'BREAK'
         when auprstad.str_typ = 'BVD' then 'BOULEVARD'
+        when auprstad.str_typ = 'BWLK' then 'BOARDWALK'
         when auprstad.str_typ = 'CCT' then 'CIRCUIT'
         when auprstad.str_typ = 'CH' then 'CHASE'
         when auprstad.str_typ = 'CIR' then 'CIRCLE'
@@ -108,6 +110,7 @@ select distinct
         when auprstad.str_typ = 'CT' then 'COURT'
         when auprstad.str_typ = 'DR' then 'DRIVE'
         when auprstad.str_typ = 'ENT' then 'ENTRANCE'
+        when auprstad.str_typ = 'FITR' then 'FIRETRAIL'
         when auprstad.str_typ = 'FWY' then 'FREEWAY'
         when auprstad.str_typ = 'GDNS' then 'GARDENS'
         when auprstad.str_typ = 'GLD' then 'GLADE'
@@ -115,11 +118,14 @@ select distinct
         when auprstad.str_typ = 'GRA' then 'GRANGE'
         when auprstad.str_typ = 'GRN' then 'GREEN'
         when auprstad.str_typ = 'HWY' then 'HIGHWAY'
+        when auprstad.str_typ = 'HTS' then 'HEIGHTS'
         when auprstad.str_typ = 'JNC' then 'JUNCTION'
         when auprstad.str_typ = 'PDE' then 'PARADE'
         when auprstad.str_typ = 'PKWY' then 'PARKWAY'
         when auprstad.str_typ = 'PL' then 'PLACE'
+        when auprstad.str_typ = 'PNT' then 'POINT'
         when auprstad.str_typ = 'PROM' then 'PROMENADE'
+        when auprstad.str_typ = 'QY' then 'QUAY'
         when auprstad.str_typ = 'RD' then 'ROAD'
         when auprstad.str_typ = 'RTT' then 'RETREAT'
         when auprstad.str_typ = 'SQ' then 'SQUARE'
@@ -127,7 +133,9 @@ select distinct
         when auprstad.str_typ = 'TCE' then 'TERRACE'
         when auprstad.str_typ = 'TRK' then 'TRACK'
         when auprstad.str_typ = 'VSTA' then 'VISTA'
+        when auprstad.str_typ = 'VWS' then 'VIEWS'
         when auprstad.str_typ = 'WKWY' then 'WALKWAY'
+        when auprstad.str_typ = 'WTRS' then 'WATERS'
 		else ifnull ( auprstad.str_typ , '' )
     end as road_type,
     '' as road_suffix,
