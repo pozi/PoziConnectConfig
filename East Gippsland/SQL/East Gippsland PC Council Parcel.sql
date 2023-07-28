@@ -43,56 +43,48 @@ select
         when auprparc.pcl_flg = 'P' then 'P'
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
+	'' as internal_spi,
     case
-        when aurtmast.val_num like '%-%' or aurtmast.val_num like '%.%' or aurtmast.val_num like '%*%' or aurtmast.val_num like '% %' then ''
-        when substr ( aurtmast.val_num , -1 , 1 ) not in ( '1','2','3','4','5','6','7','8','9','0' ) then ''
-        when aurtmast.val_num like '%\%' then upper ( aurtmast.val_num )
-        when ( aurtmast.val_num like 'PC%' or aurtmast.val_num like 'CP%' ) and aurtmast.val_num not like '%/%' then upper ( aurtmast.val_num )
-    	else ''
-    end as internal_spi,
+        when auprparc.ttl_no5 like 'PART%' then 'P'
+	    else ''
+	end as part,
     case
-        when auprparc.ttl_no2 = 'PT' then 'P'
+        when auprparc.ttl_cde in ( 1 , 2 ) then 'PS' || ifnull ( auprparc.ttl_no5 , '' )
+        when auprparc.ttl_cde in ( 3 , 4 ) then 'LP' || ifnull ( auprparc.ttl_no5 , '' )
+        when auprparc.ttl_cde in ( 5 , 6 ) then 'PC' || ifnull ( auprparc.ttl_no5 , '' )
+        when auprparc.ttl_cde in ( 7 , 8 ) then 'CP' || ifnull ( auprparc.ttl_no5 , '' )
+        when auprparc.ttl_cde in ( 9 , 10 ) then 'TP' || ifnull ( auprparc.ttl_no5 , '' )
+        when auprparc.ttl_cde in ( 11 , 12 ) then 'RP' || ifnull ( auprparc.ttl_no5 , '' )
+        when auprparc.ttl_cde in ( 13 , 14 ) then 'SP' || ifnull ( auprparc.ttl_no5 , '' )
+        when auprparc.ttl_cde in ( 15 , 16 ) then 'CS' || ifnull ( auprparc.ttl_no5 , '' )
         else ''
-    end as part,
+    end as plan_number,
     case
-        when auprparc.ttl_cde = 1 then 'PS'
-        when auprparc.ttl_cde = 2 then 'CP'
-        when auprparc.ttl_cde = 3 then 'SP'
-        when auprparc.ttl_cde = 4 then 'RP'
-        when auprparc.ttl_cde = 5 then 'LP'
-        when auprparc.ttl_cde = 6 then 'TP'
-        when auprparc.ttl_cde = 7 then 'CS'
-        else ''
-    end || ifnull ( auprparc.ttl_no5 , '' ) as plan_number,
-    case
-        when auprparc.ttl_cde = 1 then 'PS'
-        when auprparc.ttl_cde = 2 then 'CP'
-        when auprparc.ttl_cde = 3 then 'SP'
-        when auprparc.ttl_cde = 4 then 'RP'
-        when auprparc.ttl_cde = 5 then 'LP'
-        when auprparc.ttl_cde = 6 then 'TP'
-        when auprparc.ttl_cde = 7 then 'CS'
+        when auprparc.ttl_cde in ( 1 , 2 ) then 'PS'
+        when auprparc.ttl_cde in ( 3 , 4 ) then 'LP'
+        when auprparc.ttl_cde in ( 5 , 6 ) then 'PC'
+        when auprparc.ttl_cde in ( 7 , 8 ) then 'CP'
+        when auprparc.ttl_cde in ( 9 , 10 ) then 'TP'
+        when auprparc.ttl_cde in ( 11 , 12 ) then 'RP'
+        when auprparc.ttl_cde in ( 13 , 14 ) then 'SP'
+        when auprparc.ttl_cde in ( 15 , 16 ) then 'CS'
         else ''
     end as plan_prefix,
-    ifnull ( auprparc.ttl_no5 , '' ) as plan_numeral,
     case
-        when auprparc.ttl_cde in ( 1,2,3,4,5,6,7 ) then ifnull ( auprparc.ttl_no1 , '' )
-        else ''
+        when auprparc.ttl_cde = 17 then ''
+        else ifnull ( auprparc.ttl_no5 , '' )
+	end as plan_numeral,
+    case
+        when auprparc.ttl_cde = 17 then ''
+	    else ifnull ( auprparc.ttl_no1 , '' )
     end as lot_number,
     case
-        when auprparc.ttl_cde = 8 then ifnull ( auprparc.ttl_no1 , '' )
+        when auprparc.ttl_cde = 17 then replace ( ifnull ( auprparc.ttl_no5 , '' ) , 'PART ' , '' )
         else ''
     end as allotment,
-    case
-        when auprparc.ttl_cde = 8 then ifnull ( auprparc.ttl_no3 , '' )
-        when auprparc.ttl_cde <> 8 then ifnull ( auprparc.ttl_no6 , '' )
-        else ''
-    end as sec,
+    ifnull ( auprparc.ttl_no6 , '' ) as sec,
     '' as block,
-    case
-        when auprparc.ttl_cde = 8 then ifnull ( auprparc.ttl_no5 , '' )
-        else ''
-    end as portion,
+    '' as portion,
     '' as subdivision,
     ifnull ( auprparc.udn_cd1 , '' ) as parish_code,
     '' as township_code,
@@ -103,9 +95,7 @@ from
     authority_auprparc as auprparc left join
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
 where
-    auprparc.pcl_flg in ( 'R' , 'P' ) and
-    auprparc.uda_cd2 <> 5 and
-    ifnull ( propnum , '' ) not in ( '' , '0' )
+    auprparc.pcl_flg in ( 'R' , 'P' )
 order by
     auprparc.ass_num
 )

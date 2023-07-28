@@ -82,15 +82,19 @@ select distinct
     end as house_number_2,
     upper ( ifnull ( auprstad.end_alp , '' ) ) as house_suffix_2,
     case
-        when upper ( auprstad.str_nme ) like '% RD NORTH' then replace ( upper ( auprstad.str_nme ) , ' RD NORTH' , '' )
-        when upper ( auprstad.str_nme ) like '% RD SOUTH' then replace ( upper ( auprstad.str_nme ) , ' RD SOUTH' , '' )
-        when upper ( auprstad.str_nme ) like '% RD EAST' then replace ( upper ( auprstad.str_nme ) , ' RD EAST' , '' )
-        when upper ( auprstad.str_nme ) like '% RD WEST' then replace ( upper ( auprstad.str_nme ) , ' RD WEST' , '' )
+        when auprstad.str_nme = 'The' and auprstad.str_typ = 'BVD' then 'THE BOULEVARD'
+        when auprstad.str_nme = 'The' and auprstad.str_typ = 'CRES' then 'THE CRESCENT'
+        when auprstad.str_nme = 'The' and auprstad.str_typ = 'GRA' then 'THE GRANGE'
+        when auprstad.str_nme = 'The' and auprstad.str_typ = 'PNT' then 'THE POINT'
+        when auprstad.str_nme = 'The' and auprstad.str_typ = 'TCE' then 'THE TERRACE'
         else upper ( auprstad.str_nme )
     end as road_name,
     case
-        when auprstad.str_nme like '% RD %' then 'ROAD'
-        when auprstad.str_typ = '.' then ''
+        when auprstad.str_nme = 'The' and auprstad.str_typ = 'BVD' then ''
+        when auprstad.str_nme = 'The' and auprstad.str_typ = 'CRES' then ''
+        when auprstad.str_nme = 'The' and auprstad.str_typ = 'GRA' then ''
+        when auprstad.str_nme = 'The' and auprstad.str_typ = 'PNT' then ''
+        when auprstad.str_nme = 'The' and auprstad.str_typ = 'TCE' then ''
         when auprstad.str_typ = 'AVE' then 'AVENUE'
         when auprstad.str_typ = 'BVD' then 'BOULEVARD'
         when auprstad.str_typ = 'CCT' then 'CIRCUIT'
@@ -126,13 +130,7 @@ select distinct
         when auprstad.str_typ = 'WKWY' then 'WALKWAY'
 		else ifnull ( auprstad.str_typ , '' )
     end as road_type,
-    case
-        when auprstad.str_nme like '% % NORTH' then 'N'
-        when auprstad.str_nme like '% % SOUTH' then 'S'
-        when auprstad.str_nme like '% % EAST' then 'E'
-        when auprstad.str_nme like '% % WEST' then 'W'
-        else ''
-    end as road_suffix,
+    '' as road_suffix,
     upper ( trim ( auprstad.sbr_nme ) ) as locality_name,
     ifnull ( ausrsubr.pst_cde , '' ) as postcode,
     '' as access_type,
@@ -149,8 +147,6 @@ from
     authority_ausrsubr ausrsubr ON auprstad.sbr_nme = ausrsubr.sbr_nme
 where
     auprparc.pcl_flg in ( 'R' , 'U' , 'P' ) and
-    auprparc.uda_cd2 <> 5 and
-    auprparc.ass_num not in ( '' , '0' ) and
     auprstad.seq_num = 0
 )
 )
