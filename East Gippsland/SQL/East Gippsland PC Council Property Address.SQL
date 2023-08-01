@@ -155,7 +155,8 @@ from
     authority_ausrsubr ausrsubr ON auprstad.sbr_nme = ausrsubr.sbr_nme
 where
     auprparc.pcl_flg in ( 'R' , 'U' , 'P' ) and
-    auprstad.seq_num = 0
+    auprstad.seq_num = 0 and
+    auprparc.ass_num not in ( 81754, 84962, 78430, 70567, 94709, 97986 )
 )
 )
 )

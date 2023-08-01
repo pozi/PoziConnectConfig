@@ -95,7 +95,8 @@ from
     authority_auprparc as auprparc left join
     authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
 where
-    auprparc.pcl_flg in ( 'R' , 'P' )
+    auprparc.pcl_flg in ( 'R' , 'P' ) and
+    auprparc.ass_num not in ( 81754, 84962, 78430, 70567, 94709, 97986 )
 order by
     auprparc.ass_num
 )
