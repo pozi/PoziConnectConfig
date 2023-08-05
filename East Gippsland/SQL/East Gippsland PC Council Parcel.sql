@@ -43,11 +43,14 @@ select
         when auprparc.pcl_flg = 'P' then 'P'
     end as status,
     cast ( auprparc.pcl_num as varchar ) as crefno,
-	'' as internal_spi,
+    case
+        when aualchkl.dta_val like '%\%' or aualchkl.dta_val like 'CP%' or aualchkl.dta_val like 'PC%' then upper ( ifnull ( aualchkl.dta_val , '' ) )
+        else ''
+    end as internal_spi,
     case
         when auprparc.ttl_no5 like 'PART%' then 'P'
-	    else ''
-	end as part,
+        else ''
+    end as part,
     case
         when auprparc.ttl_cde in ( 1 , 2 ) then 'PS' || ifnull ( auprparc.ttl_no5 , '' )
         when auprparc.ttl_cde in ( 3 , 4 ) then 'LP' || ifnull ( auprparc.ttl_no5 , '' )
@@ -73,10 +76,10 @@ select
     case
         when auprparc.ttl_cde = 17 then ''
         else ifnull ( auprparc.ttl_no5 , '' )
-	end as plan_numeral,
+    end as plan_numeral,
     case
         when auprparc.ttl_cde = 17 then ''
-	    else ifnull ( auprparc.ttl_no1 , '' )
+        else ifnull ( auprparc.ttl_no1 , '' )
     end as lot_number,
     case
         when auprparc.ttl_cde = 17 then replace ( ifnull ( auprparc.ttl_no5 , '' ) , 'PART ' , '' )
@@ -93,7 +96,8 @@ select
     cast ( auprparc.ass_num as varchar ) as assnum
 from
     authority_auprparc as auprparc left join
-    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num
+    authority_aurtmast as aurtmast on auprparc.ass_num = aurtmast.ass_num left join
+    authority_aualchkl as aualchkl on auprparc.pcl_num = aualchkl.mdu_acc and chk_typ = 9000
 where
     auprparc.pcl_flg in ( 'R' , 'P' ) and
     auprparc.ass_num not in ( 81754, 84962, 78430, 70567, 94709, 97986 )
