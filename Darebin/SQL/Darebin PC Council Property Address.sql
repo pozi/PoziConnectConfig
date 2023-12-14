@@ -194,8 +194,7 @@ where
     lpaprop.status <> 'H' and
     lpaaddr.addrtype = 'P' and
     lpaprop.tfklpacncl = 14 and
-    lpaprtp.abbrev <> 'MASTER' and
-    ifnull ( upper ( lpaaddr.prefix ) , '' ) <> 'ADV SIGN'
+    lpaprtp.abbrev <> 'MASTER'
 )
 )
 )
