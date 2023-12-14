@@ -153,7 +153,7 @@ select
         when auprparc.ttl_cde in ( 3 , 6 ) and auprparc.udn_cd2 > 5000 then cast ( auprparc.udn_cd2 as varchar )
         else ''
     end as township_code,
-    fmt_ttl as summary,
+    ifnull ( fmt_ttl , '' ) as summary,
     '355' as lga_code,
     cast ( auprparc.ass_num as varchar ) as assnum
 from
