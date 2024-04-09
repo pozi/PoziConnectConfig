@@ -1,7 +1,7 @@
 select
     lga_code,
     new_sub,
-    property_pfi,
+    case property_pfi when 0 then '' else property_pfi end as property_pfi,
     parcel_pfi,
     address_pfi,
     spi,
