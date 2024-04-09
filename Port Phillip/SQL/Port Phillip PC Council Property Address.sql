@@ -106,7 +106,7 @@ select
     upper ( ifnull ( A.property_text_6 , '' ) ) as house_suffix_2,
     S.street_comp_desc_1 as road_name,
     S.street_comp_desc_2 as road_type,
-    substr ( S.street_comp_desc_3 , 1 , 1 ) as road_suffix,
+    ifnull ( substr ( S.street_comp_desc_3 , 1 , 1 ) , '' ) as road_suffix,
     S.street_comp_desc_4 as locality_name,
     S.street_comp_desc_5 as postcode,
     '' as access_type,
