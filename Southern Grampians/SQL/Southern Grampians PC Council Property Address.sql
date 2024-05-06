@@ -58,11 +58,7 @@ select distinct
     '' as house_prefix_2,
     ifnull ( cast ( toStreetNumber as varchar ) , '' ) as house_number_2,
     ifnull ( cast ( toStreetNumberSuffix as varchar ) , '' ) as house_suffix_2,
-    case
-        when upper ( streetNameOnly ) like '% SS' then replace ( upper ( streetNameOnly ) , ' SS' , ' SOLDIER SETTLEMENT' )
-        when upper ( streetNameOnly ) = 'WALLACEDALE NTH-HAMILTON' then 'WALLACEDALE NORTH-HAMILTON'
-        else ifnull ( upper ( streetNameOnly ) , '' )
-    end as road_name,
+    ifnull ( upper ( streetNameOnly ) , '' ) as road_name,
     case
         when streetType like '% N' then replace ( upper ( streetType ) , ' N' , '' )
         when streetType like '% S' then replace ( upper ( streetType ) , ' S' , '' )

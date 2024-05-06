@@ -39,7 +39,7 @@ from
 select
     cast ( propertyNumber as varchar ) as propnum,
     '' as status,
-    '' as crefno,
+    cast ( parcelId as varchar ) as crefno,
     case
         when planPrefix = 'CA' then ''
         else ifnull ( vicParcelSpi , '' )
