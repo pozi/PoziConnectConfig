@@ -31,10 +31,7 @@ select distinct
     cast ( auprparc.ass_num as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
-    case
-        when auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
-        else 'N'
-    end as is_primary,
+    'Y' as is_primary,
     '' as distance_related_flag,
     case
         when auprstad.pcl_unt > 100 and auprstad.pcl_unt < 2000 then 'Y'
@@ -156,7 +153,8 @@ from
 where
     auprparc.pcl_flg in ( 'R' , 'U' , 'P' ) and
     auprstad.seq_num = 0 and
-    auprparc.ass_num not in ( 81754, 84962, 78430, 70567, 94709, 97986 )
+    auprparc.ass_num not in ( 81754, 84962, 78430, 70567, 94709, 97986 ) and
+    auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 )
 )
 )
 )
