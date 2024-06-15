@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OGRVRTDataSource>
+    <OGRVRTLayer name="lsc_authority_auprparc">
+	    <SrcDataSource>ODBC:driver={SQL Server};server=WEDPRDSQL01\ALTITUDE;uid=Sql.pozi;pwd=xxxx;database=authlive,dbo.auprparc</SrcDataSource>
+		<SrcLayer>dbo.auprparc</SrcLayer>
+		<GeometryType>wkbNone</GeometryType>
+    </OGRVRTLayer>
+</OGRVRTDataSource>

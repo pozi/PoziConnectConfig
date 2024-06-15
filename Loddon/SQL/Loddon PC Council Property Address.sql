@@ -1,11 +1,11 @@
 select
-    *,    
+    *,
     ltrim ( num_road_address ||
         rtrim ( ' ' || locality_name ) ) as ezi_address
 from (
 
 select
-    *,    
+    *,
     ltrim ( road_name_combined ||
         rtrim ( ' ' || locality_name ) ) as road_locality,
     ltrim ( num_address ||
@@ -27,90 +27,94 @@ select
         rtrim ( ' ' || road_suffix ) ) as road_name_combined
 from (
 
-select
-    cast ( Property.Property as varchar ) as propnum,
+select distinct
+    cast ( auprparc.ass_num as varchar ) as propnum,
     '' as status,
     '' as base_propnum,
-    '' as is_primary,
+    case
+        when auprparc.pcl_num = ( select t.pcl_num from authority_auprparc t where t.ass_num = auprparc.ass_num and t.pcl_flg in ( 'M' , 'R' , 'P' ) order by ifnull ( t.str_seq , 1 ), t.pcl_num limit 1 ) then 'Y'
+        else 'N'
+    end as is_primary,
     '' as distance_related_flag,
     '' as hsa_flag,
     '' as hsa_unit_id,
-    '' as location_descriptor,
     '' as blg_unit_type,
     '' as blg_unit_prefix_1,
-    ifnull ( Property.UnitNo , '' ) as blg_unit_id_1,
-    '' as blg_unit_suffix_1,
+    ifnull ( cast ( auprstad.pcl_unt as varchar ) , '' ) as blg_unit_id_1,
+    ifnull ( auprstad.unt_alp , '' ) as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
-    '' as blg_unit_id_2,
-    '' as blg_unit_suffix_2,
-    '' as floor_type,
-    '' as floor_prefix_1,
-	ifnull ( Property.FloorNo, '' ) as floor_no_1, 
-    '' as floor_prefix_1,
-    '' as floor_no_1,
+    ifnull ( auprstad.unt_end , '' ) as blg_unit_id_2,
+    ifnull ( auprstad.una_end , '' ) as blg_unit_suffix_2,
+    case
+        when ifnull ( auprstad.flo_num , '' ) <> '' then 'L'
+        else ''
+    end as floor_type,
+    ifnull ( auprstad.flo_pre , '' ) as floor_prefix_1,
+    ifnull ( auprstad.flo_num , '' ) as floor_no_1,
     '' as floor_suffix_1,
     '' as floor_prefix_2,
     '' as floor_no_2,
     '' as floor_suffix_2,
     '' as building_name,
     '' as complex_name,
+    '' as location_descriptor,
     '' as house_prefix_1,
     case
-        when substr ( Property.StreetNofrom , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        when substr ( Property.StreetNofrom , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then Property.StreetNofrom
-        else ifnull ( substr ( Property.StreetNofrom , 1 , length ( Property.StreetNofrom ) - 1 ) , '' ) 
+        when auprstad.hou_num is null then ''
+        when auprstad.hou_num = 0 then ''
+        else cast ( auprstad.hou_num as varchar )
     end as house_number_1,
-    case
-        when substr ( Property.StreetNofrom , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        when substr ( Property.StreetNofrom , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        else ifnull ( upper ( substr ( Property.StreetNofrom , -1 , 1 ) ) , '' )
-    end as house_suffix_1,
+    ifnull ( upper ( auprstad.hou_alp ) , '' ) as house_suffix_1,
     '' as house_prefix_2,
+    ifnull ( cast ( auprstad.hou_end as varchar ) , '' ) as house_number_2,
+    ifnull ( upper ( auprstad.end_alp ) , '' ) as house_suffix_2,
     case
-        when substr ( Property.StreetNoTo , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        when substr ( Property.StreetNoTo , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then Property.StreetNoTo 
-        else ifnull ( substr ( Property.StreetNoTo , 1 , length ( Property.StreetNoTo ) - 1 ) , '' ) 
-    end as house_number_2,
+        when auprstad.str_nme like 'BENDIGO%MARYBOROUGH%' then 'BENDIGO-MARYBOROUGH'
+        when auprstad.str_nme like 'BENDIGO%ST%ARNAUD%' then 'BENDIGO-ST ARNAUD'
+        when auprstad.str_nme like 'NINE%MILE%SOUTH%WED%' then 'NINE MILE SOUTH-WEDDERBURN'
+        when auprstad.str_nme like 'OLD%BRIDGEWATER%SERPENTIN%' then 'OLD BRIDGEWATER-SERPENTINE'
+        when auprstad.str_nme like 'RICHMOND%PLAINS%WED%' then 'RICHMOND PLAINS-WEDDERBURN'
+        when auprstad.str_nme like 'WEDDERBURN%WEDDERBURN%JU%' then 'WEDDERBURN-WEDDERBURN JUNCTION'
+        else upper ( replace ( auprstad.str_nme , '''' , '' ) )
+    end as road_name,
     case
-        when substr ( Property.StreetNoTo , 1 , 1 ) not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        when substr ( Property.StreetNoTo , -1 , 1 ) in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9') then ''
-        else ifnull ( upper ( substr ( Property.StreetNoTo , -1 , 1 ) ) , '' )
-    end as house_suffix_2,
-    replace ( replace ( upper ( Street.Name ) , '/' , '-' ) , '''' , '' ) as road_name,
+        when upper ( auprstad.str_typ ) = 'AVE' then 'AVENUE'
+        when upper ( auprstad.str_typ ) = 'CL' then 'CLOSE'
+        when upper ( auprstad.str_typ ) = 'CR' then 'CRESCENT'
+        when upper ( auprstad.str_typ ) = 'CT' then 'COURT'
+        when upper ( auprstad.str_typ ) = 'DR' then 'DRIVE'
+        when upper ( auprstad.str_typ ) = 'HWY' then 'HIGHWAY'
+        when upper ( auprstad.str_typ ) = 'LA' then 'LANE'
+        when upper ( auprstad.str_typ ) = 'PDE' then 'PARADE'
+        when upper ( auprstad.str_typ ) = 'PL' then 'PLACE'
+        when upper ( auprstad.str_typ ) = 'RD' then 'ROAD'
+        when upper ( auprstad.str_typ ) = 'ST' then 'STREET'
+        when upper ( auprstad.str_typ ) = 'TR' then 'TRACK'
+        else upper ( auprstad.str_typ )
+    end as road_type,
     case
-        when StreetType.Type like 'Road %' then 'ROAD'
-        when StreetType.Type like 'Street %' then 'STREET'
-        else upper ( StreetType.Type )
-    end as road_type, 
-    case
-        when StreetType.Type like '% North' then 'N'
-        when StreetType.Type like '% South' then 'S'
-        when StreetType.Type like '% East' then 'E'
-        when StreetType.Type like '% West' then 'W'
+        when auprstad.str_num in ( 698 ) then 'N'
+        when auprstad.str_num in ( 699 ) then 'S'
+        when auprstad.str_num in ( 896 ) then 'W'
         else ''
     end as road_suffix,
-    upper ( Locality.Locality ) as locality_name,
-    Locality.Postcode as postcode,
+    upper ( auprstad.sbr_nme ) as locality_name,
+    '' as postcode,
     '' as access_type,
     '' as easting,
     '' as northing,
     '' as datum_proj,
     '' as outside_property,
     '338' as lga_code,
-    '' as crefno,
+    cast ( auprparc.pcl_num as varchar ) as crefno,
     '' as summary
 from
-    lynx_vwpropertyclassification Classification,
-    lynx_propertys Property,
-    lynx_streets Street,
-    lynx_streettype StreetType,
-    lynx_localities Locality
+    authority_auprparc auprparc join
+    authority_aurtmast aurtmast on auprparc.ass_num = aurtmast.ass_num join
+    authority_auprstad auprstad on auprparc.pcl_num = auprstad.pcl_num left join
+    authority_aualrefs aualrefs on auprstad.str_typ = aualrefs.ref_val and aualrefs.ref_typ = 'str_typ'
 where
-	Classification.PropertyNumber = Property.Property and
-	Property.StreetID = Street.ID and
-	Street.Type = StreetType.ID and
-	Street.Locality = Locality.ID and
-	Classification.LandClassificationCode <> '010'
+    auprparc.pcl_flg in ( 'M' , 'R' , 'P' )
 )
 )
 )

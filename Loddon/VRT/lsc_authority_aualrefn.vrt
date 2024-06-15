@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OGRVRTDataSource>
+    <OGRVRTLayer name="lsc_authority_aualrefn">
+        <SrcDataSource>ODBC:driver={SQL Server};server=WEDPRDSQL01\ALTITUDE;uid=Sql.pozi;pwd=xxxx;database=authlive,dbo.aualrefn</SrcDataSource>
+        <SrcSql dialect="sqlite">SELECT ref_typ, ref_val, dsc_no1 FROM 'dbo.aualrefn'</SrcSql>
+        <GeometryType>wkbNone</GeometryType>
+    </OGRVRTLayer>
+</OGRVRTDataSource>
