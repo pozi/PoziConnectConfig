@@ -65,8 +65,12 @@ select distinct
         when lpaparc.plancode = 'PP' then ifnull ( lpaparc.parcelnum , '' )
         else ''
     end as allotment,
-    ifnull ( lpasect.parcelsect , '' ) as sec,
-    '' as block,
+    case
+        when lpasect.parcelsect is null then ''
+        when lpasect.parcelsect = '0' then ''
+        else lpasect.parcelsect
+    end as sec,
+    ifnull ( lpapabl.block , '' ) as block,
     '' as portion,
     '' as subdivision,
     case
@@ -90,6 +94,7 @@ from
     pathway_lpaparc as lpaparc on lpatipa.tfklpaparc = lpaparc.tpklpaparc left join
     pathway_lpacrwn as lpacrwn on lpaparc.tpklpaparc = lpacrwn.tfklpaparc left join
     pathway_lpasect as lpasect on lpaparc.tpklpaparc = lpasect.tfklpaparc left join
+    pathway_lpapabl as lpapabl on lpaparc.tpklpaparc = lpapabl.tfklpaparc left join
     pathway_lpadepa as lpadepa on lpaparc.tpklpaparc = lpadepa.tfklpaparc left join
     pathway_lpadesc as lpadesc on lpadepa.tfklpadesc = lpadesc.tpklpadesc left join
     pathway_lparole as lparole on lpaprop.tpklpaprop = lparole.tfklocl left join
