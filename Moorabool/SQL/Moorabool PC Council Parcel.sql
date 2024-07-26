@@ -37,72 +37,22 @@ select
 from
 (
 select
-    cast ( Parcel.PropertyNumber as varchar ) as propnum,
-    '' as status,
-    cast ( Parcel.LandParcelNumber as varchar ) as crefno,
-    case
-        when Parcel.StandardParcelId = '' then ''
-        when Parcel.StandardParcelId like '%\%' then Parcel.StandardParcelId
-        when Parcel.StandardParcelId like '%/%' then replace ( Parcel.StandardParcelId , '/' , '\' )
-        when Parcel.StandardParcelId like '%CS%' then replace ( Parcel.StandardParcelId , 'CS' , '\CS' )
-        when Parcel.StandardParcelId like '%LP%' then replace ( Parcel.StandardParcelId , 'LP' , '\LP' )
-        when Parcel.StandardParcelId like '%RP%' then replace ( Parcel.StandardParcelId , 'RP' , '\RP' )
-        when Parcel.StandardParcelId like '%PS%' then replace ( Parcel.StandardParcelId , 'PS' , '\PS' )
-        when Parcel.StandardParcelId like '%SP%' then replace ( Parcel.StandardParcelId , 'SP' , '\SP' )
-        when Parcel.StandardParcelId like '%TP%' then replace ( Parcel.StandardParcelId , 'TP' , '\TP' )
-        when Parcel.StandardParcelId like '%PP%' then replace ( Parcel.StandardParcelId , 'PP' , '\PP' )
-        when Parcel.StandardParcelId like '%CP%' then Parcel.StandardParcelId
-        when Parcel.StandardParcelId like '%PC%' then Parcel.StandardParcelId
-        else ''
-    end as internal_spi,
-    ifnull ( Property.CombinedParcelDetails , '' ) as summary,
-    '' as part,
-    case Parcel.Type
-        when 'Lodged Plan' then 'LP'
-        when 'Title Plan' then 'TP'
-        when 'Letter Plan' then 'TP'
-        when 'Plan of Subdivision' then 'PS'
-        when 'Consolidation Plan' then 'CP'
-        when 'Plan of Consolidation' then 'PC'
-        when 'Strata Plan' then 'RP'
-        else ''
-    end || case
-            when ifnull ( Parcel.PlanNo , '' ) = '' then ''
-            when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
-            when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
-            else ''
-        end as plan_number,
-    case Parcel.Type
-        when 'Lodged Plan' then 'LP'
-        when 'Title Plan' then 'TP'
-        when 'Letter Plan' then 'TP'
-        when 'Plan of Subdivision' then 'PS'
-        when 'Consolidation Plan' then 'CP'
-        when 'Plan of Consolidation' then 'PC'
-        when 'Strata Plan' then 'RP'
-        else ''
-    end as plan_prefix,
-    case
-        when ifnull ( Parcel.PlanNo , '' ) = '' then ''
-        when substr ( Parcel.PlanNo , -1 , 1 ) in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then Parcel.PlanNo
-        when substr ( Parcel.PlanNo , -1 , 1 ) not in ( '1' , '2' , '3' , '4' , '5' , '6' , '7' , '8' , '9' , '0' ) then substr ( Parcel.PlanNo , 1 , length ( Parcel.PlanNo ) - 1 )
-        else ''
-    end as plan_numeral,
-    case
-        when ifnull ( Parcel.PlanNo , '' ) = '' then ''
-        else upper ( replace ( Parcel.Lot , ' ' , '' ) )
-    end as lot_number,
-    trim ( replace ( replace ( upper ( Parcel.CrownAllotment ) , 'PT' , '' ) , '()' , '' ) ) as allotment,
-    case
-        when Parcel.Section = 'NO' then ''
-        when Parcel.Type = 'Crown Description' and ifnull ( Parcel.PlanNo , '' ) <> '' then ''
-        when ifnull ( Parcel.PlanNo , '' ) <> '' and Parcel.CrownAllotment <> '' then ''
-        else Parcel.Section
-    end as sec,
-    '' as block,
-    Parcel.CrownPortion as portion,
-    '' as subdivision,
-    case upper ( Parcel.Parish )
+    cast ( propnum as varchar ) as propnum,
+    status as status,
+    cast ( crefno as varchar ) as crefno,
+    spi as internal_spi,
+    summary,
+    part,
+    plan_number,
+    plan_prefix,
+    plan_numeral,
+    lot_number,
+    allotment,
+    sec,
+    block,
+    portion,
+    subdivision,
+    case upper ( parish_code )
         when 'BALLARAT' then '2046'
         when 'BALLARK' then '2047'
         when 'BALLIANG' then '2049'
@@ -140,7 +90,7 @@ select
         when 'YALOAK' then '3939'
         else ''
     end as parish_code,
-    case upper ( Parcel.Township )
+    case upper ( township_code )
         when 'BACCHUS MARSH' then '5025'
         when 'BALLAN' then '5029'
         when 'BALLIANG' then '5033'
@@ -167,14 +117,9 @@ select
         else ''
     end as township_code,
     '350' as lga_code,
-    cast ( Parcel.PropertyNumber as varchar ) as assnum
+    cast ( propnum as varchar ) as assnum
 from
-    lynx_vwlandparcel Parcel join
-    lynx_propertys Property on Parcel.PropertyNumber = Property.Property
-where
-    Parcel.Ended is null and
-    Property.Type not in ( 0 , 672 ) and
-    not ( Parcel.TypeAbrev in ( 'Agricult Lic' , 'GeL' , 'Grazing Lic' , 'Unused Rd Lic' , 'URD' , 'Water Front Lic' , 'WF' ) and Parcel.StandardParcelId = '' )
+    datascape_parcels
 )
 )
 )
