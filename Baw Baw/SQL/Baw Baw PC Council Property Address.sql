@@ -108,7 +108,7 @@ select
         else upper ( S.street_name )
     end , '&' , 'AND' ) as road_name,
     case
-        when upper ( S.street_name ) in ( 'MOE WILLOW GROVE ROAD' , 'WILLOW GROVE ROAD' ) then 'ROAD'
+        when upper ( S.street_name ) in ( 'MOE WILLOW GROVE ROAD' , 'MOE-WILLOW GROVE ROAD' , 'WILLOW GROVE ROAD' ) then 'ROAD'
         when upper ( S.street_name ) = 'COOPERS CREEK TOWN' then 'ROAD'
         when upper ( S.street_name ) = 'NORTH EAST OF WALHALLA' then 'TRACK'
         when S.street_name like 'THE %' then ''
