@@ -191,7 +191,9 @@ where
     lpaprop.tfklpacncl = 12 and
     lpaaddr.addrtype = 'P' and
     lparole.fklparolta = 'LRA' and
-    lpaprtp.abbrev <> 'OBSOLETE'
+    lpaprtp.abbrev <> 'OBSOLETE' and 
+    lraassm.applicatn <> 'S' and
+    lraassm.status <> 'H'
 )
 )
 )
