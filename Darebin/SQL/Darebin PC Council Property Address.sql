@@ -113,7 +113,7 @@ select
     end as location_descriptor,
     case
         when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) then ''
-        when upper ( lpaaddr.prefix ) in ( 'GX' , 'GZ' ) then ''
+        when upper ( lpaaddr.prefix ) in ( 'GX' , 'GZ' ) then upper ( lpaaddr.prefix )
         when ifnull ( lpaaddr.strunitnum , 0 ) > 0 then ''
         when length ( lpaaddr.prefix ) in ( 1 , 2 ) then upper ( lpaaddr.prefix )
         else ''
@@ -126,7 +126,6 @@ select
     end as house_number_1,
     case
         when upper ( cnacomp.descr ) in ( 'NORTHLAND SHOPPING CENTRE' , 'PRESTON MARKET' ) then ''
-        when upper ( lpaaddr.prefix ) in ( 'GX' , 'GZ' ) then upper ( lpaaddr.prefix )
         when lpaaddr.strhoussfx = '0' or lpaaddr.strhoussfx is null then ''
         else cast ( lpaaddr.strhoussfx as varchar )
     end as house_suffix_1,
