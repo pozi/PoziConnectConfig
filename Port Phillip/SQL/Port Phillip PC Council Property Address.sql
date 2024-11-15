@@ -41,7 +41,7 @@ select
         else 'N'
     end as hsa_flag,
     case
-        when unit_desc in ( 'G0' , 'DB0' ) then unit_desc || unit_no || replace ( A.property_text_1 , '-' , '' )
+        when unit_desc in ( 'G0' , 'DB0' ) then unit_desc || unit_no
         else ''
     end as hsa_unit_id,
     case
@@ -67,15 +67,12 @@ select
         else ifnull ( A.unit_no , '' )
     end as blg_unit_id_1,
     case
-        when A.property_text_1 like '-%' then ''
-        else upper ( ifnull ( A.property_text_1 , '' ) )
+        when A.unit_no_suffix not null then upper ( A.unit_no_suffix )
+        when A.property_text_1 not null then upper ( A.property_text_1 )
+        else ''
     end as blg_unit_suffix_1,
     '' as blg_unit_prefix_2,
-    case
-        when unit_desc in ( 'G0' , 'DB0' ) then ''
-        when A.property_text_1 like '-%' then replace ( A.property_text_1 , '-' , '' )
-        else ''
-    end as blg_unit_id_2,
+    ifnull ( A.unit_no_to , '' ) as blg_unit_id_2,
     upper ( ifnull ( A.unit_no_to_suffix , '' ) ) as blg_unit_suffix_2,
     '' as floor_type,
     '' as floor_prefix_1,
