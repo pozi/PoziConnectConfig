@@ -116,7 +116,7 @@ select
     A.fmt_address as summary
 from
     techone_nucproperty P
-    join techone_nucaddress A on A.prop_id = P.prop_id
+    join techone_nucaddress A on A.prop_id = P.prop_id and P.property_type <> 'M'
     join techone_nucstreet S on S.street_id = A.street_id
     left join techone_nucassociation A on A.association_type = '$CHILDPROP' and P.prop_id = A.key2
 where

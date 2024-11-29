@@ -75,7 +75,7 @@ where
     A.association_type = '$PROPLAND' and
     ifnull ( A.date_ended , '' ) in ( '' , '1/01/1900' ) and
     P.prop_status_ind in ( 'C' , 'F' ) and
-    P.property_type not in ( 'OUTCOPPB' , 'SNPP' )
+    P.property_type not in ( 'M' , 'OUTCOPPB' , 'SNPP' )
 )
 )
 )
